@@ -392,7 +392,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <p><img src="./img/01.png"></p>
 <ul>
 <li>某ゲームの某キャラ風のかわいいアイコンが作れちゃうWebサービス</li>
-<li>@jenga_inkさんによる手書きの画像が400枚以上</li>
+<li>@jenga_inkさんによる手書きの画像が400枚！以上！</li>
 </ul>
 </section>
   </div>
@@ -442,6 +442,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <li>DAU 5,089</li>
 <li>今は落ち着いてて、リアルタイムで50人ほど</li>
 </ul>
+<p>今はすごく平和です。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-11">
@@ -461,12 +462,17 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </section>
   </div>
   <div class="slide hidden" id="slide-13">
-    <section class="slide-content"><h3 id="-">とある一幕</h3>
+    <section class="slide-content"><h3 id="-">黒幕</h3>
 <p><img src="./img/05.png"></p>
 <p>まぁみんな大好きWebネタということでひとつ。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-14">
+    <section class="slide-content"><h1 id="-">#スーパーイカメーカー</h1>
+<h2 id="-">を支える技術</h2>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-15">
     <section class="slide-content"><h3 id="-">サーバーサイド</h3>
 <ul>
 <li>さくらVPS [ CPU3コア / メモリ2GB ]</li>
@@ -483,7 +489,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 CDNとか、オートスケールとか、一切なし。</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-15">
+  <div class="slide hidden" id="slide-16">
     <section class="slide-content"><h3 id="-">クライアントサイド</h3>
 <ul>
 <li>HTML</li>
@@ -494,73 +500,196 @@ CDNとか、オートスケールとか、一切なし。</p>
 <li>JavaScript<ul>
 <li>ES2015 [ Babel ]</li>
 <li>React</li>
-<li>Flux [ flumpt by @mizch ]</li>
+<li>flumpt [ Flux impl by @mizch ]</li>
 </ul>
 </li>
 </ul>
 <p>画像の合成もすべてクライアントで。</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-16">
+  <div class="slide hidden" id="slide-17">
+    <section class="slide-content"><h3 id="-4-">だいたい4日くらいで作った</h3>
+<p>※ガール版のみの初期リリースまで。</p>
+<ul>
+<li>構造考えるのに2日</li>
+<li>コード書くのに1日</li>
+<li>見た目調整したりリファクタしたり1日</li>
+</ul>
+<p>もちろん絵は別で、1週間くらいかかってそう。</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-18">
     <section class="slide-content"><h3 id="-">下準備</h3>
 <ul>
 <li>画像を用意</li>
-<li>存在する画像から、パーツリスト用オブジェクトの生成スクリプトを実行( ココがNode.js )</li>
+<li>存在する画像から、パーツリスト用オブジェクトの生成スクリプトを実行( ココがNode.js！ )</li>
 <li>build</li>
 </ul>
 <pre><code>postcss -c ./.postcssrc.json
 browserify ./src/script/main.js -t babelify -t uglifyify -o ./dist/script.js</code></pre>
 </section>
   </div>
-  <div class="slide hidden" id="slide-17">
+  <div class="slide hidden" id="slide-19">
     <section class="slide-content"><h3 id="-flux-">仕組み(Flux)</h3>
 <ul>
-<li>パーツをポチ</li>
+<li>パーツをポチっと</li>
 <li>&quot;設定変えたよ&quot;Actionを発行</li>
-<li>Storeの設定データが更新<ul>
-<li>更新されたデータを元に、</li>
-<li>裏でCanvasにdrawImage -&gt; toDataURL</li>
+<li>Stateの設定データが更新<ul>
+<li>更新されたStateを元に、</li>
+<li>裏でCanvasに<code>drawImage()</code> -&gt; <code>toDataURL()</code>[*1]</li>
 </ul>
 </li>
 <li>Viewが更新</li>
 </ul>
-<p>全て同じサイズの画像を重ねて、Canvasで描画してるだけ。</p>
-</section>
-  </div>
-  <div class="slide hidden" id="slide-18">
-    <section class="slide-content"><h3 id="-">コードはこちら</h3>
-<p><a href="https://github.com/leader22/ika-maker">https://github.com/leader22/ika-maker</a></p>
-<p>画像さえ用意すれば、誰でもスーパーxxメーカーが！</p>
-</section>
-  </div>
-  <div class="slide hidden" id="slide-19">
-    <section class="slide-content"><h3 id="-">悩んだこと</h3>
+<blockquote>
+<p>[*1] 全て同サイズの画像を重ねて、Canvasで描画</p>
+</blockquote>
 </section>
   </div>
   <div class="slide hidden" id="slide-20">
-    <section class="slide-content"><h3 id="-">困ったこと</h3>
+    <section class="slide-content"><h3 id="flux-redux-">FluxやるならRedux？</h3>
+<ul>
+<li>という世間の風潮ありませんか</li>
+<li>りでゅーさー、でぃすぱっちゃー、みどるうぇあ、あくしょんくりえいたー・・<ul>
+<li>心折れた</li>
+</ul>
+</li>
+<li>そもそもFluxってそんなに大きいものなの</li>
+</ul>
+<p>MVCでも綺麗にUIイベントとデータを分離していたあの頃と何が変わってしまったの・・</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-21">
-    <section class="slide-content"><h3 id="-1-">ちなみに、1円も儲かってません</h3>
+    <section class="slide-content"><h3 id="-flumpt">そんなあなたにflumpt</h3>
+<p><a href="https://github.com/mizchi/flumpt/">https://github.com/mizchi/flumpt/</a></p>
 <ul>
-<li>自分が使いたいものに広告あったらうざい</li>
-<li>作る過程が好きなので</li>
-<li>おごってくれてもいいんですよ</li>
+<li><code>this.dispatch(&#39;EVENT&#39;)</code>できる<code>flumpt.Component</code></li>
+<li>それを受けてStateを更新する根本の<code>flumpt.Flux</code></li>
+<li>提供されるのはこの2つだけなのでとっつきやすい</li>
+<li>(細かい機能は他にもあるけど使ってない)</li>
 </ul>
+<p>S+のイカが作ったライブラリなら安心！(適当)</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-22">
-    <section class="slide-content"><h3 id="todo">TODO</h3>
+    <section class="slide-content"><h3 id="-">コードの詳細</h3>
+<p><a href="https://github.com/leader22/ika-maker">https://github.com/leader22/ika-maker</a></p>
 <ul>
-<li>ika-makerのREADMEなおす</li>
-<li>リファクタとかできれば</li>
+<li>1ソースで全解像度対応</li>
+<li>規模が小さいので特筆すべき点がない</li>
+<li>OGPやらピン留めやら対応済み</li>
 </ul>
+<p>画像さえ用意すれば、誰でもスーパーxxメーカーが！</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-23">
+    <section class="slide-content"><h1 id="-">悩んだこと</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-24">
+    <section class="slide-content"><h3 id="200-">200リクエストを待つかどうか問題</h3>
+<ul>
+<li>200枚のパーツ画像を全て読み込んでから起動<ul>
+<li>随時読み込みでもよかった</li>
+</ul>
+</li>
+<li>けど変更はその場で即反映されて欲しい！<ul>
+<li>最初は待つけど、使わないものも多いけど・・</li>
+</ul>
+</li>
+<li>なによりいっぱい選べる感は楽しい</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-25">
+    <section class="slide-content"><h3 id="-svg-">色変えならSVGでいいのでは問題</h3>
+<ul>
+<li>髪色が違うだけで画像20枚</li>
+<li>SVGにすれば画像は減らせる<ul>
+<li>一理ある</li>
+</ul>
+</li>
+<li>しかしコストがかかりそうで踏み込めず</li>
+<li>リリース優先</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-26">
+    <section class="slide-content"><h3 id="-">どこまで本家に忠実にするのか問題</h3>
+<ul>
+<li>本家の細かさ<ul>
+<li>髪色とマユ色が連動するとか</li>
+<li>ボーイの&quot;マゲ&quot;がギアによって隠れるとか</li>
+</ul>
+</li>
+<li>いや、もっとオシャレしたい！</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-27">
+    <section class="slide-content"><h1 id="-">困ったこと</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-28">
+    <section class="slide-content"><h3 id="-">無限に通知くる問題</h3>
+<ul>
+<li>Twitter for Android限定</li>
+<li>サイトリンク入りの自分の発言にセルフリプ<ul>
+<li>なぜか @leader22 がテキストに自動挿入される</li>
+</ul>
+</li>
+<li>気付かなかった世界中のAndroidユーザーが、日中夜問わず無限にマイイカをメンションしてくる<ul>
+<li>通知きりました(˘ω˘ )</li>
+</ul>
+</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-29">
+    <section class="slide-content"><h3 id="-">再読み込み？なにそれおいしいの問題</h3>
+<ul>
+<li>バグ修正する or アップデートする<ul>
+<li>これがWebの利点ですよ(はっはっは</li>
+<li>ページを再読み込みして更新して欲しい</li>
+</ul>
+</li>
+<li>現代っ子たち &lt; 再読み込みってなんですか？自動じゃないの？<ul>
+<li>キャッシュなどもちろん理解されない</li>
+</ul>
+</li>
+<li>しかしユーザー問い合わせの9割はコレ・・</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-30">
+    <section class="slide-content"><h1 id="-">さいごに</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-31">
+    <section class="slide-content"><h3 id="1-">1円も儲かってません</h3>
+<ul>
+<li>むしろVPSとドメイン費を含めれば赤字</li>
+<li>自分が使いたいサービスに広告あったらウザい</li>
+<li>作る過程が好き</li>
+</ul>
+<p>おごってくれてもいいんですよ！</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-32">
     <section class="slide-content"><h3 id="nnid-leader22">NNID: leader22</h3>
 <p><img src="./img/nnid.png"></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-33">
+    <section class="slide-content"><h3 id="links">Links</h3>
+<p>#スーパーイカメーカー を支える技術  | console.lealog();<br/>
+<a href="http://lealog.hateblo.jp/entry/2016/01/22/115913">http://lealog.hateblo.jp/entry/2016/01/22/115913</a></p>
+<p>このスライド<br/>
+<a href="http://leader22.github.io/slides/node_gakuen-19/">http://leader22.github.io/slides/node_gakuen-19/</a></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-34">
+    <section class="slide-content"><h1 id="finish-">Finish!</h1>
 <script>
 console.log('nyan');
 </script>
@@ -584,6 +713,10 @@ pre {
   padding: 2%;
 }
 
+ul {
+  padding: 10px 0 10px 60px;
+}
+
 .slide-content img {
   display: block;
   margin: 0 auto;
@@ -591,7 +724,8 @@ pre {
 }
 
 #slide-1 h1,
-#slide-12 h1 {
+#slide-12 h1,
+#slide-14 h1 {
   font-size: 230%;
 }
 </style></section>
