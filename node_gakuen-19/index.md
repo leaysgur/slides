@@ -1,7 +1,4 @@
 title: "#スーパーイカメーカー について"
-author:
-  name: Yuji Sugiura
-  twitter: leader22
 controls: false
 --
 
@@ -19,7 +16,6 @@ controls: false
 - Yuji Sugiura
 - @leader22
 - PixelGrid Inc.
-- \#ウデマエアーカイブ
 
 <img src="./img/doseisan.jpg">
 
@@ -62,7 +58,7 @@ controls: false
 
 <img src="./img/03.png">
 
-Twitterのトレンドってすごい！
+これが・・バズるということか・・
 
 --
 
@@ -70,8 +66,10 @@ Twitterのトレンドってすごい！
 
 - GIGAZINE
 - AppBank
-- Reddit
 - NAVERまとめ
+- Reddit
+- その他の海外SNS
+- たくさんの個人ブログ
 - etc...
 
 --
@@ -117,7 +115,7 @@ Node学園で話すということは。
 
 <img src="./img/05.png">
 
-まぁみんな大好きWebネタということで
+まぁみんな大好きWebネタということでひとつ。
 
 --
 
@@ -129,6 +127,7 @@ Node学園で話すということは。
   - worker_connections: 1024
   - worker_cpu_affinity: 01 10 11;
   - worker_rlimit_nofile: 4096;
+  - gzip
 
 クライアントにファイルを返すだけ。<br>
 CDNとか、オートスケールとか、一切なし。
@@ -162,7 +161,7 @@ browserify ./src/script/main.js -t babelify -t uglifyify -o ./dist/script.js
 
 --
 
-### 仕組み
+### 仕組み(Flux)
 
 - パーツをポチ
 - "設定変えたよ"Actionを発行
@@ -175,11 +174,23 @@ browserify ./src/script/main.js -t babelify -t uglifyify -o ./dist/script.js
 
 --
 
-### Flux
+### コードはこちら
+
+https://github.com/leader22/ika-maker
+
+画像さえ用意すれば、誰でもスーパーxxメーカーが！
 
 --
 
-### ちなみに1円も儲かってません
+### 悩んだこと
+
+--
+
+### 困ったこと
+
+--
+
+### ちなみに、1円も儲かってません
 
 - 自分が使いたいものに広告あったらうざい
 - 作る過程が好きなので
@@ -207,7 +218,7 @@ console.log('nyan');
 }
 
 a {
-  color: #ff6e00;
+  color: #ff6e00!important;
 }
 
 h3 {
