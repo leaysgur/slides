@@ -366,22 +366,187 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 
   <div class="slide" id="slide-1">
     <section class="slide-content"><h1 id="-">#スーパーイカメーカー</h1>
-<h2 id="-">について</h2>
+<h2 id="-">を支える技術</h2>
 <p><img src="./img/loading.gif"></p>
+<h2 id="2016-02-09-node-19-">2016/02/09 Node学園 19時限目</h2>
 </section>
   </div>
   <div class="slide hidden" id="slide-2">
-    <section class="slide-content"><h3 id="-">はろーはろー</h3>
-<p>進捗どう？</p>
+    <section class="slide-content"><h3 id="-">はじめまして</h3>
+<ul>
+<li>Yuji Sugiura</li>
+<li>@leader22</li>
+<li>PixelGrid Inc.</li>
+<li>#ウデマエアーカイブ</li>
+</ul>
+<p><img src="./img/doseisan.jpg"></p>
 </section>
   </div>
   <div class="slide hidden" id="slide-3">
-    <section class="slide-content"><h3 id="-">はろーはろー</h3>
-<p>進捗ダメです。
-<img src="./img/2.png"></p>
+    <section class="slide-content"><h3 id="-">宣伝</h3>
+<p><img src="./img/cg.png"></p>
+<h2 id="-">＼デザインリニューアル／</h2>
 </section>
   </div>
-  <div class="slide hidden" id="slide-4">
+  <div class="slide hidden  " id="slide-4">
+    <section class="slide-content"><h3 id="-">#スーパーイカメーカー とは</h3>
+<p><img src="./img/01.png"></p>
+<ul>
+<li>某ゲームの某キャラ風のかわいいアイコンが作れちゃうWebサービス</li>
+<li>@jenga_inkさんによる手書きの画像が400枚以上</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-5">
+    <section class="slide-content"><h3 id="-pc-">お手元のスマホでもPCでも</h3>
+<p><img src="./img/icon.png"></p>
+<h2 id="http-ikasu-lealog-net-"><a href="http://ikasu.lealog.net/">http://ikasu.lealog.net/</a></h2>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-6">
+    <section class="slide-content"><h3 id="-">おかげさまで</h3>
+<p><img src="./img/02.png"></p>
+<p>ひいた(リリースして6時間経ったころ</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-7">
+    <section class="slide-content"><h3 id="-">おかげさまで！</h3>
+<p><img src="./img/03.png"></p>
+<p>Twitterのトレンドってすごい！</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-8">
+    <section class="slide-content"><h3 id="-">おかげさまで！！</h3>
+<ul>
+<li>GIGAZINE</li>
+<li>AppBank</li>
+<li>Reddit</li>
+<li>NAVERまとめ</li>
+<li>etc...</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-9">
+    <section class="slide-content"><h3 id="-">おかげさまで！！！</h3>
+<p><img src="./img/04.png"></p>
+<p>世界中からアクセスが！</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-10">
+    <section class="slide-content"><h3 id="-">おかげさまで！！！！</h3>
+<p>Google Analytics曰く、</p>
+<ul>
+<li>累計28万ユーザー</li>
+<li>累計86万ページビュー</li>
+<li>DAU 5,089</li>
+<li>今は落ち着いてて、リアルタイムで50人ほど</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-11">
+    <section class="slide-content"><h3 id="-">今日はそんなサービスの裏側を？</h3>
+<p>Node学園で話すということは。</p>
+<ul>
+<li>そんなトラフィックをNode.jsで捌いたとか？</li>
+<li>画像生成のバックエンドがNode.jsとか？？</li>
+</ul>
+<p>そう思うかもしれませんが・・・！</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-12">
+    <section class="slide-content"><h1 id="node-">Node使ってません</h1>
+<p><img src="./img/loading.gif"></p>
+<h2 id="-">に&quot;っ(ちょっとだけ使ってるけど)</h2>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-13">
+    <section class="slide-content"><h3 id="-">とある一幕</h3>
+<p><img src="./img/05.png"></p>
+<p>まぁみんな大好きWebネタということで</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-14">
+    <section class="slide-content"><h3 id="-">サーバーサイド</h3>
+<ul>
+<li>さくらVPS [ CPU3コア / メモリ2GB ]</li>
+<li>Nginx<ul>
+<li>worker_processes: 3</li>
+<li>worker_connections: 1024</li>
+<li>worker_cpu_affinity: 01 10 11;</li>
+<li>worker_rlimit_nofile: 4096;</li>
+</ul>
+</li>
+</ul>
+<p>クライアントにファイルを返すだけ。<br>
+CDNとか、オートスケールとか、一切なし。</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-15">
+    <section class="slide-content"><h3 id="-">クライアントサイド</h3>
+<ul>
+<li>HTML</li>
+<li>CSS<ul>
+<li>postcss</li>
+</ul>
+</li>
+<li>JavaScript<ul>
+<li>ES2015 [ Babel ]</li>
+<li>React</li>
+<li>Flux [ flumpt by @mizch ]</li>
+</ul>
+</li>
+</ul>
+<p>画像の合成もすべてクライアントで。</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-16">
+    <section class="slide-content"><h3 id="-">下準備</h3>
+<ul>
+<li>画像を用意</li>
+<li>存在する画像から、パーツリスト用オブジェクトの生成スクリプトを実行( ココがNode.js )</li>
+<li>build</li>
+</ul>
+<pre><code>postcss -c ./.postcssrc.json
+browserify ./src/script/main.js -t babelify -t uglifyify -o ./dist/script.js</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-17">
+    <section class="slide-content"><h3 id="-">仕組み</h3>
+<ul>
+<li>パーツをポチ</li>
+<li>&quot;設定変えたよ&quot;Actionを発行</li>
+<li>Storeの設定データが更新<ul>
+<li>更新されたデータを元に、</li>
+<li>裏でCanvasにdrawImage -&gt; toDataURL</li>
+</ul>
+</li>
+<li>Viewが更新</li>
+</ul>
+<p>全て同じサイズの画像を重ねて、Canvasで描画してるだけです。</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-18">
+    <section class="slide-content"><h3 id="flux">Flux</h3>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-19">
+    <section class="slide-content"><h3 id="-1-">ちなみに1円も儲かってません</h3>
+<ul>
+<li>自分が使いたいものに広告あったらうざい</li>
+<li>作る過程が好きなので</li>
+<li>おごってくれてもいいんですよ</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-20">
+    <section class="slide-content"><h3 id="todo">TODO</h3>
+<ul>
+<li>ika-makerのREADMEなおす</li>
+<li>リファクタとかできれば</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-21">
     <section class="slide-content"><h1 id="-">以上</h1>
 <script>
 console.log('nyan');
@@ -393,17 +558,32 @@ console.log('nyan');
   color: #fff;
 }
 
+a {
+  color: #ff6e00;
+}
+
+h3 {
+  border-color: #ff6e00;
+}
+
+pre {
+  border: 1px solid #ff6e00;
+  padding: 2%;
+}
+
 .slide-content img {
   display: block;
   margin: 0 auto;
+  max-width: 80%;
 }
 
-#slide-1 h1 {
+#slide-1 h1,
+#slide-12 h1 {
   font-size: 230%;
 }
 </style></section>
   </div>
-  <div class="slide hidden author-slide" id="slide-5">
+  <div class="slide hidden author-slide" id="slide-22">
     <section class="slide-content"><div class="author">
   <h1 class="name">Yuji Sugiura</h1>
     <h3 class="twitter">
