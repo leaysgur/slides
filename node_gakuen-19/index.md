@@ -1,13 +1,13 @@
-title: #スーパーイカメーカー について
+title: "#スーパーイカメーカー について"
 author:
   name: Yuji Sugiura
   twitter: leader22
-controls: true
-
+controls: false
 --
 
-# スーパーイカメーカーとは
-## てすてす
+# #スーパーイカメーカー
+## について
+<img src="./img/loading.gif">
 
 --
 
@@ -20,3 +20,28 @@ controls: true
 ### はろーはろー
 
 進捗ダメです。
+<img src="./img/2.png">
+
+--
+
+# 以上
+
+<script>
+console.log('nyan');
+</script>
+
+<style>
+.slide {
+  background-color: #000;
+  color: #fff;
+}
+
+.slide-content img {
+  display: block;
+  margin: 0 auto;
+}
+
+#slide-1 h1 {
+  font-size: 230%;
+}
+</style>
