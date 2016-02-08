@@ -27,7 +27,7 @@ controls: false
 
 ## ＼デザインリニューアル／
 
--- 
+--
 
 ### #スーパーイカメーカー とは
 
@@ -318,6 +318,14 @@ console.log('nyan');
 </script>
 
 <style>
+.progress {
+  z-index: 1;
+}
+
+.progress-bar {
+  background-color: #ff6e00;
+}
+
 .slide {
   background-color: #000;
   color: #fff;
