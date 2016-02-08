@@ -171,7 +171,7 @@ browserify ./src/script/main.js -t babelify -t uglifyify -o ./dist/script.js
   - 裏でCanvasにdrawImage -> toDataURL
 - Viewが更新
 
-全て同じサイズの画像を重ねて、Canvasで描画してるだけです。
+全て同じサイズの画像を重ねて、Canvasで描画してるだけ。
 
 --
 
@@ -193,7 +193,8 @@ browserify ./src/script/main.js -t babelify -t uglifyify -o ./dist/script.js
 
 --
 
-# 以上
+### NNID: leader22
+<img src="./img/nnid.png">
 
 <script>
 console.log('nyan');
