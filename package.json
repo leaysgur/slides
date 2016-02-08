@@ -1,0 +1,27 @@
+{
+  "private": "true",
+  "name": "slides",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "chmod -R +x ./_sh",
+    "cleaver": "cleaver",
+    "md2html": "node ./_sh/md2html.js"
+  },
+  "keywords": [],
+  "author": "leader22",
+  "license": "MIT",
+  "devDependencies": {
+    "cleaver": "^0.8.2"
+  },
+  "dependencies": {},
+  "description": "My presentations!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leader22/slides.git"
+  },
+  "bugs": {
+    "url": "https://github.com/leader22/slides/issues"
+  },
+  "homepage": "https://github.com/leader22/slides#readme"
+}
