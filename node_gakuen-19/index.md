@@ -34,7 +34,7 @@ controls: false
 <img src="./img/01.png">
 
 - 某ゲームの某キャラ風のかわいいアイコンが作れちゃうWebサービス
-- @jenga_inkさんによる手書き画像が400枚以上！
+- **@jenga_ink**さんによる手書き画像400枚以上！
 
 --
 
@@ -46,15 +46,15 @@ controls: false
 
 --
 
-### おかげさまで
+### なんと
 
 <img src="./img/02.png">
 
-ひいた(リリースして6時間経ったころ
+まじか( 01/21 15:00リリース -> 6時間経ったころ )
 
 --
 
-### おかげさまで！
+### なんと！
 
 <img src="./img/03.png">
 
@@ -62,7 +62,7 @@ controls: false
 
 --
 
-### おかげさまで！！
+### なんと！！
 
 - GIGAZINE
 - AppBank
@@ -70,19 +70,20 @@ controls: false
 - Reddit
 - その他の海外SNS
 - たくさんの個人ブログ
+- たくさんのツイート
 - etc...
 
 --
 
-### おかげさまで！！！
+### なんと！！！
 
 <img src="./img/04.png">
 
-世界中からアクセスが！
+世界中116/196カ国からアクセスが！
 
 --
 
-### おかげさまで！！！！
+### なんと！！！！
 Google Analytics曰く、
 
 - 累計ユーザー: 280,000
@@ -137,7 +138,7 @@ Node学園で話すということは。
   - gzip
 
 クライアントにファイルを返すだけ。<br>
-CDNとか、オートスケールとか、一切なし。
+CDNとか、オートスケールとか、そんなのないです。
 
 --
 
@@ -187,20 +188,20 @@ browserify ./src/script/main.js -t babelify -t uglifyify -o ./dist/script.js
 - "設定変えたよ"Actionを発行
 - Stateの設定データが更新
   - 更新されたStateを元に、
-  - 裏でCanvasに`drawImage()` -> `toDataURL()`[*1]
+  - 裏でCanvasに`drawImage()` -> `toDataURL()`
 - Viewが更新
 
-> [*1] 全て同サイズの画像を重ねて、Canvasで描画
+全て同サイズの画像を重ねて、Canvasで描画
 
 --
 
 ### FluxやるならRedux？
-- という世間の風潮ありませんか
+- という世間の風潮に乗ろうとした
 - りでゅーさー、でぃすぱっちゃー、みどるうぇあ、あくしょんくりえいたー・・
   - 心折れた
 - そもそもFluxってそんなに大きいものなの
 
-MVCでも綺麗にUIイベントとデータを分離していたあの頃と何が変わってしまったの・・
+MVC後期のUIイベントとデータを分離していたあの頃と何が変わってしまったの・・
 
 --
 
@@ -209,10 +210,11 @@ https://github.com/mizchi/flumpt/
 
 - `this.dispatch('EVENT')`できる`flumpt.Component`
 - それを受けてStateを更新する根本の`flumpt.Flux`
-- 提供されるのはこの2つだけなのでとっつきやすい
+- 提供されるのはこの2つだけ
 - (細かい機能は他にもあるけど使ってない)
+- Flux入門にも良さげ
 
-S+のイカが作ったライブラリなら安心！(適当)
+**S+**のイカが作ったライブラリなら安心！(適当)
 
 --
 
@@ -220,11 +222,11 @@ S+のイカが作ったライブラリなら安心！(適当)
 
 https://github.com/leader22/ika-maker
 
-- 1ソースで全解像度対応
 - 規模が小さいので特筆すべき点がない
+- 1ソースで全解像度対応
 - OGPやらピン留めやら対応済み
 
-画像さえ用意すれば、誰でもスーパーxxメーカーが！
+画像を差し替えれば、誰でもスーパーxxメーカーが！
 
 --
 
@@ -236,8 +238,9 @@ https://github.com/leader22/ika-maker
 - 200枚のパーツ画像を全て読み込んでから起動
   - 随時読み込みでもよかった
 - けど変更はその場で即反映されて欲しい！
-  - 最初は待つけど、使わないものも多いけど・・
-- なによりいっぱい選べる感は楽しい
+  - 最初は待つけど、使わないものも多いけど
+  - HTTP/2？知らない子ですね...
+- いっぱい選べる感が楽しいので致し方無し
 
 --
 
@@ -246,7 +249,7 @@ https://github.com/leader22/ika-maker
 - SVGにすれば画像は減らせる
   - 一理ある
 - しかしコストがかかりそうで踏み込めず
-- リリース優先
+- とりあえずリリース優先で
 
 --
 
@@ -264,11 +267,13 @@ https://github.com/leader22/ika-maker
 
 ### 無限に通知くる問題
 
+- &lt;meta name="twitter:site" content="@leader22"&gt;
 - Twitter for Android限定
 - サイトリンク入りの自分の発言にセルフリプ
-  - なぜか @leader22 がテキストに自動挿入される
-- 気付かなかった世界中のAndroidユーザーが、日中夜問わず無限にマイイカをメンションしてくる
-  - 通知きりました(˘ω˘ )
+  - なぜか @leader22 がテキストに自動挿入
+- それに気付かなかった世界中のAndroidユーザーから日中夜問わず無限にメンションが
+
+通知きりました(˘ω˘ )
 
 --
 
@@ -280,6 +285,8 @@ https://github.com/leader22/ika-maker
 - 現代っ子たち < 再読み込みってなんですか？自動じゃないの？
   - キャッシュなどもちろん理解されない
 - しかしユーザー問い合わせの9割はコレ・・
+
+WebView キャッシュ消す どうやる(^ω^#)
 
 --
 
@@ -315,10 +322,27 @@ http://leader22.github.io/slides/node_gakuen-19/
 # Finish!
 
 <script>
-console.log('TODO: 残り時間わかるように');
+var timer = document.createElement('div');
+timer.textContent = '0';
+timer.id = 'timer';
+document.body.appendChild(timer); 
+
+setInterval(function() {
+  var now = timer.textContent|0;
+  timer.textContent = '' + (now + 1);
+}, 1000 * 1);
 </script>
 
 <style>
+#timer {
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 1;
+  color: #fff;
+  font-size: 10%;
+  padding: 5px;
+}
 .progress {
   z-index: 1;
 }
