@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-  <title>#スーパーイカメーカー について</title>
+  <title>WebSocketでAudioStreamingしてみた</title>
   <style type="text/css">
     body {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -364,403 +364,308 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   </div>
 
   <div class="slide" id="slide-1">
-    <section class="slide-content"><h1 id="-">#スーパーイカメーカー</h1>
-<h2 id="-">を支える技術</h2>
-<p><img src="./img/loading.gif"></p>
-<h2 id="2016-02-09-node-19-">2016/02/09 Node学園 19時限目</h2>
+    <section class="slide-content"><h1 id="audiostreaming-over-websocket">AudioStreaming over WebSocket</h1>
+<h2 id="at-pixelgrid-2016-in-">at PixelGrid 開発合宿 2016春 in 八丈島</h2>
 </section>
   </div>
   <div class="slide hidden" id="slide-2">
-    <section class="slide-content"><h3 id="-">はじめまして</h3>
-<ul>
-<li>Yuji Sugiura / @leader22</li>
-<li>PixelGrid Inc.</li>
-<li>フロントエンド・エンジニア</li>
-</ul>
-<p><img src="./img/doseisan.jpg"></p>
+    <section class="slide-content"><h1 id="-">事の発端</h1>
 </section>
   </div>
   <div class="slide hidden" id="slide-3">
-    <section class="slide-content"><h3 id="-pixelgrid-">宣伝: PixelGridといえば</h3>
-<p><img src="./img/cg.png"></p>
-<h2 id="-">＼デザインリニューアル／</h2>
+    <section class="slide-content"><h3 id="webrtc-">WebRTC界隈の技術を見ていて</h3>
+<ul>
+<li>リアルタイムコミュニケーション用のAPI<ul>
+<li>MediaStream API(getUserMedia)</li>
+<li>RTC**3つほど</li>
+</ul>
+</li>
+<li>なんしかUDP上でP2P通信ができる<ul>
+<li>PeerConnection</li>
+<li>offer with SDP</li>
+<li>answer with SDP</li>
+</ul>
+</li>
+<li>ただし単純なP2Pではスケールしない(20とか)</li>
+</ul>
 </section>
   </div>
   <div class="slide hidden" id="slide-4">
-    <section class="slide-content"><h3 id="-">#スーパーイカメーカー とは</h3>
-<p><img src="./img/01.png"></p>
+    <section class="slide-content"><h3 id="webrtc-sfu">WebRTC SFU</h3>
 <ul>
-<li>某ゲームの某キャラ風のかわいいアイコンが作れちゃうWebサービス</li>
-<li><strong>@jenga_ink</strong>さんによる手書き画像400枚以上！</li>
+<li>Selective Forwarding Unitの略</li>
+<li>1クライアント ⇔ サーバー ⇔ Nクライアント</li>
+<li>サーバーのスペック上がればスケールできる！</li>
 </ul>
 </section>
   </div>
   <div class="slide hidden" id="slide-5">
-    <section class="slide-content"><h3 id="-pc-">お手元のスマホでもPCでも</h3>
-<p><img src="./img/icon.png"></p>
-<h2 id="http-ikasu-lealog-net-"><a href="http://ikasu.lealog.net/">http://ikasu.lealog.net/</a></h2>
+    <section class="slide-content"><h1 id="-">ん・・？</h1>
 </section>
   </div>
   <div class="slide hidden" id="slide-6">
-    <section class="slide-content"><h3 id="-">なんと</h3>
-<p><img src="./img/02.png"></p>
-<p>まじか( 01/21 15:00リリース -&gt; 6時間経ったころ )</p>
+    <section class="slide-content"><h1 id="-">サーバーを介す？</h1>
 </section>
   </div>
   <div class="slide hidden" id="slide-7">
-    <section class="slide-content"><h3 id="-">なんと！</h3>
-<p><img src="./img/03.png"></p>
-<p>これが・・バズるということか・・</p>
+    <section class="slide-content"><h1 id="webrtc-br-">WebRTCでやる<br>必要ないのでは</h1>
 </section>
   </div>
   <div class="slide hidden" id="slide-8">
-    <section class="slide-content"><h3 id="-">なんと！！</h3>
+    <section class="slide-content"><h3 id="-">既存の技術で再構築できれば</h3>
 <ul>
-<li>GIGAZINE</li>
-<li>AppBank</li>
-<li>NAVERまとめ</li>
-<li>Reddit</li>
-<li>その他の海外SNS</li>
-<li>たくさんの個人ブログ</li>
-<li>たくさんのツイート</li>
-<li>etc...</li>
+<li>iOSにリーチできる可能性<ul>
+<li>スーパーイカメーカーのアクセスの60%はiOS</li>
+</ul>
+</li>
+<li>難解なWebRTCスタックを学ばずに済む</li>
+<li>WebSocketとか使えばなんとかなるのでは</li>
 </ul>
 </section>
   </div>
   <div class="slide hidden" id="slide-9">
-    <section class="slide-content"><h3 id="-">なんと！！！</h3>
-<p><img src="./img/04.png"></p>
-<p>世界中116/196カ国からアクセスが！</p>
+    <section class="slide-content"><h3 id="-">注: 最初に言い訳</h3>
+<p>今から説明するものは、</p>
+<ul>
+<li>WebRTCの代替ではない<ul>
+<li>あくまで目標達成への別アプローチ</li>
+</ul>
+</li>
+<li>ここで話した以上の認識がない<ul>
+<li>落とし穴はいっぱいありそう</li>
+<li>セキュリティとかスケーラビリティとか</li>
+</ul>
+</li>
+</ul>
 </section>
   </div>
   <div class="slide hidden" id="slide-10">
-    <section class="slide-content"><h3 id="-">なんと！！！！</h3>
-<p>Google Analytics曰く、</p>
-<ul>
-<li>累計ユーザー: 約280,000</li>
-<li>累計ページビュー: 約860,000</li>
-<li>DAU: 約5,000</li>
-<li>今は落ち着いてて、リアルタイムで50人ほど</li>
-</ul>
-<p>最近はすごく平和です。</p>
+    <section class="slide-content"><h1 id="-">改めて</h1>
 </section>
   </div>
   <div class="slide hidden" id="slide-11">
-    <section class="slide-content"><h3 id="-">今日はそんなサービスの裏側を？</h3>
-<p>Node学園で話すということは。</p>
-<ul>
-<li>そんなトラフィックをNode.jsで捌いたとか？</li>
-<li>画像生成のバックエンドがNode.jsとか？？</li>
-</ul>
-<p>そう思うかもしれませんが・・・！</p>
+    <section class="slide-content"><h1 id="audiostreaming-over-websocket">AudioStreaming over WebSocket</h1>
 </section>
   </div>
   <div class="slide hidden" id="slide-12">
-    <section class="slide-content"><h1 id="node-js-">Node.jsで動いて・・</h1>
-<p><img src="./img/loading.gif"></p>
+    <section class="slide-content"><h1 id="demo">DEMO</h1>
+<h2 id="-publisher-http-localhost-8888-client-pub-subscriber-http-dev-lealog-net-client-sub-"><a href="http://localhost:8888/client/pub/">Publisher</a> / <a href="http://dev.lealog.net/client/sub/">Subscriber</a></h2>
 </section>
   </div>
   <div class="slide hidden" id="slide-13">
-    <section class="slide-content"><h1 id="-">ません！</h1>
-<h2 id="-">(ちょっとだけ使ってるよ)</h2>
+    <section class="slide-content"><h1 id="-">やってること紹介</h1>
 </section>
   </div>
   <div class="slide hidden" id="slide-14">
-    <section class="slide-content"><h3 id="-">苦情はこちら</h3>
-<p><img src="./img/05.png"></p>
-<p>まぁみんな大好きWebネタということでひとつ。</p>
+    <section class="slide-content"><h3 id="-">ざっくり</h3>
+<ul>
+<li>AudioStreamを</li>
+<li>WebAudioに食わせてArrayBufferにして</li>
+<li>バイナリが送れるWebSocketでそのまま流して</li>
+<li>WebAudioで受けて再生</li>
+</ul>
 </section>
   </div>
   <div class="slide hidden" id="slide-15">
-    <section class="slide-content"><h1 id="-">#スーパーイカメーカー</h1>
-<h2 id="-">を支える技術</h2>
+    <section class="slide-content"><h3 id="publisher">Publisher</h3>
+<ul>
+<li>getUserMedia<ul>
+<li>MediaStreamSourceNode</li>
+<li>ScriptProcessorNode: 1ch<ul>
+<li>postMessage(PCM &lt;ArrayBuffer&gt;)</li>
+</ul>
+</li>
+<li>WebWorker<ul>
+<li>Socket.IO.emit(&#39;audio&#39;, payload)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 </section>
   </div>
   <div class="slide hidden" id="slide-16">
-    <section class="slide-content"><h3 id="-">サーバーサイド</h3>
-<ul>
-<li>さくらVPS [ CPU3コア / メモリ2GB ]</li>
-<li>Nginx<ul>
-<li>worker_processes: 3</li>
-<li>worker_connections: 1024</li>
-<li>worker_cpu_affinity: 01 10 11;</li>
-<li>worker_rlimit_nofile: 4096;</li>
-<li>gzip</li>
-</ul>
-</li>
-</ul>
-<p>クライアントにファイルを返すだけ。<br>
-CDNとか、オートスケールとか、そんなのないです。</p>
+    <section class="slide-content"><h3 id="socket-io-server">Socket.IO Server</h3>
+<pre><code class="lang-javascript">socket.on(<span class="hljs-string">'audio'</span>, (buf) =&gt; {
+  socket.broadcast.emit(<span class="hljs-string">'audio'</span>, buf);
+});</code></pre>
+<p>room機能とか作ってないから実用的ではない</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-17">
-    <section class="slide-content"><h3 id="-">クライアントサイド</h3>
+    <section class="slide-content"><h3 id="subscriber">Subscriber</h3>
 <ul>
-<li>HTML</li>
-<li>CSS<ul>
-<li>postcss</li>
-</ul>
-</li>
-<li>JavaScript<ul>
-<li>ES2015 [ Babel ]</li>
-<li>React</li>
-<li>flumpt [ Flux impl by @mizch ]</li>
+<li>socket.on(&#39;audio&#39;)<ul>
+<li>new Float32Array(payload)</li>
+<li>createBuffer.set(buf)</li>
+<li>source.start()</li>
 </ul>
 </li>
 </ul>
-<p>画像の合成もすべてクライアントで。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-18">
-    <section class="slide-content"><h3 id="-4-">だいたい4日くらいで作った</h3>
-<ul>
-<li>構造考えるのに2日</li>
-<li>コード書くのに1日</li>
-<li>見た目調整したりリファクタしたり1日</li>
-</ul>
-<p>※ガール版のみの初期リリースまでで、もちろん絵は別です。<br>
-※ちゃんと本業をこなした後ですよ！ &lt;- 重要</p>
+    <section class="slide-content"><h1 id="-">ね、簡単でしょ？</h1>
 </section>
   </div>
   <div class="slide hidden" id="slide-19">
-    <section class="slide-content"><h3 id="-">下準備</h3>
+    <section class="slide-content"><h3 id="webrtc-">WebRTCへの優位性</h3>
 <ul>
-<li>画像を用意</li>
-<li>存在する画像から、パーツリスト用オブジェクトの生成スクリプトを実行( ココがNode.js！ )</li>
-<li>build</li>
+<li>iOSで動く<ul>
+<li>iOS7でも動く！やったね！</li>
 </ul>
-<pre><code># css
-postcss -c ./.postcssrc.json
-
-# js
-browserify ./src/script/main.js -t babelify -t uglifyify -o ./dist/script.js</code></pre>
+</li>
+<li>SDPまわりの煩雑な処理がいらない<ul>
+<li>Web屋のスタックでなんとかなる</li>
+</ul>
+</li>
+<li>普通に聴ける<ul>
+<li>遅延が思ったより無い</li>
+</ul>
+</li>
+</ul>
 </section>
   </div>
   <div class="slide hidden" id="slide-20">
-    <section class="slide-content"><h3 id="-flux-">仕組み(Flux)</h3>
+    <section class="slide-content"><h3 id="-">できないこと</h3>
 <ul>
-<li>パーツをポチっと</li>
-<li>&quot;設定変えたよ&quot;Actionが発行され</li>
-<li>Stateにある設定データを更新<ul>
-<li>更新されたStateを元に、</li>
-<li>裏でCanvasに<code>drawImage()</code> -&gt; <code>toDataURL()</code></li>
+<li>iOS側からの音の入力</li>
 </ul>
-</li>
-<li>Viewが更新</li>
-</ul>
-<p>全て同サイズの画像を重ねて、Canvasで描画するだけ</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-21">
-    <section class="slide-content"><h3 id="flux-redux-">FluxやるならRedux？</h3>
-<ul>
-<li>という世間の風潮に乗ろうとした</li>
-<li>りでゅーさー、すとあー、でぃすぱっちゃー、みどるうぇあ、あくしょんくりえいたー・・<ul>
-<li>よーわからん</li>
-</ul>
-</li>
-<li>そもそもFluxってそんなに大きいものなの</li>
-</ul>
-<p>MVC後期のUIイベントとデータを分離していたあの頃と何が変わってしまったの・・</p>
+    <section class="slide-content"><h1 id="-">関連技術のご紹介</h1>
 </section>
   </div>
   <div class="slide hidden" id="slide-22">
-    <section class="slide-content"><h3 id="-flumpt">そんなあなたにflumpt</h3>
-<p><a href="https://github.com/mizchi/flumpt/">https://github.com/mizchi/flumpt/</a></p>
-<ul>
-<li><code>this.dispatch(&#39;EVENT&#39;)</code>できる<code>flumpt.Component</code></li>
-<li>それを受けてStateを更新する根本の<code>flumpt.Flux</code></li>
-<li>提供されるのはこの2つだけ</li>
-<li>(細かい機能は他にもあるけど使ってない)</li>
-<li>Flux入門にも良さげ</li>
-</ul>
-<p><strong>S+</strong>のイカが作ったライブラリなら安心！(適当)</p>
+    <section class="slide-content"><h3 id="scriptprocessor">ScriptProcessor</h3>
+<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> processor = context.createScriptProcessor(
+  BUFFER_SIZE,
+  <span class="hljs-comment">// 1: Monoral, 2: Stereo</span>
+  numOfInputCh, 
+  numOfOutputCh
+);
+
+processor.onaudioprocess = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">ev</span>) </span>{
+  <span class="hljs-keyword">var</span> inputBuffer  = ev.inputBuffer;
+  <span class="hljs-keyword">var</span> outputBuffer = ev.outputBuffer;
+
+  <span class="hljs-comment">// Float32Array</span>
+  <span class="hljs-keyword">var</span> inputData  = inputBuffer.getChannelData(<span class="hljs-number">0</span>);
+  <span class="hljs-keyword">var</span> outputData = outputBuffer.getChannelData(<span class="hljs-number">0</span>);
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> sample = <span class="hljs-number">0</span>; sample &lt; inputBuffer.length; sample++) {
+    outputData[sample] = inputData[sample];
+  }
+  <span class="hljs-comment">// or just set</span>
+  <span class="hljs-comment">// outputData.set(inputData);</span>
+};</code></pre>
+<p>PCMのデータに直接アクセスできるAudioNode</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-23">
-    <section class="slide-content"><h3 id="-">コードの詳細</h3>
-<p><a href="https://github.com/leader22/ika-maker">https://github.com/leader22/ika-maker</a></p>
+    <section class="slide-content"><h3 id="webworker">WebWorker</h3>
+<pre><code class="lang-javascript"><span class="hljs-keyword">new</span> Worker(<span class="hljs-string">'./worker.js'</span>);
+<span class="hljs-comment">// require('webworkify')(require('./worker.js'));</span></code></pre>
 <ul>
-<li>規模が小さいので特筆すべき点がない</li>
-<li>1ソースで全解像度対応</li>
-<li>OGPやらピン留めやら対応済み</li>
+<li>Mainスレッドとは別<ul>
+<li>Workerスレッドでjs処理ができる</li>
+<li>MainとはpostMessageでやりとり</li>
 </ul>
-<p>画像を差し替えれば、誰でもスーパーxxメーカーが！</p>
+</li>
+<li>Chromeの仕様？でタブが裏に回るとMainスレッドの処理が間引かれる</li>
+<li>Workerで処理させれば回避できた</li>
+<li>Browserifyするなら<code>webworkify</code></li>
+</ul>
 </section>
   </div>
   <div class="slide hidden" id="slide-24">
-    <section class="slide-content"><h1 id="-">悩んだこと</h1>
+    <section class="slide-content"><h3 id="-">再生タイミングの調整</h3>
+<pre><code class="lang-javascript">socket.on(<span class="hljs-string">'audio'</span>, <span class="hljs-keyword">this</span>._handleAudioBuffer);
+
+<span class="hljs-comment">// とにかくこれがすごい呼ばれる</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_handleAudioBuffer</span>(<span class="hljs-params">buf</span>) </span>{
+  <span class="hljs-keyword">var</span> currentTime = ctx.currentTime;
+
+  <span class="hljs-comment">// 略</span>
+
+  <span class="hljs-comment">// 貯まってるので未来に再生</span>
+  <span class="hljs-keyword">if</span> (currentTime &lt; startTime) {
+    source.start(startTime);
+    startTime += audioBuffer.duration;
+  }
+  <span class="hljs-comment">// すぐ再生</span>
+  <span class="hljs-keyword">else</span> {
+    source.start(startTime);
+    startTime = currentTime + audioBuffer.duration;
+  }
+}</code></pre>
+<p>こうしないと、Socketの到着タイミングで随時再生されちゃうので、プツプツと聞けたもんじゃない！</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-25">
-    <section class="slide-content"><h3 id="200-">200リクエストを待つかどうか問題</h3>
+    <section class="slide-content"><h3 id="-">まとめ</h3>
 <ul>
-<li>200枚のパーツ画像を全て読み込んでから起動<ul>
-<li>随時読み込みでもよかった</li>
+<li>WebSocketはバイナリを流せる<ul>
+<li>2010年で既に</li>
+<li>Socket.IOが対応したのは2014年春</li>
 </ul>
 </li>
-<li>けど変更はその場で即反映されて欲しい！<ul>
-<li>最初は待つけど...使わないのも多いけど...</li>
+<li>AudioStreamは、ただのArrayBufferである<ul>
+<li>Float32Array</li>
+<li>ScriptProcessor</li>
 </ul>
 </li>
-<li>いっぱい選べる感が楽しいので致し方無し</li>
+<li>夢は広がる<ul>
+<li>audioタグで高音質ストリーミング</li>
+<li>MediaRecorderで<code>webm</code>にして保存とか</li>
 </ul>
-<p>HTTP/2？知らない子ですね...</p>
+</li>
+</ul>
 </section>
   </div>
   <div class="slide hidden" id="slide-26">
-    <section class="slide-content"><h3 id="-svg-">色変えならSVGでいいのでは問題</h3>
+    <section class="slide-content"><h3 id="websocket-">WebSocketすごくない？</h3>
 <ul>
-<li>髪色が違うだけで画像20枚</li>
-<li>SVGにすれば画像は減らせる<ul>
-<li>一理ある</li>
+<li>3Gでも一旦張れればそこそこ</li>
+<li>対応ブラウザも十分すぎる</li>
+<li>バイナリが送れるなら画像もcssもjsも</li>
+<li>何か欠陥があるから？<ul>
+<li>もうみんなHTTP/2？</li>
 </ul>
 </li>
-<li>しかし作るコストがかかりそうで踏み込めず</li>
+<li>単に誰も冒険してないだけ？</li>
 </ul>
-<p>とりあえずリリース優先のため見送り</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-27">
-    <section class="slide-content"><h3 id="-">どこまで本家に忠実にするのか問題</h3>
+    <section class="slide-content"><h3 id="links">Links</h3>
 <ul>
-<li>本家の細かさ<ul>
-<li>髪色とマユ色が連動するとか</li>
-<li>ボーイの&quot;マゲ&quot;がギアによって隠れるとか</li>
+<li><a href="https://github.com/leader22/audio-streaming-over-websocket">leader22/audio-streaming-over-websocket</a></li>
+<li><a href="http://leader22.github.io/slides/asows">このスライド</a></li>
 </ul>
-</li>
-<li>いや、もっとオシャレしたい！</li>
-</ul>
-<p>全て選べる夢のイカメーカーに</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-28">
-    <section class="slide-content"><h1 id="-">困ったこと</h1>
-</section>
-  </div>
-  <div class="slide hidden" id="slide-29">
-    <section class="slide-content"><h3 id="-">無限に通知くる問題</h3>
-<ul>
-<li>&lt;meta name=&quot;twitter:site&quot; content=&quot;@leader22&quot;&gt;</li>
-<li>Twitter for Android限定</li>
-<li>サイトリンク入りの自分の発言にセルフリプ<ul>
-<li>なぜか @leader22 がテキストに自動挿入</li>
-</ul>
-</li>
-<li>それに気付かなかった世界中のAndroidユーザーから日中夜問わず無限にメンションが</li>
-</ul>
-<p>通知OFFったー(˘ω˘ )</p>
-</section>
-  </div>
-  <div class="slide hidden" id="slide-30">
-    <section class="slide-content"><h3 id="-">現代っ子再読み込み知らない問題</h3>
-<ul>
-<li>バグ修正 || アップデートする -&gt; すぐ撒く<ul>
-<li>これがWebの利点ですよ(はっはっは</li>
-<li>ページを再読み込みして更新して欲しい</li>
-</ul>
-</li>
-<li>現代っ子たち &lt; 再読み込みってなんですか？自動じゃないの？<ul>
-<li>キャッシュなどもちろん理解されない</li>
-</ul>
-</li>
-<li>しかしユーザー問い合わせの9割はコレ・・</li>
-</ul>
-<p>WebView キャッシュ消す どうやる(^ω^#)</p>
-</section>
-  </div>
-  <div class="slide hidden" id="slide-31">
-    <section class="slide-content"><h1 id="-">さいごに</h1>
-</section>
-  </div>
-  <div class="slide hidden" id="slide-32">
-    <section class="slide-content"><h3 id="1-">1円も儲かってません</h3>
-<ul>
-<li>むしろVPSとドメイン費を含めれば赤字</li>
-<li>自分が使いたいサービスに広告あったらウザい</li>
-<li>なにより作る過程が好き</li>
-</ul>
-<p>🍣おごってくれてもいいんですよ！</p>
-</section>
-  </div>
-  <div class="slide hidden" id="slide-33">
-    <section class="slide-content"><h3 id="nnid-leader22">NNID: leader22</h3>
-<p><img src="./img/nnid.png"></p>
-</section>
-  </div>
-  <div class="slide hidden" id="slide-34">
-    <section class="slide-content"><h3 id="links">Links</h3>
-<p>#スーパーイカメーカー を支える技術  | console.lealog();<br/>
-<a href="http://lealog.hateblo.jp/entry/2016/01/22/115913">http://lealog.hateblo.jp/entry/2016/01/22/115913</a></p>
-<p>このスライド<br/>
-<a href="http://leader22.github.io/slides/node_gakuen-19/">http://leader22.github.io/slides/node_gakuen-19/</a></p>
-</section>
-  </div>
-  <div class="slide hidden" id="slide-35">
     <section class="slide-content"><h1 id="finish-">Finish!</h1>
-<script>
-var timer = document.createElement('div');
-timer.textContent = '0';
-timer.id = 'timer';
-document.body.appendChild(timer); 
-
-setInterval(function() {
-  var now = timer.textContent|0;
-  timer.textContent = '' + (now + 1);
-}, 1000 * 1);
-</script>
-
 <style>
-#timer {
-  position: fixed;
-  right: 0;
-  top: 0;
-  z-index: 1;
-  color: #fff;
-  font-size: 10%;
-  padding: 5px;
-}
 .progress {
   z-index: 1;
-}
-
-.progress-bar {
-  background-color: #ff6e00;
-}
-
-.slide {
-  background-color: #000;
-  color: #fff;
-}
-
-a {
-  color: #ff6e00!important;
-}
-
-h3 {
-  border-color: #ff6e00;
-}
-
-pre {
-  border: 1px solid #ff6e00;
-  padding: 2%;
 }
 
 ul {
   padding: 10px 0 10px 60px;
 }
 
+pre {
+  background-color: #fff;
+  padding: 2%;
+}
+
 .slide-content img {
   display: block;
   margin: 0 auto;
   max-width: 80%;
-}
-
-#slide-1 h1,
-#slide-12 h1,
-#slide-13 h1,
-#slide-15 h1 {
-  font-size: 230%;
 }
 </style></section>
   </div>
