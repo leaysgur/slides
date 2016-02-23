@@ -375,7 +375,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   <div class="slide hidden" id="slide-3">
     <section class="slide-content"><h3 id="webrtc-">WebRTC界隈の技術を見ていて</h3>
 <ul>
-<li>リアルタイムコミュニケーション用のAPI<ul>
+<li>リアルタイムコミュニケーション用のAPI群<ul>
 <li>MediaStream API(getUserMedia)</li>
 <li>RTC**3つほど</li>
 </ul>
@@ -386,7 +386,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <li>answer with SDP</li>
 </ul>
 </li>
-<li>ただし単純なP2Pではスケールしない(20とか)</li>
+<li>ただしP2Pではスケールしない(20とかでアウト)</li>
 </ul>
 </section>
   </div>
@@ -419,12 +419,12 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </ul>
 </li>
 <li>難解なWebRTCスタックを学ばずに済む</li>
-<li>WebSocketとか使えばなんとかなるのでは</li>
+<li>WebSocketとか使えばなんとかなるのでは？</li>
 </ul>
 </section>
   </div>
   <div class="slide hidden" id="slide-9">
-    <section class="slide-content"><h3 id="-">注: 最初に言い訳</h3>
+    <section class="slide-content"><h3 id="-">注:</h3>
 <p>今から説明するものは、</p>
 <ul>
 <li>WebRTCの代替ではない<ul>
@@ -432,6 +432,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </ul>
 </li>
 <li>ここで話した以上の認識がない<ul>
+<li>実用的かの判断がつかない</li>
 <li>落とし穴はいっぱいありそう</li>
 <li>セキュリティとかスケーラビリティとか</li>
 </ul>
@@ -512,15 +513,16 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
     <section class="slide-content"><h3 id="webrtc-">WebRTCへの優位性</h3>
 <ul>
 <li>iOSで動く<ul>
-<li>iOS7でも動く！やったね！</li>
+<li>iOS7でも！やったね！</li>
 </ul>
 </li>
-<li>SDPまわりの煩雑な処理がいらない<ul>
+<li>SDPまわりの煩雑な処理とかいらない<ul>
 <li>Web屋のスタックでなんとかなる</li>
 </ul>
 </li>
 <li>普通に聴ける<ul>
 <li>遅延が思ったより無い</li>
+<li>5人くらいに流してもいける</li>
 </ul>
 </li>
 </ul>
@@ -573,7 +575,7 @@ processor.onaudioprocess = <span class="hljs-function"><span class="hljs-keyword
 <li>MainとはpostMessageでやりとり</li>
 </ul>
 </li>
-<li>Chromeの仕様？でタブが裏に回るとMainスレッドの処理が間引かれる</li>
+<li>Chromeの仕様？でタブが裏に回るとMainスレッドの処理が間引かれて音が途切れる</li>
 <li>Workerで処理させれば回避できた</li>
 <li>Browserifyするなら<code>webworkify</code></li>
 </ul>
@@ -613,23 +615,42 @@ processor.onaudioprocess = <span class="hljs-function"><span class="hljs-keyword
 </li>
 <li>AudioStreamは、ただのArrayBufferである<ul>
 <li>Float32Array</li>
-<li>ScriptProcessor</li>
+<li>ScriptProcessorでいじれる</li>
 </ul>
 </li>
 <li>夢は広がる<ul>
-<li>audioタグで高音質ストリーミング</li>
-<li>MediaRecorderで<code>webm</code>にして保存とか</li>
+<li>audioタグから高音質ストリーミング</li>
+<li>MediaRecorderで<code>webm</code>にして保存したり</li>
 </ul>
 </li>
 </ul>
 </section>
   </div>
   <div class="slide hidden" id="slide-26">
+    <section class="slide-content"><h3 id="-">実用的か</h3>
+<ul>
+<li>実装すれば<ul>
+<li>room機能で親を切り替えたり</li>
+<li>親側にリアクションする仕組み</li>
+</ul>
+</li>
+<li>パフォーマンス<ul>
+<li>どこまでスケールするのか</li>
+<li>一定時間使うとパフォーマンス落ちるとか</li>
+</ul>
+</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-27">
     <section class="slide-content"><h3 id="websocket-">WebSocketすごくない？</h3>
 <ul>
 <li>3Gでも一旦張れればそこそこ</li>
 <li>対応ブラウザも十分すぎる</li>
-<li>バイナリが送れるなら画像もcssもjsも</li>
+<li>バイナリが送れるなら画像もcssもjsも<ul>
+<li>そういうアーキテクチャとか</li>
+</ul>
+</li>
 <li>何か欠陥があるから？<ul>
 <li>もうみんなHTTP/2？</li>
 </ul>
@@ -638,7 +659,7 @@ processor.onaudioprocess = <span class="hljs-function"><span class="hljs-keyword
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-27">
+  <div class="slide hidden" id="slide-28">
     <section class="slide-content"><h3 id="links">Links</h3>
 <ul>
 <li><a href="https://github.com/leader22/audio-streaming-over-websocket">leader22/audio-streaming-over-websocket</a></li>
@@ -646,7 +667,7 @@ processor.onaudioprocess = <span class="hljs-function"><span class="hljs-keyword
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-28">
+  <div class="slide hidden" id="slide-29">
     <section class="slide-content"><h1 id="finish-">Finish!</h1>
 <style>
 .progress {

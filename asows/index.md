@@ -11,14 +11,14 @@ controls: false
 --
 
 ### WebRTC界隈の技術を見ていて
-- リアルタイムコミュニケーション用のAPI
+- リアルタイムコミュニケーション用のAPI群
   - MediaStream API(getUserMedia)
   - RTC**3つほど
 - なんしかUDP上でP2P通信ができる
   - PeerConnection
   - offer with SDP
   - answer with SDP
-- ただし単純なP2Pではスケールしない(20とか)
+- ただしP2Pではスケールしない(20とかでアウト)
 
 --
 
@@ -45,16 +45,17 @@ controls: false
 - iOSにリーチできる可能性
   - スーパーイカメーカーのアクセスの60%はiOS
 - 難解なWebRTCスタックを学ばずに済む
-- WebSocketとか使えばなんとかなるのでは
+- WebSocketとか使えばなんとかなるのでは？
 
 --
 
-### 注: 最初に言い訳
+### 注:
 今から説明するものは、
 
 - WebRTCの代替ではない
   - あくまで目標達成への別アプローチ
 - ここで話した以上の認識がない
+  - 実用的かの判断がつかない
   - 落とし穴はいっぱいありそう
   - セキュリティとかスケーラビリティとか
 
@@ -121,11 +122,12 @@ room機能とか作ってないから実用的ではない
 
 ### WebRTCへの優位性
 - iOSで動く
-  - iOS7でも動く！やったね！
-- SDPまわりの煩雑な処理がいらない
+  - iOS7でも！やったね！
+- SDPまわりの煩雑な処理とかいらない
   - Web屋のスタックでなんとかなる
 - 普通に聴ける
   - 遅延が思ったより無い
+  - 5人くらいに流してもいける
 
 --
 
@@ -176,7 +178,7 @@ new Worker('./worker.js');
 - Mainスレッドとは別
   - Workerスレッドでjs処理ができる
   - MainとはpostMessageでやりとり
-- Chromeの仕様？でタブが裏に回るとMainスレッドの処理が間引かれる
+- Chromeの仕様？でタブが裏に回るとMainスレッドの処理が間引かれて音が途切れる
 - Workerで処理させれば回避できた
 - Browserifyするなら`webworkify`
 
@@ -215,10 +217,20 @@ function _handleAudioBuffer(buf) {
   - Socket.IOが対応したのは2014年春
 - AudioStreamは、ただのArrayBufferである
   - Float32Array
-  - ScriptProcessor
+  - ScriptProcessorでいじれる
 - 夢は広がる
-  - audioタグで高音質ストリーミング
-  - MediaRecorderで`webm`にして保存とか
+  - audioタグから高音質ストリーミング
+  - MediaRecorderで`webm`にして保存したり
+
+--
+
+### 実用的か
+- 実装すれば
+  - room機能で親を切り替えたり
+  - 親側にリアクションする仕組み
+- パフォーマンス
+  - どこまでスケールするのか
+  - 一定時間使うとパフォーマンス落ちるとか
 
 --
 
@@ -226,6 +238,7 @@ function _handleAudioBuffer(buf) {
 - 3Gでも一旦張れればそこそこ
 - 対応ブラウザも十分すぎる
 - バイナリが送れるなら画像もcssもjsも
+  - そういうアーキテクチャとか
 - 何か欠陥があるから？
   - もうみんなHTTP/2？
 - 単に誰も冒険してないだけ？
