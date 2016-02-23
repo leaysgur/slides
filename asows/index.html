@@ -365,7 +365,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 
   <div class="slide" id="slide-1">
     <section class="slide-content"><h1 id="audiostreaming-over-websocket">AudioStreaming over WebSocket</h1>
-<h2 id="at-pixelgrid-2016-in-">at PixelGrid 開発合宿 2016春 in 八丈島</h2>
+<h2 id="2016-02-21-23-pixelgrid-inc-in-">2016/02/21-23 PixelGrid Inc. 開発合宿 in 八丈島</h2>
 </section>
   </div>
   <div class="slide hidden" id="slide-2">
@@ -416,6 +416,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <ul>
 <li>iOSにリーチできる可能性<ul>
 <li>スーパーイカメーカーのアクセスの60%はiOS</li>
+<li>そういえばイカデンワというものが</li>
 </ul>
 </li>
 <li>難解なWebRTCスタックを学ばずに済む</li>
@@ -450,7 +451,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   </div>
   <div class="slide hidden" id="slide-12">
     <section class="slide-content"><h1 id="demo">DEMO</h1>
-<h2 id="-publisher-http-localhost-8888-client-pub-subscriber-http-dev-lealog-net-client-sub-"><a href="http://localhost:8888/client/pub/">Publisher</a> / <a href="http://dev.lealog.net/client/sub/">Subscriber</a></h2>
+<h2 id="-publisher-http-localhost-8888-client-pub-subscriber-http-localhost-8888-client-sub-"><a href="http://localhost:8888/client/pub/">Publisher</a> / <a href="http://localhost:8888/client/sub/">Subscriber</a></h2>
 </section>
   </div>
   <div class="slide hidden" id="slide-13">
@@ -472,6 +473,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <ul>
 <li>getUserMedia<ul>
 <li>MediaStreamSourceNode</li>
+<li>BiquadFilterNode</li>
 <li>ScriptProcessorNode: 1ch<ul>
 <li>postMessage(PCM &lt;ArrayBuffer&gt;)</li>
 </ul>
@@ -487,10 +489,10 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   </div>
   <div class="slide hidden" id="slide-16">
     <section class="slide-content"><h3 id="socket-io-server">Socket.IO Server</h3>
-<pre><code class="lang-javascript">socket.on(<span class="hljs-string">'audio'</span>, (buf) =&gt; {
-  socket.broadcast.emit(<span class="hljs-string">'audio'</span>, buf);
+<pre><code class="lang-javascript">socket.on(<span class="hljs-string">'audio'</span>, (payload) =&gt; {
+  <span class="hljs-comment">// 送り先はともかく、ほんとに流すだけ</span>
+  socket.to(payload.ch).emit(<span class="hljs-string">'audio'</span>, payload.buf);
 });</code></pre>
-<p>room機能とか作ってないから実用的ではない</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-17">
@@ -516,13 +518,13 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <li>iOS7でも！やったね！</li>
 </ul>
 </li>
-<li>SDPまわりの煩雑な処理とかいらない<ul>
-<li>Web屋のスタックでなんとかなる</li>
+<li>もちろんAndroidでも動く<ul>
+<li>WebSocketが動けば動く！</li>
 </ul>
 </li>
-<li>普通に聴ける<ul>
-<li>遅延が思ったより無い</li>
-<li>5人くらいに流してもいける</li>
+<li>SDPまわりの煩雑な処理とかいらない<ul>
+<li>UDPホールパンチングなにそれお</li>
+<li>Web屋のスタックでなんとかなる</li>
 </ul>
 </li>
 </ul>
@@ -531,7 +533,10 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   <div class="slide hidden" id="slide-20">
     <section class="slide-content"><h3 id="-">できないこと</h3>
 <ul>
-<li>iOS側からの音の入力</li>
+<li>iOS側からの音の入力<ul>
+<li>あくまで聴く専</li>
+</ul>
+</li>
 </ul>
 </section>
   </div>
@@ -566,6 +571,20 @@ processor.onaudioprocess = <span class="hljs-function"><span class="hljs-keyword
 </section>
   </div>
   <div class="slide hidden" id="slide-23">
+    <section class="slide-content"><h3 id="biquadfilter">BiquadFilter</h3>
+<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> filter = context.createBiquadFilter();
+
+<span class="hljs-comment">// 電話はバンドパスフィルタ</span>
+filter.type = <span class="hljs-string">'bandpass'</span>;
+<span class="hljs-comment">// アナログ電話は300Hz ~ 3.4kHz / ひかり電話は100Hz ~ 7kHzを使ってる</span>
+<span class="hljs-comment">// 今回は高品質あたりに山を作る</span>
+filter.frequency.value = (<span class="hljs-number">100</span> + <span class="hljs-number">7000</span>) / <span class="hljs-number">2</span>;
+<span class="hljs-comment">// 固定ならだいたい聴き良いのがこれくらい・・？</span>
+filter.Q.value = <span class="hljs-number">0.25</span>;</code></pre>
+<p>最適な通過帯域は声や音によってそれぞれなので、決め打ちは気休めでしかない・・<br>が、コレが有るのと無いのでは大違い</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-24">
     <section class="slide-content"><h3 id="webworker">WebWorker</h3>
 <pre><code class="lang-javascript"><span class="hljs-keyword">new</span> Worker(<span class="hljs-string">'./worker.js'</span>);
 <span class="hljs-comment">// require('webworkify')(require('./worker.js'));</span></code></pre>
@@ -581,7 +600,7 @@ processor.onaudioprocess = <span class="hljs-function"><span class="hljs-keyword
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-24">
+  <div class="slide hidden" id="slide-25">
     <section class="slide-content"><h3 id="-">再生タイミングの調整</h3>
 <pre><code class="lang-javascript">socket.on(<span class="hljs-string">'audio'</span>, <span class="hljs-keyword">this</span>._handleAudioBuffer);
 
@@ -605,7 +624,7 @@ processor.onaudioprocess = <span class="hljs-function"><span class="hljs-keyword
 <p>こうしないと、Socketの到着タイミングで随時再生されちゃうので、プツプツと聞けたもんじゃない！</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-25">
+  <div class="slide hidden" id="slide-26">
     <section class="slide-content"><h3 id="-">まとめ</h3>
 <ul>
 <li>WebSocketはバイナリを流せる<ul>
@@ -618,37 +637,118 @@ processor.onaudioprocess = <span class="hljs-function"><span class="hljs-keyword
 <li>ScriptProcessorでいじれる</li>
 </ul>
 </li>
-<li>夢は広がる<ul>
-<li>audioタグから高音質ストリーミング</li>
-<li>MediaRecorderで<code>webm</code>にして保存したり</li>
-</ul>
-</li>
-</ul>
-</section>
-  </div>
-  <div class="slide hidden" id="slide-26">
-    <section class="slide-content"><h3 id="-">実用的か</h3>
-<ul>
-<li>実装すれば<ul>
-<li>room機能で親を切り替えたり</li>
-<li>親側にリアクションする仕組み</li>
-</ul>
-</li>
-<li>パフォーマンス<ul>
-<li>どこまでスケールするのか</li>
-<li>一定時間使うとパフォーマンス落ちるとか</li>
+<li>マイクは雑音の宝庫なので、フィルタおすすめ<ul>
+<li>電話はすごい</li>
+<li>LINEもすごい</li>
 </ul>
 </li>
 </ul>
 </section>
   </div>
   <div class="slide hidden" id="slide-27">
+    <section class="slide-content"><h1 id="-">気になる実用性</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-28">
+    <section class="slide-content"><h3 id="lan-">LANで試す</h3>
+<p>同一WiFi上で、<br>
+Pub: Mac ⇔ Server ⇔ Sub: Mac || iPhoneの場合。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Pubの内容　　</th>
+<th style="text-align:center">評価　</th>
+<th style="text-align:left">備考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">マイクから声</td>
+<td style="text-align:center">S+</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">動画ニュース</td>
+<td style="text-align:center">S+</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">音楽</td>
+<td style="text-align:center">S</td>
+<td style="text-align:left">さすがに音質が気になる</td>
+</tr>
+</tbody>
+</table>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-29">
+    <section class="slide-content"><h3 id="wan-">WANでも試す</h3>
+<p>サーバーをVPSに立ててみた。<br>
+Pub: Mac ⇔ Server ⇔ Sub: Mac || iPhoneの場合。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Pubの内容　　</th>
+<th style="text-align:center">評価　</th>
+<th style="text-align:left">備考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">マイクから声</td>
+<td style="text-align:center">S</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">動画ニュース</td>
+<td style="text-align:center">S</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">音楽</td>
+<td style="text-align:center">A+</td>
+<td style="text-align:left">音質は(ry</td>
+</tr>
+</tbody>
+</table>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-30">
+    <section class="slide-content"><h3 id="-">まとめ</h3>
+<ul>
+<li>さすがに音楽となると音質のしょぼさが気になる</li>
+<li>MacでもiOS7のiPhoneでも大差ない<ul>
+<li>FireFoxの方がなんか途切れる</li>
+</ul>
+</li>
+<li>LANだろうがWANだろうが関係ない！</li>
+<li>WiFiでも4Gでも大差ない！！すごい！<ul>
+<li>ただ微妙に遅れてくることがある？</li>
+</ul>
+</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-31">
+    <section class="slide-content"><h3 id="-">おわりに</h3>
+<ul>
+<li>端末台数増えるとどうなる？<ul>
+<li>SocketServerのスペック上げればいける？</li>
+</ul>
+</li>
+<li>サウンドプログラミング is 難しい</li>
+<li>WebWorkerすごい</li>
+<li>WebSocketもっとすごい</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-32">
     <section class="slide-content"><h3 id="websocket-">WebSocketすごくない？</h3>
 <ul>
-<li>3Gでも一旦張れればそこそこ</li>
 <li>対応ブラウザも十分すぎる</li>
 <li>バイナリが送れるなら画像もcssもjsも<ul>
 <li>そういうアーキテクチャとか</li>
+<li>音は難しかったが画像はもっと楽そう</li>
 </ul>
 </li>
 <li>何か欠陥があるから？<ul>
@@ -659,7 +759,7 @@ processor.onaudioprocess = <span class="hljs-function"><span class="hljs-keyword
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-28">
+  <div class="slide hidden" id="slide-33">
     <section class="slide-content"><h3 id="links">Links</h3>
 <ul>
 <li><a href="https://github.com/leader22/audio-streaming-over-websocket">leader22/audio-streaming-over-websocket</a></li>
@@ -667,7 +767,7 @@ processor.onaudioprocess = <span class="hljs-function"><span class="hljs-keyword
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-29">
+  <div class="slide hidden" id="slide-34">
     <section class="slide-content"><h1 id="finish-">Finish!</h1>
 <style>
 .progress {

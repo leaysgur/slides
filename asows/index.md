@@ -3,7 +3,7 @@ controls: false
 --
 
 # AudioStreaming over WebSocket
-## at PixelGrid 開発合宿 2016春 in 八丈島
+## 2016/02/21-23 PixelGrid Inc. 開発合宿 in 八丈島
 --
 
 # 事の発端
@@ -44,6 +44,7 @@ controls: false
 ### 既存の技術で再構築できれば
 - iOSにリーチできる可能性
   - スーパーイカメーカーのアクセスの60%はiOS
+  - そういえばイカデンワというものが
 - 難解なWebRTCスタックを学ばずに済む
 - WebSocketとか使えばなんとかなるのでは？
 
@@ -70,7 +71,7 @@ controls: false
 --
 
 # DEMO
-## [Publisher](http://localhost:8888/client/pub/) / [Subscriber](http://dev.lealog.net/client/sub/)
+## [Publisher](http://localhost:8888/client/pub/) / [Subscriber](http://localhost:8888/client/sub/)
 
 --
 
@@ -89,6 +90,7 @@ controls: false
 ### Publisher
 - getUserMedia
   - MediaStreamSourceNode
+  - BiquadFilterNode
   - ScriptProcessorNode: 1ch
     - postMessage(PCM &lt;ArrayBuffer&gt;)
   - WebWorker
@@ -99,12 +101,11 @@ controls: false
 ### Socket.IO Server
 
 ```javascript
-socket.on('audio', (buf) => {
-  socket.broadcast.emit('audio', buf);
+socket.on('audio', (payload) => {
+  // 送り先はともかく、ほんとに流すだけ
+  socket.to(payload.ch).emit('audio', payload.buf);
 });
 ```
-
-room機能とか作ってないから実用的ではない
 
 --
 
@@ -123,17 +124,17 @@ room機能とか作ってないから実用的ではない
 ### WebRTCへの優位性
 - iOSで動く
   - iOS7でも！やったね！
+- もちろんAndroidでも動く
+  - WebSocketが動けば動く！
 - SDPまわりの煩雑な処理とかいらない
+  - UDPホールパンチングなにそれお
   - Web屋のスタックでなんとかなる
-- 普通に聴ける
-  - 遅延が思ったより無い
-  - 5人くらいに流してもいける
 
 --
 
 ### できないこと
 - iOS側からの音の入力
-
+  - あくまで聴く専
 --
 
 # 関連技術のご紹介
@@ -166,6 +167,23 @@ processor.onaudioprocess = function(ev) {
 ```
 
 PCMのデータに直接アクセスできるAudioNode
+
+--
+
+### BiquadFilter
+```javascript
+var filter = context.createBiquadFilter();
+
+// 電話はバンドパスフィルタ
+filter.type = 'bandpass';
+// アナログ電話は300Hz ~ 3.4kHz / ひかり電話は100Hz ~ 7kHzを使ってる
+// 今回は高品質あたりに山を作る
+filter.frequency.value = (100 + 7000) / 2;
+// 固定ならだいたい聴き良いのがこれくらい・・？
+filter.Q.value = 0.25;
+```
+
+最適な通過帯域は声や音によってそれぞれなので、決め打ちは気休めでしかない・・<br>が、コレが有るのと無いのでは大違い
 
 --
 
@@ -218,27 +236,65 @@ function _handleAudioBuffer(buf) {
 - AudioStreamは、ただのArrayBufferである
   - Float32Array
   - ScriptProcessorでいじれる
-- 夢は広がる
-  - audioタグから高音質ストリーミング
-  - MediaRecorderで`webm`にして保存したり
+- マイクは雑音の宝庫なので、フィルタおすすめ
+  - 電話はすごい
+  - LINEもすごい
 
 --
 
-### 実用的か
-- 実装すれば
-  - room機能で親を切り替えたり
-  - 親側にリアクションする仕組み
-- パフォーマンス
-  - どこまでスケールするのか
-  - 一定時間使うとパフォーマンス落ちるとか
+# 気になる実用性
+
+--
+### LANで試す
+
+同一WiFi上で、<br>
+Pub: Mac ⇔ Server ⇔ Sub: Mac || iPhoneの場合。
+
+|Pubの内容　　|評価　|備考|
+|:-----------|:--:|:---|
+|マイクから声|S+  ||
+|動画ニュース|S+  ||
+|音楽        |S   |さすがに音質が気になる|
+
+--
+
+### WANでも試す
+
+サーバーをVPSに立ててみた。<br>
+Pub: Mac ⇔ Server ⇔ Sub: Mac || iPhoneの場合。
+
+|Pubの内容　　|評価　|備考|
+|:-----------|:--:|:---|
+|マイクから声|S  ||
+|動画ニュース|S  ||
+|音楽        |A+   |音質は(ry|
+
+--
+
+### まとめ
+- さすがに音楽となると音質のしょぼさが気になる
+- MacでもiOS7のiPhoneでも大差ない
+  - FireFoxの方がなんか途切れる
+- LANだろうがWANだろうが関係ない！
+- WiFiでも4Gでも大差ない！！すごい！
+  - ただ微妙に遅れてくることがある？
+
+--
+
+### おわりに
+- 端末台数増えるとどうなる？
+  - SocketServerのスペック上げればいける？
+- サウンドプログラミング is 難しい
+- WebWorkerすごい
+- WebSocketもっとすごい
 
 --
 
 ### WebSocketすごくない？
-- 3Gでも一旦張れればそこそこ
 - 対応ブラウザも十分すぎる
 - バイナリが送れるなら画像もcssもjsも
   - そういうアーキテクチャとか
+  - 音は難しかったが画像はもっと楽そう
 - 何か欠陥があるから？
   - もうみんなHTTP/2？
 - 単に誰も冒険してないだけ？
