@@ -12,8 +12,8 @@ controls: false
 
 ### WebRTC界隈の技術を見ていて
 - リアルタイムコミュニケーション用のAPI群
-  - MediaStream API(getUserMedia)
-  - RTC**3つほど
+  - MediaStream API(getUserMedia): カメラ・音
+  - RTC**3つほど: それを通信する
 - なんしかUDP上でP2P通信ができる
   - PeerConnection
   - offer with SDP
@@ -94,7 +94,7 @@ controls: false
   - ScriptProcessorNode: 1ch
     - postMessage(PCM &lt;ArrayBuffer&gt;)
   - WebWorker
-    - Socket.IO.emit('audio', payload)
+    - socket.IO.emit('audio', payload)
 
 --
 
@@ -166,7 +166,7 @@ processor.onaudioprocess = function(ev) {
 };
 ```
 
-PCMのデータに直接アクセスできるAudioNode
+PCMのサンプルデータに直接アクセスできるAudioNode
 
 --
 
@@ -265,8 +265,8 @@ Pub: Mac ⇔ Server ⇔ Sub: Mac || iPhoneの場合。
 
 |Pubの内容　　|評価　|備考|
 |:-----------|:--:|:---|
-|マイクから声|S  ||
-|動画ニュース|S  ||
+|マイクから声|S  |1秒くらい遅れる|
+|動画ニュース|S  |〃|
 |音楽        |A+   |音質は(ry|
 
 --
@@ -278,13 +278,14 @@ Pub: Mac ⇔ Server ⇔ Sub: Mac || iPhoneの場合。
 - LANだろうがWANだろうが関係ない！
 - WiFiでも4Gでも大差ない！！すごい！
   - ただ微妙に遅れてくることがある？
+    - けど繋ぎ直せば直るしいいか
 
 --
 
 ### おわりに
 - 端末台数増えるとどうなる？
   - SocketServerのスペック上げればいける？
-- サウンドプログラミング is 難しい
+- サウンドプログラミング難しい
 - WebWorkerすごい
 - WebSocketもっとすごい
 
