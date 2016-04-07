@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-  <title>今からはじめるVanilla JS</title>
+  <title>知ってて得するVanilla JS</title>
   <style type="text/css">
     body {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -357,6 +357,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 
 
   </style>
+    <script async src="http://localhost:35729/livereload.js"></script>
 </head>
 <body>
     <div class="progress">
@@ -364,7 +365,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   </div>
 
   <div class="slide" id="slide-1">
-    <section class="slide-content"><h1 id="-br-vanilla-js">今からはじめる<br>Vanilla JS</h1>
+    <section class="slide-content"><h1 id="-br-s-angular2-s-br-vanilla-js">知ってて得する<br><s>Angular2</s><br>Vanilla JS</h1>
 <h2 id="-nbsp-">&nbsp;</h2>
 <h2 id="2016-04-30-ng-kyoto-angular-meetup-4">2016/04/30 ng-kyoto Angular Meetup #4</h2>
 </section>
@@ -373,9 +374,10 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
     <section class="slide-content"><h3 id="-">はじめまして</h3>
 <ul>
 <li>Yuji Sugiura / <a href="https://twitter.com/leader22">@leader22</a></li>
-<li>PixelGrid Inc.</li>
-<li>フロントエンド・エンジニア</li>
+<li>フロントエンド・エンジニア at PixelGrid Inc.</li>
 <li>京都生まれ -&gt; 大阪育ち -&gt; 神奈川(ほぼ東京)在住</li>
+<li>Angular歴3ヶ月</li>
+<li>最近はReactばっか</li>
 </ul>
 <p><img src="./img/doseisan.jpg" alt="leader22"></p>
 </section>
@@ -418,7 +420,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   <div class="slide hidden" id="slide-8">
     <section class="slide-content"><h3 id="-1-">例1: リリース前のパフォーマンス対応</h3>
 <ul>
-<li>どうも重いページがあるらしい</li>
+<li>なんか重いページがあるらしい</li>
 <li>この謎のdirectiveが原因っぽいのはわかったが</li>
 <li>ところがそれは外部のライブラリで</li>
 <li>コード読んでもさっぱりわからん！</li>
@@ -432,7 +434,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <li>ちょっとしたタブとかアコーディオンとか</li>
 <li>でも自前で実装するのは大変な気がするな・・</li>
 <li>よーし、UI Bootstrap使っちゃうぞー</li>
-<li>中身はちゃんと見てないけど動いた！おｋ！</li>
+<li>中身ちゃんと見てへんけど動いたしおｋ！</li>
 </ul>
 <p>そこには・・<br>タブだけで良かったのに、気付けば大量の使われてない機能と依存モジュールたちの姿が・・！＼(^o^)／</p>
 </section>
@@ -442,10 +444,10 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <ul>
 <li><a href="https://github.com/jzaefferer/jquery-validation">jzaefferer/jquery-validation</a>みたいなことしたい</li>
 <li>でもjQueryは入れたくない</li>
-<li>けど、どう書けば良いかはわからない・・</li>
-<li>他のライブラリも見つからない</li>
+<li>けど、どう書けば良いかはわからん・・</li>
+<li>他のライブラリも見つからん</li>
 </ul>
-<p>もうjQueryいれるしかない＼(^o^)／</p>
+<p>もうjQueryいれるしかないじゃない＼(^o^)／</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-11">
@@ -460,27 +462,30 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <li>他人(ライブラリ)頼みでは、いざという時に困る</li>
 <li>1ヶのために使わない機能が10ヶあるとか無駄</li>
 </ul>
-<p>これはReact.jsでも何でも同じ、基礎が大事。</p>
+<p>これはReact.jsでも何でも同じ、基礎が大事。<br>
+むしろ基礎もできないのにAngularがどうとか(ry</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-13">
     <section class="slide-content"><h3 id="vanilla-js-">Vanilla JS力が高まると</h3>
 <ul>
-<li>依存が無いため最速・最軽量のコードが書ける</li>
+<li>依存が無いため最速・最軽量のコードが書ける<ul>
 <li>得体のしれないライブラリを使わなくて済む</li>
+</ul>
+</li>
 <li>ライブラリが抽象化してる内容を推測できる<ul>
+<li>不要なら不要と判断できる</li>
 <li>拡張やFolkも容易</li>
 <li>バグ対応でも原因の予想がつきやすい</li>
 </ul>
 </li>
-<li>案件の枠を越えてつぶしがきく人材に</li>
 <li>Angular2の理解にもつながる！はず！</li>
 </ul>
 </section>
   </div>
   <div class="slide hidden" id="slide-14">
     <section class="slide-content"><h3 id="-vanilla-js">今からはじめるVanilla JS</h3>
-<p>モダンブラウザ最新版は、ほぼ違いを意識しないでおｋ</p>
+<p>最新のモダンブラウザは違いをほぼ意識しないでOK</p>
 <ul>
 <li>Chrome / FireFox / Edge</li>
 </ul>
@@ -489,18 +494,21 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <li>レガシーIEのサポート終了</li>
 <li>iOSも9.x / Androidも5.x</li>
 </ul>
-<p>ブラウザ間の実装差異を埋めるPolyfillの出番も、着実に減少中。</p>
+<p>ブラウザ間の差を埋めるPolyfillの出番も、着実に減少中。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-15">
     <section class="slide-content"><h3 id="-">お断り</h3>
 <ul>
 <li>ライブラリを使うこと = 悪ではない</li>
-<li>要件や環境に応じて「選択」が必要</li>
-<li>正しく判断をするために、きちんと見極める力と</li>
+<li>要件や環境に応じて「選択」がもちろん必要</li>
+<li>その正しい「選択」をするために、<ul>
+<li>きちんと見極める力と</li>
 <li>いざという時に戦える力を</li>
 </ul>
-<p>昨今のイケイケなWebアプリをVanilla JSでやるのは相当大変やし・・<code>_(:3」∠)_</code></p>
+</li>
+</ul>
+<p>昨今のイケイケなWebアプリをVanilla JSでやるのは流石にねぇ・・<code>_(:3」∠)_</code></p>
 </section>
   </div>
   <div class="slide hidden" id="slide-16">
@@ -510,7 +518,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   <div class="slide hidden" id="slide-17">
     <section class="slide-content"><h3 id="pixelgrid-inc-">PixelGrid Inc.</h3>
 <p><img src="./img/pxg.png" alt="PixelGrid"></p>
-<h2 id="http-www-pxgrid-com"><a href="http://www.pxgrid.com">http://www.pxgrid.com</a></h2>
+<h2 id="https-www-pxgrid-com"><a href="https://www.pxgrid.com">https://www.pxgrid.com</a></h2>
 </section>
   </div>
   <div class="slide hidden" id="slide-18">
@@ -525,82 +533,249 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <li>Ajaxでのフォーム送信</li>
 </ul>
 </li>
+<li>etc</li>
 </ul>
-<p>依存ライブラリなしなので容量わずか<code>3.8KB</code>！</p>
+<p>依存ライブラリなしなので容量わずか<code>4.1KB</code>(gzip)！<br>
+ちなみにjQuery@2.2は<code>34.6KB</code></p>
 </section>
   </div>
   <div class="slide hidden" id="slide-19">
-    <section class="slide-content"><h3 id="-">そんなコードを紹介します</h3>
+    <section class="slide-content"><h3 id="-">そんなコードのご紹介</h3>
 <ul>
-<li>[基本] 要素の取得</li>
+<li>[基本] DOMの取得・操作</li>
 <li>[基本] クラス名の操作</li>
 <li>[基本] Ajax</li>
 <li>[基本] イベント発火</li>
 <li>[基本] オフライン検知</li>
 <li>[発展] EventEmitter</li>
 <li>[発展] FormValidation</li>
-<li>[発展] SmoothScroll</li>
 </ul>
 <p>ぜんぶ数行 ~ 数十行で実装できます！</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-20">
-    <section class="slide-content"><h3 id="-">要素の取得</h3>
+    <section class="slide-content"><h3 id="dom-">DOMの取得</h3>
+<pre><code class="lang-javascript"><span class="hljs-comment">// jQuery</span>
+$(<span class="hljs-string">'#el'</span>);
+$(<span class="hljs-string">'.els'</span>);
+
+<span class="hljs-comment">// Vanilla</span>
+<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'el'</span>);
+<span class="hljs-built_in">document</span>.getElementsByClassName(<span class="hljs-string">'.els'</span>);
+
+<span class="hljs-comment">// Easy but..</span>
+<span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'#el'</span>);
+<span class="hljs-built_in">document</span>.querySelectorAll(<span class="hljs-string">'.els'</span>);</code></pre>
+<p>便利な<code>qS</code>と<code>qSA</code>ですが、一部レガシーな環境でパフォーマンスが落ちるので注意(体験談)</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-21">
-    <section class="slide-content"><h3 id="-">クラス名の操作</h3>
+    <section class="slide-content"><h3 id="dom-">DOMの操作</h3>
+<pre><code class="lang-javascript"><span class="hljs-comment">// jQuery</span>
+$(<span class="hljs-string">'.els'</span>).each(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">this</span>.text();
+});
+
+<span class="hljs-comment">// Vanilla</span>
+<span class="hljs-keyword">var</span> $els = [].slice.call(<span class="hljs-built_in">document</span>.getElementsByClassName(<span class="hljs-string">'.els'</span>));
+$els.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">el</span>) </span>{
+  el.textContent;
+});
+
+[].forEach.call(<span class="hljs-built_in">document</span>.getElementsByClassName(<span class="hljs-string">'.els'</span>), <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">el</span>) </span>{
+  el.textContent;
+});
+
+<span class="hljs-comment">// ES 2015</span>
+<span class="hljs-keyword">var</span> $els = <span class="hljs-built_in">Array</span>.from(<span class="hljs-built_in">document</span>.getElementsByClassName(<span class="hljs-string">'.els'</span>));
+
+<span class="hljs-built_in">Array</span>.from(<span class="hljs-built_in">document</span>.getElementsByClassName(<span class="hljs-string">'.els'</span>), <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">el</span>) </span>{
+  el.textContent;
+});</code></pre>
 </section>
   </div>
   <div class="slide hidden" id="slide-22">
-    <section class="slide-content"><h3 id="ajax">Ajax</h3>
+    <section class="slide-content"><h3 id="-">クラス名の操作</h3>
+<pre><code class="lang-javascript"><span class="hljs-comment">// jQuery</span>
+<span class="hljs-keyword">var</span> $el = $(<span class="hljs-string">'#el'</span>);
+$el.addClass(<span class="hljs-string">'is-selected'</span>);
+$el.removeClass(<span class="hljs-string">'is-selected'</span>);
+$el.toggleClass(<span class="hljs-string">'is-selected'</span>);
+$el.hasClass(<span class="hljs-string">'is-selected'</span>);
+
+<span class="hljs-comment">// Vanilla</span>
+<span class="hljs-keyword">var</span> $el = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'#el'</span>);
+$el.classList.add(<span class="hljs-string">'is-selected'</span>);
+$el.classList.remove(<span class="hljs-string">'is-selected'</span>);
+$el.classList.toggle(<span class="hljs-string">'is-selected'</span>);
+$el.classList.contains(<span class="hljs-string">'is-selected'</span>);</code></pre>
 </section>
   </div>
   <div class="slide hidden" id="slide-23">
-    <section class="slide-content"><h3 id="-">イベント発火</h3>
+    <section class="slide-content"><h3 id="ajax">Ajax</h3>
+<pre><code class="lang-javascript"><span class="hljs-comment">// jQuery</span>
+$.ajax({
+  url: <span class="hljs-string">'/foo'</span>,
+  method: <span class="hljs-string">'POST'</span>,
+  dataType: <span class="hljs-string">'json'</span>,
+  data: { a: <span class="hljs-number">1</span> }
+})
+.then(fn);
+
+<span class="hljs-comment">// Vanilla</span>
+<span class="hljs-keyword">var</span> xhr = <span class="hljs-keyword">new</span> XMLHttpRequest();
+xhr.open(<span class="hljs-string">'POST'</span>, <span class="hljs-string">'/foo'</span>, <span class="hljs-literal">true</span>);
+xhr.setRequestHeader(<span class="hljs-string">'Content-Type'</span>, <span class="hljs-string">'application/json'</span>);
+xhr.responseType = <span class="hljs-string">'json'</span>;
+xhr.onload = fn;
+xhr.send(<span class="hljs-built_in">JSON</span>.stringify({ a: <span class="hljs-number">1</span> }));
+
+<span class="hljs-comment">// Near future</span>
+fetch(<span class="hljs-string">'/foo'</span>, {
+  method: <span class="hljs-string">'POST'</span>,
+  headers: { <span class="hljs-string">'Content-Type'</span>: <span class="hljs-string">'application/json'</span> },
+  body: <span class="hljs-built_in">JSON</span>.stringify({ a: <span class="hljs-number">1</span> })
+})
+.then(fn);</code></pre>
 </section>
   </div>
   <div class="slide hidden" id="slide-24">
-    <section class="slide-content"><h3 id="-">オフライン検知</h3>
+    <section class="slide-content"><h3 id="-">イベント発火</h3>
+<pre><code class="lang-javascript"><span class="hljs-comment">// jQuery</span>
+<span class="hljs-keyword">var</span> $btn = $(<span class="hljs-string">'#button'</span>);
+$btn.trigger(<span class="hljs-string">'click'</span>);
+
+<span class="hljs-comment">// Vanilla</span>
+<span class="hljs-keyword">var</span> $btn = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'button'</span>);
+$btn.dispatchEvent(<span class="hljs-keyword">new</span> Event(<span class="hljs-string">'click'</span>));</code></pre>
+<p>昔は<code>createEvent()</code>とか<code>initEvent()</code>とか面倒やったけど、今は昔。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-25">
-    <section class="slide-content"><h3 id="eventemitter">EventEmitter</h3>
+    <section class="slide-content"><h3 id="-">オフライン検知</h3>
+<pre><code class="lang-javascript"><span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">'online'</span>,  handleNWChange, <span class="hljs-literal">false</span>);
+<span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">'offline'</span>, handleNWChange, <span class="hljs-literal">false</span>);
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleNWChange</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-comment">// navigator.onLine</span>
+}</code></pre>
+<p>他にもバッテリー状況とか取れる。</p>
+<pre><code class="lang-javascript"><span class="hljs-comment">// Chromeならもう使える</span>
+navigator.getBattery().then((battery) =&gt; {
+  <span class="hljs-comment">// battery</span>
+})</code></pre>
+<p>そのうち回線種別とか照度まで取れるようになるらしい！</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-26">
-    <section class="slide-content"><h3 id="smoothscroll">SmoothScroll</h3>
+    <section class="slide-content"><h3 id="eventemitter">EventEmitter</h3>
+<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> EE = <span class="hljs-built_in">require</span>(<span class="hljs-string">'events'</span>).EventEmitter;
+<span class="hljs-keyword">var</span> ev = <span class="hljs-keyword">new</span> EE();
+
+ev.on(<span class="hljs-string">'foo'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{ <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'foo'</span>); });
+ev.emit(<span class="hljs-string">'foo'</span>); <span class="hljs-comment">// "foo"</span></code></pre>
+<p>いつもだいたい<code>on()</code>と<code>emit()</code>くらいしか使ってないそこのあなた！</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-27">
-    <section class="slide-content"><h3 id="formvalidation">FormValidation</h3>
+    <section class="slide-content"><h3 id="eventemitter">EventEmitter</h3>
+<pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">EE</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">this</span>._events = {};
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
+}
+
+EE.prototype = {
+  <span class="hljs-keyword">constructor</span>: EE,
+  emit: function(ev) {
+    <span class="hljs-keyword">var</span> args = [].slice.call(<span class="hljs-built_in">arguments</span>, <span class="hljs-number">1</span>),
+        handler = <span class="hljs-keyword">this</span>._events[ev] || [];
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>, l = handler.length; i &lt; l; i++) {
+      handler[i].apply(<span class="hljs-keyword">this</span>, args);
+    }
+  },
+  on: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">ev, handler</span>) </span>{
+    <span class="hljs-keyword">var</span> events = <span class="hljs-keyword">this</span>._events;
+    (events[ev] || (events[ev] = [])).push(handler);
+  }
+}
+
+<span class="hljs-keyword">return</span> EE;</code></pre>
+<p>たった20行です。</p>
 </section>
   </div>
-  <div class="slide hidden  " id="slide-28">
-    <section class="slide-content"><h1 id="-">おわりに</h1>
+  <div class="slide hidden" id="slide-28">
+    <section class="slide-content"><h3 id="eventemitter">EventEmitter</h3>
+<pre><code class="lang-javascript"><span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">'message'</span>, handleMsg, <span class="hljs-literal">false</span>);
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleMsg</span>(<span class="hljs-params">ev</span>) </span>{
+  <span class="hljs-keyword">if</span> (ev.origin !== location.origin) { <span class="hljs-keyword">return</span>; }
+  <span class="hljs-keyword">var</span> msg = ev.data;
+
+  <span class="hljs-keyword">var</span> type = msg.type; <span class="hljs-comment">// "foo"</span>
+  <span class="hljs-keyword">var</span> data = msg.data; <span class="hljs-comment">// {}</span>
+}
+
+<span class="hljs-built_in">window</span>.postMessage({ type: <span class="hljs-string">'foo'</span>, data: {} }, location.origin);</code></pre>
+<p>だいたいコレで事足りると思いませんか。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-29">
-    <section class="slide-content"><h3 id="-">まとめ</h3>
-<ul>
-<li>aa</li>
-</ul>
+    <section class="slide-content"><h3 id="formvalidation">FormValidation</h3>
+<form id="myForm">
+  <input name="name" type="text" required>
+  <input name="email" type="email" required>
+  <button type="submit">Send</button>
+</form>
+
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"myForm"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"name"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">required</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"email"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"email"</span> <span class="hljs-attr">required</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"submit"</span>&gt;</span>Send<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span></code></pre>
+<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> $form = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'myForm'</span>);
+
+<span class="hljs-comment">// form全体</span>
+$form.checkValidity();
+
+<span class="hljs-comment">// email</span>
+$form.email.checkValidity();</code></pre>
+<p>正規表現とか書かんでも良い！<br>
+(おすすめせんけど)厳密にチェックしたいならがんばろ</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-30">
-    <section class="slide-content"><h3 id="-pixelgrid-">宣伝: そんなPixelGridといえば</h3>
-<p><img src="./img/cg.png" alt="CodeGrid"></p>
-<h2 id="https-app-codegrid-net-"><a href="https://app.codegrid.net/">https://app.codegrid.net/</a></h2>
-<h2 id="-angular-react-">＼Angular記事もReact記事もあるよ！／</h2>
+  <div class="slide hidden  " id="slide-30">
+    <section class="slide-content"><h3 id="-">その他</h3>
+<pre><code class="lang-javascript">requestAnimationFrame</code></pre>
 </section>
   </div>
   <div class="slide hidden" id="slide-31">
+    <section class="slide-content"><h1 id="-">おわりに</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-32">
+    <section class="slide-content"><h3 id="-">まとめ</h3>
+<ul>
+<li>ライブラリ無しでもできることは多いことを知ろう</li>
+<li>基礎を大事にした上で、先人の知恵はありがたく使おう</li>
+</ul>
+<p>あらためて、Angularの偉大さを感じてください(˘ω˘ )</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-33">
+    <section class="slide-content"><h3 id="-pixelgrid-">宣伝: そんなPixelGridといえば</h3>
+<p><img src="./img/cg.png" alt="CodeGrid"></p>
+<h2 id="https-app-codegrid-net-"><a href="https://app.codegrid.net/">https://app.codegrid.net/</a></h2>
+<h2 id="-vanilla-angular-react-">＼Vanillaはもちろん、Angular記事もReact記事も！／</h2>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-34">
     <section class="slide-content"><h3 id="links">Links</h3>
 <p>このスライド<br/>
 <a href="http://leader22.github.io/slides/ng_kyoto-4/">http://leader22.github.io/slides/ng_kyoto-4/</a></p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-32">
+  <div class="slide hidden" id="slide-35">
     <section class="slide-content"><h1 id="finish-">Finish!</h1>
 <script>
 var timer = document.createElement('div');
@@ -651,6 +826,10 @@ pre {
 
 ul {
   padding: 10px 0 10px 60px;
+}
+
+.slide-content {
+  overflow: scroll;
 }
 
 .slide-content img {

@@ -1,8 +1,8 @@
-title: "今からはじめるVanilla JS"
+title: "知ってて得するVanilla JS"
 controls: false
 --
 
-# 今からはじめる<br>Vanilla JS
+# 知ってて得する<br><s>Angular2</s><br>Vanilla JS
 
 ## &nbsp;
 ## 2016/04/30 ng-kyoto Angular Meetup #4
@@ -12,9 +12,10 @@ controls: false
 ### はじめまして
 
 - Yuji Sugiura / [@leader22](https://twitter.com/leader22)
-- PixelGrid Inc.
-- フロントエンド・エンジニア
+- フロントエンド・エンジニア at PixelGrid Inc.
 - 京都生まれ -> 大阪育ち -> 神奈川(ほぼ東京)在住
+- Angular歴3ヶ月
+- 最近はReactばっか
 
 ![leader22](./img/doseisan.jpg)
 
@@ -50,7 +51,7 @@ controls: false
 
 ### 例1: リリース前のパフォーマンス対応
 
-- どうも重いページがあるらしい
+- なんか重いページがあるらしい
 - この謎のdirectiveが原因っぽいのはわかったが
 - ところがそれは外部のライブラリで
 - コード読んでもさっぱりわからん！
@@ -64,7 +65,7 @@ controls: false
 - ちょっとしたタブとかアコーディオンとか
 - でも自前で実装するのは大変な気がするな・・
 - よーし、UI Bootstrap使っちゃうぞー
-- 中身はちゃんと見てないけど動いた！おｋ！
+- 中身ちゃんと見てへんけど動いたしおｋ！
 
 そこには・・<br>タブだけで良かったのに、気付けば大量の使われてない機能と依存モジュールたちの姿が・・！＼(^o^)／
 
@@ -74,10 +75,10 @@ controls: false
 
 - [jzaefferer/jquery-validation](https://github.com/jzaefferer/jquery-validation)みたいなことしたい
 - でもjQueryは入れたくない
-- けど、どう書けば良いかはわからない・・
-- 他のライブラリも見つからない
+- けど、どう書けば良いかはわからん・・
+- 他のライブラリも見つからん
 
-もうjQueryいれるしかない＼(^o^)／
+もうjQueryいれるしかないじゃない＼(^o^)／
 
 --
 
@@ -93,25 +94,26 @@ controls: false
 - 他人(ライブラリ)頼みでは、いざという時に困る
 - 1ヶのために使わない機能が10ヶあるとか無駄
 
-これはReact.jsでも何でも同じ、基礎が大事。
+これはReact.jsでも何でも同じ、基礎が大事。<br>
+むしろ基礎もできないのにAngularがどうとか(ry
 
 --
 
 ### Vanilla JS力が高まると
 
 - 依存が無いため最速・最軽量のコードが書ける
-- 得体のしれないライブラリを使わなくて済む
+  - 得体のしれないライブラリを使わなくて済む
 - ライブラリが抽象化してる内容を推測できる
+  - 不要なら不要と判断できる
   - 拡張やFolkも容易
   - バグ対応でも原因の予想がつきやすい
-- 案件の枠を越えてつぶしがきく人材に
 - Angular2の理解にもつながる！はず！
 
 --
 
 ### 今からはじめるVanilla JS
 
-モダンブラウザ最新版は、ほぼ違いを意識しないでおｋ
+最新のモダンブラウザは違いをほぼ意識しないでOK
 
 - Chrome / FireFox / Edge
 
@@ -120,18 +122,19 @@ controls: false
 - レガシーIEのサポート終了
 - iOSも9.x / Androidも5.x
 
-ブラウザ間の実装差異を埋めるPolyfillの出番も、着実に減少中。
+ブラウザ間の差を埋めるPolyfillの出番も、着実に減少中。
 
 --
 
 ### お断り
 
 - ライブラリを使うこと = 悪ではない
-- 要件や環境に応じて「選択」が必要
-- 正しく判断をするために、きちんと見極める力と
-- いざという時に戦える力を
+- 要件や環境に応じて「選択」がもちろん必要
+- その正しい「選択」をするために、
+  - きちんと見極める力と
+  - いざという時に戦える力を
 
-昨今のイケイケなWebアプリをVanilla JSでやるのは相当大変やし・・`_(:3」∠)_`
+昨今のイケイケなWebアプリをVanilla JSでやるのは流石にねぇ・・`_(:3」∠)_`
 
 --
 
@@ -143,7 +146,7 @@ controls: false
 
 ![PixelGrid](./img/pxg.png)
 
-## http://www.pxgrid.com
+## https://www.pxgrid.com
 
 --
 
@@ -156,57 +159,269 @@ controls: false
 - お問い合わせ・採用応募フォーム
   - フォームバリデーション
   - Ajaxでのフォーム送信
+- etc
 
-依存ライブラリなしなので容量わずか`3.8KB`！
+依存ライブラリなしなので容量わずか`4.1KB`(gzip)！<br>
+ちなみにjQuery@2.2は`34.6KB`
 
 --
 
-### そんなコードを紹介します
+### そんなコードのご紹介
 
-- [基本] 要素の取得
+- [基本] DOMの取得・操作
 - [基本] クラス名の操作
 - [基本] Ajax
 - [基本] イベント発火
 - [基本] オフライン検知
 - [発展] EventEmitter
 - [発展] FormValidation
-- [発展] SmoothScroll
 
 ぜんぶ数行 ~ 数十行で実装できます！
 
 --
 
-### 要素の取得
+### DOMの取得
+
+```javascript
+// jQuery
+$('#el');
+$('.els');
+
+// Vanilla
+document.getElementById('el');
+document.getElementsByClassName('.els');
+
+// Easy but..
+document.querySelector('#el');
+document.querySelectorAll('.els');
+```
+
+便利な`qS`と`qSA`ですが、一部レガシーな環境でパフォーマンスが落ちるので注意(体験談)
+
+--
+
+### DOMの操作
+
+```javascript
+// jQuery
+$('.els').each(function() {
+  this.text();
+});
+
+// Vanilla
+var $els = [].slice.call(document.getElementsByClassName('.els'));
+$els.forEach(function(el) {
+  el.textContent;
+});
+
+[].forEach.call(document.getElementsByClassName('.els'), function(el) {
+  el.textContent;
+});
+
+// ES 2015
+var $els = Array.from(document.getElementsByClassName('.els'));
+
+Array.from(document.getElementsByClassName('.els'), function(el) {
+  el.textContent;
+});
+```
 
 --
 
 ### クラス名の操作
 
+```javascript
+// jQuery
+var $el = $('#el');
+$el.addClass('is-selected');
+$el.removeClass('is-selected');
+$el.toggleClass('is-selected');
+$el.hasClass('is-selected');
+
+// Vanilla
+var $el = document.querySelector('#el');
+$el.classList.add('is-selected');
+$el.classList.remove('is-selected');
+$el.classList.toggle('is-selected');
+$el.classList.contains('is-selected');
+```
+
 --
 
 ### Ajax
+
+```javascript
+// jQuery
+$.ajax({
+  url: '/foo',
+  method: 'POST',
+  dataType: 'json',
+  data: { a: 1 }
+})
+.then(fn);
+
+// Vanilla
+var xhr = new XMLHttpRequest();
+xhr.open('POST', '/foo', true);
+xhr.setRequestHeader('Content-Type', 'application/json');
+xhr.responseType = 'json';
+xhr.onload = fn;
+xhr.send(JSON.stringify({ a: 1 }));
+
+// Near future
+fetch('/foo', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ a: 1 })
+})
+.then(fn);
+```
 
 --
 
 ### イベント発火
 
+```javascript
+// jQuery
+var $btn = $('#button');
+$btn.trigger('click');
+
+// Vanilla
+var $btn = document.getElementById('button');
+$btn.dispatchEvent(new Event('click'));
+```
+
+昔は`createEvent()`とか`initEvent()`とか面倒やったけど、今は昔。
+
 --
 
 ### オフライン検知
+
+```javascript
+window.addEventListener('online',  handleNWChange, false);
+window.addEventListener('offline', handleNWChange, false);
+
+function handleNWChange() {
+  // navigator.onLine
+}
+```
+
+他にもバッテリー状況とか取れる。
+
+```javascript
+// Chromeならもう使える
+navigator.getBattery().then((battery) => {
+  // battery
+})
+```
+
+そのうち回線種別とか照度まで取れるようになるらしい！
 
 --
 
 ### EventEmitter
 
+```javascript
+var EE = require('events').EventEmitter;
+var ev = new EE();
+
+ev.on('foo', function() { console.log('foo'); });
+ev.emit('foo'); // "foo"
+```
+
+いつもだいたい`on()`と`emit()`くらいしか使ってないそこのあなた！
+
 --
 
-### SmoothScroll
+### EventEmitter
+
+```javascript
+function EE() {
+  this._events = {};
+  return this;
+}
+
+EE.prototype = {
+  constructor: EE,
+  emit: function(ev) {
+    var args = [].slice.call(arguments, 1),
+        handler = this._events[ev] || [];
+    
+    for (var i = 0, l = handler.length; i < l; i++) {
+      handler[i].apply(this, args);
+    }
+  },
+  on: function(ev, handler) {
+    var events = this._events;
+    (events[ev] || (events[ev] = [])).push(handler);
+  }
+}
+
+return EE;
+```
+
+たった20行です。
+
+--
+
+### EventEmitter
+
+```javascript
+window.addEventListener('message', handleMsg, false);
+
+function handleMsg(ev) {
+  if (ev.origin !== location.origin) { return; }
+  var msg = ev.data;
+
+  var type = msg.type; // "foo"
+  var data = msg.data; // {}
+}
+
+window.postMessage({ type: 'foo', data: {} }, location.origin);
+```
+
+だいたいコレで事足りると思いませんか。
 
 --
 
 ### FormValidation
 
+<form id="myForm">
+  <input name="name" type="text" required>
+  <input name="email" type="email" required>
+  <button type="submit">Send</button>
+</form>
+
+```html
+<form id="myForm">
+  <input name="name" type="text" required>
+  <input name="email" type="email" required>
+  <button type="submit">Send</button>
+</form>
+```
+
+```javascript
+var $form = document.getElementById('myForm');
+
+// form全体
+$form.checkValidity();
+
+// email
+$form.email.checkValidity();
+```
+
+正規表現とか書かんでも良い！<br>
+(おすすめせんけど)厳密にチェックしたいならがんばろ
+
 -- 
+
+### その他
+
+```javascript
+requestAnimationFrame
+```
+
+--
 
 # おわりに
 
@@ -214,7 +429,10 @@ controls: false
 
 ### まとめ
 
-- aa
+- ライブラリ無しでもできることは多いことを知ろう
+- 基礎を大事にした上で、先人の知恵はありがたく使おう
+
+あらためて、Angularの偉大さを感じてください(˘ω˘ )
 
 --
 
@@ -223,7 +441,7 @@ controls: false
 ![CodeGrid](./img/cg.png)
 
 ## https://app.codegrid.net/
-## ＼Angular記事もReact記事もあるよ！／
+## ＼Vanillaはもちろん、Angular記事もReact記事も！／
 
 --
 
@@ -285,6 +503,10 @@ pre {
 
 ul {
   padding: 10px 0 10px 60px;
+}
+
+.slide-content {
+  overflow: scroll;
 }
 
 .slide-content img {
