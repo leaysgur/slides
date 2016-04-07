@@ -107,6 +107,7 @@ controls: false
   - 不要なら不要と判断できる
   - 拡張やFolkも容易
   - バグ対応でも原因の予想がつきやすい
+  - 作者のきもちに・・
 - Angular2の理解にもつながる！はず！
 
 --
@@ -279,6 +280,20 @@ fetch('/foo', {
 
 --
 
+### CSS
+
+```javascript
+// jQuery
+$(el).css('display');
+
+// Vanilla
+getComputedStyle(el)['display'];
+```
+
+そもそも使う機会あんまりないけど。
+
+--
+
 ### イベント発火
 
 ```javascript
@@ -380,7 +395,7 @@ function handleMsg(ev) {
 window.postMessage({ type: 'foo', data: {} }, location.origin);
 ```
 
-だいたいコレで事足りると思いませんか。
+だいたいコレで事足りると思いません？
 
 --
 
