@@ -1,4 +1,4 @@
-title: "知ってて得するVanilla JS"
+title: 知ってて得するVanilla JS
 controls: false
 --
 
@@ -14,8 +14,7 @@ controls: false
 - Yuji Sugiura / [@leader22](https://twitter.com/leader22)
 - フロントエンド・エンジニア at PixelGrid Inc.
 - 京都生まれ -> 大阪育ち -> 神奈川(ほぼ東京)在住
-- Angular歴3ヶ月
-- 最近はReactばっか
+- Angular歴3ヶ月(最近はReactばっかり)
 
 ![leader22](./img/doseisan.jpg)
 
@@ -40,8 +39,10 @@ controls: false
 
 ### Vanilla JSとは
 - バニラ ≒ プレーン = 素のJavaScriptのこと
-- HTML5 / ブラウザネイティブのAPIのみを使う
-- FWやライブラリを使わずに目的を達成する
+- HTML5 / ブラウザネイティブのAPIを使い倒す
+- FWやライブラリを使わず自分で全部書く
+
+要するに、JavaScriptの基礎です。
 
 --
 
@@ -75,8 +76,8 @@ controls: false
 
 - [jzaefferer/jquery-validation](https://github.com/jzaefferer/jquery-validation)みたいなことしたい
 - でもjQueryは入れたくない
-- けど、どう書けば良いかはわからん・・
-- 他のライブラリも見つからん
+- けど、どう書けば良いかよーわからん・・
+- 他のライブラリも見つからん！
 
 もうjQueryいれるしかないじゃない＼(^o^)／
 
@@ -88,26 +89,26 @@ controls: false
 
 ### この例の何がダメか
 
-フルスタックなAngular.jsも、中身はただのJavaScript！
-
 - 生きてれば生jsでのチューニングが必要になる時が
+  - ループ x メソッドコールとか
+- 1機能のために使わない機能が10あるとか無駄
 - 他人(ライブラリ)頼みでは、いざという時に困る
-- 1ヶのために使わない機能が10ヶあるとか無駄
 
-これはReact.jsでも何でも同じ、基礎が大事。<br>
-むしろ基礎もできないのにAngularがどうとか(ry
+
+フルスタックなAngularも今話題のReactも、<br>中身はただのJavaScript！<br>
+基礎もできないのにAngularがどうとか(ry
 
 --
 
 ### Vanilla JS力が高まると
 
-- 依存が無いため最速・最軽量のコードが書ける
+- 依存なしで最速・最軽量・無駄のないコードが書ける
   - 得体のしれないライブラリを使わなくて済む
+  - メンテも楽
 - ライブラリが抽象化してる内容を推測できる
   - 不要なら不要と判断できる
   - 拡張やFolkも容易
   - バグ対応でも原因の予想がつきやすい
-  - 作者のきもちに・・
 - Angular2の理解にもつながる！はず！
 
 --
@@ -127,15 +128,16 @@ controls: false
 
 --
 
-### お断り
+### ⚠お断り
 
 - ライブラリを使うこと = 悪ではない
 - 要件や環境に応じて「選択」がもちろん必要
 - その正しい「選択」をするために、
   - きちんと見極める力と
   - いざという時に戦える力を
+- やってることを理解した上で楽を
 
-昨今のイケイケなWebアプリをVanilla JSでやるのは流石にねぇ・・`_(:3」∠)_`
+昨今のイケイケなWebアプリをVanilla JSでやるのつらい`_(:3」∠)_`
 
 --
 
@@ -160,24 +162,14 @@ controls: false
 - お問い合わせ・採用応募フォーム
   - フォームバリデーション
   - Ajaxでのフォーム送信
-- etc
+- etc..
 
 依存ライブラリなしなので容量わずか`4.1KB`(gzip)！<br>
 ちなみにjQuery@2.2は`34.6KB`
 
 --
 
-### そんなコードのご紹介
-
-- [基本] DOMの取得・操作
-- [基本] クラス名の操作
-- [基本] Ajax
-- [基本] イベント発火
-- [基本] オフライン検知
-- [発展] EventEmitter
-- [発展] FormValidation
-
-ぜんぶ数行 ~ 数十行で実装できます！
+# Vanillaなコードの紹介
 
 --
 
@@ -206,26 +198,62 @@ document.querySelectorAll('.els');
 ```javascript
 // jQuery
 $('.els').each(function() {
-  this.text();
+  this.text('Angular!');
 });
 
 // Vanilla
 var $els = [].slice.call(document.getElementsByClassName('.els'));
 $els.forEach(function(el) {
-  el.textContent;
+  el.textContent = 'Angular!';
 });
 
 [].forEach.call(document.getElementsByClassName('.els'), function(el) {
-  el.textContent;
+  el.textContent = 'Angular!';
 });
 
 // ES 2015
 var $els = Array.from(document.getElementsByClassName('.els'));
 
 Array.from(document.getElementsByClassName('.els'), function(el) {
-  el.textContent;
+  el.textContent = 'Angular!';
 });
 ```
+
+--
+
+### 配列
+
+```javascript
+var array = ['A', 'n', 'g', 'u', 'l', 'a', 'r', '2'];
+
+// _
+_.each(array, fn);
+_.map, _.filter, _.some, _.every;
+_.contains(array, 'A');
+
+// Vanilla
+array.forEach(function(item, idx, arr) {});
+array.map, array.filter, array.some, array.every;
+
+// ES Next
+array.includes('A');
+```
+
+他にもいろいろある + ちょっと組み合わせればだいたい書ける。
+
+-- 
+
+### オブジェクト操作
+
+```javascript
+// _
+_.extend({ name: 'leader22' }, { age: 29 });
+
+// ES 2015
+Object.assign({ name: 'leader22' }, { age: 29 });
+```
+
+`Object.freeze()`, `seal()`, `preventExtension()`とかも便利。
 
 --
 
@@ -246,6 +274,8 @@ $el.classList.remove('is-selected');
 $el.classList.toggle('is-selected');
 $el.classList.contains('is-selected');
 ```
+
+脱jQueryの一大要因なのでは？
 
 --
 
@@ -290,7 +320,7 @@ $(el).css('display');
 getComputedStyle(el)['display'];
 ```
 
-そもそも使う機会あんまりないけど。
+そもそも使う機会あんまりないけど・・・。
 
 --
 
@@ -306,31 +336,7 @@ var $btn = document.getElementById('button');
 $btn.dispatchEvent(new Event('click'));
 ```
 
-昔は`createEvent()`とか`initEvent()`とか面倒やったけど、今は昔。
-
---
-
-### オフライン検知
-
-```javascript
-window.addEventListener('online',  handleNWChange, false);
-window.addEventListener('offline', handleNWChange, false);
-
-function handleNWChange() {
-  // navigator.onLine
-}
-```
-
-他にもバッテリー状況とか取れる。
-
-```javascript
-// Chromeならもう使える
-navigator.getBattery().then((battery) => {
-  // battery
-})
-```
-
-そのうち回線種別とか照度まで取れるようになるらしい！
+昔は`createEvent()`とか`initEvent()`とか面倒やったけど、今は昔だ！
 
 --
 
@@ -426,15 +432,31 @@ $form.email.checkValidity();
 ```
 
 正規表現とか書かんでも良い！<br>
-(おすすめせんけど)厳密にチェックしたいならがんばろ
+(おすすめせんけど)厳密にチェックしたいならがんばって・・
 
--- 
+--
 
-### その他
+### オフライン検知
 
 ```javascript
-requestAnimationFrame
+window.addEventListener('online',  handleNWChange, false);
+window.addEventListener('offline', handleNWChange, false);
+
+function handleNWChange() {
+  // navigator.onLine
+}
 ```
+
+他にもバッテリー状況とか取れる。
+
+```javascript
+// Chromeならもう使える
+navigator.getBattery().then((battery) => {
+  // battery
+})
+```
+
+そのうち回線種別とか照度まで取れるようになるらしい！
 
 --
 
@@ -445,7 +467,8 @@ requestAnimationFrame
 ### まとめ
 
 - ライブラリ無しでもできることは多いことを知ろう
-- 基礎を大事にした上で、先人の知恵はありがたく使おう
+- 基礎を大事にした上で、他人の知恵をありがたく
+- 脱「あの○○よーわからんけどすごい！」
 
 あらためて、Angularの偉大さを感じてください(˘ω˘ )
 
@@ -514,6 +537,7 @@ h3 {
 pre {
   border: 1px solid #792362;
   padding: 2%;
+  background-color: #fff;
 }
 
 ul {
