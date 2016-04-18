@@ -416,7 +416,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <li>HTML5 / ブラウザネイティブのAPIを使い倒す</li>
 <li>FWやライブラリを使わず自分で書く</li>
 </ul>
-<p>要するに、JavaScriptの基礎力です。</p>
+<p>JavaScriptの基礎力と言っても過言ではない！</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-8">
@@ -505,7 +505,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
     <section class="slide-content"><h3 id="-">春やからね</h3>
 <ul>
 <li>まーた新しい○○.jsが・・<ul>
-<li>それは本当に新しいのか</li>
+<li>それは本当に新しいの？見覚えのある車輪では？</li>
 </ul>
 </li>
 <li>○○は死んだ / ○○はオワコン<ul>
@@ -622,7 +622,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </section>
   </div>
   <div class="slide hidden" id="slide-26">
-    <section class="slide-content"><h1 id="vanilla-">Vanillaなコードの紹介</h1>
+    <section class="slide-content"><h1 id="hello-vanilla-js-">Hello Vanilla JS!</h1>
 </section>
   </div>
   <div class="slide hidden" id="slide-27">
@@ -762,6 +762,19 @@ $btn.dispatchEvent(<span class="hljs-keyword">new</span> Event(<span class="hljs
 </section>
   </div>
   <div class="slide hidden" id="slide-35">
+    <section class="slide-content"><h3 id="-">イベントリスナー</h3>
+<pre><code class="lang-javascript"><span class="hljs-comment">// jQuery</span>
+$(el).on(<span class="hljs-string">'click'</span>, handler);
+$(el).once(<span class="hljs-string">'click'</span>, handler);
+
+<span class="hljs-comment">// Vanilla</span>
+el.addEventListener(<span class="hljs-string">'click'</span>, handler, <span class="hljs-literal">false</span>);
+<span class="hljs-comment">// Near future</span>
+el.addEventListener(<span class="hljs-string">'click'</span>, handler, { once: <span class="hljs-literal">true</span> });</code></pre>
+<p>知ってた？</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-36">
     <section class="slide-content"><h3 id="eventemitter">EventEmitter</h3>
 <pre><code class="lang-javascript"><span class="hljs-keyword">var</span> EE = <span class="hljs-built_in">require</span>(<span class="hljs-string">'events'</span>).EventEmitter;
 <span class="hljs-keyword">var</span> ev = <span class="hljs-keyword">new</span> EE();
@@ -771,7 +784,7 @@ ev.emit(<span class="hljs-string">'foo'</span>); <span class="hljs-comment">// "
 <p>いつもだいたい<code>on()</code>と<code>emit()</code>くらいしか使ってないそこのあなた！</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-36">
+  <div class="slide hidden" id="slide-37">
     <section class="slide-content"><h3 id="eventemitter">EventEmitter</h3>
 <pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">EE</span>(<span class="hljs-params"></span>) </span>{
   <span class="hljs-keyword">this</span>._events = {};
@@ -798,7 +811,7 @@ EE.prototype = {
 <p>たった20行です。</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-37">
+  <div class="slide hidden" id="slide-38">
     <section class="slide-content"><h3 id="eventemitter">EventEmitter</h3>
 <pre><code class="lang-javascript"><span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">'message'</span>, handleMsg, <span class="hljs-literal">false</span>);
 
@@ -811,10 +824,10 @@ EE.prototype = {
 }
 
 <span class="hljs-built_in">window</span>.postMessage({ type: <span class="hljs-string">'foo'</span>, data: {} }, location.origin);</code></pre>
-<p>だいたいコレで事足りると思いません？</p>
+<p>こういうのもあるよ。</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-38">
+  <div class="slide hidden" id="slide-39">
     <section class="slide-content"><h3 id="formvalidation">FormValidation</h3>
 <form id="myForm">
   <input name="name" type="text" required>
@@ -838,7 +851,7 @@ $form.email.checkValidity();</code></pre>
 (おすすめせんけど)厳密にチェックしたい人はがんばって・・</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-39">
+  <div class="slide hidden" id="slide-40">
     <section class="slide-content"><h3 id="-">オフライン検知</h3>
 <pre><code class="lang-javascript"><span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">'online'</span>,  handleNWChange, <span class="hljs-literal">false</span>);
 <span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">'offline'</span>, handleNWChange, <span class="hljs-literal">false</span>);
@@ -854,22 +867,24 @@ navigator.getBattery().then((battery) =&gt; {
 <p>そのうち回線種別とか照度まで取れるようになるらしい！</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-40">
+  <div class="slide hidden" id="slide-41">
     <section class="slide-content"><h3 id="more-more-and-more-">More, more and more!</h3>
 <ul>
 <li><a href="http://kangax.github.io/compat-table/es6/">http://kangax.github.io/compat-table/es6/</a></li>
 <li><a href="http://kangax.github.io/compat-table/esnext/">http://kangax.github.io/compat-table/esnext/</a></li>
 <li><a href="https://github.com/tc39/ecma262">https://github.com/tc39/ecma262</a></li>
+<li><a href="https://dom.spec.whatwg.org/">https://dom.spec.whatwg.org/</a></li>
+<li>etc..</li>
 </ul>
 <p>自分で追うのが辛いなら、追ってそうな人を追うのも○<br>
 ただいろんな人がいるのでご注意ください。</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-41">
+  <div class="slide hidden" id="slide-42">
     <section class="slide-content"><h1 id="-">おわりに</h1>
 </section>
   </div>
-  <div class="slide hidden" id="slide-42">
+  <div class="slide hidden" id="slide-43">
     <section class="slide-content"><h3 id="-">まとめ</h3>
 <ul>
 <li>ライブラリ無しでもできることが多いことを知ろう</li>
@@ -879,20 +894,20 @@ navigator.getBattery().then((battery) =&gt; {
 <p>では引き続き、Angularの偉大さを感じてください(˘ω˘ )</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-43">
+  <div class="slide hidden" id="slide-44">
     <section class="slide-content"><h3 id="-pixelgrid-">宣伝: そんなPixelGridといえば</h3>
 <p><img src="./img/cg.png" alt="CodeGrid"></p>
 <h2 id="https-app-codegrid-net-"><a href="https://app.codegrid.net/">https://app.codegrid.net/</a></h2>
 <h2 id="-vanilla-angular-react-">＼Vanillaはもちろん、Angular記事もReact記事も！／</h2>
 </section>
   </div>
-  <div class="slide hidden" id="slide-44">
+  <div class="slide hidden" id="slide-45">
     <section class="slide-content"><h3 id="links">Links</h3>
 <p>このスライド<br>
 <a href="http://leader22.github.io/slides/ng_kyoto-4/">http://leader22.github.io/slides/ng_kyoto-4/</a></p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-45">
+  <div class="slide hidden" id="slide-46">
     <section class="slide-content"><h1 id="finish-">Finish!</h1>
 <script>
 var timer = document.createElement('div');

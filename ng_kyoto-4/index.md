@@ -51,7 +51,7 @@ controls: false
 - HTML5 / ブラウザネイティブのAPIを使い倒す
 - FWやライブラリを使わず自分で書く
 
-要するに、JavaScriptの基礎力です。
+JavaScriptの基礎力と言っても過言ではない！
 
 --
 
@@ -134,7 +134,7 @@ controls: false
 ### 春やからね
 
 - まーた新しい○○.jsが・・
-  - それは本当に新しいのか
+  - それは本当に新しいの？見覚えのある車輪では？
 - ○○は死んだ / ○○はオワコン
   - ユースケースが違うだけでは
   - 勝手に殺さないで
@@ -238,7 +238,7 @@ controls: false
 
 --
 
-# Vanillaなコードの紹介
+# Hello Vanilla JS!
 
 --
 
@@ -407,6 +407,22 @@ $btn.dispatchEvent(new Event('click'));
 
 --
 
+### イベントリスナー
+```javascript
+// jQuery
+$(el).on('click', handler);
+$(el).once('click', handler);
+
+// Vanilla
+el.addEventListener('click', handler, false);
+// Near future
+el.addEventListener('click', handler, { once: true });
+```
+
+知ってた？
+
+--
+
 ### EventEmitter
 
 ```javascript
@@ -468,7 +484,7 @@ function handleMsg(ev) {
 window.postMessage({ type: 'foo', data: {} }, location.origin);
 ```
 
-だいたいコレで事足りると思いません？
+こういうのもあるよ。
 
 --
 
@@ -532,6 +548,8 @@ navigator.getBattery().then((battery) => {
 - http://kangax.github.io/compat-table/es6/
 - http://kangax.github.io/compat-table/esnext/
 - https://github.com/tc39/ecma262
+- https://dom.spec.whatwg.org/
+- etc..
 
 自分で追うのが辛いなら、追ってそうな人を追うのも○<br>
 ただいろんな人がいるのでご注意ください。
