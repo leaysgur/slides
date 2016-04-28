@@ -37,7 +37,7 @@ controls: false
 
 - まーた新しい○○.jsか！
   - 違います
-- Angular.jsとかReact.jsの仲間ではない
+  - Angular.jsとかReact.jsの仲間ではない
   - jQueryみたいなライブラリでもない
 - Vanillaはバニラアイスのバニラ
 
@@ -49,9 +49,9 @@ controls: false
 バニラ ≒ プレーン = 素のJavaScriptのこと
 
 - HTML5 / ブラウザネイティブのAPIを使い倒す
-- FWやライブラリを使わず自分で書く
+- FWやライブラリを使わず主に自分で書く
 
-JavaScriptの基礎力と言っても過言ではない！
+JavaScriptの基礎力と言っても過言ではない？
 
 --
 
@@ -99,31 +99,27 @@ JavaScriptの基礎力と言っても過言ではない！
 ### この例の何がダメか
 
 - 生きてれば生jsでのチューニングが必要になる時も
-- そのライブラリは本当に適切か
-  - 1機能のために使わない機能を10入れますか？
+- そのライブラリ選択は本当に適切か
+  - 1機能のために使わない機能を10入れるのか
 - 他人(ライブラリ)頼みでは、いざという時に困る
 
-フルスタックなAngularも今話題のReactも、中身はただのJavaScriptです。<br>
-<s>基礎もできてないのにAngularがどうとか(ry</s>
+ライブラリを使う = ライブラリに依存するということ
 
 --
 
-### Vanilla JS力もとい基礎力が高まると
+### 依存は少なければ少ないほどいい
 
-- 依存なしの最速・最軽・無駄のないコードが書ける
-  - 得体のしれないライブラリを使わなくて済む
-- ライブラリが抽象化してる内容を推測できる
-  - 拡張やFolkも容易
-  - バグの原因の予想がつきやすい
-  - 必要・不要の選択ができる <- コレ重要
+- 依存コードは追うのもそれなりに大変
+- 後から見た時もすぐにわかるか
+- 依存ライブラリの更新コスト
 
-書ける！読める！もう何も恐くない！
+目先の利益を追う価値があるかを慎重に。
 
 --
 
 ### 最近よく見る
 
-- まーた新しい○○.jsが・・
+- これからは○○.jsの時代
 - ○○は死んだ / ○○はオワコン
 - 最近のフロントエンドは変化が云々・・
 
@@ -131,17 +127,17 @@ JavaScriptの基礎力と言っても過言ではない！
 
 --
 
-### 春やからね
+### 春ですから
 
-- まーた新しい○○.jsが・・
-  - それは本当に新しいの？見覚えのある車輪では？
+- これからは○○.jsの時代
+  - 本当に新しいの？ただの車輪の再発明では？
 - ○○は死んだ / ○○はオワコン
   - ユースケースが違うだけでは
-  - 勝手に殺さないで
+  - 勝手に殺すのはどうなの
 - 最近のフロントエンドは変化が云々・・
-  - 本質も変化してますか？
+  - そもそも不変なわけがない
 
-キャッチーな煽り記事にのせられて、一緒に揺らがないようにしたいですね。
+キャッチーな煽り記事は平常心で読みましょう。
 
 --
 
@@ -149,13 +145,12 @@ JavaScriptの基礎力と言っても過言ではない！
 
 - 目的が複雑化しているので、当然手段も複雑化する
   - 代価が必要なのは当たり前
-  - 目的に応じて道具が変わるだけ
+  - ただ目的に応じて道具が変わるだけ
 - 時の流れには逆らえない
   - 善し悪し関係なく新しい選択肢が増える
 
-これを踏まえた上で、<br>
-自分に必要かどうかを見極めるのが大事。<br>
-全てを追う必要はないです。(知ってて損はないけど)
+本当に必要かどうかを見極めるのが大事。<br>
+全てを追う必要はない。(知ってて損もないけど)
 
 --
 
@@ -166,7 +161,7 @@ JavaScriptの基礎力と言っても過言ではない！
 - 正しい「選択」のために、見極める目と力を
 - やってることを理解した上で楽をする
 
-昨今のイケイケなWebアプリをVanillaでやるのがつらいのは事実・・・`_(:3」∠)_`
+昨今のイケイケなWebアプリをVanillaでやるのは非現実的・・・`_(:3」∠)_`
 
 --
 
@@ -174,15 +169,30 @@ JavaScriptの基礎力と言っても過言ではない！
 
 --
 
+### Vanilla JS力もとい基礎力が高まると
+
+- 依存なしの最速・最軽・無駄のないコードが書ける
+  - 得体のしれないライブラリを使わなくて済む
+  - それが全てなのでコードもシンプルに
+- ライブラリが抽象化してる内容を推測できる
+  - 拡張やForkも容易
+  - バグの原因の予想もつきやすい
+- 必要・不要の選択ができる(重要)
+
+書ける！読める！もう何も恐くない！
+
+--
+
 ### 安心してください
 
 - Vanilla JSは死なない(可能性が高い)
-  - たとえjsが死んでもスタンスは次に生かせる
-- 何を使うにしても無駄にはならない
+  - たとえjsが死んでもスタンスは次に生きる
+- ライブラリを使うにしても無駄にはならない
 
-ね、安心でしょう？
+れっつVanilla！
 
 --
+
 
 ### はじめようVanilla JS
 
@@ -230,9 +240,9 @@ JavaScriptの基礎力と言っても過言ではない！
 ### なぜVanillaでやったのか
 
 - 単純なUIしかない
-  - jQueryもUnderscoreも全機能は不要と判断
-- 最新ブラウザだけがターゲット
-- どうせメンテするの弊社
+  - jQueryもUnderscoreも不要と判断
+- モダンブラウザだけがターゲット
+- どうせメンテするの弊社の人
 
 株式会社ピクセルグリッドは、JavaScriptの会社です！
 
@@ -308,7 +318,7 @@ array.map, array.filter, array.reduce, array.some, array.every;
 array.includes('A');
 ```
 
-ちょっと組み合わせれば、だいたいのことは書ける。
+ちょっと組み合わせれば、Underscore/Lodashでやってるだいたいのことは書ける。
 
 -- 
 
@@ -317,6 +327,9 @@ array.includes('A');
 ```javascript
 // _
 _.extend({ name: 'leader22' }, { age: 29 });
+
+// jQuery
+$.extend({ name: 'leader22' }, { age: 29 });
 
 // ES 2015
 Object.assign({ name: 'leader22' }, { age: 29 });
@@ -343,6 +356,8 @@ $el.classList.remove('is-selected');
 $el.classList.toggle('is-selected');
 $el.classList.contains('is-selected');
 ```
+
+複数のクラスを渡したりすると、ちょっと挙動が違ったはず。
 
 --
 
@@ -375,6 +390,8 @@ fetch('/foo', {
 .then(fn);
 ```
 
+See https://fetch.spec.whatwg.org/
+
 --
 
 ### CSS
@@ -403,7 +420,7 @@ var $btn = document.getElementById('button');
 $btn.dispatchEvent(new Event('click'));
 ```
 
-昔は`createEvent()`とか`initEvent()`とか面倒やったけど、今は昔だ！
+昔は`createEvent()`とか`initEvent()`とか面倒やったけど、今は昔！
 
 --
 
@@ -419,7 +436,7 @@ el.addEventListener('click', handler, false);
 el.addEventListener('click', handler, { once: true });
 ```
 
-知ってた？
+See https://dom.spec.whatwg.org/#interface-eventtarget
 
 --
 
@@ -548,29 +565,29 @@ navigator.getBattery().then((battery) => {
 - http://kangax.github.io/compat-table/es6/
 - http://kangax.github.io/compat-table/esnext/
 - https://github.com/tc39/ecma262
-- https://dom.spec.whatwg.org/
+- https://whatwg.org/specs/
 - etc..
 
 自分で追うのが辛いなら、追ってそうな人を追うのも○<br>
-ただいろんな人がいるのでご注意ください。
+ただいろんな人がいるのでご注意・・・。
 
 --
 
-# おわりに
+# まとめ
 
 --
 
 ### まとめ
 
 - ライブラリ無しでもできることが多いことを知ろう
-- 何をやってるか把握した上でライブラリは使おう
+- 中身を把握した上でライブラリに依存しよう
 - 人任せにせず、自分で「選択」できるようになろう
 
-では引き続き、Angularの偉大さを感じてください(˘ω˘ )
+以上を踏まえた上で、Angularの偉大さを感じるデーにしましょう(˘ω˘ )
 
 --
 
-### 宣伝: そんなPixelGridといえば
+### 宣伝: そうそうPixelGridといえば
 
 ![CodeGrid](./img/cg.png)
 
@@ -586,7 +603,7 @@ http://leader22.github.io/slides/ng_kyoto-4/
 
 --
 
-# Finish!
+# Thank you!
 
 <script>
 var timer = document.createElement('div');
@@ -647,6 +664,6 @@ ul {
 .slide-content img {
   display: block;
   margin: 0 auto;
-  max-width: 80%;
+  max-width: 75%;
 }
 </style>
