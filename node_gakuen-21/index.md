@@ -39,7 +39,7 @@ controls: false
 ### 3の人へ
 
 - なんか間違ってたら教えてください！
-- スライドの後半に聞きたいことがあります！！
+- 聞きたいことがあります！！
 
 後の懇親会では是非ともよろしくお願いします！！！
 
@@ -69,7 +69,7 @@ controls: false
 --
 
 # というわけで
-## \#スーパーイカメーカーに<br>Flowを導入してハマったことと学び
+## \#スーパーイカメーカーに<br>後からFlowを導入して<br>その過程でハマったことと学びについて
 
 --
 
@@ -173,7 +173,7 @@ const FOO = {
 
 ### 既存コードに後から型付けるの is ...
 
-```javascript
+```ts
 // 元コード
 function foo(val) {
   val = val|0;
@@ -199,7 +199,7 @@ function foo(_val: string) {
 
 ### 既存コードに ...
 
-```javascript
+```ts
 onChangeInput(ev: Event) {
   const action: SetTextAction = {
     target: this.props.partsName,
@@ -235,7 +235,7 @@ suppress_comment= \\(.\\|\n\\)*\\flow-disable-line
 
 こう書いておくと、
 
-```javascript
+```ts
 // flow-disable-line
 const str: string = 1;
 ```
@@ -271,17 +271,98 @@ Flow側で定義済みの型が置いてあるディレクトリ
 
 #### [flow/type_annotation.ml at master · facebook/flow · GitHub](https://github.com/facebook/flow/blob/master/src/typing/type_annotation.ml#L147-L328)
 
-ドキュメントに載ってない記法が実装されてるぽい箇所（もちろん読めません）
+ドキュメントに載ってない記法が実装されてるぽい箇所（OCaml読めません）
 
 --
 
-### flow-typed
-#### https://github.com/flowtype/flow-typed
+# 続・導入編
 
-- Flow版の[DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped)
-- まだ44コしか登録されてない（2016/06/24時点）
+--
 
-圧倒的じゃないか(ｒｙ
+### Destructuringに型
+
+```ts
+const A = { a: '1', b: 2, c: true };
+const { a, b, c, }: { a: string, b: number, c: boolean } = A;
+
+// コレはダメ
+const { a: string, b: number, c: boolean, } = A;
+```
+
+公式のDestructuringのページに書いてないからねコレ！
+
+#### 普通のオブジェクトに型
+
+```ts
+const A: {
+  a: string, b: number, c: boolean,
+} = { a: '1', b: 2, c: true };
+```
+
+さっきとは逆で、型 > 値の順。
+
+--
+
+### Typeエイリアス
+自分で型を作れる機能。
+
+```ts
+// 'A'という文字列 || 'B'という文字列
+type AorB = 'A' | 'B';
+
+// これらの型を持つObject
+type TabItem = {
+  id:    string,
+  order: number,
+  group: string,
+  name:  string,
+};
+
+// そんなObjectの配列
+type TabItems = TabItem[];
+// 違う書き方
+type TabItems = Array<TabItem>;
+```
+
+FluxのActionをまとめたり。
+
+--
+
+### $Keys&lt;T&gt;（元 $Enum&lt;T&gt;）
+
+ドキュメントに載ってない記法シリーズ。
+
+```ts
+const CARD_TYPES = {
+  "Diamonds": "Diamonds",
+  "Clubs":    "Clubs",
+  "Hearts":   "Hearts",
+  "Spades":   "Spades"
+};
+
+type CardTypes = $Keys<typeof CARD_TYPES>;
+```
+
+としておいて、
+
+```ts
+const type1: CardTypes = 'Diamonds'; // ok
+const type2: CardTypes = 'Fooo'; // error
+```
+
+まぁもちろんEXPERIMENTALなんでしょうね。
+
+--
+
+### 続きはWebで
+
+0からはじめるFlow Part.1<br>http://lealog.hateblo.jp/entry/2016/06/21/104558
+
+0からはじめるFlow Part.2<br>http://lealog.hateblo.jp/entry/2016/06/21/104558
+
+--
+
+# いまのきもち
 
 --
 
@@ -293,24 +374,38 @@ Flow側で定義済みの型が置いてあるディレクトリ
 - W3Cの仕様書とかも読みやすくなる
 - 変数名から型を匂わせる記載も消えてすっきり
 
-Babelれる新規プロジェクトでは前向きに使っていきたい所存。
+コスパの良いツールだと思うので、Babelれる新規プロジェクトでは前向きに使っていきたい所存。
 
 --
 
-### おわりに
+### でもあんまり流行ってない・・？
 
-検索しても全然情報が出てこないので、もっとみんな使っていきましょう
+- 検索しても全然引っかからん
+- 日本語の関連記事は全部読んだ感ある
+- TodoApp以上のサンプルがない
+- 公式のExampleがしょぼい
 
-内緒にしてるなら共有してもらえると・・嬉しいです・・！
+使われてないのか、みんな内緒にしてるのか！
 
 --
 
-### Links
-このスライド<br>https://leader22.github.io/slides/node_gakuen-21/
+### flow-typedさん...
+#### https://github.com/flowtype/flow-typed
 
-0からはじめるFlow Part.1<br>http://lealog.hateblo.jp/entry/2016/06/21/104558
+- Flow版の[DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped)
+- まだ44コしか登録されてない（2016/06/24時点）
 
-0からはじめるFlow Part.2<br>http://lealog.hateblo.jp/entry/2016/06/21/104558
+ココはさすがのTypeScript？
+
+--
+
+### 型付けのベストプラクティス知りたい
+
+- 効率的な・より的確な型の付け方とは・・
+- 型を定義するファイルをどこに置くべきとか
+- ジェネリクスとかいつ使うの
+
+型々してる人！ぜひこのあと教えてください！
 
 --
 
