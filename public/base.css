@@ -1,0 +1,54 @@
+/* Base style mod */
+.progress {
+  z-index: 1;
+}
+
+h1 {
+  font-size: 220%;
+}
+
+pre,
+code {
+  background-color: #fff;
+}
+pre {
+  padding: 2%;
+}
+code {
+  padding: 0 2%;
+}
+pre > code {
+  padding: 0;
+}
+
+ul {
+  padding: 10px 0 10px 60px;
+}
+
+.slide-content {
+  overflow: scroll;
+}
+
+.slide-content img {
+  display: block;
+  margin: 0 auto;
+  max-width: 50%;
+}
+
+/* theme color */
+.progress-bar {
+  background-color: var(--bar-color);
+}
+
+a,
+a:hover {
+  color: var(--em-color);!important;
+}
+
+h3 {
+  border-color: var(--bar-color);
+}
+
+.slide {
+  background-color: var(--bg-color);
+}

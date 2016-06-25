@@ -86,7 +86,7 @@ controls: false
 - `babel-plugin-transform-flow-strip-types`
   - 型の定義(!== js)をはずすやつ
 - `babel-plugin-transform-class-properties`
-  - https://github.com/jeffmo/es-class-fields-and-static-properties 
+  - https://github.com/jeffmo/es-class-fields-and-static-properties
 
 最後のやつが地味に重要。
 
@@ -439,101 +439,14 @@ const type2: CardTypes = 'Fooo'; // error
 
 # Thank you!
 
-<script>
-// 時間管理するの面倒なので経過時間をこっそり出す
-(function(global) {
-  const timer = document.createElement('div');
-  timer.textContent = '0';
-  timer.id = 'timer';
-  document.body.appendChild(timer); 
-
-  setInterval(function() {
-    const now = timer.textContent|0;
-    timer.textContent = '' + (now + 1);
-  }, 1000 * 1);
-}(this));
-
-// モバイルでcontrolsない場合に詰むので
-(function(global) {
-  const isMobile = 'ontouchstart' in global;
-  if (isMobile === false) return;
-  
-  document.body.addEventListener('click', (ev) => {
-    const isRight = (global.innerWidth / 2) < ev.clientX;
-    const dir = isRight ? 1 : -1;
-    global.navigate(dir);
-  }, false);
-}(this));
-</script>
-
 <style>
 :root {
   --bg-color: #FAF2E6;
   --bar-color: #D68B00;
   --em-color: #D68B00;
 }
-
-#timer {
-  position: fixed;
-  right: 0;
-  top: 0;
-  z-index: 1;
-  color: inherit;
-  font-size: 10%;
-  padding: 5px;
-}
-
-.progress {
-  z-index: 1;
-}
-
-.progress-bar {
-  background-color: var(--bar-color);
-}
-
-
-a,
-a:hover {
-  color: var(--em-color);!important;
-}
-
-h1 {
-  font-size: 220%;
-}
-
-h3 {
-  border-color: var(--bar-color);
-}
-
-pre,
-code {
-  background-color: #fff;
-}
-pre {
-  padding: 2%;
-}
-code {
-  padding: 0 2%;
-}
-pre > code {
-  padding: 0;
-}
-
-ul {
-  padding: 10px 0 10px 60px;
-}
-
-.slide {
-  background-color: var(--bg-color);
-}
-
-.slide-content {
-  overflow: scroll;
-}
-
-.slide-content img {
-  display: block;
-  margin: 0 auto;
-  max-width: 50%;
-}
 </style>
+<link rel="stylesheet" href="../public/base.css">
+<link rel="stylesheet" href="../public/timer.css">
+<script src="../public/timer.js"></script>
+<script src="../public/mobile-controls.js"></script>
