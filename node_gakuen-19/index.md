@@ -331,7 +331,7 @@ http://leader22.github.io/slides/node_gakuen-19/
 
 # Finish!
 
-<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="./style.css">
 <link rel="stylesheet" href="../public/timer.css">
 <script src="../public/timer.js"></script>
 <script src="../public/mobile-controls.js"></script>
