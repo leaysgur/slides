@@ -1,0 +1,42 @@
+.progress {
+  z-index: 1;
+}
+
+.progress-bar {
+  background-color: #ff6e00;
+}
+
+.slide {
+  background-color: #000;
+  color: #fff;
+}
+
+a {
+  color: #ff6e00!important;
+}
+
+h3 {
+  border-color: #ff6e00;
+}
+
+pre {
+  border: 1px solid #ff6e00;
+  padding: 2%;
+}
+
+ul {
+  padding: 10px 0 10px 60px;
+}
+
+.slide-content img {
+  display: block;
+  margin: 0 auto;
+  max-width: 80%;
+}
+
+#slide-1 h1,
+#slide-12 h1,
+#slide-13 h1,
+#slide-15 h1 {
+  font-size: 230%;
+}

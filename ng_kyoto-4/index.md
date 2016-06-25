@@ -605,66 +605,7 @@ http://leader22.github.io/slides/ng_kyoto-4/
 
 # Thank you!
 
-<script>
-var timer = document.createElement('div');
-timer.textContent = '0';
-timer.id = 'timer';
-document.body.appendChild(timer);
-
-setInterval(function() {
-  var now = timer.textContent|0;
-  timer.textContent = '' + (now + 1);
-}, 1000 * 1);
-</script>
-
-<style>
-#timer {
-  position: fixed;
-  right: 0;
-  top: 0;
-  z-index: 1;
-  color: inherit;
-  font-size: 10%;
-  padding: 5px;
-}
-.progress {
-  z-index: 1;
-}
-
-.progress-bar {
-  background-color: #792362;
-}
-
-a {
-  color: #792362!important;
-}
-
-h1 {
-  font-size: 220%;
-}
-
-h3 {
-  border-color: #792362;
-}
-
-pre {
-  border: 1px solid #792362;
-  padding: 2%;
-  background-color: #fff;
-}
-
-ul {
-  padding: 10px 0 10px 60px;
-}
-
-.slide-content {
-  overflow: scroll;
-}
-
-.slide-content img {
-  display: block;
-  margin: 0 auto;
-  max-width: 75%;
-}
-</style>
+<link rel="stylesheet" href="./style.css">
+<link rel="stylesheet" href="../public/timer.css">
+<script src="../public/timer.js"></script>
 <script src="../public/mobile-controls.js"></script>

@@ -921,60 +921,9 @@ navigator.getBattery().then((battery) =&gt; {
   </div>
   <div class="slide hidden" id="slide-47">
     <section class="slide-content"><h1 id="thank-you-">Thank you!</h1>
-<script>
-var timer = document.createElement('div');
-timer.textContent = '0';
-timer.id = 'timer';
-document.body.appendChild(timer);
-
-setInterval(function() {
-  var now = timer.textContent|0;
-  timer.textContent = '' + (now + 1);
-}, 1000 * 1);
-</script>
-
-<p><style></p>
-<h1 id="timer-">timer {</h1>
-<p>  position: fixed;
-  right: 0;
-  top: 0;
-  z-index: 1;
-  color: inherit;
-  font-size: 10%;
-  padding: 5px;
-}
-.progress {
-  z-index: 1;
-}</p>
-<p>.progress-bar {
-  background-color: #792362;
-}</p>
-<p>a {
-  color: #792362!important;
-}</p>
-<p>h1 {
-  font-size: 220%;
-}</p>
-<p>h3 {
-  border-color: #792362;
-}</p>
-<p>pre {
-  border: 1px solid #792362;
-  padding: 2%;
-  background-color: #fff;
-}</p>
-<p>ul {
-  padding: 10px 0 10px 60px;
-}</p>
-<p>.slide-content {
-  overflow: scroll;
-}</p>
-<p>.slide-content img {
-  display: block;
-  margin: 0 auto;
-  max-width: 75%;
-}
-</style></p>
+<p><link rel="stylesheet" href="./style.css"></p>
+<p><link rel="stylesheet" href="../public/timer.css"></p>
+<script src="../public/timer.js"></script>
 <script src="../public/mobile-controls.js"></script></section>
   </div>
 

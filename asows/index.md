@@ -310,24 +310,5 @@ Pub: Mac ⇔ Server ⇔ Sub: Mac || iPhoneの場合。
 
 # Finish!
 
-<style>
-.progress {
-  z-index: 1;
-}
-
-ul {
-  padding: 10px 0 10px 60px;
-}
-
-pre {
-  background-color: #fff;
-  padding: 2%;
-}
-
-.slide-content img {
-  display: block;
-  margin: 0 auto;
-  max-width: 80%;
-}
-</style>
+<link rel="stylesheet" href="./style.css">
 <script src="../public/mobile-controls.js"></script>
