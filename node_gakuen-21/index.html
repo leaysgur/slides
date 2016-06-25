@@ -365,7 +365,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   </div>
 
   <div class="slide" id="slide-1">
-    <section class="slide-content"><h1 id="0-flow">0からはじめるFlow</h1>
+    <section class="slide-content"><h1 id="0-a-flow-a-">0からはじめる<a>Flow</a></h1>
 <h2 id="-nbsp-">&nbsp;</h2>
 <h2 id="2016-06-29-node-21-">2016/06/29 Node学園 21時限目</h2>
 </section>
@@ -376,6 +376,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <li>Yuji Sugiura / <a href="https://twitter.com/leader22">@leader22</a></li>
 <li>フロントエンド・エンジニア at PixelGrid Inc.</li>
 <li>前々回にイカの話してたやつです</li>
+<li>最近は仕事でなぜかコードゴルフしてます</li>
 </ul>
 <p><img src="./img/doseisan.jpg" alt="leader22"></p>
 </section>
@@ -386,7 +387,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </section>
   </div>
   <div class="slide hidden" id="slide-4">
-    <section class="slide-content"><h1 id="1-">1.名前は知ってる人！</h1>
+    <section class="slide-content"><h1 id="1-">1.名前を知ってる人！</h1>
 </section>
   </div>
   <div class="slide hidden" id="slide-5">
@@ -394,14 +395,15 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </section>
   </div>
   <div class="slide hidden" id="slide-6">
-    <section class="slide-content"><h1 id="3-todoapp-br-">3.TodoAppより大きい<br>案件で使ってる人！！！</h1>
+    <section class="slide-content"><h1 id="3-todoapp-br-or-br-">3.TodoApp相当より<br>大きいもの or 実務で<br>使ってる人！！！</h1>
 </section>
   </div>
   <div class="slide hidden" id="slide-7">
     <section class="slide-content"><h3 id="3-">3の人へ</h3>
 <ul>
+<li>知ってることばっかりかも</li>
 <li>なんか間違ってたら教えてください！</li>
-<li>聞きたいことがあります！！</li>
+<li>というか聞きたいことがあります！！</li>
 </ul>
 <p>後の懇親会では是非ともよろしくお願いします！！！</p>
 </section>
@@ -410,10 +412,10 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
     <section class="slide-content"><h3 id="-">あらためまして</h3>
 <p>「0からはじめる」というタイトルですが、正確には、</p>
 <ul>
-<li>ほぼJavaScriptしか知らない私が</li>
-<li>型のある世界に飛び込んで</li>
+<li>型とは無縁なJSerが</li>
+<li>Flowで型のある世界に飛び込んで</li>
 <li>案の定いろいろハマって</li>
-<li>あれこれもがき苦しんだことを</li>
+<li>あれこれ<s>もがき苦しんだ</s>学んだことを</li>
 </ul>
 <p>これからはじめる1, 2の人に伝えたい10分間です。</p>
 </section>
@@ -435,7 +437,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </section>
   </div>
   <div class="slide hidden" id="slide-11">
-    <section class="slide-content"><h1 id="-">導入準備編</h1>
+    <section class="slide-content"><h1 id="-">準備編</h1>
 </section>
   </div>
   <div class="slide hidden" id="slide-12">
@@ -450,30 +452,31 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </ul>
 </li>
 <li><code>babel-plugin-transform-class-properties</code><ul>
-<li><a href="https://github.com/jeffmo/es-class-fields-and-static-properties">https://github.com/jeffmo/es-class-fields-and-static-properties</a> &lt;- これが地味に重要</li>
+<li><a href="https://github.com/jeffmo/es-class-fields-and-static-properties">https://github.com/jeffmo/es-class-fields-and-static-properties</a> </li>
 </ul>
 </li>
 </ul>
+<p>最後のやつが地味に重要。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-13">
-    <section class="slide-content"><h3 id="-">モジュールの方式によって</h3>
-<p>Classに型をつけた瞬間にBabelのコンパイルがコケる！</p>
-<ul>
-<li>CommonJS x transform-class-properties<ul>
-<li><code>transform-flow-strip-types</code>足すだけ</li>
-</ul>
-</li>
-<li>ES Modules x transform-class-properties<ul>
-<li><code>transform-flow-strip-types</code>足すだけ</li>
-</ul>
-</li>
-</ul>
-<p>当たり前だが<code>transform-class-properties</code>を使ってるなら問題ない。</p>
+    <section class="slide-content"><h3 id="-">というのも</h3>
+<p><code>transform-class-properties</code>を使ってない場合、<br>
+公式に言われるがままにClassに型をつけた瞬間、<br>Babelのコンパイルがコケる！</p>
+<pre><code class="lang-ts"><span class="hljs-comment">// 問題のコード</span>
+<span class="hljs-keyword">class</span> C {
+  x: <span class="hljs-built_in">string</span>; <span class="hljs-comment">// &lt;- コレ</span>
+  y: <span class="hljs-built_in">number</span>;
+
+  <span class="hljs-keyword">constructor</span>(x) { <span class="hljs-keyword">this</span>.x = x; }
+  foo() { <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.x; }
+  bar(y) { <span class="hljs-keyword">this</span>.y = y; }
+}</code></pre>
+<p>アプリのコードで一切使ってなくてもコケます。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-14">
-    <section class="slide-content"><h3 id="-stage1-">でもStage1やし・・</h3>
+    <section class="slide-content"><h3 id="-">モジュールの方式別の回避策</h3>
 <ul>
 <li>CommonJS<ul>
 <li><code>passPerPreset</code>（後述）で先に<code>transform-flow-strip-types</code>する</li>
@@ -503,7 +506,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
     <span class="hljs-string">"react"</span>
   ]
 }</code></pre>
-<p>コレまだEXPERIMENTALなので、おとなしく<code>transform-class-properties</code>足しましょう・・。</p>
+<p>Stage1の機能なんか使いたくないなーと思ったけど、結局コレもEXPERIMENTALな機能やので、<br>おとなしく<code>transform-class-properties</code>！！！</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-16">
@@ -512,17 +515,17 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   </div>
   <div class="slide hidden" id="slide-17">
     <section class="slide-content"><h3 id="-">作業の流れ</h3>
-<p>やるからにはきっちり型つけたい</p>
+<p>やるからにはきっちり型つけたい！</p>
 <ul>
 <li>1ファイルずつ、<code>@flow</code>コメントをいれる</li>
 <li>Flowに怒られる部分があるので、そこをなおす</li>
-<li>より厳密にしたい部分に型を付けていく</li>
+<li>手当たり次第に型をつけていく</li>
 </ul>
-<p>ね？簡単でしょう？</p>
+<p>しかしそれが地味に大変で・・。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-18">
-    <section class="slide-content"><h3 id="-is-">既存コードに後から型付けるの is 大変</h3>
+    <section class="slide-content"><h3 id="-is-">既存コードに後から型付けるの is 面倒</h3>
 <pre><code class="lang-javascript"><span class="hljs-comment">// 元コード</span>
 <span class="hljs-keyword">const</span> FOO = {
   <span class="hljs-number">1</span>: <span class="hljs-string">'foo'</span>,
@@ -538,7 +541,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </section>
   </div>
   <div class="slide hidden" id="slide-19">
-    <section class="slide-content"><h3 id="-is-">既存コードに後から型付けるの is ...</h3>
+    <section class="slide-content"><h3 id="-is-">既存コードに後から型付けるの is 大変</h3>
 <pre><code class="lang-ts"><span class="hljs-comment">// 元コード</span>
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params">val</span>) </span>{
   val = val|<span class="hljs-number">0</span>;
@@ -556,20 +559,26 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   <span class="hljs-keyword">let</span> val: <span class="hljs-built_in">number</span> = <span class="hljs-built_in">parseInt</span>(_val, <span class="hljs-number">10</span>);
   val = <span class="hljs-built_in">isNaN</span>(val) ? <span class="hljs-number">0</span> : val;
 }</code></pre>
-<p>ビット演算子でキャストするのもダメ。</p>
+<p>ビット演算子でキャストするのもダメ。<br>
+気付けば息を吸う用に使ってたので大打撃・・。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-20">
     <section class="slide-content"><h3 id="-">既存コードに ...</h3>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">onChange</span>=<span class="hljs-string">{this.onChangeInput}</span> /&gt;</span></code></pre>
 <pre><code class="lang-ts">onChangeInput(ev: Event) {
-  <span class="hljs-keyword">const</span> action: SetTextAction = {
+  <span class="hljs-keyword">const</span> action = {
     target: <span class="hljs-keyword">this</span>.props.partsName,
     text:   ev.target.value <span class="hljs-comment">// ココでエラー</span>
   };
   <span class="hljs-keyword">this</span>.dispatch(<span class="hljs-string">'set:text'</span>, action);
-}
-
-<span class="hljs-comment">// ev.targetはEventTargetであると同時にHTMLInputElement</span>
+}</code></pre>
+<p><code>EventTarget</code>に<code>value</code>なんかねえよ！って言われる。</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-21">
+    <section class="slide-content"><h3 id="-">面倒くささが勝ってくる</h3>
+<pre><code class="lang-ts"><span class="hljs-comment">// ev.targetはEventTargetであると同時にHTMLInputElement</span>
 <span class="hljs-comment">// そして`value`プロパティがあるのはそっちなので、Dynamic Type Testsして回避する</span>
 onChangeInput(ev: Event) {
   <span class="hljs-keyword">if</span> (ev.target <span class="hljs-keyword">instanceof</span> HTMLInputElement) {
@@ -583,7 +592,7 @@ onChangeInput(ev: Event) {
 <p>他にも似たようなのが色々出てくるが、面倒くさいと思ってはいけない・・(˘ω˘ )</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-21">
+  <div class="slide hidden" id="slide-22">
     <section class="slide-content"><h3 id="-">困ったときのコメント</h3>
 <pre><code class="lang-sh"><span class="hljs-comment"># .flowconfig</span>
 [options]
@@ -594,11 +603,11 @@ suppress_comment= \\(.\\|\n\\)*\\flow-disable-line</code></pre>
 <p>その行のエラーを無視できる・・・！</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-22">
-    <section class="slide-content"><h1 id="-">そもそも困る前に</h1>
+  <div class="slide hidden" id="slide-23">
+    <section class="slide-content"><h1 id="-">なにかに困ったら</h1>
 </section>
   </div>
-  <div class="slide hidden" id="slide-23">
+  <div class="slide hidden" id="slide-24">
     <section class="slide-content"><h3 id="-">必読ドキュメント</h3>
 <h4 id="-flow-quick-reference-https-flowtype-org-docs-quick-reference-html-"><a href="https://flowtype.org/docs/quick-reference.html">Flow | Quick Reference</a></h4>
 <p><s>だいたいのこと書いてるけど困った時は助けてくれない</s></p>
@@ -612,19 +621,19 @@ suppress_comment= \\(.\\|\n\\)*\\flow-disable-line</code></pre>
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-24">
+  <div class="slide hidden" id="slide-25">
     <section class="slide-content"><h3 id="-">余力あれば</h3>
 <h4 id="-advanced-features-in-flow-sitr-us-http-sitr-us-2015-05-31-advanced-features-in-flow-html-"><a href="http://sitr.us/2015/05/31/advanced-features-in-flow.html">Advanced features in Flow - sitr.us</a></h4>
-<p>ドキュメントに載ってない記法が紹介されてる（1年前の記事）・・・</p>
+<p>ドキュメントに載ってない記法が紹介されてる（ただし1年前の記事）</p>
 <h4 id="-flow-type_annotation-ml-at-master-facebook-flow-github-https-github-com-facebook-flow-blob-master-src-typing-type_annotation-ml-l147-l328-"><a href="https://github.com/facebook/flow/blob/master/src/typing/type_annotation.ml#L147-L328">flow/type_annotation.ml at master · facebook/flow · GitHub</a></h4>
-<p>ドキュメントに載ってない記法が実装されてるぽい箇所（OCaml読めません）</p>
-</section>
-  </div>
-  <div class="slide hidden" id="slide-25">
-    <section class="slide-content"><h1 id="-">続・導入編</h1>
+<p>そのドキュメントに載ってない記法が実装されてるぽい箇所（OCaml読めません）</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-26">
+    <section class="slide-content"><h1 id="-">続・導入編</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-27">
     <section class="slide-content"><h3 id="destructuring-">Destructuringに型</h3>
 <pre><code class="lang-ts"><span class="hljs-keyword">const</span> A = { a: <span class="hljs-string">'1'</span>, b: <span class="hljs-number">2</span>, c: <span class="hljs-literal">true</span> };
 <span class="hljs-keyword">const</span> { a, b, c, }: { a: <span class="hljs-built_in">string</span>, b: <span class="hljs-built_in">number</span>, c: <span class="hljs-built_in">boolean</span> } = A;
@@ -639,17 +648,19 @@ suppress_comment= \\(.\\|\n\\)*\\flow-disable-line</code></pre>
 <p>さっきとは逆で、型 &gt; 値の順。</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-27">
-    <section class="slide-content"><h3 id="type-">Typeエイリアス</h3>
-<p>自分で型を作れる機能。</p>
-<pre><code class="lang-ts"><span class="hljs-comment">// 'A'という文字列 || 'B'という文字列</span>
+  <div class="slide hidden" id="slide-28">
+    <section class="slide-content"><h3 id="type-">Typeエイリアス便利</h3>
+<p>ビルトインの型以外に、自分で型を作れる機能。</p>
+<pre><code class="lang-ts"><span class="hljs-comment">// 文字列か数値</span>
+<span class="hljs-keyword">type</span> StrOrNum = <span class="hljs-built_in">string</span> | <span class="hljs-built_in">number</span>;
+
+<span class="hljs-comment">// 'A'という文字列 || 'B'という文字列</span>
 <span class="hljs-keyword">type</span> AorB = <span class="hljs-string">'A'</span> | <span class="hljs-string">'B'</span>;
 
 <span class="hljs-comment">// これらの型を持つObject</span>
 <span class="hljs-keyword">type</span> TabItem = {
   id:    <span class="hljs-built_in">string</span>,
   order: <span class="hljs-built_in">number</span>,
-  group: <span class="hljs-built_in">string</span>,
   name:  <span class="hljs-built_in">string</span>,
 };
 
@@ -657,10 +668,10 @@ suppress_comment= \\(.\\|\n\\)*\\flow-disable-line</code></pre>
 <span class="hljs-keyword">type</span> TabItems = TabItem[];
 <span class="hljs-comment">// 違う書き方</span>
 <span class="hljs-keyword">type</span> TabItems = <span class="hljs-built_in">Array</span>&lt;TabItem&gt;;</code></pre>
-<p>FluxのActionをまとめたり。</p>
+<p>FluxのActionとかをまとめたり。</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-28">
+  <div class="slide hidden" id="slide-29">
     <section class="slide-content"><h3 id="-keys-lt-t-gt-enum-lt-t-gt-">$Keys&lt;T&gt;（元 $Enum&lt;T&gt;）</h3>
 <p>ドキュメントに載ってない記法シリーズ。</p>
 <pre><code class="lang-ts"><span class="hljs-keyword">const</span> CARD_TYPES = {
@@ -677,17 +688,17 @@ suppress_comment= \\(.\\|\n\\)*\\flow-disable-line</code></pre>
 <p>まぁもちろんEXPERIMENTALなんでしょうね。</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-29">
+  <div class="slide hidden" id="slide-30">
     <section class="slide-content"><h3 id="-web-">続きはWebで</h3>
 <p>0からはじめるFlow Part.1<br><a href="http://lealog.hateblo.jp/entry/2016/06/21/104558">http://lealog.hateblo.jp/entry/2016/06/21/104558</a></p>
 <p>0からはじめるFlow Part.2<br><a href="http://lealog.hateblo.jp/entry/2016/06/21/104558">http://lealog.hateblo.jp/entry/2016/06/21/104558</a></p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-30">
-    <section class="slide-content"><h1 id="-">いまのきもち</h1>
+  <div class="slide hidden" id="slide-31">
+    <section class="slide-content"><h1 id="-">まとめ</h1>
 </section>
   </div>
-  <div class="slide hidden" id="slide-31">
+  <div class="slide hidden" id="slide-32">
     <section class="slide-content"><h3 id="-">やってみてよかった</h3>
 <ul>
 <li>謎の安心感</li>
@@ -699,28 +710,28 @@ suppress_comment= \\(.\\|\n\\)*\\flow-disable-line</code></pre>
 <p>コスパの良いツールだと思うので、Babelれる新規プロジェクトでは前向きに使っていきたい所存。</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-32">
+  <div class="slide hidden" id="slide-33">
     <section class="slide-content"><h3 id="-">でもあんまり流行ってない・・？</h3>
 <ul>
 <li>検索しても全然引っかからん</li>
-<li>日本語の関連記事は全部読んだ感ある</li>
-<li>TodoApp以上のサンプルがない</li>
-<li>公式のExampleがしょぼい</li>
+<li>日本語の記事は全部読んだ感ある</li>
+<li>TodoApp以上のサンプルがほぼない</li>
+<li>公式のExampleがしょぼい気が・・</li>
 </ul>
 <p>使われてないのか、みんな内緒にしてるのか！</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-33">
+  <div class="slide hidden" id="slide-34">
     <section class="slide-content"><h3 id="flow-typed-">flow-typedさん...</h3>
 <h4 id="https-github-com-flowtype-flow-typed"><a href="https://github.com/flowtype/flow-typed">https://github.com/flowtype/flow-typed</a></h4>
 <ul>
 <li>Flow版の<a href="https://github.com/DefinitelyTyped/DefinitelyTyped">DefinitelyTyped</a></li>
 <li>まだ44コしか登録されてない（2016/06/24時点）</li>
 </ul>
-<p>ココはさすがのTypeScript？</p>
+<p><code>tsc</code>がもっと速くなったら・・TypeScriptに・・</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-34">
+  <div class="slide hidden" id="slide-35">
     <section class="slide-content"><h3 id="-">型付けのベストプラクティス知りたい</h3>
 <ul>
 <li>効率的な・より的確な型の付け方とは・・</li>
@@ -730,7 +741,7 @@ suppress_comment= \\(.\\|\n\\)*\\flow-disable-line</code></pre>
 <p>型々してる人！ぜひこのあと教えてください！</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-35">
+  <div class="slide hidden" id="slide-36">
     <section class="slide-content"><h1 id="thank-you-">Thank you!</h1>
 <script>
 // 時間管理するの面倒なので経過時間をこっそり出す
@@ -783,6 +794,7 @@ suppress_comment= \\(.\\|\n\\)*\\flow-disable-line</code></pre>
 .progress-bar {
   background-color: var(--bar-color);
 }
+
 
 a,
 a:hover {

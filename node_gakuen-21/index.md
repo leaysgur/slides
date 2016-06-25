@@ -2,7 +2,7 @@ title: 0からはじめるFlow
 controls: false
 --
 
-# 0からはじめるFlow
+# 0からはじめる<a>Flow</a>
 
 ## &nbsp;
 ## 2016/06/29 Node学園 21時限目
@@ -14,6 +14,7 @@ controls: false
 - Yuji Sugiura / [@leader22](https://twitter.com/leader22)
 - フロントエンド・エンジニア at PixelGrid Inc.
 - 前々回にイカの話してたやつです
+- 最近は仕事でなぜかコードゴルフしてます
 
 ![leader22](./img/doseisan.jpg)
 
@@ -24,7 +25,7 @@ controls: false
 
 --
 
-# 1.名前は知ってる人！
+# 1.名前を知ってる人！
 
 --
 
@@ -32,14 +33,15 @@ controls: false
 
 --
 
-# 3.TodoAppより大きい<br>案件で使ってる人！！！
+# 3.TodoApp相当より<br>大きいもの or 実務で<br>使ってる人！！！
 
 --
 
 ### 3の人へ
 
+- 知ってることばっかりかも
 - なんか間違ってたら教えてください！
-- 聞きたいことがあります！！
+- というか聞きたいことがあります！！
 
 後の懇親会では是非ともよろしくお願いします！！！
 
@@ -48,10 +50,10 @@ controls: false
 ### あらためまして
 「0からはじめる」というタイトルですが、正確には、
 
-- ほぼJavaScriptしか知らない私が
-- 型のある世界に飛び込んで
+- 型とは無縁なJSerが
+- Flowで型のある世界に飛び込んで
 - 案の定いろいろハマって
-- あれこれもがき苦しんだことを
+- あれこれ<s>もがき苦しんだ</s>学んだことを
 
 これからはじめる1, 2の人に伝えたい10分間です。
 
@@ -73,7 +75,7 @@ controls: false
 
 --
 
-# 導入準備編
+# 準備編
 
 --
 
@@ -84,24 +86,34 @@ controls: false
 - `babel-plugin-transform-flow-strip-types`
   - 型の定義(!== js)をはずすやつ
 - `babel-plugin-transform-class-properties`
-  - https://github.com/jeffmo/es-class-fields-and-static-properties <- これが地味に重要
+  - https://github.com/jeffmo/es-class-fields-and-static-properties 
+
+最後のやつが地味に重要。
 
 --
 
-### モジュールの方式によって
+### というのも
 
-Classに型をつけた瞬間にBabelのコンパイルがコケる！
+`transform-class-properties`を使ってない場合、<br>
+公式に言われるがままにClassに型をつけた瞬間、<br>Babelのコンパイルがコケる！
 
-- CommonJS x transform-class-properties
-  - `transform-flow-strip-types`足すだけ
-- ES Modules x transform-class-properties
-  - `transform-flow-strip-types`足すだけ
+```ts
+// 問題のコード
+class C {
+  x: string; // <- コレ
+  y: number;
 
-当たり前だが`transform-class-properties`を使ってるなら問題ない。
+  constructor(x) { this.x = x; }
+  foo() { return this.x; }
+  bar(y) { this.y = y; }
+}
+```
+
+アプリのコードで一切使ってなくてもコケます。
 
 --
 
-### でもStage1やし・・
+### モジュールの方式別の回避策
 
 - CommonJS
   - `passPerPreset`（後述）で先に`transform-flow-strip-types`する
@@ -132,7 +144,7 @@ Babel 6.5から入ったプラグイン、プリセットの処理順を指定�
 }
 ```
 
-コレまだEXPERIMENTALなので、おとなしく`transform-class-properties`足しましょう・・。
+Stage1の機能なんか使いたくないなーと思ったけど、結局コレもEXPERIMENTALな機能やので、<br>おとなしく`transform-class-properties`！！！
 
 --
 
@@ -142,17 +154,17 @@ Babel 6.5から入ったプラグイン、プリセットの処理順を指定�
 
 ### 作業の流れ
 
-やるからにはきっちり型つけたい
+やるからにはきっちり型つけたい！
 
 - 1ファイルずつ、`@flow`コメントをいれる
 - Flowに怒られる部分があるので、そこをなおす
-- より厳密にしたい部分に型を付けていく
+- 手当たり次第に型をつけていく
 
-ね？簡単でしょう？
+しかしそれが地味に大変で・・。
 
 --
 
-### 既存コードに後から型付けるの is 大変
+### 既存コードに後から型付けるの is 面倒
 
 ```javascript
 // 元コード
@@ -167,11 +179,12 @@ const FOO = {
   '2': 'bar',
 };
 ```
+
 オブジェクトに数値キーがダメやったり。
 
 --
 
-### 既存コードに後から型付けるの is ...
+### 既存コードに後から型付けるの is 大変
 
 ```ts
 // 元コード
@@ -193,21 +206,34 @@ function foo(_val: string) {
 }
 ```
 
-ビット演算子でキャストするのもダメ。
+ビット演算子でキャストするのもダメ。<br>
+気付けば息を吸う用に使ってたので大打撃・・。
 
 --
 
 ### 既存コードに ...
 
+```html
+<input type="text" onChange={this.onChangeInput} />
+```
+
 ```ts
 onChangeInput(ev: Event) {
-  const action: SetTextAction = {
+  const action = {
     target: this.props.partsName,
     text:   ev.target.value // ココでエラー
   };
   this.dispatch('set:text', action);
 }
+```
 
+`EventTarget`に`value`なんかねえよ！って言われる。
+
+--
+
+### 面倒くささが勝ってくる
+
+```ts
 // ev.targetはEventTargetであると同時にHTMLInputElement
 // そして`value`プロパティがあるのはそっちなので、Dynamic Type Testsして回避する
 onChangeInput(ev: Event) {
@@ -244,7 +270,7 @@ const str: string = 1;
 
 --
 
-# そもそも困る前に
+# なにかに困ったら
 
 --
 
@@ -267,11 +293,11 @@ Flow側で定義済みの型が置いてあるディレクトリ
 
 #### [Advanced features in Flow - sitr.us](http://sitr.us/2015/05/31/advanced-features-in-flow.html)
 
-ドキュメントに載ってない記法が紹介されてる（1年前の記事）・・・
+ドキュメントに載ってない記法が紹介されてる（ただし1年前の記事）
 
 #### [flow/type_annotation.ml at master · facebook/flow · GitHub](https://github.com/facebook/flow/blob/master/src/typing/type_annotation.ml#L147-L328)
 
-ドキュメントに載ってない記法が実装されてるぽい箇所（OCaml読めません）
+そのドキュメントに載ってない記法が実装されてるぽい箇所（OCaml読めません）
 
 --
 
@@ -303,10 +329,13 @@ const A: {
 
 --
 
-### Typeエイリアス
-自分で型を作れる機能。
+### Typeエイリアス便利
+ビルトインの型以外に、自分で型を作れる機能。
 
 ```ts
+// 文字列か数値
+type StrOrNum = string | number;
+
 // 'A'という文字列 || 'B'という文字列
 type AorB = 'A' | 'B';
 
@@ -314,7 +343,6 @@ type AorB = 'A' | 'B';
 type TabItem = {
   id:    string,
   order: number,
-  group: string,
   name:  string,
 };
 
@@ -324,7 +352,7 @@ type TabItems = TabItem[];
 type TabItems = Array<TabItem>;
 ```
 
-FluxのActionをまとめたり。
+FluxのActionとかをまとめたり。
 
 --
 
@@ -362,7 +390,7 @@ const type2: CardTypes = 'Fooo'; // error
 
 --
 
-# いまのきもち
+# まとめ
 
 --
 
@@ -381,9 +409,9 @@ const type2: CardTypes = 'Fooo'; // error
 ### でもあんまり流行ってない・・？
 
 - 検索しても全然引っかからん
-- 日本語の関連記事は全部読んだ感ある
-- TodoApp以上のサンプルがない
-- 公式のExampleがしょぼい
+- 日本語の記事は全部読んだ感ある
+- TodoApp以上のサンプルがほぼない
+- 公式のExampleがしょぼい気が・・
 
 使われてないのか、みんな内緒にしてるのか！
 
@@ -395,7 +423,7 @@ const type2: CardTypes = 'Fooo'; // error
 - Flow版の[DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped)
 - まだ44コしか登録されてない（2016/06/24時点）
 
-ココはさすがのTypeScript？
+`tsc`がもっと速くなったら・・TypeScriptに・・
 
 --
 
@@ -462,6 +490,7 @@ const type2: CardTypes = 'Fooo'; // error
 .progress-bar {
   background-color: var(--bar-color);
 }
+
 
 a,
 a:hover {
