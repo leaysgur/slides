@@ -320,7 +320,7 @@ array.includes('A');
 
 ちょっと組み合わせれば、Underscore/Lodashでやってるだいたいのことは書ける。
 
--- 
+--
 
 ### オブジェクト操作
 
@@ -467,7 +467,7 @@ EE.prototype = {
   emit: function(ev) {
     var args = [].slice.call(arguments, 1),
         handler = this._events[ev] || [];
-    
+
     for (var i = 0, l = handler.length; i < l; i++) {
       handler[i].apply(this, args);
     }
@@ -609,7 +609,7 @@ http://leader22.github.io/slides/ng_kyoto-4/
 var timer = document.createElement('div');
 timer.textContent = '0';
 timer.id = 'timer';
-document.body.appendChild(timer); 
+document.body.appendChild(timer);
 
 setInterval(function() {
   var now = timer.textContent|0;
@@ -667,3 +667,4 @@ ul {
   max-width: 75%;
 }
 </style>
+<script src="../public/mobile-controls.js"></script>

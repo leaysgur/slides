@@ -335,7 +335,7 @@ http://leader22.github.io/slides/node_gakuen-19/
 var timer = document.createElement('div');
 timer.textContent = '0';
 timer.id = 'timer';
-document.body.appendChild(timer); 
+document.body.appendChild(timer);
 
 setInterval(function() {
   var now = timer.textContent|0;
@@ -396,3 +396,4 @@ ul {
   font-size: 230%;
 }
 </style>
+<script src="../public/mobile-controls.js"></script>

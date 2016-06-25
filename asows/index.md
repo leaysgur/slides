@@ -146,7 +146,7 @@ socket.on('audio', (payload) => {
 var processor = context.createScriptProcessor(
   BUFFER_SIZE,
   // 1: Monoral, 2: Stereo
-  numOfInputCh, 
+  numOfInputCh,
   numOfOutputCh
 );
 
@@ -330,3 +330,4 @@ pre {
   max-width: 80%;
 }
 </style>
+<script src="../public/mobile-controls.js"></script>
