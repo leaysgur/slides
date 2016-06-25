@@ -702,7 +702,7 @@ browserify ./src/script/main.js -t babelify -t uglifyify -o ./dist/script.js</co
 var timer = document.createElement('div');
 timer.textContent = '0';
 timer.id = 'timer';
-document.body.appendChild(timer); 
+document.body.appendChild(timer);
 
 setInterval(function() {
   var now = timer.textContent|0;
@@ -710,9 +710,9 @@ setInterval(function() {
 }, 1000 * 1);
 </script>
 
-<style>
-#timer {
-  position: fixed;
+<p><style></p>
+<h1 id="timer-">timer {</h1>
+<p>  position: fixed;
   right: 0;
   top: 0;
   z-index: 1;
@@ -722,47 +722,40 @@ setInterval(function() {
 }
 .progress {
   z-index: 1;
-}
-
-.progress-bar {
+}</p>
+<p>.progress-bar {
   background-color: #ff6e00;
-}
-
-.slide {
+}</p>
+<p>.slide {
   background-color: #000;
   color: #fff;
-}
-
-a {
+}</p>
+<p>a {
   color: #ff6e00!important;
-}
-
-h3 {
+}</p>
+<p>h3 {
   border-color: #ff6e00;
-}
-
-pre {
+}</p>
+<p>pre {
   border: 1px solid #ff6e00;
   padding: 2%;
-}
-
-ul {
+}</p>
+<p>ul {
   padding: 10px 0 10px 60px;
-}
-
-.slide-content img {
+}</p>
+<p>.slide-content img {
   display: block;
   margin: 0 auto;
   max-width: 80%;
+}</p>
+<h1 id="slide-1-h1-">slide-1 h1,</h1>
+<h1 id="slide-12-h1-">slide-12 h1,</h1>
+<h1 id="slide-13-h1-">slide-13 h1,</h1>
+<h1 id="slide-15-h1-">slide-15 h1 {</h1>
+<p>  font-size: 230%;
 }
-
-#slide-1 h1,
-#slide-12 h1,
-#slide-13 h1,
-#slide-15 h1 {
-  font-size: 230%;
-}
-</style></section>
+</style></p>
+<script src="../public/mobile-controls.js"></script></section>
   </div>
 
 
