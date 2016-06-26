@@ -25,6 +25,29 @@ controls: false
 
 --
 
+### JavaScriptに型をつけるやつ
+
+```ts
+// いままで
+let eventName: string = 'Node学園';
+eventName = 21;
+
+// @flow
+let eventName: string = 'Node学園';
+eventName = 21; // This type is incompatible with string
+```
+
+- 新たな言語ではない
+- あとから型の注釈をつけていく
+- Facebook製
+- 最新のバージョンは`0.27.0`
+
+--
+
+# さてそんなFlowですが
+
+--
+
 # 1.名前を知ってる人！
 
 --
@@ -62,8 +85,9 @@ controls: false
 ### そんな汗と涙の結晶
 
 - \#スーパーイカメーカー
-- https://github.com/leader22/ika-maker
-- DAU: 1000ちょい
+  - http://ikasu.lealog.net
+  - https://github.com/leader22/ika-maker
+- 最近は5000PV/日（リリース直後は27万PVとか）
 - アプリとしての規模は大きくない
 
 ![](./img/ika.png)
@@ -402,7 +426,8 @@ const type2: CardTypes = 'Fooo'; // error
 - W3Cの仕様書とかも読みやすくなる
 - 変数名から型を匂わせる記載も消えてすっきり
 
-コスパの良いツールだと思うので、Babelれる新規プロジェクトでは前向きに使っていきたい所存。
+コスパの良いツールだと思うので、Babelれる新規プロジェクトでは前向きに使っていきたい所存。<br>
+ただし既存のプロジェクトにはもう・・
 
 --
 
@@ -429,7 +454,7 @@ const type2: CardTypes = 'Fooo'; // error
 
 ### 型付けのベストプラクティス知りたい
 
-- 効率的な・より的確な型の付け方とは・・
+- 効率的な・より的確な型の付け方とは
 - 型を定義するファイルをどこに置くべきとか
 - ジェネリクスとかいつ使うの
 
