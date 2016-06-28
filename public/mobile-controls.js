@@ -3,7 +3,7 @@
   var isMobile = 'ontouchstart' in global;
   if (isMobile === false) return;
 
-  document.body.addEventListener('click', (ev) => {
+  document.body.addEventListener('click', function(ev) {
     var isRight = (global.innerWidth / 2) < ev.clientX;
     var dir = isRight ? 1 : -1;
     global.navigate(dir);
