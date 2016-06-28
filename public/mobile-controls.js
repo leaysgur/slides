@@ -3,9 +3,11 @@
   var isMobile = 'ontouchstart' in global;
   if (isMobile === false) return;
 
-  document.body.addEventListener('click', function(ev) {
-    var isRight = (global.innerWidth / 2) < ev.clientX;
-    var dir = isRight ? 1 : -1;
-    global.navigate(dir);
-  }, false);
+  var $slide = [].slice.call(document.querySelectorAll('.slide'));
+  $slide.forEach(function(el) {
+    el.addEventListener('click', function(ev) {
+      var isRight = (global.innerWidth / 2) < ev.clientX;
+      global.navigate(isRight ? 1 : -1);
+    }, false);
+  });
 }(this));
