@@ -14,7 +14,7 @@ controls: false
 - Yuji Sugiura / [@leader22](https://twitter.com/leader22)
 - フロントエンド・エンジニア at PixelGrid Inc.
 - 前々回にイカの話してたやつです
-- 最近は仕事でなぜかコードゴルフしてます
+- 最近は仕事でなぜかコードゴルフ⛳してます
 
 ![leader22](./img/doseisan.jpg)
 
@@ -37,14 +37,14 @@ let eventName: string = 'Node学園';
 eventName = 21; // This type is incompatible with string
 ```
 
-- 新たな言語ではない
+- 新たな言語ではない🍀
 - あとから型の注釈をつけていく
 - Facebook製
 - 最新のバージョンは`0.27.0`
 
 --
 
-# さてそんなFlowですが
+# さてそんなFlowを
 
 --
 
@@ -64,7 +64,7 @@ eventName = 21; // This type is incompatible with string
 
 - 知ってることばっかりかも
 - なんか間違ってたら教えてください！
-- というか聞きたいことがあります！！
+- というかむしろ聞きたいことがあります！！
 
 後の懇親会では是非ともよろしくお願いします！！！
 
@@ -78,7 +78,7 @@ eventName = 21; // This type is incompatible with string
 - 案の定いろいろハマって
 - あれこれ<s>もがき苦しんだ</s>学んだことを
 
-これからはじめる1, 2の人に伝えたい10分間です。
+これからはじめる1, 2の人🔰に伝えたい10分間です。
 
 --
 
@@ -108,8 +108,9 @@ eventName = 21; // This type is incompatible with string
 - `flow-bin`
   - Flow本体
 - `babel-plugin-transform-flow-strip-types`
-  - 型の定義(!== js)をはずすやつ
+  - 型の定義（jsではない）をはずすやつ
 - `babel-plugin-transform-class-properties`
+  - Stage1
   - https://github.com/jeffmo/es-class-fields-and-static-properties
 
 最後のやつが地味に重要。
@@ -119,38 +120,35 @@ eventName = 21; // This type is incompatible with string
 ### というのも
 
 `transform-class-properties`を使ってない場合、<br>
-公式に言われるがままにClassに型をつけた瞬間、<br>Babelのコンパイルがコケる！😱
+公式に言われるがままにClassに型をつけた瞬間、<br>Babelのコンパイルがコケる！
 
 ```ts
-// 問題のコード
 class C {
   x: string; // <- コレ
-  y: number;
 
   constructor(x) { this.x = x; }
   foo() { return this.x; }
-  bar(y) { this.y = y; }
 }
 ```
 
-アプリのコードで一切使ってなくてもコケます。
+アプリのコードで一切使ってなくてもコケます😇
 
 --
 
 ### モジュールの方式別の回避策
 
 - CommonJS
-  - `passPerPreset`（後述）で先に`transform-flow-strip-types`する
+  - `.babelrc`の`passPerPreset`（後述）で先に`transform-flow-strip-types`する
   - OR おとなしく `transform-class-properties`足す
 - ES Modules
   - `transform-class-properties`するしかない
   - `passPerPreset`で先に`transform-flow-strip-types`してもダメ
 
-環境整備の段階でコケられると心がまじで折れる・・。
+こういうツール、環境整備でコケるとまじで心折れる・・。
 
 --
 
-### `passPerPreset`⚠
+### `passPerPreset`
 
 Babel 6.5から入ったプラグイン、プリセットの処理順を指定できる機能。
 
@@ -168,7 +166,7 @@ Babel 6.5から入ったプラグイン、プリセットの処理順を指定�
 }
 ```
 
-Stage1の機能なんか使いたくないなーと思ったけど、結局コレもEXPERIMENTALな機能やので、<br>おとなしく`transform-class-properties`！！！
+Stage1の機能なんか使いたくないなーと思ったけど、結局コレもEXPERIMENTALな機能やので、<br>おとなしく`transform-class-properties`するが吉💦
 
 --
 
@@ -182,7 +180,7 @@ Stage1の機能なんか使いたくないなーと思ったけど、結局コ�
 
 - 1ファイルずつ、`@flow`コメントをいれる
 - Flowに怒られる部分があるので、そこをなおす
-- 手当たり次第に型をつけていく
+- より堅牢にしたいところに、手当たり次第に型をつけていく
 
 しかしそれが地味に大変で・・。
 
@@ -231,11 +229,12 @@ function foo(_val: string) {
 ```
 
 ビット演算子でキャストするのもダメ。<br>
-息を吸う用に使いまくってた😇
+息を吸う用に使いまくってた・・・😇
 
 --
 
 ### 既存コードに ...
+よくある`input[type=text]`のイベントハンドラ。
 
 ```html
 <input type="text" onChange={this.onChangeInput} />
@@ -290,7 +289,8 @@ suppress_comment= \\(.\\|\n\\)*\\flow-disable-line
 const str: string = 1;
 ```
 
-その行のエラーを無視できる・・・！
+その行のエラーを無視できる・・・！<br>
+文言は好きなのにできる。
 
 --
 
@@ -361,7 +361,7 @@ const A: {
 type StrOrNum = string | number;
 
 // 'A'という文字列 || 'B'という文字列
-type AorB = 'A' | 'B';
+type StrAorB = 'A' | 'B';
 
 // これらの型を持つObject
 type TabItem = {
@@ -406,11 +406,11 @@ const type2: CardTypes = 'Fooo'; // error
 
 --
 
-### 続きはWebで
+### 続きはWebで🔍
 
 0からはじめるFlow Part.1<br>http://lealog.hateblo.jp/entry/2016/06/21/104558
 
-0からはじめるFlow Part.2<br>http://lealog.hateblo.jp/entry/2016/06/21/104558
+0からはじめるFlow Part.2<br>http://lealog.hateblo.jp/entry/2016/06/29/144203
 
 --
 
@@ -433,7 +433,7 @@ const type2: CardTypes = 'Fooo'; // error
 
 ### よくない😩
 
-- 検索しても全然引っかからん
+- 検索しても全っ然引っかからん
   - 日本語の記事は全部読んだ感ある
 - TodoAppに準ずる以上のサンプルがほぼない
   - 公式のExampleもしょぼい気が・・
@@ -447,9 +447,9 @@ const type2: CardTypes = 'Fooo'; // error
 #### https://github.com/flowtype/flow-typed
 
 - Flow版の[DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped)
-- まだ44コしか登録されてない（2016/06/24時点）
+- まだ44コしか登録されてない（2016/06/29時点）
 
-`tsc`がもっと速くなったら・・TypeScriptに・・
+`tsc`がもっと速くなったら・・TypeScriptに・・💨
 
 --
 
@@ -457,9 +457,9 @@ const type2: CardTypes = 'Fooo'; // error
 
 - 効率的な・より的確な型の付け方とは
 - 型を定義するファイルをどこに置くべきとか
-- ジェネリクスとかいつ使うの
+- ジェネリクスとか普通の人使うの
 
-型々してる人！ぜひこのあと教えてください！
+型々してる人！ぜひこのあと🍕🍣教えてください！
 
 --
 
