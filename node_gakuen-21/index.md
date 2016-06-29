@@ -150,7 +150,8 @@ class C {
 
 ### `passPerPreset`
 
-Babel 6.5から入ったプラグイン、プリセットの処理順を指定できる機能。
+Babel 6.5から入った機能で、ざーーーっくり言うとプラグイン、プリセットの処理順を指定できる機能。<br>
+詳しくは、 http://lealog.hateblo.jp/entry/2016/06/29/212247 に。
 
 ```javascript
 // .babelrc
@@ -438,6 +439,7 @@ const type2: CardTypes = 'Fooo'; // error
 - TodoAppに準ずる以上のサンプルがほぼない
   - 公式のExampleもしょぼい気が・・
 - Decoratorに対応してない？
+  - いろいろオプション指定すれば、Class Property Decoratorだけは見てくれる
 
 使われてないのか、みんな内緒にしてるのか！
 
