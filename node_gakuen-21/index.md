@@ -56,7 +56,7 @@ eventName = 21; // This type is incompatible with string
 
 --
 
-# 3.TodoApp相当より<br>大きいもの or 実務で<br>使ってる人！！！
+# 3.TodoAppより大きく<br>生きたサービス<br>or<br>実務で使ってる人！！！
 
 --
 
