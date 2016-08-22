@@ -1,0 +1,772 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <title>WebAudioでなんちゃってWebRTCする</title>
+  <style type="text/css">
+    body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #222;
+  font-size: 100%;
+}
+
+.slide {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 0; right: 0;
+  background-color: #f7f7f7;
+}
+
+.slide-content {
+  width: 800px;
+  height: 600px;
+  overflow: hidden;
+  margin: 80px auto 0 auto;
+  padding: 30px;
+
+  font-weight: 200;
+  font-size: 200%;
+  line-height: 1.375;
+}
+
+.controls {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+}
+
+.arrow {
+  width: 0; height: 0;
+  border: 30px solid #333;
+  float: left;
+  margin-right: 30px;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.prev {
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+
+  border-left-width: 0;
+  border-right-width: 50px;
+}
+
+.next {
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  border-right-color: transparent;
+
+  border-left-width: 50px;
+  border-right-width: 0;
+}
+
+.prev:hover {
+  border-right-color: #888;
+  cursor: pointer;
+}
+
+.next:hover {
+  border-left-color: #888;
+  cursor: pointer;
+}
+
+h1 {
+  font-size: 300%;
+  line-height: 1.2;
+  text-align: center;
+  margin: 170px 0 0;
+}
+
+h2 {
+  font-size: 100%;
+  line-height: 1.2;
+  margin: 5px 0;
+  text-align: center;
+  font-weight: 200;
+}
+
+h3 {
+  font-size: 140%;
+  line-height: 1.2;
+  border-bottom: 1px solid #aaa;
+  margin: 0;
+  padding-bottom: 15px;
+}
+
+ul {
+  padding: 20px 0 0 60px;
+  font-weight: 200;
+  line-height: 1.375;
+}
+
+.author h1 {
+  font-size: 170%;
+  font-weight: 200;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.author h3 {
+  font-weight: 100;
+  text-align: center;
+  font-size: 95%;
+  border: none;
+}
+
+a {
+  text-decoration: none;
+  color: #44a4dd;
+}
+
+a:hover {
+  color: #66b5ff;
+}
+
+pre {
+  font-size: 60%;
+  line-height: 1.3;
+}
+
+.progress {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+
+.progress-bar {
+  width: 0%;
+  height: 3px;
+  background-color: #b4b4b4;
+
+  -webkit-transition: width 0.05s ease-out;
+  -moz-transition: width 0.05s ease-out;
+  -o-transition: width 0.05s ease-out;
+  transition: width 0.05s ease-out;
+}
+
+.hidden {
+  display: none;
+}
+
+@media (max-width: 850px) {
+
+  body {
+    font-size: 70%;
+  }
+
+  .slide-content {
+    width: auto;
+  }
+
+  img {
+    width: 100%;
+  }
+
+  h1 {
+    margin-top: 120px;
+  }
+
+  .prev, .prev:hover {
+    border-right-color: rgba(135, 135, 135, 0.5);
+  }
+
+  .next, .next:hover {
+    border-left-color: rgba(135, 135, 135, 0.5);
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 50%;
+    overflow: hidden;
+  }
+
+  .slide-content {
+    padding: 10px;
+    margin-top: 10px;
+    height: 340px;
+  }
+
+  h1 {
+    margin-top: 50px;
+  }
+
+  ul {
+    padding-left: 25px;
+  }
+}
+
+@media print {
+  * {
+    -webkit-print-color-adjust: exact;
+  }
+
+  @page {
+    size: letter;
+  }
+
+  .hidden {
+    display: inline;
+  }
+
+  html {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  body {
+    margin: 0 auto !important;
+    border: 0;
+    padding: 0;
+    float: none !important;
+    overflow: visible;
+    background: none !important;
+    font-size: 52%;
+  }
+
+  .progress, .controls {
+    display: none;
+  }
+
+  .slide {
+    position: static;
+  }
+
+  .slide-content {
+    border: 1px solid #222;
+    margin-top: 0;
+    margin-bottom: 40px;
+    height: 3.5in;
+    overflow: visible;
+  }
+
+  .slide:nth-child(even) {
+    /* 2 slides per page */
+    page-break-before: always;
+  }
+}
+
+/*
+
+github.com style (c) Vasily Polovnyov <vast@whiteants.net>
+
+*/
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  color: #333;
+  background: #f8f8f8;
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: #998;
+  font-style: italic;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-subst {
+  color: #333;
+  font-weight: bold;
+}
+
+.hljs-number,
+.hljs-literal,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag .hljs-attr {
+  color: #008080;
+}
+
+.hljs-string,
+.hljs-doctag {
+  color: #d14;
+}
+
+.hljs-title,
+.hljs-section,
+.hljs-selector-id {
+  color: #900;
+  font-weight: bold;
+}
+
+.hljs-subst {
+  font-weight: normal;
+}
+
+.hljs-type,
+.hljs-class .hljs-title {
+  color: #458;
+  font-weight: bold;
+}
+
+.hljs-tag,
+.hljs-name,
+.hljs-attribute {
+  color: #000080;
+  font-weight: normal;
+}
+
+.hljs-regexp,
+.hljs-link {
+  color: #009926;
+}
+
+.hljs-symbol,
+.hljs-bullet {
+  color: #990073;
+}
+
+.hljs-built_in,
+.hljs-builtin-name {
+  color: #0086b3;
+}
+
+.hljs-meta {
+  color: #999;
+  font-weight: bold;
+}
+
+.hljs-deletion {
+  background: #fdd;
+}
+
+.hljs-addition {
+  background: #dfd;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+
+
+  </style>
+</head>
+<body>
+    <div class="progress">
+    <div class="progress-bar"></div>
+  </div>
+
+  <div class="slide" id="slide-1">
+    <section class="slide-content"><h1 id="-a-webaudio-a-br-webrtc"><a>WebAudio</a>で<br>なんちゃってWebRTC</h1>
+<h2 id="-nbsp-">&nbsp;</h2>
+<h2 id="2016-09-06-webaudio-tokyo-1">2016/09/06 WebAudio.tokyo #1</h2>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-2">
+    <section class="slide-content"><h3 id="-">はじめまして</h3>
+<ul>
+<li>Yuji Sugiura / <a href="https://twitter.com/leader22">@leader22</a></li>
+<li>フロントエンド・エンジニア at PixelGrid Inc.</li>
+<li>最近の仕事はパフォーマンスチューニング📈</li>
+<li>趣味ではReactNative x Swiftで音楽アプリ</li>
+</ul>
+<p><img src="./img/doseisan.jpg" alt="leader22"></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-3">
+    <section class="slide-content"><h3 id="webaudio-">WebAudioとわたし</h3>
+<ul>
+<li>前職（渋谷のDなんとか社）で、ソシャゲのBGM・効果音に使えないか検証したり</li>
+<li><a href="http://www.codegrid.net/">CodeGrid</a>に<a href="https://app.codegrid.net/series/2015-sound">記事</a>書いたり</li>
+<li>いわゆる<a href="https://github.com/leader22/mmss">音楽プレーヤー</a>作ってみたり</li>
+</ul>
+<p>素人ではないが、玄人でもないレベル<br>
+まさかWebAudioの勉強会が開催される日がくるとは・・💪</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-4">
+    <section class="slide-content"><h1 id="-a-webaudio-a-br-webrtc"><a>WebAudio</a>で<br>なんちゃってWebRTC</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-5">
+    <section class="slide-content"><h1 id="-ios-webrtc-br-websocket-a-webaudio-a-br-webrtc-br-">（iOSだとWebRTCが使えないので<br>WebSocketと）<a>WebAudio</a>で<br>なんちゃってWebRTC<br>（という試みを半年前にやった話）</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-6">
+    <section class="slide-content"><h3 id="webrtc-">WebRTCとは</h3>
+<p>ざっくり言うと、</p>
+<ul>
+<li>ブラウザでマイクやカメラのストリームを取得し</li>
+<li>ネットワークを越えてリアルタイム配信できるAPI</li>
+<li>&quot;基本的&quot;には通信はP2P<ul>
+<li>ただしP2Pだとスケールしない💨</li>
+</ul>
+</li>
+</ul>
+<p>SkypeがWebの技術でできるようなもの。<br>
+ただ、このモバイル全盛期でもiOSのWebで使えない！！</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-7">
+    <section class="slide-content"><h3 id="-">そこで</h3>
+<p>せめて、PC側での会話を聞くだけでも・・。</p>
+<p>というわけで、</p>
+<ul>
+<li>WebRTCで音を拾うとこまではPCでやって</li>
+<li>それをWebSocketで送りつけて</li>
+<li>iOSでもWebAudioで再生できないか</li>
+</ul>
+<p>・・・できた(∩´∀｀)∩</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-8">
+    <section class="slide-content"><h1 id="-">デモ</h1>
+<h2 id="-wifi-">（WiFiがあれば）</h2>
+<p><img src="https://raw.githubusercontent.com/leader22/audio-streaming-over-websocket/master/demo-img.jpg" alt=""></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-9">
+    <section class="slide-content"><h3 id="-publisher">やってること: Publisher</h3>
+<ul>
+<li>getUserMedia()</li>
+<li>MediaStreamSourceNode<ul>
+<li>BiquadFilterNode</li>
+<li>ScriptProcessorNode: 1ch<ul>
+<li>postMessage(&#39;audio&#39;, PCM&lt;ArrayBuffer&gt;)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>WebWorker<ul>
+<li>socket.emit(&#39;audio&#39;, payload)</li>
+</ul>
+</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-10">
+    <section class="slide-content"><h3 id="-subscriber">やってること: Subscriber</h3>
+<ul>
+<li>WebWorker<ul>
+<li>socket.on(&#39;audio&#39;, payload)</li>
+</ul>
+</li>
+<li>ctx.createBuffer.set(new Float32Array(payload))</li>
+<li>AudioBufferSourceNode</li>
+<li>source.start()</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-11">
+    <section class="slide-content"><h1 id="webaudio-">WebAudioな部分の解説</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-12">
+    <section class="slide-content"><h3 id="-audionode-">マイクの音をAudioNodeにする</h3>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> crx = <span class="hljs-keyword">new</span> AudioContext();
+
+navigator.mediaDevices
+  <span class="hljs-comment">// 今回は音さえあればOK</span>
+  .getUserMedia({ audio: <span class="hljs-literal">true</span> })
+  .then((stream) =&gt; {
+    <span class="hljs-keyword">var</span> micSrc = ctx.createMediaStreamSource(stream);
+
+    <span class="hljs-comment">// micSrc: AudioBufferSourceNode</span>
+    <span class="hljs-comment">// コレをつないでいく</span>
+  })</code></pre>
+<p>localhostかhttps環境でお試しください！</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-13">
+    <section class="slide-content"><h3 id="-">雑音をフィルタする</h3>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> filter = ctx.createBiquadFilter();
+filter.type = <span class="hljs-string">'bandpass'</span>;
+<span class="hljs-comment">// アナログ電話は300Hz ~ 3.4kHz / ひかり電話は100Hz ~ 7kHz</span>
+filter.frequency.value = (<span class="hljs-number">100</span> + <span class="hljs-number">7000</span>) / <span class="hljs-number">2</span>;
+<span class="hljs-comment">// 固定ならだいたい聴き良いのがこれくらい・・？</span>
+filter.Q.value = <span class="hljs-number">0.25</span>;
+
+micSrc.connect(filter);</code></pre>
+<p>リアルタイムに周波数帯を検知してフィルタの領域も変動したかったけど面倒なのでやめた・・。</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-14">
+    <section class="slide-content"><h3 id="-input-">音源（INPUT）の様子をみる</h3>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> analyser = ctx.createAnalyser();
+analyser.smoothingTimeConstant = <span class="hljs-number">0.4</span>;
+analyser.fftSize = BUFFER_SIZE;
+
+<span class="hljs-keyword">var</span> fbc = analyser.frequencyBinCount;
+
+<span class="hljs-keyword">var</span> freqs = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Uint8Array</span>(fbc);
+analyser.getByteFrequencyData(freqs);
+
+<span class="hljs-comment">// freqsの中身を、canvasにグラフとして描画</span></code></pre>
+<p>入力音によって波打つアレ。<br>
+これがあるとそれっぽい感じに！</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-15">
+    <section class="slide-content"><h3 id="-">音を飛ばす</h3>
+<pre><code class="lang-js"><span class="hljs-comment">// それなりに重そうなのでとりあえず1ch</span>
+<span class="hljs-keyword">var</span> processor = ctx.createScriptProcessor(BUFFER_SIZE, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>);
+processor.onaudioprocess = _onAudioProcess;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_onAudioProcess</span>(<span class="hljs-params">ev</span>) </span>{
+  <span class="hljs-keyword">var</span> inputBuffer  = ev.inputBuffer;
+  <span class="hljs-keyword">var</span> outputBuffer = ev.outputBuffer;
+  <span class="hljs-comment">// 1chなのでインデックスは0</span>
+  <span class="hljs-keyword">var</span> inputData  = inputBuffer.getChannelData(<span class="hljs-number">0</span>);
+  <span class="hljs-keyword">var</span> outputData = outputBuffer.getChannelData(<span class="hljs-number">0</span>);
+
+  <span class="hljs-comment">// Bypassしつつ飛ばさないとダメ</span>
+  outputData.set(inputData);
+  <span class="hljs-comment">// これをそのままWebSocketで流す</span>
+  worker.postMessage({
+    type: <span class="hljs-string">'AUDIO'</span>,
+    data: outputData.buffer
+  });
+}</code></pre>
+<p>音質にこだわるなら、ここで巨大なバッファに2chつめこめばいいはず。</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-16">
+    <section class="slide-content"><h3 id="-">音を受け取る</h3>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> ctx = <span class="hljs-keyword">new</span> AudioContext();
+
+<span class="hljs-comment">// WebSocketで受けたバッファを処理する</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_handleAudioBuffer</span>(<span class="hljs-params">buf</span>) </span>{
+  <span class="hljs-keyword">var</span> f32Audio = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Float32Array</span>(buf);
+  <span class="hljs-comment">// 送られてきたのとあわせる</span>
+  <span class="hljs-keyword">var</span> audioBuffer = ctx.createBuffer(<span class="hljs-number">1</span>, BUFFER_SIZE, ctx.sampleRate);
+  audioBuffer.getChannelData(<span class="hljs-number">0</span>).set(f32Audio);
+
+  <span class="hljs-comment">// 後はいつも通り</span>
+  <span class="hljs-keyword">var</span> source = ctx.createBufferSource();
+  source.buffer = audioBuffer;
+  source.connect(audio.gain);
+}</code></pre>
+<p>後は鳴らすだけ！</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-17">
+    <section class="slide-content"><h3 id="-">いいタイミングで再生する</h3>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> _startTime = <span class="hljs-number">0</span>;
+<span class="hljs-keyword">var</span> currentTime = ctx.currentTime;
+
+<span class="hljs-comment">// つまってるので未来に再生</span>
+<span class="hljs-keyword">if</span> (currentTime &lt; _startTime) {
+  source.start(_startTime);
+  _startTime += audioBuffer.duration;
+}
+<span class="hljs-comment">// すぐ再生</span>
+<span class="hljs-keyword">else</span> {
+  source.start(_startTime);
+  _startTime = currentTime + audioBuffer.duration;
+}</code></pre>
+<p>これが地味に重要で、こうしないとプツプツとぎれとぎれになります・・。</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-18">
+    <section class="slide-content"><h1 id="-">さいごに実用性</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-19">
+    <section class="slide-content"><h3 id="-">気になる実用性</h3>
+<ul>
+<li>リアルタイム性<ul>
+<li>ネットワークによってはじわじわ遅延する</li>
+<li>つなぎなおせばLTEでも全然OK</li>
+</ul>
+</li>
+<li>音質<ul>
+<li>今回の実装（1ch / 1024）だと音楽は辛い</li>
+<li>ニュースや会話は問題ない</li>
+</ul>
+</li>
+</ul>
+<p>やってみた本人が一番驚いてるけど、意外にイケる😊</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-20">
+    <section class="slide-content"><h1 id="thank-you-">Thank you!</h1>
+<p><style>
+:root {
+  --bg-color: #fffdf8;
+  --bar-color: #274a78;
+  --em-color: #54b6d3;
+}
+#slide-5 {
+  font-size: 70%;
+}
+</style></p>
+<p><link rel="stylesheet" href="../public/base.css"></p>
+<p><link rel="stylesheet" href="../public/timer.css"></p>
+<script src="../public/timer.js"></script>
+<script src="../public/mobile-controls.js"></script></section>
+  </div>
+
+
+
+  <script type="text/javascript">
+    /**
+ * Returns the current page number of the presentation.
+ */
+function currentPosition() {
+  return parseInt(document.querySelector('.slide:not(.hidden)').id.slice(6));
+}
+
+
+/**
+ * Navigates forward n pages
+ * If n is negative, we will navigate in reverse
+ */
+function navigate(n) {
+  var position = currentPosition();
+  var numSlides = document.getElementsByClassName('slide').length;
+
+  /* Positions are 1-indexed, so we need to add and subtract 1 */
+  var nextPosition = (position - 1 + n) % numSlides + 1;
+
+  /* Normalize nextPosition in-case of a negative modulo result */
+  nextPosition = (nextPosition - 1 + numSlides) % numSlides + 1;
+
+  document.getElementById('slide-' + position).classList.add('hidden');
+  document.getElementById('slide-' + nextPosition).classList.remove('hidden');
+
+  updateProgress();
+  updateURL();
+  updateTabIndex();
+}
+
+
+/**
+ * Updates the current URL to include a hashtag of the current page number.
+ */
+function updateURL() {
+  try {
+    window.history.replaceState({} , null, '#' + currentPosition());
+  } catch (e) {
+    window.location.hash = currentPosition();
+  }
+}
+
+
+/**
+ * Sets the progress indicator.
+ */
+function updateProgress() {
+  var progressBar = document.querySelector('.progress-bar');
+
+  if (progressBar !== null) {
+    var numSlides = document.getElementsByClassName('slide').length;
+    var position = currentPosition() - 1;
+    var percent = (numSlides === 1) ? 100 : 100 * position / (numSlides - 1);
+    progressBar.style.width = percent.toString() + '%';
+  }
+}
+
+
+/**
+ * Removes tabindex property from all links on the current slide, sets
+ * tabindex = -1 for all links on other slides. Prevents slides from appearing
+ * out of control.
+ */
+function updateTabIndex() {
+  var allLinks = document.querySelectorAll('.slide a');
+  var position = currentPosition();
+  var currentPageLinks = document.getElementById('slide-' + position).querySelectorAll('a');
+  var i;
+
+  for (i = 0; i < allLinks.length; i++) {
+    allLinks[i].setAttribute('tabindex', -1);
+  }
+
+  for (i = 0; i < currentPageLinks.length; i++) {
+    currentPageLinks[i].removeAttribute('tabindex');
+  }
+}
+
+/**
+ * Determines whether or not we are currently in full screen mode
+ */
+function isFullScreen() {
+  return document.fullscreenElement ||
+         document.mozFullScreenElement ||
+         document.webkitFullscreenElement ||
+         document.msFullscreenElement;
+}
+
+/**
+ * Toggle fullScreen mode on document element.
+ * Works on chrome (>= 15), firefox (>= 9), ie (>= 11), opera(>= 12.1), safari (>= 5).
+ */
+function toggleFullScreen() {
+  /* Convenient renames */
+  var docElem = document.documentElement;
+  var doc = document;
+
+  docElem.requestFullscreen =
+      docElem.requestFullscreen ||
+      docElem.msRequestFullscreen ||
+      docElem.mozRequestFullScreen ||
+      docElem.webkitRequestFullscreen.bind(docElem, Element.ALLOW_KEYBOARD_INPUT);
+
+  doc.exitFullscreen =
+      doc.exitFullscreen ||
+      doc.msExitFullscreen ||
+      doc.mozCancelFullScreen ||
+      doc.webkitExitFullscreen;
+
+  isFullScreen() ? doc.exitFullscreen() : docElem.requestFullscreen();
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  // Update the tabindex to prevent weird slide transitioning
+  updateTabIndex();
+
+  // If the location hash specifies a page number, go to it.
+  var page = window.location.hash.slice(1);
+  if (page) {
+    navigate(parseInt(page) - 1);
+  }
+
+  document.onkeydown = function (e) {
+    var kc = e.keyCode;
+
+    // left, down, H, J, backspace, PgUp - BACK
+    // up, right, K, L, space, PgDn - FORWARD
+    // enter - FULLSCREEN
+    if (kc === 37 || kc === 40 || kc === 8 || kc === 72 || kc === 74 || kc === 33) {
+      navigate(-1);
+    } else if (kc === 38 || kc === 39 || kc === 32 || kc === 75 || kc === 76 || kc === 34) {
+      navigate(1);
+    } else if (kc === 13) {
+      toggleFullScreen();
+    }
+  };
+
+  if (document.querySelector('.next') && document.querySelector('.prev')) {
+    document.querySelector('.next').onclick = function (e) {
+      e.preventDefault();
+      navigate(1);
+    };
+
+    document.querySelector('.prev').onclick = function (e) {
+      e.preventDefault();
+      navigate(-1);
+    };
+  }
+});
+
+
+  </script>
+</body>
+</html>
