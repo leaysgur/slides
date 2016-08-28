@@ -14,7 +14,7 @@ controls: false
 - Yuji Sugiura / [@leader22](https://twitter.com/leader22)
 - フロントエンド・エンジニア at PixelGrid Inc.
 - 最近の仕事はパフォーマンスチューニング📈
-- 趣味ではReactNative x Swiftで音楽アプリ
+- 趣味ではReact Native x Swiftで音楽アプリを少々
 
 ![leader22](./img/doseisan.jpg)
 
@@ -23,15 +23,23 @@ controls: false
 ### WebAudioとわたし
 
 - 前職（渋谷のDなんとか社）で、ソシャゲのBGM・効果音に使えないか検証したり
-- [CodeGrid](http://www.codegrid.net/)に[記事](https://app.codegrid.net/series/2015-sound)書いたり
-- いわゆる[音楽プレーヤー](https://github.com/leader22/mmss)作ってみたり
+- [宣伝] [CodeGrid](http://www.codegrid.net/)に[入門記事](https://app.codegrid.net/series/2015-sound)書いたり
+- いわゆる[MP3プレーヤー](https://github.com/leader22/mmss)作ってみたり
 
-素人ではないが、玄人でもないレベル<br>
-まさかWebAudioの勉強会が開催される日がくるとは・・💪
+素人ではないが、ガチ勢でもないレベル・・・(˘ω˘ )
+
+--
+
+# 🎉WebAudio.tokyo
+##まさかWebAudioの勉強会が開催される日がくるとは！
 
 --
 
 # <a>WebAudio</a>で<br>なんちゃってWebRTC
+
+--
+
+# ...🤔
 
 --
 
@@ -46,7 +54,7 @@ controls: false
 - ブラウザでマイクやカメラのストリームを取得し
 - ネットワークを越えてリアルタイム配信できるAPI
 - "基本的"には通信はP2P
-  - ただしP2Pだとスケールしない💨
+  - ただしP2Pだとスケールしない..
 
 SkypeがWebの技術でできるようなもの。<br>
 ただ、このモバイル全盛期でもiOSのWebで使えない！！
@@ -61,16 +69,31 @@ SkypeがWebの技術でできるようなもの。<br>
 
 - WebRTCで音を拾うとこまではPCでやって
 - それをWebSocketで送りつけて
-- iOSでもWebAudioで再生できないか
+- iOSでもWebAudioで再生すれば
+- 力ずくやけどWebRTCっぽいことできないか
 
-・・・できた(∩´∀｀)∩
+・・・できた💪(´∀｀💪)
 
 --
 
-# デモ
+# デモ👀
 ##（WiFiがあれば）
 
 ![](https://raw.githubusercontent.com/leader22/audio-streaming-over-websocket/master/demo-img.jpg)
+
+--
+
+### アプリの概要
+- [leader22/audio-streaming-over-websocket](https://github.com/leader22/audio-streaming-over-websocket)
+- WebRTC x WebWorker x WebAudio x WebSocket
+- JavaScript
+  - Vue.js
+  - Browserify
+  - WebWorkify
+  - Socket.IO
+- CSS
+  - PostCSS
+  - Milligram
 
 --
 
@@ -96,11 +119,12 @@ SkypeがWebの技術でできるようなもの。<br>
 
 --
 
-# WebAudioな部分の解説
+# WebAudioな部分の紹介
+## WebAudioの勉強会なので
 
 --
 
-### マイクの音をAudioNodeにする
+### マイク🎙の音をAudioNodeにする
 ```js
 var crx = new AudioContext();
 
@@ -119,7 +143,7 @@ localhostかhttps環境でお試しください！
 
 --
 
-### 雑音をフィルタする
+### 雑音を雑にカットする💇🏻
 
 ```js
 var filter = ctx.createBiquadFilter();
@@ -132,11 +156,11 @@ filter.Q.value = 0.25;
 micSrc.connect(filter);
 ```
 
-リアルタイムに周波数帯を検知してフィルタの領域も変動したかったけど面倒なのでやめた・・。
+リアルタイムに周波数帯を検知して、ダイナミックにフィルタも変動したかったけど面倒なのでやめた・・。
 
 --
 
-### 音源（INPUT）の様子をみる
+### 音源（INPUT）のデータをみる📊
 
 ```js
 var analyser = ctx.createAnalyser();
@@ -156,9 +180,8 @@ analyser.getByteFrequencyData(freqs);
 
 --
 
-### 音を飛ばす
+### 音データを飛ばす🚀
 ```js
-// それなりに重そうなのでとりあえず1ch
 var processor = ctx.createScriptProcessor(BUFFER_SIZE, 1, 1);
 processor.onaudioprocess = _onAudioProcess;
 
@@ -179,11 +202,11 @@ function _onAudioProcess(ev) {
 }
 ```
 
-音質にこだわるなら、ここで巨大なバッファに2chつめこめばいいはず。
+音質にこだわるなら、ここで巨大なバッファに2chつめこめば・・？
 
 --
 
-### 音を受け取る
+### 音データを受け取る📡
 ```js
 var ctx = new AudioContext();
 
@@ -205,7 +228,7 @@ function _handleAudioBuffer(buf) {
 
 --
 
-### いいタイミングで再生する
+### いいタイミングで再生する🔊
 ```js
 var _startTime = 0;
 var currentTime = ctx.currentTime;
@@ -226,7 +249,7 @@ else {
 
 --
 
-# さいごに実用性
+# まとめ
 
 --
 
@@ -234,12 +257,21 @@ else {
 
 - リアルタイム性
   - ネットワークによってはじわじわ遅延する
-  - つなぎなおせばLTEでも全然OK
+  - 都度つなぎなおせばLTEでも全然OK
 - 音質
   - 今回の実装（1ch / 1024）だと音楽は辛い
   - ニュースや会話は問題ない
 
 やってみた本人が一番驚いてるけど、意外にイケる😊
+
+--
+
+### 触れなかった話題
+- なぜWebWorkerなのか
+- Vue.jsのアレコレ
+- Web屋がこういうことやるにあたっての壁
+
+一部は[ブログ](http://lealog.hateblo.jp/entry/2016/02/26/200718)に！もしくは懇親会🍕で！
 
 --
 
@@ -251,7 +283,7 @@ else {
   --bar-color: #274a78;
   --em-color: #54b6d3;
 }
-\#slide-5 {
+\#slide-7 {
   font-size: 70%;
 }
 </style>

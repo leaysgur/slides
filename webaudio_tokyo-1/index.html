@@ -375,7 +375,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <li>Yuji Sugiura / <a href="https://twitter.com/leader22">@leader22</a></li>
 <li>フロントエンド・エンジニア at PixelGrid Inc.</li>
 <li>最近の仕事はパフォーマンスチューニング📈</li>
-<li>趣味ではReactNative x Swiftで音楽アプリ</li>
+<li>趣味ではReact Native x Swiftで音楽アプリを少々</li>
 </ul>
 <p><img src="./img/doseisan.jpg" alt="leader22"></p>
 </section>
@@ -384,29 +384,37 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
     <section class="slide-content"><h3 id="webaudio-">WebAudioとわたし</h3>
 <ul>
 <li>前職（渋谷のDなんとか社）で、ソシャゲのBGM・効果音に使えないか検証したり</li>
-<li><a href="http://www.codegrid.net/">CodeGrid</a>に<a href="https://app.codegrid.net/series/2015-sound">記事</a>書いたり</li>
-<li>いわゆる<a href="https://github.com/leader22/mmss">音楽プレーヤー</a>作ってみたり</li>
+<li>[宣伝] <a href="http://www.codegrid.net/">CodeGrid</a>に<a href="https://app.codegrid.net/series/2015-sound">入門記事</a>書いたり</li>
+<li>いわゆる<a href="https://github.com/leader22/mmss">MP3プレーヤー</a>作ってみたり</li>
 </ul>
-<p>素人ではないが、玄人でもないレベル<br>
-まさかWebAudioの勉強会が開催される日がくるとは・・💪</p>
+<p>素人ではないが、ガチ勢でもないレベル・・・(˘ω˘ )</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-4">
-    <section class="slide-content"><h1 id="-a-webaudio-a-br-webrtc"><a>WebAudio</a>で<br>なんちゃってWebRTC</h1>
+    <section class="slide-content"><h1 id="-webaudio-tokyo">🎉WebAudio.tokyo</h1>
+<h2 id="-webaudio-">まさかWebAudioの勉強会が開催される日がくるとは！</h2>
 </section>
   </div>
   <div class="slide hidden" id="slide-5">
-    <section class="slide-content"><h1 id="-ios-webrtc-br-websocket-a-webaudio-a-br-webrtc-br-">（iOSだとWebRTCが使えないので<br>WebSocketと）<a>WebAudio</a>で<br>なんちゃってWebRTC<br>（という試みを半年前にやった話）</h1>
+    <section class="slide-content"><h1 id="-a-webaudio-a-br-webrtc"><a>WebAudio</a>で<br>なんちゃってWebRTC</h1>
 </section>
   </div>
   <div class="slide hidden" id="slide-6">
+    <section class="slide-content"><h1 id="-">...🤔</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-7">
+    <section class="slide-content"><h1 id="-ios-webrtc-br-websocket-a-webaudio-a-br-webrtc-br-">（iOSだとWebRTCが使えないので<br>WebSocketと）<a>WebAudio</a>で<br>なんちゃってWebRTC<br>（という試みを半年前にやった話）</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-8">
     <section class="slide-content"><h3 id="webrtc-">WebRTCとは</h3>
 <p>ざっくり言うと、</p>
 <ul>
 <li>ブラウザでマイクやカメラのストリームを取得し</li>
 <li>ネットワークを越えてリアルタイム配信できるAPI</li>
 <li>&quot;基本的&quot;には通信はP2P<ul>
-<li>ただしP2Pだとスケールしない💨</li>
+<li>ただしP2Pだとスケールしない..</li>
 </ul>
 </li>
 </ul>
@@ -414,25 +422,46 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 ただ、このモバイル全盛期でもiOSのWebで使えない！！</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-7">
+  <div class="slide hidden" id="slide-9">
     <section class="slide-content"><h3 id="-">そこで</h3>
 <p>せめて、PC側での会話を聞くだけでも・・。</p>
 <p>というわけで、</p>
 <ul>
 <li>WebRTCで音を拾うとこまではPCでやって</li>
 <li>それをWebSocketで送りつけて</li>
-<li>iOSでもWebAudioで再生できないか</li>
+<li>iOSでもWebAudioで再生すれば</li>
+<li>力ずくやけどWebRTCっぽいことできないか</li>
 </ul>
-<p>・・・できた(∩´∀｀)∩</p>
+<p>・・・できた💪(´∀｀💪)</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-8">
-    <section class="slide-content"><h1 id="-">デモ</h1>
+  <div class="slide hidden" id="slide-10">
+    <section class="slide-content"><h1 id="-">デモ👀</h1>
 <h2 id="-wifi-">（WiFiがあれば）</h2>
 <p><img src="https://raw.githubusercontent.com/leader22/audio-streaming-over-websocket/master/demo-img.jpg" alt=""></p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-9">
+  <div class="slide hidden" id="slide-11">
+    <section class="slide-content"><h3 id="-">アプリの概要</h3>
+<ul>
+<li><a href="https://github.com/leader22/audio-streaming-over-websocket">leader22/audio-streaming-over-websocket</a></li>
+<li>WebRTC x WebWorker x WebAudio x WebSocket</li>
+<li>JavaScript<ul>
+<li>Vue.js</li>
+<li>Browserify</li>
+<li>WebWorkify</li>
+<li>Socket.IO</li>
+</ul>
+</li>
+<li>CSS<ul>
+<li>PostCSS</li>
+<li>Milligram</li>
+</ul>
+</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-12">
     <section class="slide-content"><h3 id="-publisher">やってること: Publisher</h3>
 <ul>
 <li>getUserMedia()</li>
@@ -451,7 +480,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-10">
+  <div class="slide hidden" id="slide-13">
     <section class="slide-content"><h3 id="-subscriber">やってること: Subscriber</h3>
 <ul>
 <li>WebWorker<ul>
@@ -464,12 +493,13 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-11">
-    <section class="slide-content"><h1 id="webaudio-">WebAudioな部分の解説</h1>
+  <div class="slide hidden" id="slide-14">
+    <section class="slide-content"><h1 id="webaudio-">WebAudioな部分の紹介</h1>
+<h2 id="webaudio-">WebAudioの勉強会なので</h2>
 </section>
   </div>
-  <div class="slide hidden" id="slide-12">
-    <section class="slide-content"><h3 id="-audionode-">マイクの音をAudioNodeにする</h3>
+  <div class="slide hidden" id="slide-15">
+    <section class="slide-content"><h3 id="-audionode-">マイク🎙の音をAudioNodeにする</h3>
 <pre><code class="lang-js"><span class="hljs-keyword">var</span> crx = <span class="hljs-keyword">new</span> AudioContext();
 
 navigator.mediaDevices
@@ -484,8 +514,8 @@ navigator.mediaDevices
 <p>localhostかhttps環境でお試しください！</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-13">
-    <section class="slide-content"><h3 id="-">雑音をフィルタする</h3>
+  <div class="slide hidden" id="slide-16">
+    <section class="slide-content"><h3 id="-">雑音を雑にカットする💇🏻</h3>
 <pre><code class="lang-js"><span class="hljs-keyword">var</span> filter = ctx.createBiquadFilter();
 filter.type = <span class="hljs-string">'bandpass'</span>;
 <span class="hljs-comment">// アナログ電話は300Hz ~ 3.4kHz / ひかり電話は100Hz ~ 7kHz</span>
@@ -494,11 +524,11 @@ filter.frequency.value = (<span class="hljs-number">100</span> + <span class="hl
 filter.Q.value = <span class="hljs-number">0.25</span>;
 
 micSrc.connect(filter);</code></pre>
-<p>リアルタイムに周波数帯を検知してフィルタの領域も変動したかったけど面倒なのでやめた・・。</p>
+<p>リアルタイムに周波数帯を検知して、ダイナミックにフィルタも変動したかったけど面倒なのでやめた・・。</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-14">
-    <section class="slide-content"><h3 id="-input-">音源（INPUT）の様子をみる</h3>
+  <div class="slide hidden" id="slide-17">
+    <section class="slide-content"><h3 id="-input-">音源（INPUT）のデータをみる📊</h3>
 <pre><code class="lang-js"><span class="hljs-keyword">var</span> analyser = ctx.createAnalyser();
 analyser.smoothingTimeConstant = <span class="hljs-number">0.4</span>;
 analyser.fftSize = BUFFER_SIZE;
@@ -513,10 +543,9 @@ analyser.getByteFrequencyData(freqs);
 これがあるとそれっぽい感じに！</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-15">
-    <section class="slide-content"><h3 id="-">音を飛ばす</h3>
-<pre><code class="lang-js"><span class="hljs-comment">// それなりに重そうなのでとりあえず1ch</span>
-<span class="hljs-keyword">var</span> processor = ctx.createScriptProcessor(BUFFER_SIZE, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>);
+  <div class="slide hidden" id="slide-18">
+    <section class="slide-content"><h3 id="-">音データを飛ばす🚀</h3>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> processor = ctx.createScriptProcessor(BUFFER_SIZE, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>);
 processor.onaudioprocess = _onAudioProcess;
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_onAudioProcess</span>(<span class="hljs-params">ev</span>) </span>{
@@ -534,11 +563,11 @@ processor.onaudioprocess = _onAudioProcess;
     data: outputData.buffer
   });
 }</code></pre>
-<p>音質にこだわるなら、ここで巨大なバッファに2chつめこめばいいはず。</p>
+<p>音質にこだわるなら、ここで巨大なバッファに2chつめこめば・・？</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-16">
-    <section class="slide-content"><h3 id="-">音を受け取る</h3>
+  <div class="slide hidden" id="slide-19">
+    <section class="slide-content"><h3 id="-">音データを受け取る📡</h3>
 <pre><code class="lang-js"><span class="hljs-keyword">var</span> ctx = <span class="hljs-keyword">new</span> AudioContext();
 
 <span class="hljs-comment">// WebSocketで受けたバッファを処理する</span>
@@ -556,8 +585,8 @@ processor.onaudioprocess = _onAudioProcess;
 <p>後は鳴らすだけ！</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-17">
-    <section class="slide-content"><h3 id="-">いいタイミングで再生する</h3>
+  <div class="slide hidden" id="slide-20">
+    <section class="slide-content"><h3 id="-">いいタイミングで再生する🔊</h3>
 <pre><code class="lang-js"><span class="hljs-keyword">var</span> _startTime = <span class="hljs-number">0</span>;
 <span class="hljs-keyword">var</span> currentTime = ctx.currentTime;
 
@@ -574,16 +603,16 @@ processor.onaudioprocess = _onAudioProcess;
 <p>これが地味に重要で、こうしないとプツプツとぎれとぎれになります・・。</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-18">
-    <section class="slide-content"><h1 id="-">さいごに実用性</h1>
+  <div class="slide hidden" id="slide-21">
+    <section class="slide-content"><h1 id="-">まとめ</h1>
 </section>
   </div>
-  <div class="slide hidden" id="slide-19">
+  <div class="slide hidden" id="slide-22">
     <section class="slide-content"><h3 id="-">気になる実用性</h3>
 <ul>
 <li>リアルタイム性<ul>
 <li>ネットワークによってはじわじわ遅延する</li>
-<li>つなぎなおせばLTEでも全然OK</li>
+<li>都度つなぎなおせばLTEでも全然OK</li>
 </ul>
 </li>
 <li>音質<ul>
@@ -595,7 +624,17 @@ processor.onaudioprocess = _onAudioProcess;
 <p>やってみた本人が一番驚いてるけど、意外にイケる😊</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-20">
+  <div class="slide hidden" id="slide-23">
+    <section class="slide-content"><h3 id="-">触れなかった話題</h3>
+<ul>
+<li>なぜWebWorkerなのか</li>
+<li>Vue.jsのアレコレ</li>
+<li>Web屋がこういうことやるにあたっての壁</li>
+</ul>
+<p>一部は<a href="http://lealog.hateblo.jp/entry/2016/02/26/200718">ブログ</a>に！もしくは懇親会🍕で！</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-24">
     <section class="slide-content"><h1 id="thank-you-">Thank you!</h1>
 <p><style>
 :root {
@@ -603,7 +642,7 @@ processor.onaudioprocess = _onAudioProcess;
   --bar-color: #274a78;
   --em-color: #54b6d3;
 }
-#slide-5 {
+#slide-7 {
   font-size: 70%;
 }
 </style></p>
