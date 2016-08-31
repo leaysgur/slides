@@ -22,6 +22,7 @@ controls: false
 
 ### WebAudioとわたし
 
+- 誰もが通るシンセを作るところから
 - 前職（渋谷のDなんとか社）で、ソシャゲのBGM・効果音に使えないか検証したり
 - [宣伝] [CodeGrid](http://www.codegrid.net/)に[入門記事](https://app.codegrid.net/series/2015-sound)書いたり
 - いわゆる[MP3プレーヤー](https://github.com/leader22/mmss)作ってみたり
