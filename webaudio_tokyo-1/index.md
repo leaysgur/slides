@@ -13,8 +13,8 @@ controls: false
 
 - Yuji Sugiura / [@leader22](https://twitter.com/leader22)
 - フロントエンド・エンジニア at PixelGrid Inc.
-- 最近の仕事はパフォーマンスチューニング📈
-- 趣味ではReact Native x Swiftで音楽アプリを少々
+- 最近の仕事はパフォーマンスチューニング📈とかReact案件とか
+- 趣味ではReact Native x Swiftで音楽プレーヤーを少々
 
 ![leader22](./img/doseisan.jpg)
 
@@ -22,7 +22,7 @@ controls: false
 
 ### WebAudioとわたし
 
-- 誰もが通るシンセを作るところから
+- 誰もが通るOscillatorでシンセを作るところから
 - 前職（渋谷のDなんとか社）で、ソシャゲのBGM・効果音に使えないか検証したり
 - [宣伝] [CodeGrid](http://www.codegrid.net/)に[入門記事](https://app.codegrid.net/series/2015-sound)書いたり
 - いわゆる[MP3プレーヤー](https://github.com/leader22/mmss)作ってみたり
@@ -64,16 +64,20 @@ SkypeがWebの技術でできるようなもの。<br>
 
 ### そこで
 
-せめて、PC側での会話を聞くだけでも・・。
+WebRTCアプリの会話・音を聞くだけでも・・。
 
 というわけで、
 
-- WebRTCで音を拾うとこまではPCでやって
-- それをWebSocketで送りつけて
-- iOSでもWebAudioで再生すれば
-- 力ずくやけどWebRTCっぽいことできないか
+- WebRTCのストリームから音を拾って
+- それをWebSocketで送りつければ
+- iOSでもWebAudioで再生できるし
+- 力ずくやけどWebRTCっぽいことできないか？
 
-・・・できた💪(´∀｀💪)
+なんちゃってWebRTCできるのでは！
+
+--
+
+# できた💪(´∀｀💪)
 
 --
 
@@ -140,7 +144,7 @@ navigator.mediaDevices
   })
 ```
 
-localhostかhttps環境でお試しください！
+`getUserMedia()`は、localhostかhttps環境でお試しください！
 
 --
 
