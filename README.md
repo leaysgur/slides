@@ -2,6 +2,7 @@
 
 |タイトル|発表日|イベント名|枠|
 |:-------|:----:|:---------|:-:|
+|[React Nativeで作るiOS用音楽プレーヤー](http://leader22.github.io/slides/pxg_camp-2016b/)|20161004|PixelGrid Inc. 開発合宿 in 浜金谷|10min|
 |[WebAudioでなんちゃってWebRTC](http://leader22.github.io/slides/webaudio_tokyo-1/)|20160906|WebAudio.tokyo #1|10min|
 |[0からはじめるFlow](http://leader22.github.io/slides/node_gakuen-21/)|20160629|Node学園 21時限目|10min|
 |[知ってて得するVanilla JS](http://leader22.github.io/slides/ng_kyoto-4/)|20160430|ng-kyoto Angular Meetup #4|20min|
