@@ -364,7 +364,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   </div>
 
   <div class="slide" id="slide-1">
-    <section class="slide-content"><h1 id="-a-webaudio-a-br-"><a>WebAudio</a>初学者を<br>阻む壁について</h1>
+    <section class="slide-content"><h1 id="-a-webaudio-a-br-"><a>WebAudio</a>の初学者を<br>阻む壁について</h1>
 <h2 id="-nbsp-">&nbsp;</h2>
 <h2 id="2016-11-08-webaudio-tokyo-2">2016/11/08 WebAudio.tokyo #2</h2>
 </section>
@@ -374,16 +374,15 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <ul>
 <li>Yuji Sugiura / <a href="https://twitter.com/leader22">@leader22</a></li>
 <li>フロントエンド・エンジニア at PixelGrid Inc.</li>
+<li>WebAudioのSpecの変更を日々追ったりする程度</li>
 </ul>
 <p><img src="./img/doseisan.jpg" alt="leader22"></p>
 </section>
   </div>
   <div class="slide hidden" id="slide-3">
     <section class="slide-content"><h3 id="web-audio-api-">Web Audio API 初心者向けハンズオン</h3>
-<p><img src="https://connpass-tokyo.s3.amazonaws.com/thumbs/20/ff/20ff4ec05444a61a8627641d089d9afe.png" alt=""></p>
+<p><img src="./img/handson.png" alt=""></p>
 <ul>
-<li>この間の日曜日</li>
-<li>メンターとして参加しました</li>
 <li>そこで出てた質問 = 初学者を阻む壁</li>
 <li>その一部をご紹介</li>
 </ul>
@@ -402,83 +401,35 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </section>
   </div>
   <div class="slide hidden" id="slide-7">
-    <section class="slide-content"><h1 id="-">＼なぜか音が鳴らない／</h1>
+    <section class="slide-content"><h1 id="-">&quot;なぜか&quot;音が鳴らない！</h1>
 </section>
   </div>
   <div class="slide hidden" id="slide-8">
     <section class="slide-content"><h3 id="-">そんなはずはない</h3>
 <ul>
 <li>プログラムは嘘付かない</li>
-<li>書いたコードに何か問題があって、音が鳴らない</li>
-<li>壁にもカテゴリがある<ul>
-<li>問題の切り分けが大事</li>
+<li>書いたコード・実行環境に問題がある</li>
+<li>APIの想定外の使い方をしてる</li>
 </ul>
-</li>
-</ul>
-<p>まぁ極稀に自分は悪くないのに動かないこともあ..(˘ω˘ )</p>
+<p>まぁ極稀に自分は悪くないのに動かないことも..(˘ω˘ )</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-9">
-    <section class="slide-content"><h3 id="-">カテゴリ</h3>
+    <section class="slide-content"><h3 id="-">阻む壁のカテゴリ</h3>
 <ul>
-<li>各API特有のもの</li>
+<li>各APIに特有のもの</li>
 <li>ブラウザの実装によるもの</li>
 <li>その他</li>
 </ul>
 </section>
   </div>
   <div class="slide hidden" id="slide-10">
-    <section class="slide-content"><h1 id="api-">API特有のもの</h1>
+    <section class="slide-content"><h1 id="-api-">各APIに特有のもの</h1>
+<h2 id="webaudio-webrtc-etc-">WebAudio / WebRTC / etc...</h2>
 </section>
   </div>
   <div class="slide hidden" id="slide-11">
-    <section class="slide-content"><h3 id="-">問: このパラメータの上限値は？</h3>
-<pre><code class="lang-js"><span class="hljs-keyword">var</span> oscillator = audioCtx.createOscillator();
-oscillator.frequency.value = <span class="hljs-number">440</span>; <span class="hljs-comment">// コレとか</span>
-
-<span class="hljs-keyword">var</span> delay = audioCtx.createDelay(<span class="hljs-number">5.0</span>);
-delay.delayTime.value = <span class="hljs-number">3.0</span>; <span class="hljs-comment">// コレとか</span></code></pre>
-<ul>
-<li>なぜ<code>440</code>なの？</li>
-<li>もっと大きい・小さい値は入れられないの？</li>
-<li>初期値は？</li>
-</ul>
-</section>
-  </div>
-  <div class="slide hidden" id="slide-12">
-    <section class="slide-content"><h3 id="audioparam-">AudioParamというまとまり</h3>
-<pre><code class="lang-js"><span class="hljs-comment">// これらは実は AudioParam というオブジェクト</span>
-oscillator.frequency;
-delay.delayTime;</code></pre>
-<ul>
-<li>値を直接セットしたり</li>
-<li>関数で逐次セットしたりもできる</li>
-</ul>
-<p>肝心の値の初期値・範囲は、各AudioNodeごとに決まってる</p>
-</section>
-  </div>
-  <div class="slide hidden" id="slide-13">
-    <section class="slide-content"><h3 id="-delay-delaytime">例: delay.delayTime</h3>
-<blockquote>
-<p>Its default value is 0 (no delay).
-The minimum value is 0 and the maximum value is determined by the maxDelayTime argument to the AudioContext method createDelay.</p>
-</blockquote>
-<p><a href="https://webaudio.github.io/web-audio-api/#h-attributes-8">https://webaudio.github.io/web-audio-api/#h-attributes-8</a></p>
-</section>
-  </div>
-  <div class="slide hidden" id="slide-14">
-    <section class="slide-content"><h3 id="-">さっきの例だと</h3>
-<pre><code class="lang-js"><span class="hljs-keyword">var</span> delay = audioCtx.createDelay(<span class="hljs-number">5.0</span>);
-delay.delayTime.value = <span class="hljs-number">3.0</span>;</code></pre>
-<ul>
-<li>min: 0</li>
-<li>max: 5.0</li>
-<li>default: 0</li>
-</ul>
-</section>
-  </div>
-  <div class="slide hidden" id="slide-15">
-    <section class="slide-content"><h3 id="-audionode-">問: AudioNodeが..</h3>
+    <section class="slide-content"><h3 id="q-audionode-">Q. AudioNodeが..</h3>
 <pre><code class="lang-js"><span class="hljs-comment">// まず鳴らす</span>
 <span class="hljs-keyword">var</span> oscillator = audioCtx.createOscillator();
 oscillator.start();
@@ -486,13 +437,13 @@ oscillator.start();
 <span class="hljs-comment">// 止める</span>
 oscillator.stop();
 
-<span class="hljs-comment">// また鳴らそうとするとエラー</span>
+<span class="hljs-comment">// また鳴らそうとするとエラーになって音が鳴らない！</span>
 oscillator.start();</code></pre>
 <p>Failed to execute &#39;start&#39; on &#39;OscillatorNode&#39;: cannot call start more than once.</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-16">
-    <section class="slide-content"><h3 id="audionode-">AudioNodeは使い捨て</h3>
+  <div class="slide hidden" id="slide-12">
+    <section class="slide-content"><h3 id="a-audionode-">A. AudioNodeは使い捨て</h3>
 <ul>
 <li>いったん<code>stop()</code>すると、もう<code>start()</code>できない</li>
 <li>また新しくAudioNodeを作って<ul>
@@ -501,7 +452,58 @@ oscillator.start();</code></pre>
 </ul>
 </li>
 </ul>
-<p>そういうデザインのAPIなので割り切る。</p>
+<p>そういうデザインのAPIなので割り切るべし。<br>
+<code>stop()</code>したら<code>disconnect()</code>も忘れずに！</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-13">
+    <section class="slide-content"><h3 id="q-">Q: このパラメータ何？</h3>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> oscillator = audioCtx.createOscillator();
+oscillator.frequency.value = <span class="hljs-number">440</span>; <span class="hljs-comment">// コレとか</span>
+
+<span class="hljs-keyword">var</span> delay = audioCtx.createDelay(<span class="hljs-number">5.0</span>);
+delay.delayTime.value = <span class="hljs-number">3.0</span>; <span class="hljs-comment">// コレとか</span></code></pre>
+<ul>
+<li>ほかにどんななパラメータを設定できる？</li>
+<li>なぜ<code>440</code>なの？<ul>
+<li>もっと大きい・小さい値は入れられないの？</li>
+</ul>
+</li>
+<li>初期値は？</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-14">
+    <section class="slide-content"><h3 id="a-audioparam-">A. AudioParamで検索！</h3>
+<pre><code class="lang-js"><span class="hljs-comment">// これらは実は AudioParam というオブジェクト</span>
+oscillator.frequency;
+delay.delayTime;</code></pre>
+<ul>
+<li>値を直接セットしたり</li>
+<li>関数で逐次セットしたりもできる</li>
+</ul>
+<p>値の初期値・範囲は、各AudioNodeごとに違うので、仕様書を読む or 検索して探す。</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-15">
+    <section class="slide-content"><h3 id="-delaynode-delaytime">例: DelayNode.delayTime</h3>
+<blockquote>
+<p>Its default value is 0 (no delay). The minimum value is 0 and the maximum value is determined by the maxDelayTime argument to the AudioContext method createDelay.</p>
+</blockquote>
+<p><a href="https://webaudio.github.io/web-audio-api/#h-attributes-8">https://webaudio.github.io/web-audio-api/#h-attributes-8</a></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-16">
+    <section class="slide-content"><h3 id="-">さっきの例だと</h3>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> delay = audioCtx.createDelay(<span class="hljs-number">5.0</span>);
+delay.delayTime.value = <span class="hljs-number">3.0</span>;</code></pre>
+<p>設定できる値は、</p>
+<ul>
+<li>min: 0</li>
+<li>max: 5.0</li>
+<li>default: 0</li>
+</ul>
+<p>というわけです。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-17">
@@ -510,30 +512,30 @@ oscillator.start();</code></pre>
   </div>
   <div class="slide hidden" id="slide-18">
     <section class="slide-content"><h3 id="-">例: マイクから拾って音を出す</h3>
-<p>音は鳴った。</p>
+<p>音は無事に鳴った。</p>
 <pre><code class="lang-js">micStream.stop(); <span class="hljs-comment">// micStream.stop is not a function</span></code></pre>
 <p>が、止めるとエラーになる！</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-19">
-    <section class="slide-content"><h3 id="mediastream">MediaStream</h3>
+    <section class="slide-content"><h3 id="mediastream-stop-is-depricated">MediaStream#stop is depricated</h3>
 <ul>
 <li>昔は動いてた</li>
 <li>ある時から仕様が変わった</li>
 </ul>
 <pre><code class="lang-js"><span class="hljs-comment">// micStream.stop();</span>
 micStream.getAudioTracks().forEach((track) =&gt; { track.stop(); });</code></pre>
-<p>ちなみにこれはWebRTCのAPIの問題</p>
+<p>ちなみにこれはWebAudioではなく、WebRTC方面のAPIの問題。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-20">
     <section class="slide-content"><h3 id="-">他にもいろいろ</h3>
 <ul>
 <li><code>AudioContext</code><ul>
-<li>iOSのSafariは<code>webkitAudioContext</code>だったり</li>
+<li>Safariは<code>webkitAudioContext</code>だったり</li>
 </ul>
 </li>
-<li><code>AudioNode.start</code><ul>
+<li><code>AudioNode#start</code><ul>
 <li>昔は<code>start</code>ではなく<code>noteOn</code>だったり・・</li>
 </ul>
 </li>
@@ -573,7 +575,7 @@ audioCtx.decodeAudioData(audioData)
 </ul>
 </li>
 </ul>
-<p>エディタやLinterでチェックできるし、慣れでカバーもできる</p>
+<p>エディタやLinterでチェックできるし、慣れの問題でもある。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-24">
@@ -594,7 +596,8 @@ audioCtx.decodeAudioData(audioData)
 </ul>
 </li>
 </ul>
-<p>一度出せば後はOK、無音のファイルを再生させて回避したり。</p>
+<p>一度でも音を出せば後はOK。<br>
+無音のファイルを再生させて回避する小技とかも。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-26">
@@ -605,29 +608,31 @@ audioCtx.decodeAudioData(audioData)
 <li>ナイキスト周波数・・・日本語でおｋ</li>
 <li>フーリエ変換 is 何</li>
 </ul>
-<p><a href="http://www.g200kg.com/jp/docs/dic/">http://www.g200kg.com/jp/docs/dic/</a> というバイブルを読もう！</p>
+<p><a href="http://www.g200kg.com/jp/docs/dic/">http://www.g200kg.com/jp/docs/dic/</a> というバイブルで調べましょう！</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-27">
-    <section class="slide-content"><h1 id="-webaudiomaster">目指せWebAudioMaster</h1>
+    <section class="slide-content"><h1 id="webaudio-br-">WebAudio初学者の<br>次の一歩</h1>
 </section>
   </div>
   <div class="slide hidden" id="slide-28">
-    <section class="slide-content"><h3 id="-">簡単に言うけど</h3>
+    <section class="slide-content"><h3 id="-">他人事なので簡単に言います</h3>
 <ul>
 <li>JavaScript自体に慣れる<ul>
 <li>非同期処理のいい感じの書き方とか</li>
-<li>ついでにWebRTCとか親和性の高い技術も知る</li>
 </ul>
 </li>
 <li>AudioNodeを知る・慣れる<ul>
-<li>Nodeは使い捨て、AudioParamの使い方</li>
-<li>こういうことするならこのAudioNode</li>
+<li>Nodeは使い捨て / Bufferは使いまわせる</li>
+<li>AudioParamの使い方</li>
+<li>こういうことするならこのAudioNodeを使う感</li>
 </ul>
 </li>
 <li>ブラウザや環境の差異を把握する</li>
+<li>WebGL、WebRTCなど親和性の高い技術も味見</li>
 <li>サウンドプログラミングの手札を増やす</li>
 </ul>
+<p>がんばります・・。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-29">
