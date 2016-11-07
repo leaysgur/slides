@@ -464,21 +464,20 @@ oscillator.frequency.value = <span class="hljs-number">440</span>; <span class="
 <span class="hljs-keyword">var</span> delay = audioCtx.createDelay(<span class="hljs-number">5.0</span>);
 delay.delayTime.value = <span class="hljs-number">3.0</span>; <span class="hljs-comment">// コレとか</span></code></pre>
 <ul>
+<li><code>.value</code>って必要？</li>
 <li>ほかにどんななパラメータを設定できる？</li>
-<li>なぜ<code>440</code>なの？<ul>
 <li>もっと大きい・小さい値は入れられないの？</li>
-</ul>
-</li>
 <li>初期値は？</li>
 </ul>
 </section>
   </div>
   <div class="slide hidden" id="slide-14">
     <section class="slide-content"><h3 id="a-audioparam-">A. AudioParamで検索！</h3>
-<pre><code class="lang-js"><span class="hljs-comment">// これらは実は AudioParam というオブジェクト</span>
+<pre><code class="lang-js"><span class="hljs-comment">// これらは実は AudioParam というオブジェクト（インターフェース）</span>
 oscillator.frequency;
 delay.delayTime;</code></pre>
 <ul>
+<li><a href="https://webaudio.github.io/web-audio-api/#AudioParam">https://webaudio.github.io/web-audio-api/#AudioParam</a></li>
 <li>値を直接セットしたり</li>
 <li>関数で逐次セットしたりもできる</li>
 </ul>
@@ -632,7 +631,7 @@ audioCtx.decodeAudioData(audioData)
 <li>WebGL、WebRTCなど親和性の高い技術も味見</li>
 <li>サウンドプログラミングの手札を増やす</li>
 </ul>
-<p>がんばります・・。</p>
+<p>がんばろう( ∩&#39;-&#39;⊂ )ｼｭｯ</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-29">

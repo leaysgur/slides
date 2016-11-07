@@ -107,9 +107,9 @@ var delay = audioCtx.createDelay(5.0);
 delay.delayTime.value = 3.0; // コレとか
 ```
 
+- `.value`って必要？
 - ほかにどんななパラメータを設定できる？
-- なぜ`440`なの？
-  - もっと大きい・小さい値は入れられないの？
+- もっと大きい・小さい値は入れられないの？
 - 初期値は？
 
 --
@@ -117,12 +117,12 @@ delay.delayTime.value = 3.0; // コレとか
 ### A. AudioParamで検索！
 
 ```js
-// これらは実は AudioParam というオブジェクト
+// これらは実は AudioParam というオブジェクト（インターフェース）
 oscillator.frequency;
 delay.delayTime;
 ```
 
-
+- https://webaudio.github.io/web-audio-api/#AudioParam
 - 値を直接セットしたり
 - 関数で逐次セットしたりもできる
 
@@ -273,7 +273,7 @@ http://www.g200kg.com/jp/docs/dic/ というバイブルで調べましょう！
 - WebGL、WebRTCなど親和性の高い技術も味見
 - サウンドプログラミングの手札を増やす
 
-がんばります・・。
+がんばろう( ∩'-'⊂ )ｼｭｯ
 
 --
 
