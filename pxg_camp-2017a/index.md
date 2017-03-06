@@ -167,6 +167,13 @@ https://github.com/postcss/postcss-cli/issues/93
 
 --
 
+### WebpackのUglifyが・・・・・・・
+
+- Babelを通してないES6のコードを読めない
+- ので、`webpack -p`する = `babel`に依存することになる
+
+--
+
 ### MobXを使ったアーキテクチャ
 
 続きはブログで！
