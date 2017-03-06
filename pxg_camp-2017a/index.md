@@ -15,13 +15,13 @@ controls: false
 
 > https://github.com/leader22/mmss
 
-VPSに配置してあるmp3を使って、iTunesクローンを作ろうとした男がいた。
+VPSに配置してあるmp3を使って、iTunesクローンを作ろうとした男がいた・・。
 
 --
 
 ### しかし
 
-![](./img/last.png)
+![ダメでした](./img/last.png)
 
 --
 
@@ -41,7 +41,7 @@ VPSに配置してあるmp3を使って、iTunesクローンを作ろうとし�
 
 ### これで勝てる！
 
-![](./img/export.png)
+![きたこれ](./img/export.png)
 
 --
 
@@ -82,24 +82,24 @@ VPSに配置してあるmp3を使って、iTunesクローンを作ろうとし�
 - アーティスト・アルバム・シングル再生
 - 自動曲送り
 - 最近流行りのローディングUI
-- 次の曲のプリフェッチ
+- 次の曲のプリフェッチ <- 重要
 - 通知
 
 --
 
 ### やったこと（cli/server）
 - Node.jsでCLI
-  - `yargs`で引数をこねるだけ
+  - `yargs`で引数をこねてファイルを吐くだけ
 - Node.jsでストリーミングサーバー
   - `ReadableStream`を返すだけ
   - ログイン機能もあるよ
+  - `pm2`でデーモンに
 
 --
 
 ### やったこと（client）
-
 - React x MobX
-- WebNotifications
+- Web Notifications
 - <s>ServiceWorker</s>
 - Flow
 - PostCSS
@@ -111,7 +111,7 @@ VPSに配置してあるmp3を使って、iTunesクローンを作ろうとし�
 
 --
 
-### ServiceWorkerが・・・
+### ServiceWorkerが変な動きする
 
 ```js
 self.addEventListener('fetch', ev => {
@@ -140,7 +140,7 @@ self.addEventListener('fetch', ev => {
 
 --
 
-### PostCSS CLIが・・・・
+### PostCSS CLIが微妙
 
 ```sh
 # v2
@@ -155,10 +155,11 @@ postcss ./path/to/src.css -c ./postcss.config.js -o ./path/to/dist.css
 Issue立てたけど仕様らしい・・
 https://github.com/postcss/postcss-cli/issues/93
 
-あと`watch`モードもたぶんバグってるのでは・・。
+あと`watch`モードもバグってない・・・？
+
 --
 
-### FlowのCLIが・・・・・
+### Flowのプロセスがどっかいく
 
 - 古い型定義を抱えたままゾンビプロセスに・・
   - どれだけ新しい修正しても何も起きない
@@ -167,7 +168,7 @@ https://github.com/postcss/postcss-cli/issues/93
 
 --
 
-### WebpackのUglifyが・・・・・・・
+### WebpackのUglifyPluginが惜しい
 
 - Babelを通してないES6のコードを読めない
 - ので、`webpack -p`する = `babel`に依存することになる

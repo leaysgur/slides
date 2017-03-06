@@ -357,6 +357,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 
 
   </style>
+    <script async src="http://localhost:35729/livereload.js"></script>
 </head>
 <body>
     <div class="progress">
@@ -377,12 +378,12 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <blockquote>
 <p><a href="https://github.com/leader22/mmss">https://github.com/leader22/mmss</a></p>
 </blockquote>
-<p>VPSに配置してあるmp3を使って、iTunesクローンを作ろうとした男がいた。</p>
+<p>VPSに配置してあるmp3を使って、iTunesクローンを作ろうとした男がいた・・。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-4">
     <section class="slide-content"><h3 id="-">しかし</h3>
-<p><img src="./img/last.png" alt=""></p>
+<p><img src="./img/last.png" alt="ダメでした"></p>
 </section>
   </div>
   <div class="slide hidden" id="slide-5">
@@ -408,7 +409,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   </div>
   <div class="slide hidden" id="slide-7">
     <section class="slide-content"><h3 id="-">これで勝てる！</h3>
-<p><img src="./img/export.png" alt=""></p>
+<p><img src="./img/export.png" alt="きたこれ"></p>
 </section>
   </div>
   <div class="slide hidden" id="slide-8">
@@ -454,7 +455,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <li>アーティスト・アルバム・シングル再生</li>
 <li>自動曲送り</li>
 <li>最近流行りのローディングUI</li>
-<li>次の曲のプリフェッチ</li>
+<li>次の曲のプリフェッチ &lt;- 重要</li>
 <li>通知</li>
 </ul>
 </section>
@@ -463,12 +464,13 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
     <section class="slide-content"><h3 id="-cli-server-">やったこと（cli/server）</h3>
 <ul>
 <li>Node.jsでCLI<ul>
-<li><code>yargs</code>で引数をこねるだけ</li>
+<li><code>yargs</code>で引数をこねてファイルを吐くだけ</li>
 </ul>
 </li>
 <li>Node.jsでストリーミングサーバー<ul>
 <li><code>ReadableStream</code>を返すだけ</li>
 <li>ログイン機能もあるよ</li>
+<li><code>pm2</code>でデーモンに</li>
 </ul>
 </li>
 </ul>
@@ -478,7 +480,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
     <section class="slide-content"><h3 id="-client-">やったこと（client）</h3>
 <ul>
 <li>React x MobX</li>
-<li>WebNotifications</li>
+<li>Web Notifications</li>
 <li><s>ServiceWorker</s></li>
 <li>Flow</li>
 <li>PostCSS</li>
@@ -491,7 +493,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </section>
   </div>
   <div class="slide hidden" id="slide-17">
-    <section class="slide-content"><h3 id="serviceworker-">ServiceWorkerが・・・</h3>
+    <section class="slide-content"><h3 id="serviceworker-">ServiceWorkerが変な動きする</h3>
 <pre><code class="lang-js">self.addEventListener(<span class="hljs-string">'fetch'</span>, ev =&gt; {
   <span class="hljs-keyword">if</span> (ev.request.url.match(<span class="hljs-regexp">/\api\/track/</span>) === <span class="hljs-literal">false</span>) { <span class="hljs-keyword">return</span>; }
   ev.respondWith(
@@ -516,7 +518,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </section>
   </div>
   <div class="slide hidden" id="slide-18">
-    <section class="slide-content"><h3 id="postcss-cli-">PostCSS CLIが・・・・</h3>
+    <section class="slide-content"><h3 id="postcss-cli-">PostCSS CLIが微妙</h3>
 <pre><code class="lang-sh"><span class="hljs-comment"># v2</span>
 postcss -c ./.postcssrc.json
 
@@ -525,11 +527,11 @@ postcss ./path/to/src.css -c ./postcss.config.js -o ./path/to/dist.css</code></p
 <p>設定ファイルに<code>from</code>/<code>to</code>あるのに見てくれない！</p>
 <p>Issue立てたけど仕様らしい・・
 <a href="https://github.com/postcss/postcss-cli/issues/93">https://github.com/postcss/postcss-cli/issues/93</a></p>
-<p>あと<code>watch</code>モードもたぶんバグってるのでは・・。</p>
+<p>あと<code>watch</code>モードもバグってない・・・？</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-19">
-    <section class="slide-content"><h3 id="flow-cli-">FlowのCLIが・・・・・</h3>
+    <section class="slide-content"><h3 id="flow-">Flowのプロセスがどっかいく</h3>
 <ul>
 <li>古い型定義を抱えたままゾンビプロセスに・・<ul>
 <li>どれだけ新しい修正しても何も起きない</li>
@@ -541,7 +543,7 @@ postcss ./path/to/src.css -c ./postcss.config.js -o ./path/to/dist.css</code></p
 </section>
   </div>
   <div class="slide hidden" id="slide-20">
-    <section class="slide-content"><h3 id="webpack-uglify-">WebpackのUglifyが・・・・・・・</h3>
+    <section class="slide-content"><h3 id="webpack-uglifyplugin-">WebpackのUglifyPluginが惜しい</h3>
 <ul>
 <li>Babelを通してないES6のコードを読めない</li>
 <li>ので、<code>webpack -p</code>する = <code>babel</code>に依存することになる</li>
