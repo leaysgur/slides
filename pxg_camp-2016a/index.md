@@ -311,4 +311,4 @@ Pub: Mac ⇔ Server ⇔ Sub: Mac || iPhoneの場合。
 # Finish!
 
 <link rel="stylesheet" href="./style.css">
-<script src="../public/mobile-controls.js"></script>
+<script src="../static/mobile-controls.js"></script>

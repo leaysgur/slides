@@ -286,7 +286,7 @@ http://www.g200kg.com/jp/docs/dic/ というバイブルで調べましょう！
   --em-color: #54b6d3;
 }
 </style>
-<link rel="stylesheet" href="../public/base.css">
-<link rel="stylesheet" href="../public/timer.css">
-<script src="../public/timer.js"></script>
-<script src="../public/mobile-controls.js"></script>
+<link rel="stylesheet" href="../static/base.css">
+<link rel="stylesheet" href="../static/timer.css">
+<script src="../static/timer.js"></script>
+<script src="../static/mobile-controls.js"></script>
