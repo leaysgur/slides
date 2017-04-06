@@ -151,4 +151,4 @@ Web最高！！
 # Finish!
 
 <link rel="stylesheet" href="./style.css">
-<script src="../_static/mobile-controls.js"></script>
+<script src="../public/mobile-controls.js"></script>
