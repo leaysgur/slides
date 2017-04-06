@@ -190,7 +190,7 @@ https://github.com/postcss/postcss-cli/issues/93
   --em-color: #e84fdc;
 }
 </style>
-<link rel="stylesheet" href="../static/base.css">
-<link rel="stylesheet" href="../static/timer.css">
-<script src="../static/timer.js"></script>
-<script src="../static/mobile-controls.js"></script>
+<link rel="stylesheet" href="../_static/base.css">
+<link rel="stylesheet" href="../_static/timer.css">
+<script src="../_static/timer.js"></script>
+<script src="../_static/mobile-controls.js"></script>

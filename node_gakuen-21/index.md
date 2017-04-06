@@ -111,7 +111,7 @@ eventName = 21; // This type is incompatible with string
   - 型の定義（jsではない）をはずすやつ
 - `babel-plugin-transform-class-properties`
   - Stage1
-  - https://github.com/jeffmo/es-class-fields-and-static-properties
+  - https://github.com/jeffmo/es-class-fields-and-_static-properties
 
 最後のやつが地味に重要。
 
@@ -474,7 +474,7 @@ const type2: CardTypes = 'Fooo'; // error
   --em-color: #D68B00;
 }
 </style>
-<link rel="stylesheet" href="../static/base.css">
-<link rel="stylesheet" href="../static/timer.css">
-<script src="../static/timer.js"></script>
-<script src="../static/mobile-controls.js"></script>
+<link rel="stylesheet" href="../_static/base.css">
+<link rel="stylesheet" href="../_static/timer.css">
+<script src="../_static/timer.js"></script>
+<script src="../_static/mobile-controls.js"></script>
