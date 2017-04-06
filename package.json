@@ -4,9 +4,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "postinstall": "chmod -R +x ./_sh",
+    "postinstall": "chmod -R +x ./_script",
     "cleaver": "cleaver",
-    "md2html": "node ./_sh/md2html.js"
+    "md2html": "node ./_script/md2html.js"
   },
   "keywords": [],
   "author": "leader22",
