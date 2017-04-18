@@ -1,0 +1,943 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <title>Hello, MobX!</title>
+  <style type="text/css">
+    body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #222;
+  font-size: 100%;
+}
+
+.slide {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 0; right: 0;
+  background-color: #f7f7f7;
+}
+
+.slide-content {
+  width: 800px;
+  height: 600px;
+  overflow: hidden;
+  margin: 80px auto 0 auto;
+  padding: 30px;
+
+  font-weight: 200;
+  font-size: 200%;
+  line-height: 1.375;
+}
+
+.controls {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+}
+
+.arrow {
+  width: 0; height: 0;
+  border: 30px solid #333;
+  float: left;
+  margin-right: 30px;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.prev {
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+
+  border-left-width: 0;
+  border-right-width: 50px;
+}
+
+.next {
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  border-right-color: transparent;
+
+  border-left-width: 50px;
+  border-right-width: 0;
+}
+
+.prev:hover {
+  border-right-color: #888;
+  cursor: pointer;
+}
+
+.next:hover {
+  border-left-color: #888;
+  cursor: pointer;
+}
+
+h1 {
+  font-size: 300%;
+  line-height: 1.2;
+  text-align: center;
+  margin: 170px 0 0;
+}
+
+h2 {
+  font-size: 100%;
+  line-height: 1.2;
+  margin: 5px 0;
+  text-align: center;
+  font-weight: 200;
+}
+
+h3 {
+  font-size: 140%;
+  line-height: 1.2;
+  border-bottom: 1px solid #aaa;
+  margin: 0;
+  padding-bottom: 15px;
+}
+
+ul {
+  padding: 20px 0 0 60px;
+  font-weight: 200;
+  line-height: 1.375;
+}
+
+.author h1 {
+  font-size: 170%;
+  font-weight: 200;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.author h3 {
+  font-weight: 100;
+  text-align: center;
+  font-size: 95%;
+  border: none;
+}
+
+a {
+  text-decoration: none;
+  color: #44a4dd;
+}
+
+a:hover {
+  color: #66b5ff;
+}
+
+pre {
+  font-size: 60%;
+  line-height: 1.3;
+}
+
+.progress {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+
+.progress-bar {
+  width: 0%;
+  height: 3px;
+  background-color: #b4b4b4;
+
+  -webkit-transition: width 0.05s ease-out;
+  -moz-transition: width 0.05s ease-out;
+  -o-transition: width 0.05s ease-out;
+  transition: width 0.05s ease-out;
+}
+
+.hidden {
+  display: none;
+}
+
+@media (max-width: 850px) {
+
+  body {
+    font-size: 70%;
+  }
+
+  .slide-content {
+    width: auto;
+  }
+
+  img {
+    width: 100%;
+  }
+
+  h1 {
+    margin-top: 120px;
+  }
+
+  .prev, .prev:hover {
+    border-right-color: rgba(135, 135, 135, 0.5);
+  }
+
+  .next, .next:hover {
+    border-left-color: rgba(135, 135, 135, 0.5);
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 50%;
+    overflow: hidden;
+  }
+
+  .slide-content {
+    padding: 10px;
+    margin-top: 10px;
+    height: 340px;
+  }
+
+  h1 {
+    margin-top: 50px;
+  }
+
+  ul {
+    padding-left: 25px;
+  }
+}
+
+@media print {
+  * {
+    -webkit-print-color-adjust: exact;
+  }
+
+  @page {
+    size: letter;
+  }
+
+  .hidden {
+    display: inline;
+  }
+
+  html {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  body {
+    margin: 0 auto !important;
+    border: 0;
+    padding: 0;
+    float: none !important;
+    overflow: visible;
+    background: none !important;
+    font-size: 52%;
+  }
+
+  .progress, .controls {
+    display: none;
+  }
+
+  .slide {
+    position: static;
+  }
+
+  .slide-content {
+    border: 1px solid #222;
+    margin-top: 0;
+    margin-bottom: 40px;
+    height: 3.5in;
+    overflow: visible;
+  }
+
+  .slide:nth-child(even) {
+    /* 2 slides per page */
+    page-break-before: always;
+  }
+}
+
+/*
+
+github.com style (c) Vasily Polovnyov <vast@whiteants.net>
+
+*/
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  color: #333;
+  background: #f8f8f8;
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: #998;
+  font-style: italic;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-subst {
+  color: #333;
+  font-weight: bold;
+}
+
+.hljs-number,
+.hljs-literal,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag .hljs-attr {
+  color: #008080;
+}
+
+.hljs-string,
+.hljs-doctag {
+  color: #d14;
+}
+
+.hljs-title,
+.hljs-section,
+.hljs-selector-id {
+  color: #900;
+  font-weight: bold;
+}
+
+.hljs-subst {
+  font-weight: normal;
+}
+
+.hljs-type,
+.hljs-class .hljs-title {
+  color: #458;
+  font-weight: bold;
+}
+
+.hljs-tag,
+.hljs-name,
+.hljs-attribute {
+  color: #000080;
+  font-weight: normal;
+}
+
+.hljs-regexp,
+.hljs-link {
+  color: #009926;
+}
+
+.hljs-symbol,
+.hljs-bullet {
+  color: #990073;
+}
+
+.hljs-built_in,
+.hljs-builtin-name {
+  color: #0086b3;
+}
+
+.hljs-meta {
+  color: #999;
+  font-weight: bold;
+}
+
+.hljs-deletion {
+  background: #fdd;
+}
+
+.hljs-addition {
+  background: #dfd;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+
+
+  </style>
+</head>
+<body>
+    <div class="progress">
+    <div class="progress-bar"></div>
+  </div>
+
+  <div class="slide" id="slide-1">
+    <section class="slide-content"><h1 id="hello-a-mobx-a-">Hello, <a>MobX</a>!</h1>
+<h2 id="-nbsp-">&nbsp;</h2>
+<h2 id="2017-04-24-node-25-">2017/04/24 Node学園 25時限目</h2>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-2">
+    <section class="slide-content"><h3 id="-">はじめまして</h3>
+<ul>
+<li>Yuji Sugiura / <a href="https://twitter.com/leader22">@leader22</a></li>
+<li>フロントエンド・エンジニア at PixelGrid Inc.</li>
+<li><a href="http://lealog.hateblo.jp/">console.lealog();</a></li>
+<li>最近はReactNativeとWebRTCやってます</li>
+</ul>
+<p><img src="./img/doseisan.jpg" alt="leader22"></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-3">
+    <section class="slide-content"><p><img src="./img/mobx.png" alt="mobx"></p>
+<h2 id="mobx">MobX</h2>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-4">
+    <section class="slide-content"><h3 id="mobx-">MobXとは</h3>
+<ul>
+<li>Webアプリケーションにおける状態（<code>state</code>）を管理するためのライブラリ</li>
+<li><a href="https://github.com/mobxjs/mobx">https://github.com/mobxjs/mobx</a><ul>
+<li>現在の最新バージョンは<code>3.1.9</code></li>
+<li>GitHubのスターは8.5k↑</li>
+<li>TypeScript製（Flowの型定義もある）</li>
+</ul>
+</li>
+<li>作者は<a href="https://twitter.com/mweststrate">@mweststrate</a>氏</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-5">
+    <section class="slide-content"><h3 id="mobx-">MobXと私</h3>
+<ul>
+<li>半年以上使ってることになります<ul>
+<li>実務からプライベートまで</li>
+<li>小さいものからそれなりに大きいものまで</li>
+<li>Webから（React）Nativeまで</li>
+</ul>
+</li>
+<li>いちおうContributerです</li>
+</ul>
+<p>国内では割と使い込んでる側な気がする・・？</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-6">
+    <section class="slide-content"><h3 id="-">本日お伝えしたいこと</h3>
+<ul>
+<li>MobXのコンセプト</li>
+<li>どんな感じのコードになるか</li>
+<li>いまのお気持ち</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-7">
+    <section class="slide-content"><h3 id="-">話さないこと</h3>
+<ul>
+<li>○○はオワコン、これからはMobXの時代</li>
+<li>MobX最高！まじ最高！！</li>
+<li>MobXの内部はこうなってる</li>
+<li>いわゆるベストプラクティス</li>
+<li>こういうケースではこう書くといい</li>
+<li>APIの詳細、便利APIの解説</li>
+<li>etc...</li>
+</ul>
+<p>時間が足りないので、拙ブログを読む or 6月くらいの某勉強会にくる or 懇親会で話しかけてください🍕</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-8">
+    <section class="slide-content"><h1 id="mobx-">MobXのコンセプト</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-9">
+    <section class="slide-content"><h3 id="automatic-derivation">Automatic derivation</h3>
+<blockquote>
+<p>Anything that can be derived from the application state, should be derived. Automatically.</p>
+</blockquote>
+<p>意訳: アプリの状態に関するすべての事柄は、その状態変更に呼応して<a>自動的に</a>成されるべき。</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-10">
+    <section class="slide-content"><h3 id="-">昨今のアーキテクチャのトレンド</h3>
+<p><img src="./img/flow.png" alt="data flow"></p>
+<ul>
+<li>関心の分離</li>
+<li><a>一方向</a>のデータフロー<ul>
+<li><code>view = fn(state)</code></li>
+</ul>
+</li>
+</ul>
+<p>Stateを変更（Action）さえすれば、後はMobXが<a>自動的に</a>やってくれる。</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-11">
+    <section class="slide-content"><h1 id="-">どんなコードになるか</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-12">
+    <section class="slide-content"><h3 id="-3-">必要なのは3ステップ</h3>
+<ul>
+<li>1. Stateを定義すること</li>
+<li>2. そのStateを使って関数を実行すること<ul>
+<li><code>view.render()</code>とか</li>
+</ul>
+</li>
+<li>3. Stateを変更すること</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-13">
+    <section class="slide-content"><h3 id="1-observable-state-">1. ObservableなStateを用意</h3>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> { observable } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'mobx'</span>);
+
+<span class="hljs-keyword">const</span> state = observable({
+  count: <span class="hljs-number">1</span>,
+});</code></pre>
+<blockquote>
+<p><a href="https://mobx.js.org/refguide/api.html#creating-observables">https://mobx.js.org/refguide/api.html#creating-observables</a></p>
+</blockquote>
+<p>※Rxとかの<code>Observable</code>ではないのでご注意。</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-14">
+    <section class="slide-content"><h3 id="2-state-">2. Stateでなんかする</h3>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> { autorun } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'mobx'</span>);
+
+autorun(() =&gt; {
+  <span class="hljs-comment">// いわゆる`render()`的なこと</span>
+  $el.textContent = state.count;
+});</code></pre>
+<blockquote>
+<p><a href="https://mobx.js.org/refguide/autorun.html">https://mobx.js.org/refguide/autorun.html</a></p>
+</blockquote>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-15">
+    <section class="slide-content"><h3 id="3-state-">3. Stateを更新</h3>
+<pre><code class="lang-js">state.count = <span class="hljs-number">2</span>;</code></pre>
+<p>これだけで<a>自動的に</a>アップデートされます。（さっきの関数が呼ばれる）</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-16">
+    <section class="slide-content"><h3 id="1-2-3-">1 + 2 + 3なコード</h3>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> { autorun, observable } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'mobx'</span>);
+
+<span class="hljs-comment">// state</span>
+<span class="hljs-keyword">const</span> state = observable({
+  count: <span class="hljs-number">1</span>,
+});
+
+<span class="hljs-comment">// view</span>
+autorun(() =&gt; {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Count is <span class="hljs-subst">${state.count}</span>!`</span>); <span class="hljs-comment">// Count is 1!</span>
+});
+
+<span class="hljs-comment">// action</span>
+state.count = <span class="hljs-number">2</span>; <span class="hljs-comment">// Count is 2!</span>
+state.count = <span class="hljs-number">3</span>; <span class="hljs-comment">// Count is 3!</span></code></pre>
+<p>このSimpleさが、<a>Magic</a>と言われる所以。</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-17">
+    <section class="slide-content"><h3 id="-simple-">おどろきのSimpleさ</h3>
+<p><img src="./img/flow.png" alt="data flow"></p>
+<ul>
+<li>State: <code>mobx.observable()</code></li>
+<li>Action?: Stateに対する変更</li>
+<li>View?: Stateの変更に対するリアクション</li>
+</ul>
+<p>ViewやActionの粒度は開発者次第であり、MobXは規定しない。</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-18">
+    <section class="slide-content"><h1 id="-">もう少しだけコード</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-19">
+    <section class="slide-content"><h3 id="state-class-">State: Classで書く</h3>
+<pre><code class="lang-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Store</span> </span>{
+  <span class="hljs-keyword">constructor</span>() {
+    extendObservable(<span class="hljs-keyword">this</span>, {
+      items: [],
+    }),
+  }
+}</code></pre>
+<p>or</p>
+<pre><code class="lang-java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Store</span> </span>{
+  <span class="hljs-meta">@observable</span> items = [];
+}</code></pre>
+<p>Decoratorsの使用はマストではないが、使えるなら使いたくなると思う・・！</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-20">
+    <section class="slide-content"><h3 id="state-computed-value">State: Computed value</h3>
+<pre><code class="lang-java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Ticket</span> </span>{
+  <span class="hljs-meta">@observable</span> price = <span class="hljs-number">1000</span>;
+  <span class="hljs-meta">@observable</span> amount = <span class="hljs-number">1</span>;
+
+  <span class="hljs-meta">@computed</span> <span class="hljs-function">get <span class="hljs-title">total</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.price * <span class="hljs-keyword">this</span>.amount;
+  }
+}</code></pre>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> ticket = <span class="hljs-keyword">new</span> Ticket();
+<span class="hljs-built_in">console</span>.log(ticket.total); <span class="hljs-comment">// 1000</span>
+ticket.amount = <span class="hljs-number">2</span>;
+<span class="hljs-built_in">console</span>.log(ticket.total); <span class="hljs-comment">// 2000</span></code></pre>
+<p><a>特定の状態に由来する状態</a>を宣言的に書ける。</p>
+<ul>
+<li>いちいち手動で更新しなくていいので事故らない</li>
+<li>扱うべきものに集中できるので、<code>state</code>の概観がブレない</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-21">
+    <section class="slide-content"><h3 id="view-react-">View: Reactするなら</h3>
+<pre><code class="lang-js">const React = require('react');
+const { observer } = require('mobx-react');
+
+const View = ({ todoStore }) =&gt; (
+  &lt;div&gt;
+    残TODO数: {todoStore.unfinishedCount}
+    &lt;ul&gt;
+      { todoStore.items.map(todo =&gt; (
+      &lt;li key={todo.id}
+        &lt;Todo item={todo} /&gt;
+      &lt;/li&gt;
+      )) }
+    &lt;/ul&gt;
+  &lt;/div&gt;
+);
+
+module.exports = observer(View);</code></pre>
+<p><code>observer</code>はさっきの<code>autorun</code>のラッパー。
+これで必要な<code>state</code>に更新があった時<a>だけ</a>、自動で<code>render()</code>されるようになる。</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-22">
+    <section class="slide-content"><h3 id="view-">View: 以外の副作用も</h3>
+<pre><code class="lang-js"><span class="hljs-comment">// for rendering views</span>
+ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">View</span> <span class="hljs-attr">todoStore</span>=<span class="hljs-string">{store}</span> /&gt;</span>, $el);</span></code></pre>
+<pre><code class="lang-js"><span class="hljs-comment">// for others</span>
+reaction(
+  () =&gt; store.unfinishedCount,
+  count =&gt; {
+    <span class="hljs-keyword">if</span> (count &gt; <span class="hljs-number">10</span>) {
+      askColleagueToHelp(store.items);
+    }
+    <span class="hljs-keyword">if</span> (count &gt; <span class="hljs-number">100</span>) {
+      reportToBoss(store.items);
+    }
+  }
+)</code></pre>
+<p>Viewの表示に関することも、それ以外のことも、全てを<a>宣言的・リアクティブ</a>に書ける。</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-23">
+    <section class="slide-content"><h3 id="action-">Action: 変更に制限を</h3>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> { useStrict, action } = requre(<span class="hljs-string">'mobx'</span>);
+
+useStrict(<span class="hljs-literal">true</span>);
+
+state.count = <span class="hljs-number">10</span>; <span class="hljs-comment">// Error!</span></code></pre>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> modCount = action(() =&gt; {
+  state.count = <span class="hljs-number">10</span>;
+});
+
+modCount(); <span class="hljs-comment">// Ok!</span></code></pre>
+<p><code>action()</code>でラップすることで、その関数からしかStateが変更できないようにできる。</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-24">
+    <section class="slide-content"><h3 id="action-">Action: 非同期もそのまま</h3>
+<pre><code class="lang-js">uiStore.setLoading(<span class="hljs-literal">true</span>);
+
+fetch(<span class="hljs-string">'/api/my/todos/'</span>)
+  .then(items =&gt; {
+    todoStore.init(items);
+  })
+  .catch(err =&gt; {
+    uiStore.showError(err);
+  })
+  .then(() =&gt; {
+    uiStore.setLoading(<span class="hljs-literal">false</span>);
+  });</code></pre>
+<p>非同期だからといって特殊なことをする必要はない。
+直感的に、ただStateを更新するだけ。</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-25">
+    <section class="slide-content"><h3 id="-">最低限のコードの組合せ</h3>
+<pre><code class="lang-java"><span class="hljs-comment">// Store(State + Action)</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TodoStore</span> </span>{
+  <span class="hljs-meta">@observable</span> items = [];
+
+  <span class="hljs-meta">@action</span>
+  addTodo(title) {
+    <span class="hljs-keyword">this</span>.items.push(<span class="hljs-keyword">new</span> Todo(title));
+  }
+}</code></pre>
+<pre><code class="lang-html"><span class="hljs-comment">&lt;!-- View --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> /&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{addTodo}</span>&gt;</span>ADD<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></code></pre>
+<pre><code class="lang-js"><span class="hljs-comment">// Event</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">addToto</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">const</span> title = $input.value;
+  store.addTodo(title);
+}</code></pre>
+<p>厳選されたStateの更新だけやればいい！</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-26">
+    <section class="slide-content"><h1 id="-">お気持ち</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-27">
+    <section class="slide-content"><h3 id="-">個人的には「推し」です</h3>
+<ul>
+<li>「顧客が本当に必要だったもの」</li>
+<li>コード・ファイルが少ない = 楽<ul>
+<li>書き味・取り回しの軽さ</li>
+<li>必要な部品とその役割分担が妥当</li>
+</ul>
+</li>
+<li>それなりのものを、それなりに作れる</li>
+</ul>
+<p>Fluxに疲れた貴方に送るリーズナブルな選択肢として。</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-28">
+    <section class="slide-content"><h3 id="-">アーキテクチャを規定しない</h3>
+<ul>
+<li>他人のルールに「無理やり納得」しなくていい<ul>
+<li>○○uxのActionがオブジェクトなのは未だに謎<ul>
+<li>一方向フローは良いとしても<code>type</code>て</li>
+<li>タイムトラベルとかしないし・・</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>ある程度の自由度を許容した「遊びをもたせた設計」もできる<ul>
+<li>隙のないカチカチな設計が綺麗に運用されてるの見たことない</li>
+</ul>
+</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-29">
+    <section class="slide-content"><h3 id="-">なのでもちろん</h3>
+<ul>
+<li>最低限の線引はマスト<ul>
+<li>己の力量が試される</li>
+<li>自信がないなら、Opinionatedなものを</li>
+<li>エンジニアの本来の仕事なんですけど・・</li>
+</ul>
+</li>
+<li>どんなライブラリも慣れは必要</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-30">
+    <section class="slide-content"><h3 id="faq-1">FAQ その1</h3>
+<ul>
+<li>Vue for React？<ul>
+<li>基本的なアイデアは同じと思ってOK</li>
+<li>ただ特化してる分だけ強いし、他は選べる</li>
+</ul>
+</li>
+<li>ObservableってRxのアレ？<ul>
+<li>No</li>
+<li>そういうスライドちょっとバズってたけど違う</li>
+</ul>
+</li>
+<li>イミュータブル？<ul>
+<li>No</li>
+</ul>
+</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-31">
+    <section class="slide-content"><h3 id="faq-2">FAQ その2</h3>
+<ul>
+<li>勝手に色々やられるの怖くない？<ul>
+<li>手動でやるほうが怖くない？</li>
+</ul>
+</li>
+<li><code>Single source of truth</code>したいんですが？</li>
+<li><code>dispatch()</code>的なことしてStore &lt;-&gt; Viewは疎にしたいんですが？</li>
+<li>○○みたいにしたいんですが？<ul>
+<li>だいたいできるのでどうぞご自由に</li>
+<li>てか無理して使わんでいい</li>
+</ul>
+</li>
+</ul>
+<p>ライブラリは必要になって初めていれるもの！</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-32">
+    <section class="slide-content"><h1 id="thank-you-">Thank you!</h1>
+<p><style>
+:root {
+  --bg-color: #fffcff;
+  --bar-color: #e43980;
+  --em-color: #e6489c;
+}
+</style></p>
+<p><link rel="stylesheet" href="../public/base.css"></p>
+<p><link rel="stylesheet" href="../public/timer.css"></p>
+<p><style>
+pre, code {
+  background-color: #eee;
+}
+</style></p>
+<script src="../public/timer.js"></script>
+<script src="../public/mobile-controls.js"></script></section>
+  </div>
+
+
+
+  <script type="text/javascript">
+    /**
+ * Returns the current page number of the presentation.
+ */
+function currentPosition() {
+  return parseInt(document.querySelector('.slide:not(.hidden)').id.slice(6));
+}
+
+
+/**
+ * Navigates forward n pages
+ * If n is negative, we will navigate in reverse
+ */
+function navigate(n) {
+  var position = currentPosition();
+  var numSlides = document.getElementsByClassName('slide').length;
+
+  /* Positions are 1-indexed, so we need to add and subtract 1 */
+  var nextPosition = (position - 1 + n) % numSlides + 1;
+
+  /* Normalize nextPosition in-case of a negative modulo result */
+  nextPosition = (nextPosition - 1 + numSlides) % numSlides + 1;
+
+  document.getElementById('slide-' + position).classList.add('hidden');
+  document.getElementById('slide-' + nextPosition).classList.remove('hidden');
+
+  updateProgress();
+  updateURL();
+  updateTabIndex();
+}
+
+
+/**
+ * Updates the current URL to include a hashtag of the current page number.
+ */
+function updateURL() {
+  try {
+    window.history.replaceState({} , null, '#' + currentPosition());
+  } catch (e) {
+    window.location.hash = currentPosition();
+  }
+}
+
+
+/**
+ * Sets the progress indicator.
+ */
+function updateProgress() {
+  var progressBar = document.querySelector('.progress-bar');
+
+  if (progressBar !== null) {
+    var numSlides = document.getElementsByClassName('slide').length;
+    var position = currentPosition() - 1;
+    var percent = (numSlides === 1) ? 100 : 100 * position / (numSlides - 1);
+    progressBar.style.width = percent.toString() + '%';
+  }
+}
+
+
+/**
+ * Removes tabindex property from all links on the current slide, sets
+ * tabindex = -1 for all links on other slides. Prevents slides from appearing
+ * out of control.
+ */
+function updateTabIndex() {
+  var allLinks = document.querySelectorAll('.slide a');
+  var position = currentPosition();
+  var currentPageLinks = document.getElementById('slide-' + position).querySelectorAll('a');
+  var i;
+
+  for (i = 0; i < allLinks.length; i++) {
+    allLinks[i].setAttribute('tabindex', -1);
+  }
+
+  for (i = 0; i < currentPageLinks.length; i++) {
+    currentPageLinks[i].removeAttribute('tabindex');
+  }
+}
+
+/**
+ * Determines whether or not we are currently in full screen mode
+ */
+function isFullScreen() {
+  return document.fullscreenElement ||
+         document.mozFullScreenElement ||
+         document.webkitFullscreenElement ||
+         document.msFullscreenElement;
+}
+
+/**
+ * Toggle fullScreen mode on document element.
+ * Works on chrome (>= 15), firefox (>= 9), ie (>= 11), opera(>= 12.1), safari (>= 5).
+ */
+function toggleFullScreen() {
+  /* Convenient renames */
+  var docElem = document.documentElement;
+  var doc = document;
+
+  docElem.requestFullscreen =
+      docElem.requestFullscreen ||
+      docElem.msRequestFullscreen ||
+      docElem.mozRequestFullScreen ||
+      docElem.webkitRequestFullscreen.bind(docElem, Element.ALLOW_KEYBOARD_INPUT);
+
+  doc.exitFullscreen =
+      doc.exitFullscreen ||
+      doc.msExitFullscreen ||
+      doc.mozCancelFullScreen ||
+      doc.webkitExitFullscreen;
+
+  isFullScreen() ? doc.exitFullscreen() : docElem.requestFullscreen();
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  // Update the tabindex to prevent weird slide transitioning
+  updateTabIndex();
+
+  // If the location hash specifies a page number, go to it.
+  var page = window.location.hash.slice(1);
+  if (page) {
+    navigate(parseInt(page) - 1);
+  }
+
+  document.onkeydown = function (e) {
+    var kc = e.keyCode;
+
+    // left, down, H, J, backspace, PgUp - BACK
+    // up, right, K, L, space, PgDn - FORWARD
+    // enter - FULLSCREEN
+    if (kc === 37 || kc === 40 || kc === 8 || kc === 72 || kc === 74 || kc === 33) {
+      navigate(-1);
+    } else if (kc === 38 || kc === 39 || kc === 32 || kc === 75 || kc === 76 || kc === 34) {
+      navigate(1);
+    } else if (kc === 13) {
+      toggleFullScreen();
+    }
+  };
+
+  if (document.querySelector('.next') && document.querySelector('.prev')) {
+    document.querySelector('.next').onclick = function (e) {
+      e.preventDefault();
+      navigate(1);
+    };
+
+    document.querySelector('.prev').onclick = function (e) {
+      e.preventDefault();
+      navigate(-1);
+    };
+  }
+});
+
+
+  </script>
+</body>
+</html>
