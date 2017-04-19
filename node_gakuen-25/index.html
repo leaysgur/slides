@@ -400,6 +400,15 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </section>
   </div>
   <div class="slide hidden" id="slide-5">
+    <section class="slide-content"><h3 id="-">色々なところで見かけるように</h3>
+<ul>
+<li><a href="https://facebook.github.io/react/docs/context.html#why-not-to-use-context">Context - React</a></li>
+<li><a href="https://jp.vuejs.org/v2/guide/comparison.html#MobX-%E3%81%A8%E7%94%A8%E3%81%84%E3%81%9F%E5%A0%B4%E5%90%88">他のフレームワークとの比較 - Vue.js</a></li>
+<li><a href="https://github.com/reactjs/redux/blob/master/docs/faq/Performance.md">redux/Performance.md at master · reactjs/redux</a></li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-6">
     <section class="slide-content"><h3 id="mobx-">MobXと私</h3>
 <ul>
 <li>半年以上使ってることになります<ul>
@@ -413,7 +422,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <p>国内では割と使い込んでる側な気がする・・？</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-6">
+  <div class="slide hidden" id="slide-7">
     <section class="slide-content"><h3 id="-">本日お伝えしたいこと</h3>
 <ul>
 <li>MobXのコンセプト</li>
@@ -422,7 +431,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-7">
+  <div class="slide hidden" id="slide-8">
     <section class="slide-content"><h3 id="-">話さないこと</h3>
 <ul>
 <li>○○はオワコン、これからはMobXの時代</li>
@@ -436,11 +445,11 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <p>時間が足りないので、拙ブログを読む or 6月くらいの某勉強会にくる or 懇親会で話しかけてください🍕</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-8">
+  <div class="slide hidden" id="slide-9">
     <section class="slide-content"><h1 id="mobx-">MobXのコンセプト</h1>
 </section>
   </div>
-  <div class="slide hidden" id="slide-9">
+  <div class="slide hidden" id="slide-10">
     <section class="slide-content"><h3 id="automatic-derivation">Automatic derivation</h3>
 <blockquote>
 <p>Anything that can be derived from the application state, should be derived. Automatically.</p>
@@ -448,7 +457,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <p>意訳: アプリの状態に関するすべての事柄は、その状態変更に呼応して<a>自動的に</a>成されるべき。</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-10">
+  <div class="slide hidden" id="slide-11">
     <section class="slide-content"><h3 id="-">昨今のアーキテクチャのトレンド</h3>
 <p><img src="./img/flow.png" alt="data flow"></p>
 <ul>
@@ -461,11 +470,11 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <p>Stateを変更（Action）さえすれば、後はMobXが<a>自動的に</a>やってくれる。</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-11">
+  <div class="slide hidden" id="slide-12">
     <section class="slide-content"><h1 id="-">どんなコードになるか</h1>
 </section>
   </div>
-  <div class="slide hidden" id="slide-12">
+  <div class="slide hidden" id="slide-13">
     <section class="slide-content"><h3 id="-3-">必要なのは3ステップ</h3>
 <ul>
 <li>1. Stateを定義すること</li>
@@ -477,7 +486,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-13">
+  <div class="slide hidden" id="slide-14">
     <section class="slide-content"><h3 id="1-observable-state-">1. ObservableなStateを用意</h3>
 <pre><code class="lang-js"><span class="hljs-keyword">const</span> { observable } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'mobx'</span>);
 
@@ -490,7 +499,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <p>※Rxとかの<code>Observable</code>ではないのでご注意。</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-14">
+  <div class="slide hidden" id="slide-15">
     <section class="slide-content"><h3 id="2-state-">2. Stateでなんかする</h3>
 <pre><code class="lang-js"><span class="hljs-keyword">const</span> { autorun } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'mobx'</span>);
 
@@ -503,13 +512,13 @@ autorun(() =&gt; {
 </blockquote>
 </section>
   </div>
-  <div class="slide hidden" id="slide-15">
+  <div class="slide hidden" id="slide-16">
     <section class="slide-content"><h3 id="3-state-">3. Stateを更新</h3>
 <pre><code class="lang-js">state.count = <span class="hljs-number">2</span>;</code></pre>
 <p>これだけで<a>自動的に</a>アップデートされます。（さっきの関数が呼ばれる）</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-16">
+  <div class="slide hidden" id="slide-17">
     <section class="slide-content"><h3 id="1-2-3-">1 + 2 + 3なコード</h3>
 <pre><code class="lang-js"><span class="hljs-keyword">const</span> { autorun, observable } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'mobx'</span>);
 
@@ -529,7 +538,7 @@ state.count = <span class="hljs-number">3</span>; <span class="hljs-comment">// 
 <p>このSimpleさが、<a>Magic</a>と言われる所以。</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-17">
+  <div class="slide hidden" id="slide-18">
     <section class="slide-content"><h3 id="-simple-">おどろきのSimpleさ</h3>
 <p><img src="./img/flow.png" alt="data flow"></p>
 <ul>
@@ -540,11 +549,11 @@ state.count = <span class="hljs-number">3</span>; <span class="hljs-comment">// 
 <p>ViewやActionの粒度は開発者次第であり、MobXは規定しない。</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-18">
+  <div class="slide hidden" id="slide-19">
     <section class="slide-content"><h1 id="-">もう少しだけコード</h1>
 </section>
   </div>
-  <div class="slide hidden" id="slide-19">
+  <div class="slide hidden" id="slide-20">
     <section class="slide-content"><h3 id="state-class-">State: Classで書く</h3>
 <pre><code class="lang-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Store</span> </span>{
   <span class="hljs-keyword">constructor</span>() {
@@ -560,7 +569,7 @@ state.count = <span class="hljs-number">3</span>; <span class="hljs-comment">// 
 <p>Decoratorsの使用はマストではないが、使えるなら使いたくなると思う・・！</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-20">
+  <div class="slide hidden" id="slide-21">
     <section class="slide-content"><h3 id="state-computed-value">State: Computed value</h3>
 <pre><code class="lang-java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Ticket</span> </span>{
   <span class="hljs-meta">@observable</span> price = <span class="hljs-number">1000</span>;
@@ -581,7 +590,7 @@ ticket.amount = <span class="hljs-number">2</span>;
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-21">
+  <div class="slide hidden" id="slide-22">
     <section class="slide-content"><h3 id="view-react-">View: Reactするなら</h3>
 <pre><code class="lang-js">const React = require('react');
 const { observer } = require('mobx-react');
@@ -604,7 +613,7 @@ module.exports = observer(View);</code></pre>
 これで必要な<code>state</code>に更新があった時<a>だけ</a>、自動で<code>render()</code>されるようになる。</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-22">
+  <div class="slide hidden" id="slide-23">
     <section class="slide-content"><h3 id="view-">View: 以外の副作用も</h3>
 <pre><code class="lang-js"><span class="hljs-comment">// for rendering views</span>
 ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">View</span> <span class="hljs-attr">todoStore</span>=<span class="hljs-string">{store}</span> /&gt;</span>, $el);</span></code></pre>
@@ -623,7 +632,7 @@ reaction(
 <p>Viewの表示に関することも、それ以外のことも、全てを<a>宣言的・リアクティブ</a>に書ける。</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-23">
+  <div class="slide hidden" id="slide-24">
     <section class="slide-content"><h3 id="action-">Action: 変更に制限を</h3>
 <pre><code class="lang-js"><span class="hljs-keyword">const</span> { useStrict, action } = requre(<span class="hljs-string">'mobx'</span>);
 
@@ -638,7 +647,7 @@ modCount(); <span class="hljs-comment">// Ok!</span></code></pre>
 <p><code>action()</code>でラップすることで、その関数からしかStateが変更できないようにできる。</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-24">
+  <div class="slide hidden" id="slide-25">
     <section class="slide-content"><h3 id="action-">Action: 非同期もそのまま</h3>
 <pre><code class="lang-js">uiStore.setLoading(<span class="hljs-literal">true</span>);
 
@@ -656,7 +665,7 @@ fetch(<span class="hljs-string">'/api/my/todos/'</span>)
 直感的に、ただStateを更新するだけ。</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-25">
+  <div class="slide hidden" id="slide-26">
     <section class="slide-content"><h3 id="-">最低限のコードの組合せ</h3>
 <pre><code class="lang-java"><span class="hljs-comment">// Store(State + Action)</span>
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TodoStore</span> </span>{
@@ -677,17 +686,17 @@ fetch(<span class="hljs-string">'/api/my/todos/'</span>)
 <p>厳選されたStateの更新だけやればいい！</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-26">
+  <div class="slide hidden" id="slide-27">
     <section class="slide-content"><h1 id="-">お気持ち</h1>
 </section>
   </div>
-  <div class="slide hidden" id="slide-27">
+  <div class="slide hidden" id="slide-28">
     <section class="slide-content"><h3 id="-">個人的には「推し」です</h3>
 <ul>
-<li>「顧客が本当に必要だったもの」</li>
+<li>「顧客が本当に必要だったもの」感</li>
 <li>コード・ファイルが少ない = 楽<ul>
 <li>書き味・取り回しの軽さ</li>
-<li>必要な部品とその役割分担が妥当</li>
+<li>最低限の部品とその役割分担が妥当</li>
 </ul>
 </li>
 <li>それなりのものを、それなりに作れる</li>
@@ -695,7 +704,7 @@ fetch(<span class="hljs-string">'/api/my/todos/'</span>)
 <p>Fluxに疲れた貴方に送るリーズナブルな選択肢として。</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-28">
+  <div class="slide hidden" id="slide-29">
     <section class="slide-content"><h3 id="-">アーキテクチャを規定しない</h3>
 <ul>
 <li>他人のルールに「無理やり納得」しなくていい<ul>
@@ -713,7 +722,7 @@ fetch(<span class="hljs-string">'/api/my/todos/'</span>)
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-29">
+  <div class="slide hidden" id="slide-30">
     <section class="slide-content"><h3 id="-">なのでもちろん</h3>
 <ul>
 <li>最低限の線引はマスト<ul>
@@ -726,12 +735,12 @@ fetch(<span class="hljs-string">'/api/my/todos/'</span>)
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-30">
+  <div class="slide hidden" id="slide-31">
     <section class="slide-content"><h3 id="faq-1">FAQ その1</h3>
 <ul>
 <li>Vue for React？<ul>
 <li>基本的なアイデアは同じと思ってOK</li>
-<li>ただ特化してる分だけ強いし、他は選べる</li>
+<li>ただ特化してる分だけ強いし、他の部分は選べる</li>
 </ul>
 </li>
 <li>ObservableってRxのアレ？<ul>
@@ -746,25 +755,27 @@ fetch(<span class="hljs-string">'/api/my/todos/'</span>)
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-31">
+  <div class="slide hidden" id="slide-32">
     <section class="slide-content"><h3 id="faq-2">FAQ その2</h3>
 <ul>
 <li>勝手に色々やられるの怖くない？<ul>
 <li>手動でやるほうが怖くない？</li>
+<li>いわゆるトレードオフなので選択して</li>
+<li>大人しく魔法にかけられたくないならオススメはしない</li>
 </ul>
 </li>
 <li><code>Single source of truth</code>したいんですが？</li>
 <li><code>dispatch()</code>的なことしてStore &lt;-&gt; Viewは疎にしたいんですが？</li>
 <li>○○みたいにしたいんですが？<ul>
-<li>だいたいできるのでどうぞご自由に</li>
+<li>あなた次第なのでどうぞご自由に</li>
 <li>てか無理して使わんでいい</li>
 </ul>
 </li>
 </ul>
-<p>ライブラリは必要になって初めていれるもの！</p>
+<p>ライブラリは必要になって初めていれるもの。</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-32">
+  <div class="slide hidden" id="slide-33">
     <section class="slide-content"><h1 id="thank-you-">Thank you!</h1>
 <p><style>
 :root {

@@ -36,6 +36,13 @@ controls: false
 
 --
 
+### 色々なところで見かけるように
+- [Context - React](https://facebook.github.io/react/docs/context.html#why-not-to-use-context)
+- [他のフレームワークとの比較 - Vue.js](https://jp.vuejs.org/v2/guide/comparison.html#MobX-%E3%81%A8%E7%94%A8%E3%81%84%E3%81%9F%E5%A0%B4%E5%90%88)
+- [redux/Performance.md at master · reactjs/redux](https://github.com/reactjs/redux/blob/master/docs/faq/Performance.md)
+
+--
+
 ### MobXと私
 - 半年以上使ってることになります
   - 実務からプライベートまで
@@ -363,10 +370,10 @@ function addToto() {
 --
 
 ### 個人的には「推し」です
-- 「顧客が本当に必要だったもの」
+- 「顧客が本当に必要だったもの」感
 - コード・ファイルが少ない = 楽
   - 書き味・取り回しの軽さ
-  - 必要な部品とその役割分担が妥当
+  - 最低限の部品とその役割分担が妥当
 - それなりのものを、それなりに作れる
 
 Fluxに疲れた貴方に送るリーズナブルな選択肢として。
@@ -395,7 +402,7 @@ Fluxに疲れた貴方に送るリーズナブルな選択肢として。
 ### FAQ その1
 - Vue for React？
   - 基本的なアイデアは同じと思ってOK
-  - ただ特化してる分だけ強いし、他は選べる
+  - ただ特化してる分だけ強いし、他の部分は選べる
 - ObservableってRxのアレ？
   - No
   - そういうスライドちょっとバズってたけど違う
@@ -407,13 +414,15 @@ Fluxに疲れた貴方に送るリーズナブルな選択肢として。
 ### FAQ その2
 - 勝手に色々やられるの怖くない？
   - 手動でやるほうが怖くない？
+  - いわゆるトレードオフなので選択して
+  - 大人しく魔法にかけられたくないならオススメはしない
 - `Single source of truth`したいんですが？
 - `dispatch()`的なことしてStore <-> Viewは疎にしたいんですが？
 - ○○みたいにしたいんですが？
-  - だいたいできるのでどうぞご自由に
+  - あなた次第なのでどうぞご自由に
   - てか無理して使わんでいい
 
-ライブラリは必要になって初めていれるもの！
+ライブラリは必要になって初めていれるもの。
 
 --
 
