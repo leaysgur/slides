@@ -14,7 +14,7 @@ controls: false
 - Yuji Sugiura / [@leader22](https://twitter.com/leader22)
 - フロントエンド・エンジニア at PixelGrid Inc.
 - [console.lealog();](http://lealog.hateblo.jp/)
-- 最近はReactNativeとWebRTCやってます
+- 最近はReactNativeとかWebRTCとか
 
 ![leader22](./img/doseisan.jpg)
 
@@ -36,7 +36,7 @@ controls: false
 
 --
 
-### 色々なところで見かけるように
+### 色々なところで言及はされてる
 - [Context - React](https://facebook.github.io/react/docs/context.html#why-not-to-use-context)
 - [他のフレームワークとの比較 - Vue.js](https://jp.vuejs.org/v2/guide/comparison.html#MobX-%E3%81%A8%E7%94%A8%E3%81%84%E3%81%9F%E5%A0%B4%E5%90%88)
 - [redux/Performance.md at master · reactjs/redux](https://github.com/reactjs/redux/blob/master/docs/faq/Performance.md)
@@ -44,7 +44,7 @@ controls: false
 --
 
 ### MobXと私
-- 半年以上使ってることになります
+- かれこれ半年以上使ってることに
   - 実務からプライベートまで
   - 小さいものからそれなりに大きいものまで
   - Webから（React）Nativeまで
@@ -54,23 +54,24 @@ controls: false
 
 --
 
-### 本日お伝えしたいこと
+### 話したいこと
 - MobXのコンセプト
 - どんな感じのコードになるか
 - いまのお気持ち
+- FAQ
 
 --
 
 ### 話さないこと
 - ○○はオワコン、これからはMobXの時代
-- MobX最高！まじ最高！！
 - MobXの内部はこうなってる
 - いわゆるベストプラクティス
 - こういうケースではこう書くといい
+- あのライブラリに比べて・・・
 - APIの詳細、便利APIの解説
 - etc...
 
-時間が足りないので、拙ブログを読む or 6月くらいの某勉強会にくる or 懇親会で話しかけてください🍕
+時間が足りないので、拙ブログを読む or 6月くらいの某勉強会（予）にくる or 懇親会で話しかけてください🍕
 
 --
 
@@ -93,6 +94,7 @@ controls: false
 - 関心の分離
 - <a>一方向</a>のデータフロー
   - `view = fn(state)`
+  - どのライブラリもだいたいそう
 
 Stateを変更（Action）さえすれば、後はMobXが<a>自動的に</a>やってくれる。
 
@@ -148,7 +150,7 @@ autorun(() => {
 state.count = 2;
 ```
 
-これだけで<a>自動的に</a>アップデートされます。（さっきの関数が呼ばれる）
+これだけで、<a>自動的に</a>さっきの関数が呼ばれます。
 
 --
 
@@ -172,7 +174,7 @@ state.count = 2; // Count is 2!
 state.count = 3; // Count is 3!
 ```
 
-このSimpleさが、<a>Magic</a>と言われる所以。
+ね、簡単でしょ？
 
 --
 
@@ -180,10 +182,10 @@ state.count = 3; // Count is 3!
 ![data flow](./img/flow.png)
 
 - State: `mobx.observable()`
-- Action?: Stateに対する変更
-- View?: Stateの変更に対するリアクション
+- Action?: Stateに対する変更（任意
+- View?: Stateの変更に対するリアクション（任意
 
-ViewやActionの粒度は開発者次第であり、MobXは規定しない。
+ViewやActionの粒度は開発者次第、MobXは何も規定しない。
 
 --
 
@@ -233,7 +235,7 @@ ticket.amount = 2;
 console.log(ticket.total); // 2000
 ```
 
-<a>特定の状態に由来する状態</a>を宣言的に書ける。
+<a>特定の状態に由来する状態</a>を`computed`で宣言的に。
 
 - いちいち手動で更新しなくていいので事故らない
 - 扱うべきものに集中できるので、`state`の概観がブレない
@@ -263,7 +265,7 @@ module.exports = observer(View);
 ```
 
 `observer`はさっきの`autorun`のラッパー。
-これで必要な`state`に更新があった時<a>だけ</a>、自動で`render()`されるようになる。
+これで必要な`state`に更新があった時<a>だけ</a>、自動で`render()`されるように。
 
 --
 
@@ -288,7 +290,7 @@ reaction(
 )
 ```
 
-Viewの表示に関することも、それ以外のことも、全てを<a>宣言的・リアクティブ</a>に書ける。
+`observable`な値の変化に対する`reaction`を指定することで、Viewの表示に関することも、それ以外のことも、State由来の事柄は全てを<a>宣言的・リアクティブ</a>に書ける。
 
 --
 
@@ -322,12 +324,10 @@ uiStore.setLoading(true);
 fetch('/api/my/todos/')
   .then(items => {
     todoStore.init(items);
+    uiStore.setLoading(false);
   })
   .catch(err => {
     uiStore.showError(err);
-  })
-  .then(() => {
-    uiStore.setLoading(false);
   });
 ```
 
@@ -361,7 +361,7 @@ function addToto() {
 }
 ```
 
-厳選されたStateの更新だけやればいい！
+※コードはイメージです
 
 --
 
@@ -371,22 +371,23 @@ function addToto() {
 
 ### 個人的には「推し」です
 - 「顧客が本当に必要だったもの」感
-- コード・ファイルが少ない = 楽
   - 書き味・取り回しの軽さ
-  - 最低限の部品とその役割分担が妥当
+- コード・ファイルが少ない = 楽
 - それなりのものを、それなりに作れる
-
-Fluxに疲れた貴方に送るリーズナブルな選択肢として。
+  - 最低限の部品とその役割分担が妥当
 
 --
 
 ### アーキテクチャを規定しない
+- このライブラリではどう書けばいい・・？がない
+  - 本当に無駄な時間だと思う
 - 他人のルールに「無理やり納得」しなくていい
-  - ○○uxのActionがオブジェクトなのは未だに謎
+  - ○○uxのActionオブジェクトは未だに謎
     - 一方向フローは良いとしても`type`て
     - タイムトラベルとかしないし・・
 - ある程度の自由度を許容した「遊びをもたせた設計」もできる
-  - 隙のないカチカチな設計が綺麗に運用されてるの見たことない
+
+隙のないカチカチな設計が綺麗に運用されてるの見たことない・・
 
 --
 
@@ -397,9 +398,15 @@ Fluxに疲れた貴方に送るリーズナブルな選択肢として。
   - エンジニアの本来の仕事なんですけど・・
 - どんなライブラリも慣れは必要
 
+Flux一派に疲れた貴方に送るリーズナブルな選択肢として。
+
 --
 
-### FAQ その1
+# FAQ
+
+--
+
+### その1
 - Vue for React？
   - 基本的なアイデアは同じと思ってOK
   - ただ特化してる分だけ強いし、他の部分は選べる
@@ -408,12 +415,13 @@ Fluxに疲れた貴方に送るリーズナブルな選択肢として。
   - そういうスライドちょっとバズってたけど違う
 - イミュータブル？
   - No
+  - だからこその楽さ・パフォーマンス
 
 --
 
-### FAQ その2
+### その2
 - 勝手に色々やられるの怖くない？
-  - 手動でやるほうが怖くない？
+  - 手動でやるほうが怖くない？面倒じゃない？
   - いわゆるトレードオフなので選択して
   - 大人しく魔法にかけられたくないならオススメはしない
 - `Single source of truth`したいんですが？
@@ -423,6 +431,16 @@ Fluxに疲れた貴方に送るリーズナブルな選択肢として。
   - てか無理して使わんでいい
 
 ライブラリは必要になって初めていれるもの。
+
+--
+
+### 興味をもったら参考リンク
+
+- [API overview | MobX](https://mobx.js.org/refguide/api.html)
+- [MobX カテゴリーの記事一覧 - console.lealog();](http://lealog.hateblo.jp/archive/category/MobX)
+- [おすすめライブラリつまみ食い - MobX | CodeGrid](https://app.codegrid.net/entry/mobx)
+- [mobxjs/mobx-utils: Utility functions and common patterns for MobX](https://github.com/mobxjs/mobx-utils)
+
 
 --
 

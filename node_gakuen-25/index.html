@@ -375,7 +375,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <li>Yuji Sugiura / <a href="https://twitter.com/leader22">@leader22</a></li>
 <li>フロントエンド・エンジニア at PixelGrid Inc.</li>
 <li><a href="http://lealog.hateblo.jp/">console.lealog();</a></li>
-<li>最近はReactNativeとWebRTCやってます</li>
+<li>最近はReactNativeとかWebRTCとか</li>
 </ul>
 <p><img src="./img/doseisan.jpg" alt="leader22"></p>
 </section>
@@ -400,7 +400,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </section>
   </div>
   <div class="slide hidden" id="slide-5">
-    <section class="slide-content"><h3 id="-">色々なところで見かけるように</h3>
+    <section class="slide-content"><h3 id="-">色々なところで言及はされてる</h3>
 <ul>
 <li><a href="https://facebook.github.io/react/docs/context.html#why-not-to-use-context">Context - React</a></li>
 <li><a href="https://jp.vuejs.org/v2/guide/comparison.html#MobX-%E3%81%A8%E7%94%A8%E3%81%84%E3%81%9F%E5%A0%B4%E5%90%88">他のフレームワークとの比較 - Vue.js</a></li>
@@ -411,7 +411,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   <div class="slide hidden" id="slide-6">
     <section class="slide-content"><h3 id="mobx-">MobXと私</h3>
 <ul>
-<li>半年以上使ってることになります<ul>
+<li>かれこれ半年以上使ってることに<ul>
 <li>実務からプライベートまで</li>
 <li>小さいものからそれなりに大きいものまで</li>
 <li>Webから（React）Nativeまで</li>
@@ -423,11 +423,12 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </section>
   </div>
   <div class="slide hidden" id="slide-7">
-    <section class="slide-content"><h3 id="-">本日お伝えしたいこと</h3>
+    <section class="slide-content"><h3 id="-">話したいこと</h3>
 <ul>
 <li>MobXのコンセプト</li>
 <li>どんな感じのコードになるか</li>
 <li>いまのお気持ち</li>
+<li>FAQ</li>
 </ul>
 </section>
   </div>
@@ -435,14 +436,14 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
     <section class="slide-content"><h3 id="-">話さないこと</h3>
 <ul>
 <li>○○はオワコン、これからはMobXの時代</li>
-<li>MobX最高！まじ最高！！</li>
 <li>MobXの内部はこうなってる</li>
 <li>いわゆるベストプラクティス</li>
 <li>こういうケースではこう書くといい</li>
+<li>あのライブラリに比べて・・・</li>
 <li>APIの詳細、便利APIの解説</li>
 <li>etc...</li>
 </ul>
-<p>時間が足りないので、拙ブログを読む or 6月くらいの某勉強会にくる or 懇親会で話しかけてください🍕</p>
+<p>時間が足りないので、拙ブログを読む or 6月くらいの某勉強会（予）にくる or 懇親会で話しかけてください🍕</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-9">
@@ -464,6 +465,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <li>関心の分離</li>
 <li><a>一方向</a>のデータフロー<ul>
 <li><code>view = fn(state)</code></li>
+<li>どのライブラリもだいたいそう</li>
 </ul>
 </li>
 </ul>
@@ -515,7 +517,7 @@ autorun(() =&gt; {
   <div class="slide hidden" id="slide-16">
     <section class="slide-content"><h3 id="3-state-">3. Stateを更新</h3>
 <pre><code class="lang-js">state.count = <span class="hljs-number">2</span>;</code></pre>
-<p>これだけで<a>自動的に</a>アップデートされます。（さっきの関数が呼ばれる）</p>
+<p>これだけで、<a>自動的に</a>さっきの関数が呼ばれます。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-17">
@@ -535,7 +537,7 @@ autorun(() =&gt; {
 <span class="hljs-comment">// action</span>
 state.count = <span class="hljs-number">2</span>; <span class="hljs-comment">// Count is 2!</span>
 state.count = <span class="hljs-number">3</span>; <span class="hljs-comment">// Count is 3!</span></code></pre>
-<p>このSimpleさが、<a>Magic</a>と言われる所以。</p>
+<p>ね、簡単でしょ？</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-18">
@@ -543,10 +545,10 @@ state.count = <span class="hljs-number">3</span>; <span class="hljs-comment">// 
 <p><img src="./img/flow.png" alt="data flow"></p>
 <ul>
 <li>State: <code>mobx.observable()</code></li>
-<li>Action?: Stateに対する変更</li>
-<li>View?: Stateの変更に対するリアクション</li>
+<li>Action?: Stateに対する変更（任意</li>
+<li>View?: Stateの変更に対するリアクション（任意</li>
 </ul>
-<p>ViewやActionの粒度は開発者次第であり、MobXは規定しない。</p>
+<p>ViewやActionの粒度は開発者次第、MobXは何も規定しない。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-19">
@@ -583,7 +585,7 @@ state.count = <span class="hljs-number">3</span>; <span class="hljs-comment">// 
 <span class="hljs-built_in">console</span>.log(ticket.total); <span class="hljs-comment">// 1000</span>
 ticket.amount = <span class="hljs-number">2</span>;
 <span class="hljs-built_in">console</span>.log(ticket.total); <span class="hljs-comment">// 2000</span></code></pre>
-<p><a>特定の状態に由来する状態</a>を宣言的に書ける。</p>
+<p><a>特定の状態に由来する状態</a>を<code>computed</code>で宣言的に。</p>
 <ul>
 <li>いちいち手動で更新しなくていいので事故らない</li>
 <li>扱うべきものに集中できるので、<code>state</code>の概観がブレない</li>
@@ -610,7 +612,7 @@ const View = ({ todoStore }) =&gt; (
 
 module.exports = observer(View);</code></pre>
 <p><code>observer</code>はさっきの<code>autorun</code>のラッパー。
-これで必要な<code>state</code>に更新があった時<a>だけ</a>、自動で<code>render()</code>されるようになる。</p>
+これで必要な<code>state</code>に更新があった時<a>だけ</a>、自動で<code>render()</code>されるように。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-23">
@@ -629,7 +631,7 @@ reaction(
     }
   }
 )</code></pre>
-<p>Viewの表示に関することも、それ以外のことも、全てを<a>宣言的・リアクティブ</a>に書ける。</p>
+<p><code>observable</code>な値の変化に対する<code>reaction</code>を指定することで、Viewの表示に関することも、それ以外のことも、State由来の事柄は全てを<a>宣言的・リアクティブ</a>に書ける。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-24">
@@ -654,12 +656,10 @@ modCount(); <span class="hljs-comment">// Ok!</span></code></pre>
 fetch(<span class="hljs-string">'/api/my/todos/'</span>)
   .then(items =&gt; {
     todoStore.init(items);
+    uiStore.setLoading(<span class="hljs-literal">false</span>);
   })
   .catch(err =&gt; {
     uiStore.showError(err);
-  })
-  .then(() =&gt; {
-    uiStore.setLoading(<span class="hljs-literal">false</span>);
   });</code></pre>
 <p>非同期だからといって特殊なことをする必要はない。
 直感的に、ただStateを更新するだけ。</p>
@@ -683,7 +683,7 @@ fetch(<span class="hljs-string">'/api/my/todos/'</span>)
   <span class="hljs-keyword">const</span> title = $input.value;
   store.addTodo(title);
 }</code></pre>
-<p>厳選されたStateの更新だけやればいい！</p>
+<p>※コードはイメージです</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-27">
@@ -693,33 +693,36 @@ fetch(<span class="hljs-string">'/api/my/todos/'</span>)
   <div class="slide hidden" id="slide-28">
     <section class="slide-content"><h3 id="-">個人的には「推し」です</h3>
 <ul>
-<li>「顧客が本当に必要だったもの」感</li>
-<li>コード・ファイルが少ない = 楽<ul>
+<li>「顧客が本当に必要だったもの」感<ul>
 <li>書き味・取り回しの軽さ</li>
+</ul>
+</li>
+<li>コード・ファイルが少ない = 楽</li>
+<li>それなりのものを、それなりに作れる<ul>
 <li>最低限の部品とその役割分担が妥当</li>
 </ul>
 </li>
-<li>それなりのものを、それなりに作れる</li>
 </ul>
-<p>Fluxに疲れた貴方に送るリーズナブルな選択肢として。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-29">
     <section class="slide-content"><h3 id="-">アーキテクチャを規定しない</h3>
 <ul>
+<li>このライブラリではどう書けばいい・・？がない<ul>
+<li>本当に無駄な時間だと思う</li>
+</ul>
+</li>
 <li>他人のルールに「無理やり納得」しなくていい<ul>
-<li>○○uxのActionがオブジェクトなのは未だに謎<ul>
+<li>○○uxのActionオブジェクトは未だに謎<ul>
 <li>一方向フローは良いとしても<code>type</code>て</li>
 <li>タイムトラベルとかしないし・・</li>
 </ul>
 </li>
 </ul>
 </li>
-<li>ある程度の自由度を許容した「遊びをもたせた設計」もできる<ul>
-<li>隙のないカチカチな設計が綺麗に運用されてるの見たことない</li>
+<li>ある程度の自由度を許容した「遊びをもたせた設計」もできる</li>
 </ul>
-</li>
-</ul>
+<p>隙のないカチカチな設計が綺麗に運用されてるの見たことない・・</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-30">
@@ -733,10 +736,15 @@ fetch(<span class="hljs-string">'/api/my/todos/'</span>)
 </li>
 <li>どんなライブラリも慣れは必要</li>
 </ul>
+<p>Flux一派に疲れた貴方に送るリーズナブルな選択肢として。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-31">
-    <section class="slide-content"><h3 id="faq-1">FAQ その1</h3>
+    <section class="slide-content"><h1 id="faq">FAQ</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-32">
+    <section class="slide-content"><h3 id="-1">その1</h3>
 <ul>
 <li>Vue for React？<ul>
 <li>基本的なアイデアは同じと思ってOK</li>
@@ -750,16 +758,17 @@ fetch(<span class="hljs-string">'/api/my/todos/'</span>)
 </li>
 <li>イミュータブル？<ul>
 <li>No</li>
+<li>だからこその楽さ・パフォーマンス</li>
 </ul>
 </li>
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-32">
-    <section class="slide-content"><h3 id="faq-2">FAQ その2</h3>
+  <div class="slide hidden" id="slide-33">
+    <section class="slide-content"><h3 id="-2">その2</h3>
 <ul>
 <li>勝手に色々やられるの怖くない？<ul>
-<li>手動でやるほうが怖くない？</li>
+<li>手動でやるほうが怖くない？面倒じゃない？</li>
 <li>いわゆるトレードオフなので選択して</li>
 <li>大人しく魔法にかけられたくないならオススメはしない</li>
 </ul>
@@ -775,7 +784,17 @@ fetch(<span class="hljs-string">'/api/my/todos/'</span>)
 <p>ライブラリは必要になって初めていれるもの。</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-33">
+  <div class="slide hidden" id="slide-34">
+    <section class="slide-content"><h3 id="-">興味をもったら参考リンク</h3>
+<ul>
+<li><a href="https://mobx.js.org/refguide/api.html">API overview | MobX</a></li>
+<li><a href="http://lealog.hateblo.jp/archive/category/MobX">MobX カテゴリーの記事一覧 - console.lealog();</a></li>
+<li><a href="https://app.codegrid.net/entry/mobx">おすすめライブラリつまみ食い - MobX | CodeGrid</a></li>
+<li><a href="https://github.com/mobxjs/mobx-utils">mobxjs/mobx-utils: Utility functions and common patterns for MobX</a></li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-35">
     <section class="slide-content"><h1 id="thank-you-">Thank you!</h1>
 <p><style>
 :root {
