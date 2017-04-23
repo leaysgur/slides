@@ -27,6 +27,8 @@ ul {
 
 .slide-content {
   overflow: scroll;
+  height: 80vh;
+  font-size: 180%;
 }
 
 .slide-content img {
