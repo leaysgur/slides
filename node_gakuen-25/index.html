@@ -375,7 +375,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <li>Yuji Sugiura / <a href="https://twitter.com/leader22">@leader22</a></li>
 <li>フロントエンド・エンジニア at PixelGrid Inc.</li>
 <li><a href="http://lealog.hateblo.jp/">console.lealog();</a></li>
-<li>最近はReactNativeとかWebRTCとか</li>
+<li>最近はWebRTCとかReactNativeとか</li>
 </ul>
 <p><img src="./img/doseisan.jpg" alt="leader22"></p>
 </section>
@@ -396,7 +396,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <li><a href="https://github.com/mobxjs/mobx">https://github.com/mobxjs/mobx</a><ul>
 <li>現在の最新バージョンは<code>3.1.9</code></li>
 <li>GitHubのスターは8.5k↑</li>
-<li>TypeScript製（Flowの型定義もある）</li>
+<li>TypeScript製（Flowの型定義もあるよ）</li>
 </ul>
 </li>
 <li>作者は<a href="https://twitter.com/mweststrate">@mweststrate</a>氏</li>
@@ -410,6 +410,10 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <li><a href="https://jp.vuejs.org/v2/guide/comparison.html#MobX-%E3%81%A8%E7%94%A8%E3%81%84%E3%81%9F%E5%A0%B4%E5%90%88">他のフレームワークとの比較 - Vue.js</a></li>
 <li><a href="https://github.com/reactjs/redux/blob/master/docs/faq/Performance.md">redux/Performance.md at master · reactjs/redux</a></li>
 </ul>
+<p>ちなみに先日の<a href="https://react.amsterdam/">React Amsterdam</a>でも話されてます。</p>
+<ul>
+<li><a href="https://youtu.be/m_vUUgI0bo8?t=8h29m30s">https://youtu.be/m_vUUgI0bo8?t=8h29m30s</a></li>
+</ul>
 </section>
   </div>
   <div class="slide hidden" id="slide-7">
@@ -421,9 +425,9 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <li>Webから（React）Nativeまで</li>
 </ul>
 </li>
-<li>いちおうContributerです</li>
+<li>いちおうContributerもやってます</li>
 </ul>
-<p>国内では割と使い込んでる側な気がする・・？</p>
+<p>なので国内では割と使い込んでる側な気がする・・？</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-8">
@@ -439,12 +443,11 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   <div class="slide hidden" id="slide-9">
     <section class="slide-content"><h3 id="-">話さないこと</h3>
 <ul>
-<li>○○はオワコン、これからはMobXの時代</li>
-<li>あのライブラリに比べて・・・</li>
+<li>○○はオワコン、これからはMobX！</li>
+<li>あのライブラリに比べてここが良い悪い・・・</li>
 <li>MobXの内部はこうなってる</li>
 <li>APIの詳細、便利APIの解説</li>
 <li>いわゆるベストプラクティス</li>
-<li>こういうケースではこう書くといい</li>
 <li>etc...</li>
 </ul>
 <p>時間が足りないので、拙ブログを読む or 6月くらいの某勉強会（予）にくる or 懇親会で話しかけてください🍕</p>
@@ -469,7 +472,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <li>関心の分離</li>
 <li><a>一方向</a>のデータフロー<ul>
 <li><code>view = fn(state)</code></li>
-<li>どのライブラリもだいたいそう</li>
+<li>まぁどのライブラリもだいたいそう</li>
 </ul>
 </li>
 </ul>
@@ -511,7 +514,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 
 autorun(() =&gt; {
   <span class="hljs-comment">// いわゆる`render()`的なこと</span>
-  $el.textContent = state.count;
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Count is <span class="hljs-subst">${state.count}</span>!`</span>);
 });</code></pre>
 <blockquote>
 <p><a href="https://mobx.js.org/refguide/autorun.html">https://mobx.js.org/refguide/autorun.html</a></p>
@@ -541,18 +544,18 @@ autorun(() =&gt; {
 <span class="hljs-comment">// action</span>
 state.count = <span class="hljs-number">2</span>; <span class="hljs-comment">// Count is 2!</span>
 state.count = <span class="hljs-number">3</span>; <span class="hljs-comment">// Count is 3!</span></code></pre>
-<p>ね、簡単でしょ？</p>
+<p>おどろきの簡単さ・・！</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-19">
-    <section class="slide-content"><h3 id="-simple-">おどろきのSimpleさ</h3>
+    <section class="slide-content"><h3 id="-">簡単 = わかりやすい</h3>
 <p><img src="./img/flow.png" alt="data flow"></p>
 <ul>
 <li>State: <code>mobx.observable()</code></li>
 <li>Action?: Stateに対する変更（任意</li>
 <li>View?: Stateの変更に対するリアクション（任意</li>
 </ul>
-<p>ViewやActionの粒度は開発者次第、MobXは何も規定しない。</p>
+<p>表示を更新したいから値を更新する、その<a>思考の流れがそのままコードになる</a>のが重要。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-20">
@@ -592,12 +595,15 @@ ticket.amount = <span class="hljs-number">2</span>;
 <p><a>特定の状態に由来する状態</a>を<code>computed</code>で宣言的に。</p>
 <ul>
 <li>いちいち手動で更新しなくていいので事故らない</li>
-<li>扱うべきものに集中できるので、<code>state</code>の概観がブレない</li>
+<li>扱うべきものに集中できる<ul>
+<li><code>state</code>の概観がブレない</li>
+</ul>
+</li>
 </ul>
 </section>
   </div>
   <div class="slide hidden" id="slide-23">
-    <section class="slide-content"><h3 id="view-react-">View: Reactするなら</h3>
+    <section class="slide-content"><h3 id="view-w-react">View: w/ React</h3>
 <pre><code class="lang-js">const React = require('react');
 const { observer } = require('mobx-react');
 
@@ -616,8 +622,8 @@ const View = ({ todoStore }) =&gt; (
 
 // いるのココだけ
 module.exports = observer(View);</code></pre>
-<p><code>observer</code>はさっきの<code>autorun</code>のラッパー。
-これで必要な<code>state</code>に更新があった時<a>だけ</a>、自動で<code>render()</code>されるように。</p>
+<p><code>mobx-react</code>という別パッケージがあり、<code>observer</code>はさっきの<code>autorun</code>のラッパー。</p>
+<p>これで必要な<code>state</code>に更新があった時<a>だけ</a>、自動で<code>render()</code>されるように。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-24">
@@ -714,8 +720,10 @@ fetch(<span class="hljs-string">'/api/my/todos/'</span>)
   <div class="slide hidden" id="slide-30">
     <section class="slide-content"><h3 id="-">アーキテクチャを規定しない</h3>
 <ul>
+<li>MVCでもFluxでも好きなのを</li>
 <li>このライブラリではどう書けばいい・・？がない<ul>
 <li>本当に無駄な時間だと思う</li>
+<li>そういうレビューもいらない</li>
 </ul>
 </li>
 <li>他人のルールに「無理やり納得」しなくていい<ul>
@@ -795,6 +803,7 @@ fetch(<span class="hljs-string">'/api/my/todos/'</span>)
 <li><a href="http://lealog.hateblo.jp/archive/category/MobX">MobX カテゴリーの記事一覧 - console.lealog();</a></li>
 <li><a href="https://app.codegrid.net/entry/mobx">おすすめライブラリつまみ食い - MobX | CodeGrid</a></li>
 <li><a href="https://github.com/mobxjs/mobx-utils">mobxjs/mobx-utils: Utility functions and common patterns for MobX</a></li>
+<li><a href="https://github.com/mobxjs/mobx-state-tree">mobxjs/mobx-state-tree: WIP - Opinionated, transactional, MobX powered state container</a></li>
 </ul>
 </section>
   </div>

@@ -14,7 +14,7 @@ controls: false
 - Yuji Sugiura / [@leader22](https://twitter.com/leader22)
 - フロントエンド・エンジニア at PixelGrid Inc.
 - [console.lealog();](http://lealog.hateblo.jp/)
-- 最近はReactNativeとかWebRTCとか
+- 最近はWebRTCとかReactNativeとか
 
 ![leader22](./img/doseisan.jpg)
 
@@ -35,7 +35,7 @@ controls: false
 - https://github.com/mobxjs/mobx
   - 現在の最新バージョンは`3.1.9`
   - GitHubのスターは8.5k↑
-  - TypeScript製（Flowの型定義もある）
+  - TypeScript製（Flowの型定義もあるよ）
 - 作者は[@mweststrate](https://twitter.com/mweststrate)氏
 
 --
@@ -45,6 +45,10 @@ controls: false
 - [他のフレームワークとの比較 - Vue.js](https://jp.vuejs.org/v2/guide/comparison.html#MobX-%E3%81%A8%E7%94%A8%E3%81%84%E3%81%9F%E5%A0%B4%E5%90%88)
 - [redux/Performance.md at master · reactjs/redux](https://github.com/reactjs/redux/blob/master/docs/faq/Performance.md)
 
+
+ちなみに先日の[React Amsterdam](https://react.amsterdam/)でも話されてます。
+- https://youtu.be/m_vUUgI0bo8?t=8h29m30s
+
 --
 
 ### MobXと私
@@ -52,9 +56,9 @@ controls: false
   - 実務からプライベートまで
   - 小さいものからそれなりに大きいものまで
   - Webから（React）Nativeまで
-- いちおうContributerです
+- いちおうContributerもやってます
 
-国内では割と使い込んでる側な気がする・・？
+なので国内では割と使い込んでる側な気がする・・？
 
 --
 
@@ -67,12 +71,11 @@ controls: false
 --
 
 ### 話さないこと
-- ○○はオワコン、これからはMobXの時代
-- あのライブラリに比べて・・・
+- ○○はオワコン、これからはMobX！
+- あのライブラリに比べてここが良い悪い・・・
 - MobXの内部はこうなってる
 - APIの詳細、便利APIの解説
 - いわゆるベストプラクティス
-- こういうケースではこう書くといい
 - etc...
 
 時間が足りないので、拙ブログを読む or 6月くらいの某勉強会（予）にくる or 懇親会で話しかけてください🍕
@@ -98,7 +101,7 @@ controls: false
 - 関心の分離
 - <a>一方向</a>のデータフロー
   - `view = fn(state)`
-  - どのライブラリもだいたいそう
+  - まぁどのライブラリもだいたいそう
 
 図の通り、Stateを変更（Action）さえすれば、後の更新はMobXが<a>自動的に</a>やってくれる。
 
@@ -140,7 +143,7 @@ const { autorun } = require('mobx');
 
 autorun(() => {
   // いわゆる`render()`的なこと
-  $el.textContent = state.count;
+  console.log(`Count is ${state.count}!`);
 });
 ```
 
@@ -178,18 +181,18 @@ state.count = 2; // Count is 2!
 state.count = 3; // Count is 3!
 ```
 
-ね、簡単でしょ？
+おどろきの簡単さ・・！
 
 --
 
-### おどろきのSimpleさ
+### 簡単 = わかりやすい
 ![data flow](./img/flow.png)
 
 - State: `mobx.observable()`
 - Action?: Stateに対する変更（任意
 - View?: Stateの変更に対するリアクション（任意
 
-ViewやActionの粒度は開発者次第、MobXは何も規定しない。
+表示を更新したいから値を更新する、その<a>思考の流れがそのままコードになる</a>のが重要。
 
 --
 
@@ -242,11 +245,12 @@ console.log(ticket.total); // 2000
 <a>特定の状態に由来する状態</a>を`computed`で宣言的に。
 
 - いちいち手動で更新しなくていいので事故らない
-- 扱うべきものに集中できるので、`state`の概観がブレない
+- 扱うべきものに集中できる
+  - `state`の概観がブレない
 
 --
 
-### View: Reactするなら
+### View: w/ React
 
 ```js
 const React = require('react');
@@ -269,7 +273,8 @@ const View = ({ todoStore }) => (
 module.exports = observer(View);
 ```
 
-`observer`はさっきの`autorun`のラッパー。
+`mobx-react`という別パッケージがあり、`observer`はさっきの`autorun`のラッパー。
+
 これで必要な`state`に更新があった時<a>だけ</a>、自動で`render()`されるように。
 
 --
@@ -386,16 +391,16 @@ function addToto(title) {
 --
 
 ### アーキテクチャを規定しない
+- MVCでもFluxでも好きなのを
 - このライブラリではどう書けばいい・・？がない
   - 本当に無駄な時間だと思う
+  - そういうレビューもいらない
 - 他人のルールに「無理やり納得」しなくていい
   - そもそもマッチしないアーキテクチャに乗る必要はないが
 - ある程度の自由を許容した「遊びをもたせた設計」も
   - NoMore隙のないカチカチな設計のフリをした泥沼コード
 
 ○○uxのActionオブジェクトは未だに謎・・。一方向フローは良いとしても`type`て・・タイムトラベルとかしねーし・・
-
-
 
 
 --
@@ -448,7 +453,7 @@ Flux一派に疲れた貴方に送るリーズナブルな選択肢として。
 - [MobX カテゴリーの記事一覧 - console.lealog();](http://lealog.hateblo.jp/archive/category/MobX)
 - [おすすめライブラリつまみ食い - MobX | CodeGrid](https://app.codegrid.net/entry/mobx)
 - [mobxjs/mobx-utils: Utility functions and common patterns for MobX](https://github.com/mobxjs/mobx-utils)
-
+- [mobxjs/mobx-state-tree: WIP - Opinionated, transactional, MobX powered state container](https://github.com/mobxjs/mobx-state-tree)
 
 --
 
