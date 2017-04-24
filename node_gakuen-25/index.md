@@ -245,8 +245,8 @@ console.log(ticket.total); // 2000
 <a>特定の状態に由来する状態</a>を`computed`で宣言的に。
 
 - いちいち手動で更新しなくていいので事故らない
-- 扱うべきものに集中できる
-  - `state`の概観がブレない
+- 扱うべきStateを限定・集中できる
+  - Stateの概観がブレない
 
 --
 
@@ -275,11 +275,11 @@ module.exports = observer(View);
 
 `mobx-react`という別パッケージがあり、`observer`はさっきの`autorun`のラッパー。
 
-これで必要な`state`に更新があった時<a>だけ</a>、自動で`render()`されるように。
+必要なStateに更新があった時<a>だけ</a>、自動で`render()`されるように。
 
 --
 
-### View: 以外の副作用も
+### View: 以外の更新も
 
 ```js
 // for rendering views
@@ -393,10 +393,9 @@ function addToto(title) {
 ### アーキテクチャを規定しない
 - MVCでもFluxでも好きなのを
 - このライブラリではどう書けばいい・・？がない
-  - 本当に無駄な時間だと思う
-  - そういうレビューもいらない
+  - 本当に無駄な時間、そういうレビューもいらない
 - 他人のルールに「無理やり納得」しなくていい
-  - そもそもマッチしないアーキテクチャに乗る必要はないが
+  - そもそもマッチしない設計に乗る必要性 is ...
 - ある程度の自由を許容した「遊びをもたせた設計」も
   - NoMore隙のないカチカチな設計のフリをした泥沼コード
 
@@ -454,6 +453,8 @@ Flux一派に疲れた貴方に送るリーズナブルな選択肢として。
 - [おすすめライブラリつまみ食い - MobX | CodeGrid](https://app.codegrid.net/entry/mobx)
 - [mobxjs/mobx-utils: Utility functions and common patterns for MobX](https://github.com/mobxjs/mobx-utils)
 - [mobxjs/mobx-state-tree: WIP - Opinionated, transactional, MobX powered state container](https://github.com/mobxjs/mobx-state-tree)
+
+何かあればメンションください or この後の🍕で！
 
 --
 

@@ -595,8 +595,8 @@ ticket.amount = <span class="hljs-number">2</span>;
 <p><a>特定の状態に由来する状態</a>を<code>computed</code>で宣言的に。</p>
 <ul>
 <li>いちいち手動で更新しなくていいので事故らない</li>
-<li>扱うべきものに集中できる<ul>
-<li><code>state</code>の概観がブレない</li>
+<li>扱うべきStateを限定・集中できる<ul>
+<li>Stateの概観がブレない</li>
 </ul>
 </li>
 </ul>
@@ -623,11 +623,11 @@ const View = ({ todoStore }) =&gt; (
 // いるのココだけ
 module.exports = observer(View);</code></pre>
 <p><code>mobx-react</code>という別パッケージがあり、<code>observer</code>はさっきの<code>autorun</code>のラッパー。</p>
-<p>これで必要な<code>state</code>に更新があった時<a>だけ</a>、自動で<code>render()</code>されるように。</p>
+<p>必要なStateに更新があった時<a>だけ</a>、自動で<code>render()</code>されるように。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-24">
-    <section class="slide-content"><h3 id="view-">View: 以外の副作用も</h3>
+    <section class="slide-content"><h3 id="view-">View: 以外の更新も</h3>
 <pre><code class="lang-js"><span class="hljs-comment">// for rendering views</span>
 ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">View</span> <span class="hljs-attr">todoStore</span>=<span class="hljs-string">{store}</span> /&gt;</span>, $el);</span></code></pre>
 <pre><code class="lang-js"><span class="hljs-comment">// for others</span>
@@ -722,12 +722,11 @@ fetch(<span class="hljs-string">'/api/my/todos/'</span>)
 <ul>
 <li>MVCでもFluxでも好きなのを</li>
 <li>このライブラリではどう書けばいい・・？がない<ul>
-<li>本当に無駄な時間だと思う</li>
-<li>そういうレビューもいらない</li>
+<li>本当に無駄な時間、そういうレビューもいらない</li>
 </ul>
 </li>
 <li>他人のルールに「無理やり納得」しなくていい<ul>
-<li>そもそもマッチしないアーキテクチャに乗る必要はないが</li>
+<li>そもそもマッチしない設計に乗る必要性 is ...</li>
 </ul>
 </li>
 <li>ある程度の自由を許容した「遊びをもたせた設計」も<ul>
@@ -805,6 +804,7 @@ fetch(<span class="hljs-string">'/api/my/todos/'</span>)
 <li><a href="https://github.com/mobxjs/mobx-utils">mobxjs/mobx-utils: Utility functions and common patterns for MobX</a></li>
 <li><a href="https://github.com/mobxjs/mobx-state-tree">mobxjs/mobx-state-tree: WIP - Opinionated, transactional, MobX powered state container</a></li>
 </ul>
+<p>何かあればメンションください or この後の🍕で！</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-36">
