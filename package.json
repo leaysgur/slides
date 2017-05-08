@@ -1,21 +1,17 @@
 {
   "private": "true",
   "name": "slides",
-  "version": "1.0.0",
-  "main": "index.js",
+  "description": "My presentations!",
   "scripts": {
     "postinstall": "chmod -R +x ./_script",
-    "cleaver": "cleaver",
-    "md2html": "node ./_script/md2html.js"
+    "md2html": "node ./_script/md2html.js",
+    "md2html:all": "for x in `ls | grep -E '^_|.md|.json|public|node_modules' -v`; do npm run md2html $x; done"
   },
-  "keywords": [],
   "author": "leader22",
   "license": "MIT",
-  "devDependencies": {
+  "dependencies": {
     "cleaver": "^0.8.2"
   },
-  "dependencies": {},
-  "description": "My presentations!",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/leader22/slides.git"

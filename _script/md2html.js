@@ -5,7 +5,7 @@ const isWatch = process.argv[3] ? 'watch' : '';
 if (target === undefined) {
   console.log('  Usage:');
   console.log('    npm run md2html <targetDir>');
-  console.log('    npm run md2html <targetDir: String> [,<isWatch: Boolean>]');
+  console.log('    npm run md2html <targetDir> [,<isWatch>]');
   console.log('');
 
   process.exit(0);
@@ -14,7 +14,8 @@ if (target === undefined) {
 if (isWatch) {
   console.log('watching changes...');
 }
-exec(`npm run cleaver ${isWatch} ./${target}/index.md -- --output ./${target}/index.html`, (err, stdout, stderr) => {
+
+exec(`$(npm bin)/cleaver ${isWatch} ./${target}/index.md --output ./${target}/index.html`, (err, stdout, stderr) => {
   if (err || stderr) {
     console.error(err || stderr);
     process.exit(1);
