@@ -16,7 +16,7 @@ controls: false
 - 前々回にイカの話してたやつです
 - 最近は仕事でなぜかコードゴルフ⛳してます
 
-![leader22](./img/doseisan.jpg)
+![leader22](../public/img/doseisan.jpg)
 
 --
 

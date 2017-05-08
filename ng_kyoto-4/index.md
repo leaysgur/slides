@@ -16,7 +16,7 @@ controls: false
 - 京都生まれ -> 大阪育ち -> 神奈川(ほぼ東京)在住
 - Angular歴3ヶ月(最近はReactばっかり)
 
-![leader22](./img/doseisan.jpg)
+![leader22](../public/img/doseisan.jpg)
 
 --
 

@@ -15,7 +15,7 @@ controls: false
 - フロントエンド・エンジニア at PixelGrid Inc.
 - WebAudioのSpecの変更を日々追ったりする程度
 
-![leader22](./img/doseisan.jpg)
+![leader22](../public/img/doseisan.jpg)
 
 --
 

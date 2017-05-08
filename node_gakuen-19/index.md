@@ -16,9 +16,8 @@ controls: false
 - Yuji Sugiura / @leader22
 - PixelGrid Inc.
 - フロントエンド・エンジニア
-
-
-<img src="./img/doseisan.jpg">
+)
+<img src="../public/img/doseisan.jpg">
 
 --
 

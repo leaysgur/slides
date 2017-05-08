@@ -16,7 +16,7 @@ controls: false
 - 最近の仕事はパフォーマンスチューニング📈とかReact案件とか
 - 趣味ではReact Native x Swiftで音楽プレーヤーを少々
 
-![leader22](./img/doseisan.jpg)
+![leader22](../public/img/doseisan.jpg)
 
 --
 

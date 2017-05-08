@@ -16,7 +16,7 @@ controls: false
 - [console.lealog();](http://lealog.hateblo.jp/)
 - 最近はWebRTCとかReactNativeとか
 
-![leader22](./img/doseisan.jpg)
+![leader22](../public/img/doseisan.jpg)
 
 --
 
