@@ -1,0 +1,771 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <title>MobXではじめるReactiveアーキテクチャ</title>
+  <style type="text/css">
+    body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #222;
+  font-size: 100%;
+}
+
+.slide {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 0; right: 0;
+  background-color: #f7f7f7;
+}
+
+.slide-content {
+  width: 800px;
+  height: 600px;
+  overflow: hidden;
+  margin: 80px auto 0 auto;
+  padding: 30px;
+
+  font-weight: 200;
+  font-size: 200%;
+  line-height: 1.375;
+}
+
+.controls {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+}
+
+.arrow {
+  width: 0; height: 0;
+  border: 30px solid #333;
+  float: left;
+  margin-right: 30px;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.prev {
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+
+  border-left-width: 0;
+  border-right-width: 50px;
+}
+
+.next {
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  border-right-color: transparent;
+
+  border-left-width: 50px;
+  border-right-width: 0;
+}
+
+.prev:hover {
+  border-right-color: #888;
+  cursor: pointer;
+}
+
+.next:hover {
+  border-left-color: #888;
+  cursor: pointer;
+}
+
+h1 {
+  font-size: 300%;
+  line-height: 1.2;
+  text-align: center;
+  margin: 170px 0 0;
+}
+
+h2 {
+  font-size: 100%;
+  line-height: 1.2;
+  margin: 5px 0;
+  text-align: center;
+  font-weight: 200;
+}
+
+h3 {
+  font-size: 140%;
+  line-height: 1.2;
+  border-bottom: 1px solid #aaa;
+  margin: 0;
+  padding-bottom: 15px;
+}
+
+ul {
+  padding: 20px 0 0 60px;
+  font-weight: 200;
+  line-height: 1.375;
+}
+
+.author h1 {
+  font-size: 170%;
+  font-weight: 200;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.author h3 {
+  font-weight: 100;
+  text-align: center;
+  font-size: 95%;
+  border: none;
+}
+
+a {
+  text-decoration: none;
+  color: #44a4dd;
+}
+
+a:hover {
+  color: #66b5ff;
+}
+
+pre {
+  font-size: 60%;
+  line-height: 1.3;
+}
+
+.progress {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+
+.progress-bar {
+  width: 0%;
+  height: 3px;
+  background-color: #b4b4b4;
+
+  -webkit-transition: width 0.05s ease-out;
+  -moz-transition: width 0.05s ease-out;
+  -o-transition: width 0.05s ease-out;
+  transition: width 0.05s ease-out;
+}
+
+.hidden {
+  display: none;
+}
+
+@media (max-width: 850px) {
+
+  body {
+    font-size: 70%;
+  }
+
+  .slide-content {
+    width: auto;
+  }
+
+  img {
+    width: 100%;
+  }
+
+  h1 {
+    margin-top: 120px;
+  }
+
+  .prev, .prev:hover {
+    border-right-color: rgba(135, 135, 135, 0.5);
+  }
+
+  .next, .next:hover {
+    border-left-color: rgba(135, 135, 135, 0.5);
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 50%;
+    overflow: hidden;
+  }
+
+  .slide-content {
+    padding: 10px;
+    margin-top: 10px;
+    height: 340px;
+  }
+
+  h1 {
+    margin-top: 50px;
+  }
+
+  ul {
+    padding-left: 25px;
+  }
+}
+
+@media print {
+  * {
+    -webkit-print-color-adjust: exact;
+  }
+
+  @page {
+    size: letter;
+  }
+
+  .hidden {
+    display: inline;
+  }
+
+  html {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  body {
+    margin: 0 auto !important;
+    border: 0;
+    padding: 0;
+    float: none !important;
+    overflow: visible;
+    background: none !important;
+    font-size: 52%;
+  }
+
+  .progress, .controls {
+    display: none;
+  }
+
+  .slide {
+    position: static;
+  }
+
+  .slide-content {
+    border: 1px solid #222;
+    margin-top: 0;
+    margin-bottom: 40px;
+    height: 3.5in;
+    overflow: visible;
+  }
+
+  .slide:nth-child(even) {
+    /* 2 slides per page */
+    page-break-before: always;
+  }
+}
+
+/*
+
+github.com style (c) Vasily Polovnyov <vast@whiteants.net>
+
+*/
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  color: #333;
+  background: #f8f8f8;
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: #998;
+  font-style: italic;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-subst {
+  color: #333;
+  font-weight: bold;
+}
+
+.hljs-number,
+.hljs-literal,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag .hljs-attr {
+  color: #008080;
+}
+
+.hljs-string,
+.hljs-doctag {
+  color: #d14;
+}
+
+.hljs-title,
+.hljs-section,
+.hljs-selector-id {
+  color: #900;
+  font-weight: bold;
+}
+
+.hljs-subst {
+  font-weight: normal;
+}
+
+.hljs-type,
+.hljs-class .hljs-title {
+  color: #458;
+  font-weight: bold;
+}
+
+.hljs-tag,
+.hljs-name,
+.hljs-attribute {
+  color: #000080;
+  font-weight: normal;
+}
+
+.hljs-regexp,
+.hljs-link {
+  color: #009926;
+}
+
+.hljs-symbol,
+.hljs-bullet {
+  color: #990073;
+}
+
+.hljs-built_in,
+.hljs-builtin-name {
+  color: #0086b3;
+}
+
+.hljs-meta {
+  color: #999;
+  font-weight: bold;
+}
+
+.hljs-deletion {
+  background: #fdd;
+}
+
+.hljs-addition {
+  background: #dfd;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+
+
+  </style>
+</head>
+<body>
+    <div class="progress">
+    <div class="progress-bar"></div>
+  </div>
+
+  <div class="slide" id="slide-1">
+    <section class="slide-content"><h1 id="-a-mobx-a-reactive-"><a>MobX</a>ではじめるReactiveアーキテクチャ</h1>
+<h2 id="-nbsp-">&nbsp;</h2>
+<h2 id="2017-06-21-frontend-de-kanpai-">2017/06/21 Frontend de KANPAI!</h2>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-2">
+    <section class="slide-content"><h3 id="-">はじめまして</h3>
+<ul>
+<li>Yuji Sugiura / <a href="https://twitter.com/leader22">@leader22</a></li>
+<li>フロントエンド・エンジニア at PixelGrid Inc.<ul>
+<li>最近はHLSとかReactNativeとか</li>
+</ul>
+</li>
+<li>ブログも書いてます -&gt; <a href="http://lealog.hateblo.jp/">console.lealog();</a></li>
+</ul>
+<p><img src="../public/img/doseisan.jpg" alt="leader22"></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-3">
+    <section class="slide-content"><h1 id="-">本日のテーマ</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-4">
+    <section class="slide-content"><p><img src="./img/mobx.png" alt="mobx"></p>
+<h2 id="mobx">MobX</h2>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-5">
+    <section class="slide-content"><h3 id="-">目次</h3>
+<ul>
+<li>MobXとはどんなものか<ul>
+<li>別資料にて</li>
+</ul>
+</li>
+<li>どういう考え方で使うと良さそうか</li>
+<li>コードがどんな感じになるのか</li>
+</ul>
+<p>質問等あれば、この後でも、Twitterとかでも。</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-6">
+    <section class="slide-content"><h1 id="-hello-mobx-http-leader22-github-io-slides-node_gakuen-25-5-"><a href="http://leader22.github.io/slides/node_gakuen-25#5">Hello, MobX!</a></h1>
+<h2 id="-">（※概要説明のための別資料）</h2>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-7">
+    <section class="slide-content"><h1 id="-">おさらい</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-8">
+    <section class="slide-content"><h3 id="mobx-">MobXを使うとどうなるか</h3>
+<ul>
+<li><a>State</a>のことだけ考えればよい<ul>
+<li>必要最低限にして必要十分</li>
+</ul>
+</li>
+<li>その<a>State</a>を更新しさえすればよい<ul>
+<li>後は全てよしなにしてくれる</li>
+</ul>
+</li>
+</ul>
+<p>とにかく、<a>State</a>を中心に考える！コードを書く！</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-9">
+    <section class="slide-content"><h3 id="-state-">= Stateを中心に考えたアーキテクチャ</h3>
+<p><a>State</a>を更新すれば勝手に、</p>
+<ul>
+<li>画面の描画が更新される</li>
+<li>ページが遷移（URLを変更）する</li>
+<li>キャッシュされる</li>
+<li>etc...</li>
+</ul>
+<p>= Reactiveアーキテクチャ・・！</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-10">
+    <section class="slide-content"><h1 id="demo">DEMO</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-11">
+    <section class="slide-content"><h3 id="demo-">DEMOについて</h3>
+<ul>
+<li>React Amsterdamでの作者のプレゼンで紹介されてたもの<ul>
+<li><a href="https://youtu.be/m_vUUgI0bo8?t=8h29m23s">https://youtu.be/m_vUUgI0bo8?t=8h29m23s</a></li>
+<li><a href="https://github.com/mweststrate/react-mobx-shop/tree/react-amsterdam-2017">mweststrate/react-mobx-shop at react-amsterdam-2017</a></li>
+</ul>
+</li>
+<li>本屋のECサイトの例<ul>
+<li>定期的に最新の在庫（商品）をサーバーから取得し一覧表示</li>
+<li>商品の一覧・詳細・カートの3画面のルーティングあり</li>
+<li>カートへの商品追加・購入ができる</li>
+<li>カートの内容はLocalStroageで永続化</li>
+</ul>
+</li>
+</ul>
+<p>トーク自体もおもしろいのでおすすめです。</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-12">
+    <section class="slide-content"><h3 id="demo-">DEMOすること</h3>
+<ul>
+<li>普通に画面見せる</li>
+<li>コンソールで↓のコード実行しても動く</li>
+<li><code>render()</code>を消してみた状態でも↓のコードが動く</li>
+</ul>
+<pre><code class="lang-js">shop.cart.checkout()
+shop.cart.clear()
+
+shop.view.openCartPage()
+shop.view.openBooksPage()
+
+shop.books.keys()
+
+shop.cart.addBook(shop.books.get(<span class="hljs-string">'978-1423103349'</span>))
+shop.cart.addBook(shop.books.get(<span class="hljs-string">'978-1423103349'</span>), <span class="hljs-number">2</span>, <span class="hljs-literal">false</span>)
+shop.cart.checkout()</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-13">
+    <section class="slide-content"><h1 id="-">コードの見どころ紹介</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-14">
+    <section class="slide-content"><h3 id="state-">Stateの使い道</h3>
+<blockquote>
+<p><a href="https://github.com/mweststrate/react-mobx-shop/blob/react-amsterdam-2017/src/index.js#L13-L40">https://github.com/mweststrate/react-mobx-shop/blob/react-amsterdam-2017/src/index.js#L13-L40</a></p>
+</blockquote>
+<ul>
+<li>Stateの更新によって反映されるべきものを紐付け<ul>
+<li><code>React</code>を使った画面表示</li>
+<li>URLとの対応</li>
+</ul>
+</li>
+<li>あとはStateを更新すればすべて自動で反映</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-15">
+    <section class="slide-content"><h3 id="store-store">Storeと子Store</h3>
+<blockquote>
+<p><a href="https://github.com/mweststrate/react-mobx-shop/blob/react-amsterdam-2017/src/stores/ShopStore.js#L14-L16">https://github.com/mweststrate/react-mobx-shop/blob/react-amsterdam-2017/src/stores/ShopStore.js#L14-L16</a></p>
+</blockquote>
+<ul>
+<li>ドメインごとに<code>Store</code>を用意しまとめる<ul>
+<li>そういう意味ではシングルストア</li>
+</ul>
+</li>
+<li>子Storeに親Storeの参照を渡すことで、グローバルな<code>Store</code>を表現</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-16">
+    <section class="slide-content"><h3 id="store-">Storeで扱うモデル</h3>
+<blockquote>
+<p><a href="https://github.com/mweststrate/react-mobx-shop/blob/react-amsterdam-2017/src/stores/CartStore.js#L3-L25">https://github.com/mweststrate/react-mobx-shop/blob/react-amsterdam-2017/src/stores/CartStore.js#L3-L25</a></p>
+</blockquote>
+<ul>
+<li>プレーンオブジェクトではないので、任意の抽象化が可能<ul>
+<li><code>Backbone</code>の<code>Model</code>と<code>Collection</code>の関係のような</li>
+</ul>
+</li>
+<li>ObservableなモデルをカスケードしてスケールさせるMobX-Way</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-17">
+    <section class="slide-content"><h3 id="view-store">Viewにまつわる汎用Store</h3>
+<blockquote>
+<p><a href="https://github.com/mweststrate/react-mobx-shop/blob/react-amsterdam-2017/src/stores/ViewStore.js">https://github.com/mweststrate/react-mobx-shop/blob/react-amsterdam-2017/src/stores/ViewStore.js</a></p>
+</blockquote>
+<ul>
+<li>ページURLの代わりとなるプロパティ</li>
+<li>ページ自体のローディング状態など</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-18">
+    <section class="slide-content"><h3 id="-reaction">全てがReaction</h3>
+<blockquote>
+<p><a href="https://github.com/mweststrate/react-mobx-shop/blob/react-amsterdam-2017/src/stores/CartStore.js#L39-L43">https://github.com/mweststrate/react-mobx-shop/blob/react-amsterdam-2017/src/stores/CartStore.js#L39-L43</a></p>
+</blockquote>
+<ul>
+<li>カートの内容に変更があったら即座にLocalStorageへ</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-19">
+    <section class="slide-content"><h3 id="react-x-mobx">React x MobX</h3>
+<blockquote>
+<p><a href="https://github.com/mweststrate/react-mobx-shop/blob/react-amsterdam-2017/src/index.js#L17-L22">https://github.com/mweststrate/react-mobx-shop/blob/react-amsterdam-2017/src/index.js#L17-L22</a></p>
+<p><a href="https://github.com/mweststrate/react-mobx-shop/blob/react-amsterdam-2017/src/components/Books.js">https://github.com/mweststrate/react-mobx-shop/blob/react-amsterdam-2017/src/components/Books.js</a></p>
+</blockquote>
+<ul>
+<li>React用のバインディング<ul>
+<li><a href="https://github.com/mobxjs/mobx-react">mobxjs/mobx-react: React bindings for MobX</a></li>
+</ul>
+</li>
+<li><code>Provider</code>で注入して<code>inject()</code>で取り出す</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-20">
+    <section class="slide-content"><h3 id="-">注意</h3>
+<ul>
+<li>別にMobXじゃなくてもできます</li>
+<li>MobX使うならこうしろ！でもないです<ul>
+<li>やや作者のクセが感じられるコードかも</li>
+</ul>
+</li>
+</ul>
+<p>MobX自体がアーキテクチャを規定しないので、Fluxぽくするもよし、MVCぽくするもよし、MVVMぽくするもよし。</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-21">
+    <section class="slide-content"><h1 id="-">まとめ</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-22">
+    <section class="slide-content"><h3 id="mobx-">MobXでリアクティブに</h3>
+<ul>
+<li>Observableな<a>State</a>を中心に設計する<ul>
+<li>それがキモでありすべて</li>
+</ul>
+</li>
+<li>Stateの変更による副作用は、すべて<a>自動で</a>成される<ul>
+<li>そうすることで宣言的 &amp; テスタブルなコードに</li>
+</ul>
+</li>
+</ul>
+<p>Do You Believe in Magic?</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-23">
+    <section class="slide-content"><h1 id="thank-you-">Thank you!</h1>
+<p><style>
+:root {
+  --bg-color: #f8fdf7;
+  --bar-color: #0f726d;
+  --em-color: #5bbbb7;
+}
+</style></p>
+<p><link rel="stylesheet" href="../public/base.css"></p>
+<p><link rel="stylesheet" href="../public/timer.css"></p>
+<script src="../public/timer.js"></script>
+<script src="../public/mobile-controls.js"></script></section>
+  </div>
+
+
+
+  <script type="text/javascript">
+    /**
+ * Returns the current page number of the presentation.
+ */
+function currentPosition() {
+  return parseInt(document.querySelector('.slide:not(.hidden)').id.slice(6));
+}
+
+
+/**
+ * Navigates forward n pages
+ * If n is negative, we will navigate in reverse
+ */
+function navigate(n) {
+  var position = currentPosition();
+  var numSlides = document.getElementsByClassName('slide').length;
+
+  /* Positions are 1-indexed, so we need to add and subtract 1 */
+  var nextPosition = (position - 1 + n) % numSlides + 1;
+
+  /* Normalize nextPosition in-case of a negative modulo result */
+  nextPosition = (nextPosition - 1 + numSlides) % numSlides + 1;
+
+  document.getElementById('slide-' + position).classList.add('hidden');
+  document.getElementById('slide-' + nextPosition).classList.remove('hidden');
+
+  updateProgress();
+  updateURL();
+  updateTabIndex();
+}
+
+
+/**
+ * Updates the current URL to include a hashtag of the current page number.
+ */
+function updateURL() {
+  try {
+    window.history.replaceState({} , null, '#' + currentPosition());
+  } catch (e) {
+    window.location.hash = currentPosition();
+  }
+}
+
+
+/**
+ * Sets the progress indicator.
+ */
+function updateProgress() {
+  var progressBar = document.querySelector('.progress-bar');
+
+  if (progressBar !== null) {
+    var numSlides = document.getElementsByClassName('slide').length;
+    var position = currentPosition() - 1;
+    var percent = (numSlides === 1) ? 100 : 100 * position / (numSlides - 1);
+    progressBar.style.width = percent.toString() + '%';
+  }
+}
+
+
+/**
+ * Removes tabindex property from all links on the current slide, sets
+ * tabindex = -1 for all links on other slides. Prevents slides from appearing
+ * out of control.
+ */
+function updateTabIndex() {
+  var allLinks = document.querySelectorAll('.slide a');
+  var position = currentPosition();
+  var currentPageLinks = document.getElementById('slide-' + position).querySelectorAll('a');
+  var i;
+
+  for (i = 0; i < allLinks.length; i++) {
+    allLinks[i].setAttribute('tabindex', -1);
+  }
+
+  for (i = 0; i < currentPageLinks.length; i++) {
+    currentPageLinks[i].removeAttribute('tabindex');
+  }
+}
+
+/**
+ * Determines whether or not we are currently in full screen mode
+ */
+function isFullScreen() {
+  return document.fullscreenElement ||
+         document.mozFullScreenElement ||
+         document.webkitFullscreenElement ||
+         document.msFullscreenElement;
+}
+
+/**
+ * Toggle fullScreen mode on document element.
+ * Works on chrome (>= 15), firefox (>= 9), ie (>= 11), opera(>= 12.1), safari (>= 5).
+ */
+function toggleFullScreen() {
+  /* Convenient renames */
+  var docElem = document.documentElement;
+  var doc = document;
+
+  docElem.requestFullscreen =
+      docElem.requestFullscreen ||
+      docElem.msRequestFullscreen ||
+      docElem.mozRequestFullScreen ||
+      docElem.webkitRequestFullscreen.bind(docElem, Element.ALLOW_KEYBOARD_INPUT);
+
+  doc.exitFullscreen =
+      doc.exitFullscreen ||
+      doc.msExitFullscreen ||
+      doc.mozCancelFullScreen ||
+      doc.webkitExitFullscreen;
+
+  isFullScreen() ? doc.exitFullscreen() : docElem.requestFullscreen();
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  // Update the tabindex to prevent weird slide transitioning
+  updateTabIndex();
+
+  // If the location hash specifies a page number, go to it.
+  var page = window.location.hash.slice(1);
+  if (page) {
+    navigate(parseInt(page) - 1);
+  }
+
+  document.onkeydown = function (e) {
+    var kc = e.keyCode;
+
+    // left, down, H, J, backspace, PgUp - BACK
+    // up, right, K, L, space, PgDn - FORWARD
+    // enter - FULLSCREEN
+    if (kc === 37 || kc === 40 || kc === 8 || kc === 72 || kc === 74 || kc === 33) {
+      navigate(-1);
+    } else if (kc === 38 || kc === 39 || kc === 32 || kc === 75 || kc === 76 || kc === 34) {
+      navigate(1);
+    } else if (kc === 13) {
+      toggleFullScreen();
+    }
+  };
+
+  if (document.querySelector('.next') && document.querySelector('.prev')) {
+    document.querySelector('.next').onclick = function (e) {
+      e.preventDefault();
+      navigate(1);
+    };
+
+    document.querySelector('.prev').onclick = function (e) {
+      e.preventDefault();
+      navigate(-1);
+    };
+  }
+});
+
+
+  </script>
+</body>
+</html>
