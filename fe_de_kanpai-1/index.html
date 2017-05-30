@@ -374,10 +374,11 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <ul>
 <li>Yuji Sugiura / <a href="https://twitter.com/leader22">@leader22</a></li>
 <li>フロントエンド・エンジニア at PixelGrid Inc.<ul>
-<li>最近はHLSとかReactNativeとか</li>
+<li>DeNAで働いてた頃もありました</li>
 </ul>
 </li>
-<li>ブログも書いてます -&gt; <a href="http://lealog.hateblo.jp/">console.lealog();</a></li>
+<li>最近はWebの動画とかReactNativeとかやってます</li>
+<li>ブログにもいろいろ書いてます -&gt; <a href="http://lealog.hateblo.jp/">console.lealog();</a></li>
 </ul>
 <p><img src="../public/img/doseisan.jpg" alt="leader22"></p>
 </section>
@@ -392,60 +393,241 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </section>
   </div>
   <div class="slide hidden" id="slide-5">
-    <section class="slide-content"><h3 id="-">目次</h3>
+    <section class="slide-content"><h3 id="-">お品書き</h3>
 <ul>
-<li>MobXとはどんなものか<ul>
-<li>別資料にて</li>
+<li><a>MobX</a>とは<ul>
+<li>どんな感じのAPIでどんな感じのコードか</li>
+<li>どういう考え方で使うと良さそうか</li>
 </ul>
 </li>
-<li>どういう考え方で使うと良さそうか</li>
-<li>コードがどんな感じになるのか</li>
+<li>Reactiveなアーキテクチャの例<ul>
+<li>作者直々のサンプルコードより</li>
 </ul>
-<p>質問等あれば、この後でも、Twitterとかでも。</p>
+</li>
+</ul>
+<p>いちおうContributorもやってるので、なにか質問等あれば、この後の懇親会でもTwitterとかでもお気軽に！</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-6">
-    <section class="slide-content"><h1 id="-hello-mobx-http-leader22-github-io-slides-node_gakuen-25-5-"><a href="http://leader22.github.io/slides/node_gakuen-25#5">Hello, MobX!</a></h1>
-<h2 id="-">（※概要説明のための別資料）</h2>
+    <section class="slide-content"><h1 id="-a-mobx-a-"><a>MobX</a>とは</h1>
 </section>
   </div>
   <div class="slide hidden" id="slide-7">
-    <section class="slide-content"><h1 id="-">おさらい</h1>
+    <section class="slide-content"><h3 id="mobx-">MobXとは</h3>
+<ul>
+<li>Webアプリケーションにおける状態（<code>state</code>）を管理するためのライブラリ</li>
+<li><a href="https://github.com/mobxjs/mobx">https://github.com/mobxjs/mobx</a><ul>
+<li>現在の最新バージョンは<code>3.1.10</code></li>
+<li>GitHubのスターは9k↑</li>
+<li>TypeScript製（Flowの型定義もあるよ）</li>
+</ul>
+</li>
+<li>作者は<a href="https://twitter.com/mweststrate">@mweststrate</a>氏</li>
+</ul>
+<p>Reactとあわせて使われることが多いけど、別に依存関係はないです。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-8">
-    <section class="slide-content"><h3 id="mobx-">MobXを使うとどうなるか</h3>
+    <section class="slide-content"><h3 id="mobx-">MobXよもやま</h3>
 <ul>
-<li><a>State</a>のことだけ考えればよい<ul>
-<li>必要最低限にして必要十分</li>
+<li>各ライブラリのの公式ページでも言及されてたり<ul>
+<li><a href="https://facebook.github.io/react/docs/context.html#why-not-to-use-context">Context - React</a></li>
+<li><a href="https://jp.vuejs.org/v2/guide/comparison.html#MobX-%E3%81%A8%E7%94%A8%E3%81%84%E3%81%9F%E5%A0%B4%E5%90%88">他のフレームワークとの比較 - Vue.js</a></li>
 </ul>
 </li>
-<li>その<a>State</a>を更新しさえすればよい<ul>
-<li>後は全てよしなにしてくれる</li>
+<li>Reduxとの比較<ul>
+<li><a href="https://twitter.com/dan_abramov/status/720219615041859584">Dan Abramovさんのツイート</a></li>
+<li><a href="https://www.youtube.com/watch?v=m_vUUgI0bo8&amp;feature=youtu.be&amp;t=8h29m30s">React Amsterdam Conference 2017 - YouTube</a></li>
+</ul>
+</li>
+<li>ついにヨーロッパ最大のReactカンファレンスでも<ul>
+<li><a href="https://youtu.be/nhNiKel6U9Y?t=1h8m33s">ReactEurope 2017 Day 2 AM - YouTube</a></li>
 </ul>
 </li>
 </ul>
-<p>とにかく、<a>State</a>を中心に考える！コードを書く！</p>
+<p>日本でも少しずつ認知されてきた感がある今日このごろ。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-9">
-    <section class="slide-content"><h3 id="-state-">= Stateを中心に考えたアーキテクチャ</h3>
-<p><a>State</a>を更新すれば勝手に、</p>
+    <section class="slide-content"><h3 id="-react-redux-">蛇足: ReactならRedux一択じゃないの？</h3>
 <ul>
-<li>画面の描画が更新される</li>
-<li>ページが遷移（URLを変更）する</li>
-<li>キャッシュされる</li>
-<li>etc...</li>
+<li>唯一解なんかあれば誰も苦労しない</li>
+<li>自分の目で見て試して「選択」すべき<ul>
+<li>プロジェクトの用途・個人の信条に応じて</li>
 </ul>
-<p>= Reactiveアーキテクチャ・・！</p>
+</li>
+<li>個人的にはMobX推しです<ul>
+<li>が、Reduxはオワコン！とかでは決してない</li>
+</ul>
+</li>
+</ul>
+<p>この資料もそんな「選択」の一助になればというお気持ちをはじめに置いておきます(˘ω˘ )</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-10">
-    <section class="slide-content"><h1 id="demo">DEMO</h1>
+    <section class="slide-content"><h1 id="mobx-">MobXのコア</h1>
 </section>
   </div>
   <div class="slide hidden" id="slide-11">
-    <section class="slide-content"><h3 id="demo-">DEMOについて</h3>
+    <section class="slide-content"><h3 id="-3-">核となる3本柱</h3>
+<p><img src="./img/idea.png" alt="idea"></p>
+<ul>
+<li>Actions: Stateを変更すること</li>
+<li>State: 状態それ自体</li>
+<li>Reactions: 状態の変更に起因するあれこれ<ul>
+<li>Views: 状態に応じて描画されるもの</li>
+</ul>
+</li>
+</ul>
+<p><code>Actions</code>により<code>State</code>を変更すると、<a>自動的</a>に<code>Reactions</code>が発火する。（<code>Views</code>も更新される
+ = <code>view = f(state)</code>）</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-12">
+    <section class="slide-content"><h3 id="api-">APIでみると</h3>
+<p><img src="./img/idea.png" alt="idea"></p>
+<ul>
+<li>Actions: <code>mobx.action</code></li>
+<li>State: <code>mobx.observable</code>, <code>mobx.computed</code></li>
+<li>Reactions: <code>mobx.reaction</code>, <code>mobx.autorun</code><ul>
+<li>Views: <code>mobx-react.observer</code></li>
+</ul>
+</li>
+</ul>
+<p>他にもAPIは色々ありますが、最低限これだけ覚えれば十分です。</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-13">
+    <section class="slide-content"><h3 id="-">最低限のコード例</h3>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> { autorun, observable } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'mobx'</span>);
+
+<span class="hljs-comment">// State</span>
+<span class="hljs-keyword">const</span> state = observable({
+  count: <span class="hljs-number">1</span>,
+});
+
+<span class="hljs-comment">// Reaction(Views)</span>
+autorun(() =&gt; {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Count is <span class="hljs-subst">${state.count}</span>!`</span>); <span class="hljs-comment">// Count is 1!</span>
+});
+
+<span class="hljs-comment">// Actions</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">increment</span>(<span class="hljs-params"></span>) </span>{ state.count++; }
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">decrement</span>(<span class="hljs-params"></span>) </span>{ state.count--; }
+
+increment(); <span class="hljs-comment">// Count is 2!</span>
+increment(); <span class="hljs-comment">// Count is 3!</span>
+decrement(); <span class="hljs-comment">// Count is 2!</span></code></pre>
+<p><code>State</code>を定義して、変更するだけ。</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-14">
+    <section class="slide-content"><h3 id="-w-react">もう少し長いコード例 w/ React</h3>
+<pre><code class="lang-java"><span class="hljs-keyword">const</span> { action, computed, observable } = require(<span class="hljs-string">'mobx'</span>);
+
+<span class="hljs-comment">// ObservableなStateと、Stateを変更するAction</span>
+<span class="hljs-comment">// Decoratorsは必須ではなくOptionalな選択肢</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Store</span> </span>{
+  <span class="hljs-meta">@observable</span> count = <span class="hljs-number">1</span>;
+
+  <span class="hljs-comment">// ObservableなStateに更新があった時"だけ"、自動的に更新されるプロパティ</span>
+  <span class="hljs-meta">@computed</span> <span class="hljs-function">get <span class="hljs-title">isOdd</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">return</span> !!(<span class="hljs-keyword">this</span>.count % <span class="hljs-number">2</span>);
+  }
+
+  <span class="hljs-meta">@action</span> increment() {
+    <span class="hljs-keyword">this</span>.count++;
+  }
+  <span class="hljs-meta">@action</span> decrement() {
+    <span class="hljs-keyword">this</span>.count--;
+  }
+}</code></pre>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> { reaction } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'mobx'</span>);
+
+<span class="hljs-comment">// ViewからStoreのActionを呼ぶための・View以外の用途にStoreを使う層</span>
+<span class="hljs-comment">// 別にViewから直接Storeを叩いてもいいけど</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Event</span>(<span class="hljs-params">store</span>) </span>{
+
+  <span class="hljs-comment">// ObservableなStateに更新があった時"だけ"、自動的に呼ばれる関数</span>
+  reaction(
+    () =&gt; store.isOdd,
+    isOdd =&gt; {
+      <span class="hljs-built_in">console</span>.log(isOdd ? <span class="hljs-string">'odd'</span> : <span class="hljs-string">'even'</span>);
+    }
+  );
+
+  <span class="hljs-keyword">return</span> {
+    increment() {
+      store.increment();
+    },
+    decrement() {
+      store.decrement();
+    }
+  };
+}</code></pre>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> React, { Component } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'react'</span>);
+<span class="hljs-keyword">const</span> { observer } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'mobx-react'</span>);
+
+<span class="hljs-comment">// ObservableなStateに更新があった時"だけ"、自動的にrenderされるコンポーネント</span>
+<span class="hljs-comment">// さよならshouldComponentUpdate</span>
+@observer
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">View</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Component</span> </span>{
+  render() {
+    <span class="hljs-keyword">const</span> { store, event } = <span class="hljs-keyword">this</span>.props;
+    <span class="hljs-keyword">return</span> (
+      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>{store.count}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{event.increment}</span>&gt;</span>+<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{event.decrement}</span>&gt;</span>-<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    )</span>;
+  }
+}</code></pre>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> ReactDOM = <span class="hljs-built_in">require</span>(<span class="hljs-string">'react-dom'</span>);
+<span class="hljs-keyword">const</span> { useStrict } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'mobx'</span>);
+
+<span class="hljs-comment">// @acitonからしかStateが変更できないように</span>
+useStrict(<span class="hljs-literal">true</span>);
+
+<span class="hljs-keyword">const</span> store = <span class="hljs-keyword">new</span> Store();
+<span class="hljs-keyword">const</span> event = <span class="hljs-keyword">new</span> Event(store);
+
+ReactDOM.render(
+  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">View</span> <span class="hljs-attr">store</span>=<span class="hljs-string">{store}</span> <span class="hljs-attr">event</span>=<span class="hljs-string">{event}</span> /&gt;</span>,
+  document.getElementById('app')
+);</span></code></pre>
+<p>アーキテクチャは規定しないので、Fluxぽくするもよし、MVCぽくするもよし、MVVMぽくするもよし。</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-15">
+    <section class="slide-content"><h3 id="mobx-">MobXを使うとどうなるか</h3>
+<ul>
+<li>Observableな<code>State</code>をどう定義するかが最大の関心事</li>
+<li>あとはその<code>State</code>を更新しさえすればよい</li>
+<li>AしたらB、BしたらCするみたいな手続きコードが消える</li>
+</ul>
+<p>とにかく、<code>State</code>を中心に考えてコードを書く！
+全て<a>自動的</a>に（= Reactiveに）処理されるように！</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-16">
+    <section class="slide-content"><h3 id="mobx-reactive-">MobXではじめるReactiveアーキテクチャ</h3>
+<p>つまり<code>State</code>を更新すれば<a>自動的</a>に、</p>
+<ul>
+<li>画面の描画が更新される</li>
+<li>ページが遷移（URLを変更）する</li>
+<li>データがキャッシュされる</li>
+<li>etc...</li>
+</ul>
+<p>そんな思想を体現したDEMOのご紹介。</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-17">
+    <section class="slide-content"><h1 id="demo">DEMO</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-18">
+    <section class="slide-content"><h3 id="react-mobx-shop">react-mobx-shop</h3>
 <ul>
 <li>React Amsterdamでの作者のプレゼンで紹介されてたもの<ul>
 <li><a href="https://youtu.be/m_vUUgI0bo8?t=8h29m23s">https://youtu.be/m_vUUgI0bo8?t=8h29m23s</a></li>
@@ -463,60 +645,71 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <p>トーク自体もおもしろいのでおすすめです。</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-12">
+  <div class="slide hidden" id="slide-19">
+    <section class="slide-content"><h3 id="-">注意</h3>
+<ul>
+<li>別にMobXじゃなくてもReactiveにはできます</li>
+<li>MobX使うならすべからくこうしろ！というコードでもないです</li>
+</ul>
+<p>やや作者のクセが感じられると個人的には思ってたりする・・(˘ω˘ )</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-20">
     <section class="slide-content"><h3 id="demo-">DEMOすること</h3>
 <ul>
-<li>普通に画面見せる</li>
-<li>コンソールで↓のコード実行しても動く</li>
-<li><code>render()</code>を消してみた状態でも↓のコードが動く</li>
+<li>普通に画面見せて動かす</li>
+<li>コンソールで↓のコード実行してみても動く</li>
+<li><code>render()</code>をソースから消してみた状態でも動く</li>
 </ul>
-<pre><code class="lang-js">shop.cart.checkout()
+<pre><code class="lang-js"><span class="hljs-comment">// Viewですら副作用であり必須ではない</span>
+shop.cart.checkout()
 shop.cart.clear()
 
+<span class="hljs-comment">// URLでさえも</span>
 shop.view.openCartPage()
 shop.view.openBooksPage()
 
+<span class="hljs-comment">// 全ての機能が動く</span>
 shop.books.keys()
-
 shop.cart.addBook(shop.books.get(<span class="hljs-string">'978-1423103349'</span>))
 shop.cart.addBook(shop.books.get(<span class="hljs-string">'978-1423103349'</span>), <span class="hljs-number">2</span>, <span class="hljs-literal">false</span>)
 shop.cart.checkout()</code></pre>
 </section>
   </div>
-  <div class="slide hidden" id="slide-13">
-    <section class="slide-content"><h1 id="-">コードの見どころ紹介</h1>
+  <div class="slide hidden" id="slide-21">
+    <section class="slide-content"><h1 id="-">コードの見どころ</h1>
 </section>
   </div>
-  <div class="slide hidden" id="slide-14">
+  <div class="slide hidden" id="slide-22">
     <section class="slide-content"><h3 id="state-">Stateの使い道</h3>
 <blockquote>
 <p><a href="https://github.com/mweststrate/react-mobx-shop/blob/react-amsterdam-2017/src/index.js#L13-L40">https://github.com/mweststrate/react-mobx-shop/blob/react-amsterdam-2017/src/index.js#L13-L40</a></p>
 </blockquote>
 <ul>
-<li>Stateの更新によって反映されるべきものを紐付け<ul>
+<li><code>State</code>の更新によって反映されるべきものを紐付け<ul>
 <li><code>React</code>を使った画面表示</li>
 <li>URLとの対応</li>
 </ul>
 </li>
-<li>あとはStateを更新すればすべて自動で反映</li>
+<li>あとは<code>State</code>を更新すればすべて自動で反映</li>
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-15">
+  <div class="slide hidden" id="slide-23">
     <section class="slide-content"><h3 id="store-store">Storeと子Store</h3>
 <blockquote>
 <p><a href="https://github.com/mweststrate/react-mobx-shop/blob/react-amsterdam-2017/src/stores/ShopStore.js#L14-L16">https://github.com/mweststrate/react-mobx-shop/blob/react-amsterdam-2017/src/stores/ShopStore.js#L14-L16</a></p>
 </blockquote>
 <ul>
 <li>ドメインごとに<code>Store</code>を用意しまとめる<ul>
-<li>そういう意味ではシングルストア</li>
+<li>プレーンObjectのツリーではなく、Modelのグラフをどう構成するかを考える</li>
 </ul>
 </li>
-<li>子Storeに親Storeの参照を渡すことで、グローバルな<code>Store</code>を表現</li>
+<li>子Storeに親Storeの参照を渡すことで、グローバルな<code>Store</code>を表現している</li>
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-16">
+  <div class="slide hidden" id="slide-24">
     <section class="slide-content"><h3 id="store-">Storeで扱うモデル</h3>
 <blockquote>
 <p><a href="https://github.com/mweststrate/react-mobx-shop/blob/react-amsterdam-2017/src/stores/CartStore.js#L3-L25">https://github.com/mweststrate/react-mobx-shop/blob/react-amsterdam-2017/src/stores/CartStore.js#L3-L25</a></p>
@@ -526,78 +719,77 @@ shop.cart.checkout()</code></pre>
 <li><code>Backbone</code>の<code>Model</code>と<code>Collection</code>の関係のような</li>
 </ul>
 </li>
-<li>ObservableなモデルをカスケードしてスケールさせるMobX-Way</li>
+<li>ObservableなモデルをカスケードさせていくのがMobX-Way</li>
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-17">
+  <div class="slide hidden" id="slide-25">
     <section class="slide-content"><h3 id="view-store">Viewにまつわる汎用Store</h3>
 <blockquote>
 <p><a href="https://github.com/mweststrate/react-mobx-shop/blob/react-amsterdam-2017/src/stores/ViewStore.js">https://github.com/mweststrate/react-mobx-shop/blob/react-amsterdam-2017/src/stores/ViewStore.js</a></p>
 </blockquote>
 <ul>
+<li>最低限ドメイン用とView用の最低2つが推奨されてたりする</li>
+<li>View用の汎用的な状態<ul>
 <li>ページURLの代わりとなるプロパティ</li>
-<li>ページ自体のローディング状態など</li>
+<li>ローディング状態など</li>
+</ul>
+</li>
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-18">
-    <section class="slide-content"><h3 id="-reaction">全てがReaction</h3>
+  <div class="slide hidden" id="slide-26">
+    <section class="slide-content"><h3 id="-">全てを宣言的に</h3>
 <blockquote>
-<p><a href="https://github.com/mweststrate/react-mobx-shop/blob/react-amsterdam-2017/src/stores/CartStore.js#L39-L43">https://github.com/mweststrate/react-mobx-shop/blob/react-amsterdam-2017/src/stores/CartStore.js#L39-L43</a></p>
+<p><a href="https://github.com/mweststrate/react-mobx-shop/blob/react-amsterdam-2017/src/stores/CartStore.js#L35-L46">https://github.com/mweststrate/react-mobx-shop/blob/react-amsterdam-2017/src/stores/CartStore.js#L35-L46</a></p>
 </blockquote>
 <ul>
-<li>カートの内容に変更があったら即座にLocalStorageへ</li>
+<li>初回ロードが終わった時に一度だけ復元</li>
+<li>カートの内容に変更があったら即座にLocalStorageへ保存</li>
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-19">
-    <section class="slide-content"><h3 id="react-x-mobx">React x MobX</h3>
+  <div class="slide hidden" id="slide-27">
+    <section class="slide-content"><h3 id="mobx-w-react">MobX w/ React</h3>
 <blockquote>
 <p><a href="https://github.com/mweststrate/react-mobx-shop/blob/react-amsterdam-2017/src/index.js#L17-L22">https://github.com/mweststrate/react-mobx-shop/blob/react-amsterdam-2017/src/index.js#L17-L22</a></p>
-<p><a href="https://github.com/mweststrate/react-mobx-shop/blob/react-amsterdam-2017/src/components/Books.js">https://github.com/mweststrate/react-mobx-shop/blob/react-amsterdam-2017/src/components/Books.js</a></p>
+<p><a href="https://github.com/mweststrate/react-mobx-shop/blob/react-amsterdam-2017/src/components/Books.js#L4">https://github.com/mweststrate/react-mobx-shop/blob/react-amsterdam-2017/src/components/Books.js#L4</a></p>
 </blockquote>
 <ul>
 <li>React用のバインディング<ul>
 <li><a href="https://github.com/mobxjs/mobx-react">mobxjs/mobx-react: React bindings for MobX</a></li>
 </ul>
 </li>
-<li><code>Provider</code>で注入して<code>inject()</code>で取り出す</li>
+<li><code>Provider</code>でContextに注入して<code>inject()</code>で取り出す</li>
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-20">
-    <section class="slide-content"><h3 id="-">注意</h3>
-<ul>
-<li>別にMobXじゃなくてもできます</li>
-<li>MobX使うならこうしろ！でもないです<ul>
-<li>やや作者のクセが感じられるコードかも</li>
-</ul>
-</li>
-</ul>
-<p>MobX自体がアーキテクチャを規定しないので、Fluxぽくするもよし、MVCぽくするもよし、MVVMぽくするもよし。</p>
-</section>
-  </div>
-  <div class="slide hidden" id="slide-21">
+  <div class="slide hidden" id="slide-28">
     <section class="slide-content"><h1 id="-">まとめ</h1>
 </section>
   </div>
-  <div class="slide hidden" id="slide-22">
-    <section class="slide-content"><h3 id="mobx-">MobXでリアクティブに</h3>
+  <div class="slide hidden" id="slide-29">
+    <section class="slide-content"><h3 id="mobx-">MobXとはなんだったのか</h3>
 <ul>
-<li>Observableな<a>State</a>を中心に設計する<ul>
-<li>それがキモでありすべて</li>
+<li>Observableな<code>State</code>を定義する仕組み<ul>
+<li>ドメインの状態を<a>宣言的</a>に表す</li>
 </ul>
 </li>
-<li>Stateの変更による副作用は、すべて<a>自動で</a>成される<ul>
-<li>そうすることで宣言的 &amp; テスタブルなコードに</li>
+<li>その<code>State</code>の変更を検知し<a>自動的</a>に発火、フックできる仕組み</li>
 </ul>
-</li>
-</ul>
-<p>Do You Believe in Magic?</p>
+<p>この2つを備えたライブラリ。</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-23">
+  <div class="slide hidden" id="slide-30">
+    <section class="slide-content"><h3 id="-">参考リンク</h3>
+<ul>
+<li><a href="http://lealog.hateblo.jp/archive/category/MobX">MobX カテゴリーの記事一覧 - console.lealog();</a></li>
+<li><a href="https://mobx.js.org/refguide/api.html">API overview | MobX</a></li>
+<li><a href="https://github.com/mobxjs/mobx-state-tree">mobxjs/mobx-state-tree: Opinionated, transactional, MobX powered state container</a></li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-31">
     <section class="slide-content"><h1 id="thank-you-">Thank you!</h1>
 <p><style>
 :root {
