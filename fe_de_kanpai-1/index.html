@@ -364,7 +364,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   </div>
 
   <div class="slide" id="slide-1">
-    <section class="slide-content"><h1 id="-a-mobx-a-reactive-"><a>MobX</a>ではじめるReactiveアーキテクチャ</h1>
+    <section class="slide-content"><h1 id="-a-mobx-a-a-reactive-a-"><a>MobX</a>ではじめる<a>Reactive</a>アーキテクチャ</h1>
 <h2 id="-nbsp-">&nbsp;</h2>
 <h2 id="2017-06-21-frontend-de-kanpai-">2017/06/21 Frontend de KANPAI!</h2>
 </section>
@@ -377,7 +377,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <li>DeNAで働いてた頃もありました</li>
 </ul>
 </li>
-<li>最近はWebの動画とかReactNativeとかやってます</li>
+<li>最近はモバイルWebで動画とかReactNativeとかやってます</li>
 <li>ブログにもいろいろ書いてます -&gt; <a href="http://lealog.hateblo.jp/">console.lealog();</a></li>
 </ul>
 <p><img src="../public/img/doseisan.jpg" alt="leader22"></p>
@@ -409,10 +409,19 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </section>
   </div>
   <div class="slide hidden" id="slide-6">
-    <section class="slide-content"><h1 id="-a-mobx-a-"><a>MobX</a>とは</h1>
+    <section class="slide-content"><h3 id="-">いきなりすいません</h3>
+<ul>
+<li>世に星の数ほどあるライブラリのひとつの紹介です</li>
+<li>「これからのフロントエンドに求められる力」・・</li>
+</ul>
+<p>必要なものを自分で見て「選択」する力を試すということで・・(˘ω˘ )</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-7">
+    <section class="slide-content"><h1 id="-a-mobx-a-"><a>MobX</a>とは</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-8">
     <section class="slide-content"><h3 id="mobx-">MobXとは</h3>
 <ul>
 <li>Webアプリケーションにおける状態（<code>state</code>）を管理するためのライブラリ</li>
@@ -424,10 +433,10 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </li>
 <li>作者は<a href="https://twitter.com/mweststrate">@mweststrate</a>氏</li>
 </ul>
-<p>Reactとあわせて使われることが多いけど、別に依存関係はないです。</p>
+<p>Reactと相性がよいのであわせて使われることが多いけど、別に依存関係はないです。</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-8">
+  <div class="slide hidden" id="slide-9">
     <section class="slide-content"><h3 id="mobx-">MobXよもやま</h3>
 <ul>
 <li>各ライブラリのの公式ページでも言及されてたり<ul>
@@ -448,24 +457,8 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <p>日本でも少しずつ認知されてきた感がある今日このごろ。</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-9">
-    <section class="slide-content"><h3 id="-react-redux-">蛇足: ReactならRedux一択じゃないの？</h3>
-<ul>
-<li>唯一解なんかあれば誰も苦労しない</li>
-<li>自分の目で見て試して「選択」すべき<ul>
-<li>プロジェクトの用途・個人の信条に応じて</li>
-</ul>
-</li>
-<li>個人的にはMobX推しです<ul>
-<li>が、Reduxはオワコン！とかでは決してない</li>
-</ul>
-</li>
-</ul>
-<p>この資料もそんな「選択」の一助になればというお気持ちをはじめに置いておきます(˘ω˘ )</p>
-</section>
-  </div>
   <div class="slide hidden" id="slide-10">
-    <section class="slide-content"><h1 id="mobx-">MobXのコア</h1>
+    <section class="slide-content"><h1 id="mobx-">MobXの基本</h1>
 </section>
   </div>
   <div class="slide hidden" id="slide-11">
@@ -518,7 +511,8 @@ autorun(() =&gt; {
 increment(); <span class="hljs-comment">// Count is 2!</span>
 increment(); <span class="hljs-comment">// Count is 3!</span>
 decrement(); <span class="hljs-comment">// Count is 2!</span></code></pre>
-<p><code>State</code>を定義して、変更するだけ。</p>
+<p><code>State</code>を定義して、変更するだけ。
+すると、<a>自動的</a>に更新される。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-14">
@@ -602,9 +596,12 @@ ReactDOM.render(
   <div class="slide hidden" id="slide-15">
     <section class="slide-content"><h3 id="mobx-">MobXを使うとどうなるか</h3>
 <ul>
-<li>Observableな<code>State</code>をどう定義するかが最大の関心事</li>
-<li>あとはその<code>State</code>を更新しさえすればよい</li>
-<li>AしたらB、BしたらCするみたいな手続きコードが消える</li>
+<li>Observableな<code>State</code>をどう定義するかが最大の関心事に</li>
+<li>あとはその<code>State</code>を更新しさえすればよい<ul>
+<li>やり方は自由</li>
+</ul>
+</li>
+<li>AしたらB、BしたらCするみたいな手続きコードは消える</li>
 </ul>
 <p>とにかく、<code>State</code>を中心に考えてコードを書く！
 全て<a>自動的</a>に（= Reactiveに）処理されるように！</p>
@@ -636,7 +633,7 @@ ReactDOM.render(
 </li>
 <li>本屋のECサイトの例<ul>
 <li>定期的に最新の在庫（商品）をサーバーから取得し一覧表示</li>
-<li>商品の一覧・詳細・カートの3画面のルーティングあり</li>
+<li>商品の一覧/詳細/カートの3画面のルーティングあり</li>
 <li>カートへの商品追加・購入ができる</li>
 <li>カートの内容はLocalStroageで永続化</li>
 </ul>
@@ -648,7 +645,7 @@ ReactDOM.render(
   <div class="slide hidden" id="slide-19">
     <section class="slide-content"><h3 id="-">注意</h3>
 <ul>
-<li>別にMobXじゃなくてもReactiveにはできます</li>
+<li>別にMobXじゃなくてもReactiveな感じにはできます</li>
 <li>MobX使うならすべからくこうしろ！というコードでもないです</li>
 </ul>
 <p>やや作者のクセが感じられると個人的には思ってたりする・・(˘ω˘ )</p>
@@ -729,7 +726,7 @@ shop.cart.checkout()</code></pre>
 <p><a href="https://github.com/mweststrate/react-mobx-shop/blob/react-amsterdam-2017/src/stores/ViewStore.js">https://github.com/mweststrate/react-mobx-shop/blob/react-amsterdam-2017/src/stores/ViewStore.js</a></p>
 </blockquote>
 <ul>
-<li>最低限ドメイン用とView用の最低2つが推奨されてたりする</li>
+<li>ドメイン用とView用の最低2つが推奨されてたりする</li>
 <li>View用の汎用的な状態<ul>
 <li>ページURLの代わりとなるプロパティ</li>
 <li>ローディング状態など</li>
@@ -760,7 +757,7 @@ shop.cart.checkout()</code></pre>
 <li><a href="https://github.com/mobxjs/mobx-react">mobxjs/mobx-react: React bindings for MobX</a></li>
 </ul>
 </li>
-<li><code>Provider</code>でContextに注入して<code>inject()</code>で取り出す</li>
+<li><code>Provider</code>でContextに注入して<code>inject()</code>で取り出せる</li>
 </ul>
 </section>
   </div>
@@ -769,27 +766,59 @@ shop.cart.checkout()</code></pre>
 </section>
   </div>
   <div class="slide hidden" id="slide-29">
-    <section class="slide-content"><h3 id="mobx-">MobXとはなんだったのか</h3>
+    <section class="slide-content"><h3 id="mobx-">MobXとは</h3>
 <ul>
 <li>Observableな<code>State</code>を定義する仕組み<ul>
 <li>ドメインの状態を<a>宣言的</a>に表す</li>
+<li>ちゃんとモデルとして抽象化できる</li>
 </ul>
 </li>
-<li>その<code>State</code>の変更を検知し<a>自動的</a>に発火、フックできる仕組み</li>
+<li>その<code>State</code>の変更を検知し<a>自動的</a>に発火・フックできる仕組み</li>
 </ul>
-<p>この2つを備えたライブラリ。</p>
+<p>この2つの仕組みを備えたライブラリ。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-30">
+    <section class="slide-content"><h3 id="react-redux-">ReactならRedux一択？</h3>
+<ul>
+<li>本当にそう・・？<ul>
+<li>唯一解なんかあれば誰も苦労しない</li>
+<li>苦労してる人めっちゃよく見るけど</li>
+</ul>
+</li>
+<li>ちゃんと自分の目で見て試して「選択」すべき<ul>
+<li>プロジェクトの用途・個人の信条に応じて</li>
+</ul>
+</li>
+</ul>
+<p>この資料もそんな「選択」の一助になれば幸いです。</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-31">
+    <section class="slide-content"><h3 id="-">お気持ち</h3>
+<ul>
+<li>個人的にはMobX推しです<ul>
+<li>が、Reduxはオワコン！とかでは決してない</li>
+</ul>
+</li>
+<li>覚えるものという意味での学習コストは低いが、使いこなすための学習コストはそれなり<ul>
+<li>いつ使うん・どうやって使うんなAPIもいっぱいあるし</li>
+<li>コンポーネントの粒度、モデルの配分は慣れるまで悩むと思う</li>
+</ul>
+</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-32">
     <section class="slide-content"><h3 id="-">参考リンク</h3>
 <ul>
 <li><a href="http://lealog.hateblo.jp/archive/category/MobX">MobX カテゴリーの記事一覧 - console.lealog();</a></li>
 <li><a href="https://mobx.js.org/refguide/api.html">API overview | MobX</a></li>
-<li><a href="https://github.com/mobxjs/mobx-state-tree">mobxjs/mobx-state-tree: Opinionated, transactional, MobX powered state container</a></li>
+<li><a href="https://www.youtube.com/watch?v=qcp1IGFmlI0">#9 - MobX over Redux - YouTube</a></li>
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-31">
+  <div class="slide hidden" id="slide-33">
     <section class="slide-content"><h1 id="thank-you-">Thank you!</h1>
 <p><style>
 :root {

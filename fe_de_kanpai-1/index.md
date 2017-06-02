@@ -2,7 +2,7 @@ title: MobXではじめるReactiveアーキテクチャ
 controls: false
 --
 
-# <a>MobX</a>ではじめるReactiveアーキテクチャ
+# <a>MobX</a>ではじめる<a>Reactive</a>アーキテクチャ
 
 ## &nbsp;
 ## 2017/06/21 Frontend de KANPAI!
@@ -14,7 +14,7 @@ controls: false
 - Yuji Sugiura / [@leader22](https://twitter.com/leader22)
 - フロントエンド・エンジニア at PixelGrid Inc.
   - DeNAで働いてた頃もありました
-- 最近はWebの動画とかReactNativeとかやってます
+- 最近はモバイルWebで動画とかReactNativeとかやってます
 - ブログにもいろいろ書いてます -> [console.lealog();](http://lealog.hateblo.jp/)
 
 ![leader22](../public/img/doseisan.jpg)
@@ -41,6 +41,14 @@ controls: false
 
 --
 
+### いきなりすいません
+- 世に星の数ほどあるライブラリのひとつの紹介です
+- 「これからのフロントエンドに求められる力」・・
+
+必要なものを自分で見て「選択」する力を試すということで・・(˘ω˘ )
+
+--
+
 # <a>MobX</a>とは
 
 --
@@ -54,7 +62,7 @@ controls: false
   - TypeScript製（Flowの型定義もあるよ）
 - 作者は[@mweststrate](https://twitter.com/mweststrate)氏
 
-Reactとあわせて使われることが多いけど、別に依存関係はないです。
+Reactと相性がよいのであわせて使われることが多いけど、別に依存関係はないです。
 
 --
 
@@ -73,19 +81,7 @@ Reactとあわせて使われることが多いけど、別に依存関係はな
 
 --
 
-### 蛇足: ReactならRedux一択じゃないの？
-
-- 唯一解なんかあれば誰も苦労しない
-- 自分の目で見て試して「選択」すべき
-  - プロジェクトの用途・個人の信条に応じて
-- 個人的にはMobX推しです
-  - が、Reduxはオワコン！とかでは決してない
-
-この資料もそんな「選択」の一助になればというお気持ちをはじめに置いておきます(˘ω˘ )
-
---
-
-# MobXのコア
+# MobXの基本
 
 --
 
@@ -142,6 +138,7 @@ decrement(); // Count is 2!
 ```
 
 `State`を定義して、変更するだけ。
+すると、<a>自動的</a>に更新される。
 
 --
 
@@ -235,9 +232,10 @@ ReactDOM.render(
 
 ### MobXを使うとどうなるか
 
-- Observableな`State`をどう定義するかが最大の関心事
+- Observableな`State`をどう定義するかが最大の関心事に
 - あとはその`State`を更新しさえすればよい
-- AしたらB、BしたらCするみたいな手続きコードが消える
+  - やり方は自由
+- AしたらB、BしたらCするみたいな手続きコードは消える
 
 とにかく、`State`を中心に考えてコードを書く！
 全て<a>自動的</a>に（= Reactiveに）処理されるように！
@@ -267,7 +265,7 @@ ReactDOM.render(
   - [mweststrate/react-mobx-shop at react-amsterdam-2017](https://github.com/mweststrate/react-mobx-shop/tree/react-amsterdam-2017)
 - 本屋のECサイトの例
   - 定期的に最新の在庫（商品）をサーバーから取得し一覧表示
-  - 商品の一覧・詳細・カートの3画面のルーティングあり
+  - 商品の一覧/詳細/カートの3画面のルーティングあり
   - カートへの商品追加・購入ができる
   - カートの内容はLocalStroageで永続化
 
@@ -276,7 +274,7 @@ ReactDOM.render(
 --
 
 ### 注意
-- 別にMobXじゃなくてもReactiveにはできます
+- 別にMobXじゃなくてもReactiveな感じにはできます
 - MobX使うならすべからくこうしろ！というコードでもないです
 
 やや作者のクセが感じられると個人的には思ってたりする・・(˘ω˘ )
@@ -347,7 +345,7 @@ shop.cart.checkout()
 
 > https://github.com/mweststrate/react-mobx-shop/blob/react-amsterdam-2017/src/stores/ViewStore.js
 
-- 最低限ドメイン用とView用の最低2つが推奨されてたりする
+- ドメイン用とView用の最低2つが推奨されてたりする
 - View用の汎用的な状態
   - ページURLの代わりとなるプロパティ
   - ローディング状態など
@@ -371,7 +369,7 @@ shop.cart.checkout()
 
 - React用のバインディング
   - [mobxjs/mobx-react: React bindings for MobX](https://github.com/mobxjs/mobx-react)
-- `Provider`でContextに注入して`inject()`で取り出す
+- `Provider`でContextに注入して`inject()`で取り出せる
 
 --
 
@@ -379,20 +377,41 @@ shop.cart.checkout()
 
 --
 
-### MobXとはなんだったのか
+### MobXとは
 
 - Observableな`State`を定義する仕組み
   - ドメインの状態を<a>宣言的</a>に表す
-- その`State`の変更を検知し<a>自動的</a>に発火、フックできる仕組み
+  - ちゃんとモデルとして抽象化できる
+- その`State`の変更を検知し<a>自動的</a>に発火・フックできる仕組み
 
-この2つを備えたライブラリ。
+この2つの仕組みを備えたライブラリ。
+
+--
+
+### ReactならRedux一択？
+- 本当にそう・・？
+  - 唯一解なんかあれば誰も苦労しない
+  - 苦労してる人めっちゃよく見るけど
+- ちゃんと自分の目で見て試して「選択」すべき
+  - プロジェクトの用途・個人の信条に応じて
+
+この資料もそんな「選択」の一助になれば幸いです。
+
+--
+
+### お気持ち
+- 個人的にはMobX推しです
+  - が、Reduxはオワコン！とかでは決してない
+- 覚えるものという意味での学習コストは低いが、使いこなすための学習コストはそれなり
+  - いつ使うん・どうやって使うんなAPIもいっぱいあるし
+  - コンポーネントの粒度、モデルの配分は慣れるまで悩むと思う
 
 --
 
 ### 参考リンク
 - [MobX カテゴリーの記事一覧 - console.lealog();](http://lealog.hateblo.jp/archive/category/MobX)
 - [API overview | MobX](https://mobx.js.org/refguide/api.html)
-- [mobxjs/mobx-state-tree: Opinionated, transactional, MobX powered state container](https://github.com/mobxjs/mobx-state-tree)
+- [#9 - MobX over Redux - YouTube](https://www.youtube.com/watch?v=qcp1IGFmlI0)
 
 --
 
