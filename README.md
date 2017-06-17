@@ -2,7 +2,7 @@
 
 |タイトル|発表日|イベント名|枠|
 |:-------|:----:|:---------|:-:|
-|[MobXではじめるReactiveアーキテクチャ](https://leader22.github.io/slides/fe_de_kanpai-1/)|20170424|Frontend de KANPAI! #01|15min|
+|[MobXではじめるReactiveアーキテクチャ](https://leader22.github.io/slides/fe_de_kanpai-1/)|20170621|Frontend de KANPAI! #01|15min|
 |[Hello, MobX!](https://leader22.github.io/slides/node_gakuen-25/)|20170424|Node学園 25時限目|10min|
 |[（今度こそ）VPSにあるmp3をストリーミングする仕組みを作った](https://leader22.github.io/slides/pxg_camp-2017a/)|20170307|PixelGrid Inc. 開発合宿 in 湯河原|10min|
 |[WebAudioの初学者を阻む壁について](https://leader22.github.io/slides/webaudio_tokyo-2/)|20161108|WebAudio.tokyo #2|10min|
