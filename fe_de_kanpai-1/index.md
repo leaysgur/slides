@@ -12,9 +12,9 @@ controls: false
 ### はじめまして
 
 - Yuji Sugiura / [@leader22](https://twitter.com/leader22)
-- フロントエンド・エンジニア at PixelGrid Inc.
-  - DeNAで働いてた頃もありました
-- 最近はモバイルWebで動画とかReactNativeとかやってます
+- フロントエンド・エンジニア at [PixelGrid Inc.](https://www.pxgrid.com/)
+  - そういえばDeNAで働いてた頃もありました
+- 最近はモバイルWebで動画とかWebRTCとかやってます
 - ブログにもいろいろ書いてます -> [console.lealog();](http://lealog.hateblo.jp/)
 
 ![leader22](../public/img/doseisan.jpg)
@@ -32,9 +32,10 @@ controls: false
 
 ### お品書き
 - <a>MobX</a>とは
-  - どんな感じのAPIでどんな感じのコードか
+  - どんなライブラリなのか
+  - どんな感じのコードになるか
   - どういう考え方で使うと良さそうか
-- Reactiveなアーキテクチャの例
+- MobXを使った<a>Reactive</a>なアーキテクチャの例
   - 作者直々のサンプルコードより
 
 いちおうContributorもやってるので、なにか質問等あれば、この後の懇親会でもTwitterとかでもお気軽に！
@@ -43,7 +44,7 @@ controls: false
 
 ### いきなりすいません
 - 世に星の数ほどあるライブラリのひとつの紹介です
-- 「これからのフロントエンドに求められる力」・・
+- 「これからのフロントエンドに求められる力」なのか感
 
 必要なものを自分で見て「選択」する力を試すということで・・(˘ω˘ )
 
@@ -57,9 +58,10 @@ controls: false
 
 - Webアプリケーションにおける状態（`state`）を管理するためのライブラリ
 - https://github.com/mobxjs/mobx
-  - 現在の最新バージョンは`3.1.10`
-  - GitHubのスターは9k↑
+  - 現在の最新バージョンは`3.1.15`
+  - GitHubのスターは9.5k↑
   - TypeScript製（Flowの型定義もあるよ）
+  - 0 Dependencies
 - 作者は[@mweststrate](https://twitter.com/mweststrate)氏
 
 Reactと相性がよいのであわせて使われることが多いけど、別に依存関係はないです。
@@ -77,11 +79,11 @@ Reactと相性がよいのであわせて使われることが多いけど、別
 - ついにヨーロッパ最大のReactカンファレンスでも
   - [ReactEurope 2017 Day 2 AM - YouTube](https://youtu.be/nhNiKel6U9Y?t=1h8m33s)
 
-日本でも少しずつ認知されてきた感がある今日このごろ。
+海外では既にそれなりに、日本でも少しずつ認知されてきた感がある今日このごろ。
 
 --
 
-# MobXの基本
+# MobXの基礎
 
 --
 
@@ -91,11 +93,10 @@ Reactと相性がよいのであわせて使われることが多いけど、別
 
 - Actions: Stateを変更すること
 - State: 状態それ自体
-- Reactions: 状態の変更に起因するあれこれ
-  - Views: 状態に応じて描画されるもの
+- Reactions: 状態を使って何かすること
+  - Views: 状態を使って画面を表示する
 
-`Actions`により`State`を変更すると、<a>自動的</a>に`Reactions`が発火する。（`Views`も更新される
- = `view = f(state)`）
+`Actions`により`State`を変更すると、<a>自動的</a>に`Reactions`が発火する。（= `Views`も更新される。`view = f(state)`）
 
 --
 
@@ -109,7 +110,6 @@ Reactと相性がよいのであわせて使われることが多いけど、別
   - Views: `mobx-react.observer`
 
 他にもAPIは色々ありますが、最低限これだけ覚えれば十分です。
-
 
 --
 
@@ -137,8 +137,19 @@ increment(); // Count is 3!
 decrement(); // Count is 2!
 ```
 
-`State`を定義して、変更するだけ。
-すると、<a>自動的</a>に更新される。
+`State`を定義して、使用して、変更するだけ。
+
+--
+
+### 自動的かつReactive
+- `State`が変更されると自動的に
+  - その値を使用している関数が呼ばれる
+  - その値を使用しているプロパティが更新される
+- 宣言的に記述できる
+  - 書き漏らしとかない
+  - コードの見通しもよくなる
+
+ただのオブジェクトで管理するよりも圧倒的にわかりやすいです。
 
 --
 
@@ -166,20 +177,9 @@ class Store {
 }
 ```
 ```js
-const { reaction } = require('mobx');
-
 // ViewからStoreのActionを呼ぶための・View以外の用途にStoreを使う層
 // 別にViewから直接Storeを叩いてもいいけど
-function Event(store) {
-
-  // ObservableなStateに更新があった時"だけ"、自動的に呼ばれる関数
-  reaction(
-    () => store.isOdd,
-    isOdd => {
-      console.log(isOdd ? 'odd' : 'even');
-    }
-  );
-
+function createEvent(store) {
   return {
     increment() {
       store.increment();
@@ -195,7 +195,6 @@ const React, { Component } = require('react');
 const { observer } = require('mobx-react');
 
 // ObservableなStateに更新があった時"だけ"、自動的にrenderされるコンポーネント
-// さよならshouldComponentUpdate
 @observer
 class View extends Component {
   render() {
@@ -212,39 +211,50 @@ class View extends Component {
 ```
 ```js
 const ReactDOM = require('react-dom');
-const { useStrict } = require('mobx');
+const { useStrict, reaction } = require('mobx');
 
 // @acitonからしかStateが変更できないように
 useStrict(true);
 
 const store = new Store();
-const event = new Event(store);
 
+// Stateの用途1
+// ObservableなStateに更新があった時"だけ"、自動的に呼ばれる関数
+reaction(
+  () => store.isOdd,
+  isOdd => {
+    console.log(isOdd ? 'odd' : 'even');
+  }
+);
+
+// Stateの用途2
 ReactDOM.render(
-  <View store={store} event={event} />,
+  <View store={store} event={createEvent(store)} />,
   document.getElementById('app')
 );
 ```
 
-アーキテクチャは規定しないので、Fluxぽくするもよし、MVCぽくするもよし、MVVMぽくするもよし。
+MobX自身はアーキテクチャは規定しないので、Fluxぽくするもよし、MVCぽくするもよし、MVVMぽくするもよし。
 
 --
 
 ### MobXを使うとどうなるか
 
-- Observableな`State`をどう定義するかが最大の関心事に
-- あとはその`State`を更新しさえすればよい
-  - やり方は自由
-- AしたらB、BしたらCするみたいな手続きコードは消える
+- Observableな`State`をどう定義するかが最大の関心事になる
+  - 依存関係を自動でリンクするように組み上げる
+- あとはその`State`を更新すれば、「変更が必要なものだけ」が<a>自動的</a>にアップデートされる
+  - AしたらB、BしたらCするみたいな手続きコードが消える
+  - `shouldComponentUpdate`的なチューニングも不要になる
+- アーキテクチャは自由
 
 とにかく、`State`を中心に考えてコードを書く！
-全て<a>自動的</a>に（= Reactiveに）処理されるように！
+全て<a>自動的</a>に（= <a>Reactive</a>に）処理されるように！
 
 --
 
 ### MobXではじめるReactiveアーキテクチャ
 
-つまり`State`を更新すれば<a>自動的</a>に、
+つまり`State`を更新するだけで、
 
 - 画面の描画が更新される
 - ページが遷移（URLを変更）する
@@ -275,7 +285,7 @@ ReactDOM.render(
 
 ### 注意
 - 別にMobXじゃなくてもReactiveな感じにはできます
-- MobX使うならすべからくこうしろ！というコードでもないです
+- そしてMobX使うならすべからくこうしろ！というコードでもないです
 
 やや作者のクセが感じられると個人的には思ってたりする・・(˘ω˘ )
 
@@ -324,9 +334,9 @@ shop.cart.checkout()
 
 > https://github.com/mweststrate/react-mobx-shop/blob/react-amsterdam-2017/src/stores/ShopStore.js#L14-L16
 
-- ドメインごとに`Store`を用意しまとめる
-  - プレーンObjectのツリーではなく、Modelのグラフをどう構成するかを考える
-- 子Storeに親Storeの参照を渡すことで、グローバルな`Store`を表現している
+- ドメインごとに`Store`を用意してまとめる
+  - 「オブジェクトのツリー」ではなく、「モデルのグラフ」をどう構成するかで考える
+- 子Storeに親Storeの参照を渡すことで、グローバルな状態を表現している
 
 
 --
@@ -335,9 +345,9 @@ shop.cart.checkout()
 
 > https://github.com/mweststrate/react-mobx-shop/blob/react-amsterdam-2017/src/stores/CartStore.js#L3-L25
 
-- プレーンオブジェクトではないので、任意の抽象化が可能
+- ただのオブジェクトではないので、任意の抽象化が可能
   - `Backbone`の`Model`と`Collection`の関係のような
-- ObservableなモデルをカスケードさせていくのがMobX-Way
+- 小分けにしたObservableなモデルを協調させていくのがMobX-Way
 
 --
 
@@ -345,14 +355,14 @@ shop.cart.checkout()
 
 > https://github.com/mweststrate/react-mobx-shop/blob/react-amsterdam-2017/src/stores/ViewStore.js
 
-- ドメイン用とView用の最低2つが推奨されてたりする
+- ドメイン用とView用の最低2つからが推奨されてたりする
 - View用の汎用的な状態
   - ページURLの代わりとなるプロパティ
   - ローディング状態など
 
 --
 
-### 全てを宣言的に
+### Storeの永続化
 
 > https://github.com/mweststrate/react-mobx-shop/blob/react-amsterdam-2017/src/stores/CartStore.js#L35-L46
 
@@ -364,13 +374,12 @@ shop.cart.checkout()
 ### MobX w/ React
 
 > https://github.com/mweststrate/react-mobx-shop/blob/react-amsterdam-2017/src/index.js#L17-L22
-
 > https://github.com/mweststrate/react-mobx-shop/blob/react-amsterdam-2017/src/components/Books.js#L4
 
 - React用のバインディング
   - [mobxjs/mobx-react: React bindings for MobX](https://github.com/mobxjs/mobx-react)
 - `Provider`でContextに注入して`inject()`で取り出せる
-
+- `observer()`は、そのコンポーネントが使用している値に更新があった時のみ`render()`してくれる
 --
 
 # まとめ
@@ -380,36 +389,38 @@ shop.cart.checkout()
 ### MobXとは
 
 - Observableな`State`を定義する仕組み
-  - ドメインの状態を<a>宣言的</a>に表す
+  - ドメインの状態をすべて<a>宣言的</a>に表すことができる
   - ちゃんとモデルとして抽象化できる
 - その`State`の変更を検知し<a>自動的</a>に発火・フックできる仕組み
 
-この2つの仕組みを備えたライブラリ。
-
---
-
-### ReactならRedux一択？
-- 本当にそう・・？
-  - 唯一解なんかあれば誰も苦労しない
-  - 苦労してる人めっちゃよく見るけど
-- ちゃんと自分の目で見て試して「選択」すべき
-  - プロジェクトの用途・個人の信条に応じて
-
-この資料もそんな「選択」の一助になれば幸いです。
+この2つの仕組みを備えたライブラリです。
 
 --
 
 ### お気持ち
 - 個人的にはMobX推しです
   - が、Reduxはオワコン！とかでは決してない
-- 覚えるものという意味での学習コストは低いが、使いこなすための学習コストはそれなり
+- 覚えるものという意味での学習コストは低い
+  - が、使いこなすための学習コストはそれなり
   - いつ使うん・どうやって使うんなAPIもいっぱいあるし
   - コンポーネントの粒度、モデルの配分は慣れるまで悩むと思う
+
+ちゃんと自分の目で見て試して「選択」してください・・・！
+
+--
+
+### 時間があれば話したかったこと
+- イミュータブル vs ミュータブル問題
+- Vueとの違い
+- 個人的ベストプラクティス
+- 内部実装のさわり
+- <s>不満</s>惜しいと思うところ
 
 --
 
 ### 参考リンク
 - [MobX カテゴリーの記事一覧 - console.lealog();](http://lealog.hateblo.jp/archive/category/MobX)
+- [おすすめライブラリつまみ食い - MobX | CodeGrid](https://app.codegrid.net/entry/mobx)
 - [API overview | MobX](https://mobx.js.org/refguide/api.html)
 - [#9 - MobX over Redux - YouTube](https://www.youtube.com/watch?v=qcp1IGFmlI0)
 
