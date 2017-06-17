@@ -20,6 +20,12 @@ code {
 pre > code {
   padding: 0;
 }
+blockquote {
+  font-style: italic;
+  margin: auto 0;
+  padding: 0 .5em;
+  border-left: 0.25em solid #fff;
+}
 
 ul {
   padding: 10px 0 10px 5vw;
@@ -48,6 +54,9 @@ a:hover {
 }
 
 h3 {
+  border-color: var(--bar-color);
+}
+blockquote {
   border-color: var(--bar-color);
 }
 
