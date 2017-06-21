@@ -14,10 +14,17 @@ controls: false
 - Yuji Sugiura / [@leader22](https://twitter.com/leader22)
 - フロントエンド・エンジニア at [PixelGrid Inc.](https://www.pxgrid.com/)
   - そういえばDeNAで働いてた頃もありました
-- 最近はモバイルWebで動画とかWebRTCとかやってます
+- 最近はWebのリアルタイムな動画とかWebRTCとかやってます
 - ブログにもいろいろ書いてます -> [console.lealog();](http://lealog.hateblo.jp/)
 
 ![leader22](../public/img/doseisan.jpg)
+
+--
+
+### [PR] 技術メディアやってます（有料）
+![CodeGrid](./img/cg.png)
+
+## [CodeGrid - フロントエンドに関わる人々のガイド](https://www.codegrid.net/)
 
 --
 
@@ -42,9 +49,9 @@ controls: false
 
 --
 
-### いきなりすいません
-- 世に星の数ほどあるライブラリのひとつの紹介です
-- 「これからのフロントエンドに求められる力」なのか感
+### 「これからのフロントエンドに求められる力」
+- なのかと言われると・・
+- 世に星の数ほどあるただのライブラリの紹介です
 
 必要なものを自分で見て「選択」する力を試すということで・・(˘ω˘ )
 
@@ -58,10 +65,10 @@ controls: false
 
 - Webアプリケーションにおける状態（`state`）を管理するためのライブラリ
 - https://github.com/mobxjs/mobx
-  - 現在の最新バージョンは`3.1.15`
-  - GitHubのスターは9.5k↑
-  - TypeScript製（Flowの型定義もあるよ）
-  - 0 Dependencies
+  - 現在の最新バージョンは`3.1.16`
+  - GitHubのスターは9.6k↑
+  - TypeScript製（Flowの型定義も一応あるよ）
+  - 0 Dependencies！
 - 作者は[@mweststrate](https://twitter.com/mweststrate)氏
 
 Reactと相性がよいのであわせて使われることが多いけど、別に依存関係はないです。
@@ -73,7 +80,7 @@ Reactと相性がよいのであわせて使われることが多いけど、別
 - 各ライブラリのの公式ページでも言及されてたり
   - [Context - React](https://facebook.github.io/react/docs/context.html#why-not-to-use-context)
   - [他のフレームワークとの比較 - Vue.js](https://jp.vuejs.org/v2/guide/comparison.html#MobX-%E3%81%A8%E7%94%A8%E3%81%84%E3%81%9F%E5%A0%B4%E5%90%88)
-- Reduxとの比較
+- reactjs/reduxとの比較
   - [Dan Abramovさんのツイート](https://twitter.com/dan_abramov/status/720219615041859584)
   - [React Amsterdam Conference 2017 - YouTube](https://www.youtube.com/watch?v=m_vUUgI0bo8&feature=youtu.be&t=8h29m30s)
 - ついにヨーロッパ最大のReactカンファレンスでも
@@ -83,20 +90,21 @@ Reactと相性がよいのであわせて使われることが多いけど、別
 
 --
 
-# MobXの基礎
+# MobXの基本
 
 --
 
-### 核となる3本柱
+### 3つの概念
 
 ![idea](./img/idea.png)
 
 - Actions: Stateを変更すること
 - State: 状態それ自体
-- Reactions: 状態を使って何かすること
-  - Views: 状態を使って画面を表示する
+- Reactions: 状態を使って何かすること全般
+  - Views: 状態を使って、画面を表示する
 
-`Actions`により`State`を変更すると、<a>自動的</a>に`Reactions`が発火する。（= `Views`も更新される。`view = f(state)`）
+`Actions`により`State`を変更する。
+`State`が変更されると、<a>自動的</a>に`Reactions`が発火する。（= `Views`も更新される。`view = f(state)`）
 
 --
 
@@ -137,15 +145,16 @@ increment(); // Count is 3!
 decrement(); // Count is 2!
 ```
 
-`State`を定義して、使用して、変更するだけ。
+`State`を定義して、使用して、変更するだけ。これが全て。
 
 --
 
-### 自動的かつReactive
-- `State`が変更されると自動的に
+### 自動的 = Reactive
+- `State`が変更されると<a>自動的</a>に
   - その値を使用している関数が呼ばれる
   - その値を使用しているプロパティが更新される
-- 宣言的に記述できる
+    - その値を表示しているViewsがre-renderされる
+- <a>宣言的</a>に記述できる
   - 書き漏らしとかない
   - コードの見通しもよくなる
 
@@ -241,11 +250,10 @@ MobX自身はアーキテクチャは規定しないので、Fluxぽくするも
 ### MobXを使うとどうなるか
 
 - Observableな`State`をどう定義するかが最大の関心事になる
-  - 依存関係を自動でリンクするように組み上げる
-- あとはその`State`を更新すれば、「変更が必要なものだけ」が<a>自動的</a>にアップデートされる
-  - AしたらB、BしたらCするみたいな手続きコードが消える
+- そしてその`State`を用途に応じてリンクさせていく
+- あとは`State`を更新すれば、「変更が必要なものだけ」が<a>自動的</a>にアップデートされる
+  - AしたらB、BしたらCするみたいな手続き的コードは消える
   - `shouldComponentUpdate`的なチューニングも不要になる
-- アーキテクチャは自由
 
 とにかく、`State`を中心に考えてコードを書く！
 全て<a>自動的</a>に（= <a>Reactive</a>に）処理されるように！
@@ -295,7 +303,7 @@ MobX自身はアーキテクチャは規定しないので、Fluxぽくするも
 
 - 普通に画面見せて動かす
 - コンソールで↓のコード実行してみても動く
-- `render()`をソースから消してみた状態でも動く
+- `ReactDOM.render()`をソースから消してみた状態でも動く
 
 ```js
 // Viewですら副作用であり必須ではない
@@ -400,10 +408,12 @@ shop.cart.checkout()
 ### お気持ち
 - 個人的にはMobX推しです
   - が、Reduxはオワコン！とかでは決してない
-- 覚えるものという意味での学習コストは低い
+- 覚えるものという意味での学習コストはすごく低い
+- 思った機能を書き始める・動かせるようになるまではすごく速い
   - が、使いこなすための学習コストはそれなり
   - いつ使うん・どうやって使うんなAPIもいっぱいあるし
-  - コンポーネントの粒度、モデルの配分は慣れるまで悩むと思う
+  - コンポーネントの粒度、ストアの配分は慣れるまで悩むと思う
+- アーキテクチャは自由なので、そこは頑張りましょう
 
 ちゃんと自分の目で見て試して「選択」してください・・・！
 
