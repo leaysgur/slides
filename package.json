@@ -10,7 +10,7 @@
   "author": "leader22",
   "license": "MIT",
   "dependencies": {
-    "cleaver": "^0.8.2"
+    "cleaver": "^0.8.5"
   },
   "repository": {
     "type": "git",
