@@ -2,6 +2,7 @@
 
 |タイトル|発表日|イベント名|枠|
 |:-------|:----:|:---------|:-:|
+|[俺たちは雰囲気でgetUserMedia()をやっている](https://leader22.github.io/slides/webrtc_meetup-16/)|20170825|WebRTC Meetup Tokyo #16|15min|
 |[MobXではじめるReactiveアーキテクチャ](https://leader22.github.io/slides/fe_de_kanpai-1/)|20170621|Frontend de KANPAI! #01|15min|
 |[Hello, MobX!](https://leader22.github.io/slides/node_gakuen-25/)|20170424|Node学園 25時限目|10min|
 |[（今度こそ）VPSにあるmp3をストリーミングする仕組みを作った](https://leader22.github.io/slides/pxg_camp-2017a/)|20170307|PixelGrid Inc. 開発合宿 in 湯河原|10min|
