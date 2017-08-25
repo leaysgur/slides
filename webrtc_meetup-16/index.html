@@ -456,7 +456,7 @@ navigator.mediaDevices.getUserMedia({ audio: <span class="hljs-literal">true</sp
   (boolean or <span class="hljs-type">MediaTrackConstraints</span>) audio = <span class="hljs-literal">false</span>;
 };</code></pre>
 <p>実はコレ・・・、<code>bool</code>以外にも指定できます！！</p>
-<p>指定してるとこ、見たことありますよね？どういう指定ができるのか把握してますよね？！</p>
+<p>指定してるとこ、見たことありますよね？その指定の意味、把握してますよね？！</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-10">
@@ -480,11 +480,11 @@ navigator.mediaDevices.getUserMedia({ audio: <span class="hljs-literal">true</sp
     aspectRatio: <span class="hljs-number">1.5</span>,
   },
 }</code></pre>
-<p>わか・・ると思ったけど、この場合のアスペクト比はどうなる・・？</p>
+<p>これもわかる・・と思ったけど、この場合のアスペクト比はどうなる・・？</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-12">
-    <section class="slide-content"><h3 id="-2">よく見る例 2</h3>
+    <section class="slide-content"><h3 id="-3">よく見る例 3</h3>
 <pre><code class="lang-js">{
   video: {
     width: { min: <span class="hljs-number">320</span>, ideal: <span class="hljs-number">1280</span>, max: <span class="hljs-number">1920</span> },
@@ -493,11 +493,11 @@ navigator.mediaDevices.getUserMedia({ audio: <span class="hljs-literal">true</sp
     facingMode: { exact: <span class="hljs-string">'environment'</span> },
   }
 }</code></pre>
-<p>コレもなんとなくわかる気はするけど、謎のキーワードがいっぱいある・・うっ・・。</p>
+<p>なんとなくわかる気はするけど、謎のキーワードがいっぱいある・・うっ・・。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-13">
-    <section class="slide-content"><h3 id="-3">よく見る例 3</h3>
+    <section class="slide-content"><h3 id="-4">よく見る例 4</h3>
 <pre><code class="lang-js">{
   audio: {
     advanced: [{
@@ -584,7 +584,7 @@ navigator.mediaDevices.getUserMedia({ audio: <span class="hljs-literal">true</sp
   <span class="hljs-type">ConstrainDOMString</span> groupId;
 };</code></pre>
 <p>これが<code>video</code>と<code>audio</code>の直下に指定できるものたち。それに加えて、<code>advanced</code>にも指定できる。</p>
-<p>さっきの<code>googXxxx</code>はChromeが勝手にやってる独自プロパティで、仕様書にはない。</p>
+<p>さっきの<code>googXxxx</code>はChromeが勝手にやってる独自プロパティで、仕様書にはない😇</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-17">
@@ -619,7 +619,7 @@ navigator.mediaDevices.getUserMedia({ audio: <span class="hljs-literal">true</sp
     width: <span class="hljs-number">1920</span>,
   }
 }</code></pre>
-<p>普段から何気なくやってるやつですね・・！</p>
+<p>ただ、指定したからといってそうなる保証はない。←重要</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-19">
@@ -679,7 +679,7 @@ navigator.mediaDevices.getUserMedia({ audio: <span class="hljs-literal">true</sp
 </ul>
 </li>
 <li>ideal（値の直指定）<ul>
-<li>指定ないもの含めブラウザがよしなに</li>
+<li>指定ないもの含めブラウザがよしなに最終決定</li>
 </ul>
 </li>
 <li>resolve</li>
@@ -705,48 +705,76 @@ navigator.mediaDevices.getUserMedia({ audio: <span class="hljs-literal">true</sp
 </section>
   </div>
   <div class="slide hidden" id="slide-23">
-    <section class="slide-content"><h1 id="-br-a-getusermedia-a-br-">雰囲気ではなく<br><a>getUserMedia()</a><br>完全に理解しましたね？</h1>
+    <section class="slide-content"><h1 id="-br-a-getusermedia-a-br-">もう雰囲気ではなく<br><a>getUserMedia()</a><br>できそうですよね？</h1>
 </section>
   </div>
   <div class="slide hidden" id="slide-24">
-    <section class="slide-content"><h1 id="-br-">そんな皆さんに<br>悲しいお知らせです</h1>
+    <section class="slide-content"><h1 id="-">そんな皆さんに問題です</h1>
 </section>
   </div>
   <div class="slide hidden" id="slide-25">
-    <section class="slide-content"><h3 id="-chrome-">ほぼChromeでしか動きません</h3>
+    <section class="slide-content"><h3 id="-">どうなるでしょうか？</h3>
 <pre><code class="lang-js">navigator.mediaDevices.getUserMedia({ video: { width: <span class="hljs-number">100</span> } });</code></pre>
-<p>サイズ指定をしてない<code>video</code>に、これで取得したストリームを表示した際、どうなるか。（いずれもCanary, Nightly, TPなど最新のバージョン）</p>
+<p>サイズ指定をしてない<code>video</code>に、これで取得したストリームを表示した際、どうなるか。</p>
 <ul>
-<li>Chrome: 問題なし</li>
-<li>Firefox: エラーにはならない（resolve）が指定は無視</li>
-<li>Safari: エラーになる（reject）</li>
-<li>Edge: エラーにはならない（resolve）が指定は無視</li>
+<li>Chrome Canary</li>
+<li>Firefox Nightly</li>
+<li>Safari TP</li>
+<li>Edge</li>
 </ul>
-<p><code>aspectRatio</code>だとEdgeで動くので、プロパティにも依る・・？</p>
+<p>今日時点の最新バージョン、いずれもMacbook Proの付属カメラにて。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-26">
-    <section class="slide-content"><h3 id="-">いちおう仕様書的には</h3>
-<pre><code class="lang-js">navigator.mediaDevices.getSupportedConstraints();</code></pre>
-<p>これで返るオブジェクトの当該プロパティが<code>true</code>なら、サポートしてることになる。</p>
-<p>ただしさっきのSafari TPの<code>getSupportedConstraints()</code>氏は<code>width: true</code>などと供述しており・・。</p>
-<p>やはり・・俺たちは・・。</p>
+    <section class="slide-content"><h3 id="-">こうなった</h3>
+<ul>
+<li>Chrome: 制約通りに小さいストリームが表示</li>
+<li>Firefox: ストリームは表示されるが制約は無視</li>
+<li>Safari: エラーになる（reject）</li>
+<li>Edge: ストリームは表示されるが制約は無視</li>
+</ul>
+<blockquote>
+<p><a href="https://jsbin.com/viwiqamozu">https://jsbin.com/viwiqamozu</a></p>
+</blockquote>
 </section>
   </div>
   <div class="slide hidden" id="slide-27">
-    <section class="slide-content"><h1 id="-br-a-getusermedia-a-br-">俺たちは雰囲気で<br><a>getUserMedia()</a><br>をやっている！</h1>
+    <section class="slide-content"><h3 id="-">結局はブラウザ次第</h3>
+<pre><code class="lang-js">{ video: { width: <span class="hljs-number">100</span> } }</code></pre>
+<p>この指定は<code>ideal</code>なので、制約が受け入れられるかはブラウザ次第。FirefoxもEdgeも、挙動としては仕様書通り。</p>
+<pre><code class="lang-js">{ video: { width: { exact: <span class="hljs-number">100</span> } } }</code></pre>
+<p>ちなみにこうするとRejectされる。</p>
+<p>・・・Safari？知らない子ですね・・。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-28">
-    <section class="slide-content"><h1 id="thanks-">Thanks！</h1>
-<h2 id="-a-href-29-a-a-href-34-a-">（まだ時間ある ? <a href="?#29">次へ</a> : <a href="?#34">末尾へ</a>）</h2>
+    <section class="slide-content"><h3 id="-">まとめ</h3>
+<ul>
+<li>オプションの指定ではなく制約をブラウザに課すイメージ<ul>
+<li>なので記述方法に幅がある</li>
+</ul>
+</li>
+<li>制約は必ず受け入れられるわけではない（<code>ideal</code>）<ul>
+<li>Chromeがやり過ぎなのか、他が怪しいのかは謎</li>
+<li>カメラのHD相性とかもありそう？</li>
+</ul>
+</li>
+</ul>
+<pre><code class="lang-js">navigator.mediaDevices.getSupportedConstraints();</code></pre>
+<p>仕様書的には、これで事前に確認しろって書いてあるけど、ブラウザは解釈できないプロパティを無視するので気休め。
+（ちなみにSafariは<code>width: true</code>って返してくる😇)</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-29">
-    <section class="slide-content"><h1 id="-br-googxxxx">謎の制約<br>googXxxx</h1>
+    <section class="slide-content"><h1 id="thanks-">Thanks！</h1>
+<h2 id="-a-href-30-a-a-href-35-a-">（まだ時間ある ? <a href="?#30">次へ</a> : <a href="?#35">末尾へ</a>）</h2>
 </section>
   </div>
   <div class="slide hidden" id="slide-30">
+    <section class="slide-content"><h1 id="-br-googxxxx">謎の制約<br>googXxxx</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-31">
     <section class="slide-content"><h3 id="-">ナニコレ</h3>
 <pre><code class="lang-js"><span class="hljs-comment">// Google ハングアウトより</span>
 {
@@ -798,7 +826,7 @@ navigator.mediaDevices.getUserMedia({ audio: <span class="hljs-literal">true</sp
 <p><code>chrome://webrtc-internals</code>で色んなサービスを探すと色々見つかる。</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-31">
+  <div class="slide hidden" id="slide-32">
     <section class="slide-content"><h3 id="chrome-">Chromeでだけ有効っぽい</h3>
 <blockquote>
 <p><a href="https://cs.chromium.org/chromium/src/third_party/WebKit/Source/modules/mediastream/MediaConstraintsImpl.cpp">MediaConstraintsImpl.cpp - Code Search</a></p>
@@ -820,7 +848,7 @@ navigator.mediaDevices.getUserMedia({ audio: <span class="hljs-literal">true</sp
 <p><code>chrome://webrtc-internals</code>により、<code>video</code>だけでもこれだけの発掘に成功・・・！</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-32">
+  <div class="slide hidden" id="slide-33">
     <section class="slide-content"><h3 id="chrome-">Chromeでだけ有効っぽい・・が</h3>
 <p>それらしいプロパティは山ほど見つかるけど、</p>
 <blockquote>
@@ -830,7 +858,7 @@ navigator.mediaDevices.getUserMedia({ audio: <span class="hljs-literal">true</sp
 <p>ただまぁ実際に動いてるから各サービスも使ってるんやろうけど・・。</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-33">
+  <div class="slide hidden" id="slide-34">
     <section class="slide-content"><h3 id="-">我々はどうするべきか</h3>
 <p>触らぬ神に祟りなし！ &lt;- おすすめ</p>
 <p>or</p>
@@ -843,7 +871,7 @@ navigator.mediaDevices.getUserMedia({ audio: <span class="hljs-literal">true</sp
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-34">
+  <div class="slide hidden" id="slide-35">
     <section class="slide-content"><h3 id="thank-you-">Thank you!</h3>
 <ul>
 <li><a href="https://leader22.github.io/slides/webrtc_meetup-16">このスライド</a></li>

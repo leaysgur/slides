@@ -116,7 +116,7 @@ dictionary MediaStreamConstraints {
 
 実はコレ・・・、`bool`以外にも指定できます！！
 
-指定してるとこ、見たことありますよね？どういう指定ができるのか把握してますよね？！
+指定してるとこ、見たことありますよね？その指定の意味、把握してますよね？！
 
 --
 
@@ -148,11 +148,11 @@ dictionary MediaStreamConstraints {
 }
 ```
 
-わか・・ると思ったけど、この場合のアスペクト比はどうなる・・？
+これもわかる・・と思ったけど、この場合のアスペクト比はどうなる・・？
 
 --
 
-### よく見る例 2
+### よく見る例 3
 
 ```js
 {
@@ -165,11 +165,11 @@ dictionary MediaStreamConstraints {
 }
 ```
 
-コレもなんとなくわかる気はするけど、謎のキーワードがいっぱいある・・うっ・・。
+なんとなくわかる気はするけど、謎のキーワードがいっぱいある・・うっ・・。
 
 --
 
-### よく見る例 3
+### よく見る例 4
 
 ```js
 {
@@ -266,7 +266,7 @@ dictionary MediaTrackConstraintSet {
 
 これが`video`と`audio`の直下に指定できるものたち。それに加えて、`advanced`にも指定できる。
 
-さっきの`googXxxx`はChromeが勝手にやってる独自プロパティで、仕様書にはない。
+さっきの`googXxxx`はChromeが勝手にやってる独自プロパティで、仕様書にはない😇
 
 --
 
@@ -320,7 +320,7 @@ Macbook ProのFaceカメラは720pなので、`width: 1280`以上を指定する
 }
 ```
 
-普段から何気なくやってるやつですね・・！
+ただ、指定したからといってそうなる保証はない。←重要
 
 --
 
@@ -386,7 +386,7 @@ Macbook ProのFaceカメラは720pなので、`width: 1280`以上を指定する
   - リストの上から順に
   - 問題ないなら有効化して次へ
 - ideal（値の直指定）
-  - 指定ないもの含めブラウザがよしなに
+  - 指定ないもの含めブラウザがよしなに最終決定
 - resolve
 
 > [11. Constrainable Pattern | Media Capture and Streams](https://w3c.github.io/mediacapture-main/#h-constrainable-interface)
@@ -415,51 +415,79 @@ Macbook ProのFaceカメラは720pなので、`width: 1280`以上を指定する
 
 --
 
-# 雰囲気ではなく<br><a>getUserMedia()</a><br>完全に理解しましたね？
+# もう雰囲気ではなく<br><a>getUserMedia()</a><br>できそうですよね？
 
 --
 
-# そんな皆さんに<br>悲しいお知らせです
+# そんな皆さんに問題です
 
 --
 
-### ほぼChromeでしか動きません
+### どうなるでしょうか？
 
 ```js
 navigator.mediaDevices.getUserMedia({ video: { width: 100 } });
 ```
 
-サイズ指定をしてない`video`に、これで取得したストリームを表示した際、どうなるか。（いずれもCanary, Nightly, TPなど最新のバージョン）
+サイズ指定をしてない`video`に、これで取得したストリームを表示した際、どうなるか。
 
-- Chrome: 問題なし
-- Firefox: エラーにはならない（resolve）が指定は無視
-- Safari: エラーになる（reject）
-- Edge: エラーにはならない（resolve）が指定は無視
+- Chrome Canary
+- Firefox Nightly
+- Safari TP
+- Edge
 
-`aspectRatio`だとEdgeで動くので、プロパティにも依る・・？
+今日時点の最新バージョン、いずれもMacbook Proの付属カメラにて。
 
 --
 
-### いちおう仕様書的には
+### こうなった
+
+- Chrome: 制約通りに小さいストリームが表示
+- Firefox: ストリームは表示されるが制約は無視
+- Safari: エラーになる（reject）
+- Edge: ストリームは表示されるが制約は無視
+
+> https://jsbin.com/viwiqamozu
+
+--
+
+### 結局はブラウザ次第
+
+```js
+{ video: { width: 100 } }
+```
+
+この指定は`ideal`なので、制約が受け入れられるかはブラウザ次第。FirefoxもEdgeも、挙動としては仕様書通り。
+
+```js
+{ video: { width: { exact: 100 } } }
+```
+
+ちなみにこうするとRejectされる。
+
+・・・Safari？知らない子ですね・・。
+
+--
+
+### まとめ
+
+- オプションの指定ではなく制約をブラウザに課すイメージ
+  - なので記述方法に幅がある
+- 制約は必ず受け入れられるわけではない（`ideal`）
+  - Chromeがやり過ぎなのか、他が怪しいのかは謎
+  - カメラのHD相性とかもありそう？
 
 ```js
 navigator.mediaDevices.getSupportedConstraints();
 ```
 
-これで返るオブジェクトの当該プロパティが`true`なら、サポートしてることになる。
-
-ただしさっきのSafari TPの`getSupportedConstraints()`氏は`width: true`などと供述しており・・。
-
-やはり・・俺たちは・・。
-
---
-
-# 俺たちは雰囲気で<br><a>getUserMedia()</a><br>をやっている！
+仕様書的には、これで事前に確認しろって書いてあるけど、ブラウザは解釈できないプロパティを無視するので気休め。
+（ちなみにSafariは`width: true`って返してくる😇)
 
 --
 
 # Thanks！
-## （まだ時間ある ? <a href="?#29">次へ</a> : <a href="?#34">末尾へ</a>）
+## （まだ時間ある ? <a href="?#30">次へ</a> : <a href="?#35">末尾へ</a>）
 
 --
 
