@@ -13,9 +13,10 @@ controls: false
 
 - Yuji Sugiura / [@leader22](https://twitter.com/leader22)
 - フロントエンド・エンジニア at PixelGrid Inc.
-  - 最近はWebRTC、普段はReactとか
+  - 最近はWebRTC（ついに）、普段はReactとかMobXとか
 - ブログもよろしく
   - [console.lealog();](http://lealog.hateblo.jp/)
+  - 今日の発表の元ネタ記事もあります
 
 ![leader22](../public/img/doseisan.jpg)
 
@@ -113,9 +114,9 @@ dictionary MediaStreamConstraints {
 };
 ```
 
-実はコレ、`bool`以外にも指定できます！！
+実はコレ・・・、`bool`以外にも指定できます！！
 
-指定してるとこ、見たことありますよね？
+指定してるとこ、見たことありますよね？どういう指定ができるのか把握してますよね？！
 
 --
 
@@ -126,12 +127,28 @@ dictionary MediaStreamConstraints {
   video: {
     width: 1280,
     height: 720,
-    aspectRatio: 1.5
+    frameRate: 15,
   },
 }
 ```
 
-なんとなくわかる気がする。
+これはわかる！
+
+--
+
+### よく見る例 2
+
+```js
+{
+  video: {
+    width: 1280,
+    height: 720,
+    aspectRatio: 1.5,
+  },
+}
+```
+
+わか・・ると思ったけど、この場合のアスペクト比はどうなる・・？
 
 --
 
@@ -143,12 +160,12 @@ dictionary MediaStreamConstraints {
     width: { min: 320, ideal: 1280, max: 1920 },
     height: { min: 240, ideal: 720, max: 1080 },
     frameRate: 30,
-    facingMode: { exact: 'environment' }
+    facingMode: { exact: 'environment' },
   }
 }
 ```
 
-謎のキーワードは気になるけど、コレもなんとなくわかる気がする・・。
+コレもなんとなくわかる気はするけど、謎のキーワードがいっぱいある・・うっ・・。
 
 --
 
@@ -198,15 +215,19 @@ dictionary MediaStreamConstraints {
         exact: false
       }
     }, {
-    deviceId: {
+      deviceId: {
         exact: ["default"]
       }
     }]
-  }
+  },
 }
 ```
 
-全然わからん（^ω^#）
+全然わからない（^ω^#）
+
+--
+
+# 俺たちは雰囲気で<br><a>getUserMedia()</a><br>をやっている！
 
 --
 
@@ -245,6 +266,8 @@ dictionary MediaTrackConstraintSet {
 
 これが`video`と`audio`の直下に指定できるものたち。それに加えて、`advanced`にも指定できる。
 
+さっきの`googXxxx`はChromeが勝手にやってる独自プロパティで、仕様書にはない。
+
 --
 
 ### min / max / exact
@@ -270,6 +293,8 @@ dictionary MediaTrackConstraintSet {
 ```
 
 Macbook ProのFaceカメラは720pなので、`width: 1280`以上を指定するとrejectされます。
+
+なのでとりあえず付けておくものではない！
 
 --
 
@@ -309,7 +334,7 @@ Macbook ProのFaceカメラは720pなので、`width: 1280`以上を指定する
     width: { min: 640, ideal: 1280 },
     height: { min: 480, ideal: 720 },
 
-    // この中での値の直指定は、exactと同じ意味
+    // 値として使うキーワードではない
     advanced: [
       { width: 1920, height: 1280 },
       { aspectRatio: 1.3333333333 },
@@ -327,17 +352,42 @@ Macbook ProのFaceカメラは720pなので、`width: 1280`以上を指定する
 
 --
 
-### 覚えておくこと
+### 続・advanced
 
-順にチェックされていく。
+```js
+{
+  video: {
+    advanced: [
+      // exactと同じ
+      { aspectRatio: 1.3333333333 },
+      // こっちはフォールバック
+      { aspectRatio: 1 },
+
+      // widthだけOKでもheightがNGなら両方NGになる
+      { width: 1920, height: 1280 },
+    ]
+  },
+}
+```
+
+- リスト内での値の直指定は、`exact`と同じ意味
+- リストの先頭から順にチェックされるので、同じ指定をフォールバックとして使える
+- リストアイテムごとのチェックになる
+
+--
+
+### まとめ
+
+処理の流れ。
 
 - min / max / exact
   - 問題ないなら次へ OR reject
 - advanced
-  - リストの上から順に（同種のものは後勝ち）
+  - リストの上から順に
   - 問題ないなら有効化して次へ
 - ideal（値の直指定）
-  - resolve
+  - 指定ないもの含めブラウザがよしなに
+- resolve
 
 > [11. Constrainable Pattern | Media Capture and Streams](https://w3c.github.io/mediacapture-main/#h-constrainable-interface)
 
@@ -345,8 +395,71 @@ Macbook ProのFaceカメラは720pなので、`width: 1280`以上を指定する
 
 --
 
-# よき<a>getUserMedia()</a>を！
-## （まだ時間があるなら次へ）
+### 択一の答えにならないとき
+
+```js
+{
+  video: {
+    width: 1280,
+    height: 720,
+    aspectRatio: 1.5,
+  },
+}
+```
+
+`width / height`は`1.777`なので、3/3は満たせない。
+
+この場合の組合せは3C2の3通りだが、どれになるかはブラウザがよしなにする。
+
+手元のChromeは`width` x `height`になりました。
+
+--
+
+# 雰囲気ではなく<br><a>getUserMedia()</a><br>完全に理解しましたね？
+
+--
+
+# そんな皆さんに<br>悲しいお知らせです
+
+--
+
+### ほぼChromeでしか動きません
+
+```js
+navigator.mediaDevices.getUserMedia({ video: { width: 100 } });
+```
+
+サイズ指定をしてない`video`に、これで取得したストリームを表示した際、どうなるか。（いずれもCanary, Nightly, TPなど最新のバージョン）
+
+- Chrome: 問題なし
+- Firefox: エラーにはならない（resolve）が指定は無視
+- Safari: エラーになる（reject）
+- Edge: エラーにはならない（resolve）が指定は無視
+
+`aspectRatio`だとEdgeで動くので、プロパティにも依る・・？
+
+--
+
+### いちおう仕様書的には
+
+```js
+navigator.mediaDevices.getSupportedConstraints();
+```
+
+これで返るオブジェクトの当該プロパティが`true`なら、サポートしてることになる。
+
+ただしさっきのSafari TPの`getSupportedConstraints()`氏は`width: true`などと供述しており・・。
+
+やはり・・俺たちは・・。
+
+--
+
+# 俺たちは雰囲気で<br><a>getUserMedia()</a><br>をやっている！
+
+--
+
+# Thanks！
+## （まだ時間ある ? <a href="?#29">次へ</a> : <a href="?#34">末尾へ</a>）
 
 --
 
@@ -414,7 +527,7 @@ Macbook ProのFaceカメラは720pなので、`width: 1280`以上を指定する
 
 > [MediaConstraintsImpl.cpp - Code Search](https://cs.chromium.org/chromium/src/third_party/WebKit/Source/modules/mediastream/MediaConstraintsImpl.cpp)
 
-Chromiumのコードサーチでのみ色々見つかった + なんか他にもいっぱいあった、
+Chromiumのコードサーチでのみ色々見つかる。
 
 - enableDtlsSrtp
 - enableRtpDataChannels
@@ -426,6 +539,7 @@ Chromiumのコードサーチでのみ色々見つかった + なんか他にも
 - googHighStartBitrate
 - googPayloadPadding
 - googNoiseReduction
+- etc..
 
 `chrome://webrtc-internals`により、`video`だけでもこれだけの発掘に成功・・・！
 
@@ -439,7 +553,7 @@ Chromiumのコードサーチでのみ色々見つかった + なんか他にも
 
 とか書いてあるファイルもありよくわからん。（誰かChromiumのコードの追い方教えてください・・）
 
-ただまぁ実際に動くから各サービスも使ってるはず。
+ただまぁ実際に動いてるから各サービスも使ってるんやろうけど・・。
 
 --
 
