@@ -20,13 +20,13 @@ controls: false
 
 --
 
-### SkyWayの中の人？です
+### SkyWayの中の人？やってます
 
 https://github.com/skyway/skyway-js-sdk/graphs/contributors
 
 ![https://github.com/skyway/skyway-js-sdk/graphs/contributors](./img/contrib.png)
 
-※訳: （お忙しい）中の（人に代わってがっつりコードを書いてる）人です
+※訳: （お忙しい本当の）中の（人に代わってがっつりコードを書く業をしてる）人です
 
 --
 
@@ -37,13 +37,14 @@ https://github.com/skyway/skyway-js-sdk/graphs/contributors
 - ES Modules化
 - Safari / Edge対応（一部）
 - ブラウザの謎挙動の調査
+- 機能追加あれこれ
 - etc..
 
-感想: これがかの有名なWebRTC沼かー😇
+仕事してみての感想: これがかの有名なWebRTC沼か😇
 
 --
 
-# ＼ 祝・商用リリース🎉 ／
+# ＼ 祝・商用リリース 🎉 ／
 
 --
 
@@ -93,6 +94,24 @@ https://github.com/skyway/skyway-js-sdk/tree/master/src
   - shared/
     - ただの関数やら定数やら（ユーザーは触らない）
 
+`Peer`と、各`Connection`、各`Room`さえ把握すればOK！
+
+--
+
+### コードでみても
+
+```js
+const peer = new Peer({ key: 'xxxx' }); // Peer
+
+// 1:1なら
+const mediaConn = peer.call(peerId); // MediaConnection
+const dataConn = peer.connect(peerId); // DataConnection
+
+// N:Nなら
+const meshRoom = peer.joinRoom(roomName); // MeshRoom
+const sfuRoom = peer.joinRoom(roomName, { mode: 'sfu' }); // SDURoom
+```
+
 https://webrtc.ecl.ntt.com/js-reference/ もチェック！
 
 --
@@ -104,8 +123,10 @@ https://webrtc.ecl.ntt.com/js-reference/ もチェック！
 - そこから返るクラス
   - peer/mediaConnection.js
   - peer/dataConnection.js
+    - それぞれ peer/Connection.js を継承
   - peer/meshRoom.js
   - peer/sfuRoom.js
+    - それぞれ peer/Room.js を継承
 - WebRTCのコアなことなら
   - peer/negotiator.js
 
@@ -130,27 +151,35 @@ WatchしてるだけでWebRTC界隈全体の動きもわかるかも？
 > https://webrtc.ecl.ntt.com/pricing.html
 
 - 普通に個人で利用するならまず問題ない
-- シグナリングサーバー用意しなくていい・・神・・
-- SFUも無料で使える・・神・・
+- シグナリングサーバー用意しなくていい
+- まさかのSFUが無料で使える
 
 神・・ 🙏
 
 --
 
-### xxx: 懇親会で！
+### XXX: 🙊
 
-もう時間もないので気になる方は後で個別にどうぞ・・😇
+- 歴史があるので色々とアレなこともあ・・
+
+時間もないので気になる方は後で個別にどうぞ😇
 
 --
 
-### Thank you!
+# Thank you!
+## [@leader22](https://twitter.com/leader22)
+
+--
+
+### Links
 
 - [このスライド](https://leader22.github.io/slides/skyway_dev_meetup-1)
 - [skyway/skyway-js-sdk: JavaScript SDK for SkyWay](https://github.com/skyway/skyway-js-sdk)
+- [JavaScript SDK APIリファレンス - SkyWay - Enterprise Cloud WebRTC Platform](https://webrtc.ecl.ntt.com/js-reference/)
 
 <style>
 :root {
-  --bg-color: #fcfdff;
+  --bg-color: #f5f5f5;
   --bar-color: #003B7B;
   --em-color: #4780FF;
 }
