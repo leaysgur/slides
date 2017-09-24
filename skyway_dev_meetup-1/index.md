@@ -11,10 +11,10 @@ controls: false
 
 ### はじめまして
 
-- Yuji Sugiura / [@leader22](https://twitter.com/leader22)
+- Yuji Sugiura
 - フロントエンド・エンジニア at PixelGrid Inc.
-- ブログもよろしく
-  - [console.lealog();](http://lealog.hateblo.jp/)
+- Twitter: [@leader22](https://twitter.com/leader22)
+- ブログ: [console.lealog();](http://lealog.hateblo.jp/)
 
 ![leader22](../public/img/doseisan.jpg)
 
@@ -26,7 +26,7 @@ https://github.com/skyway/skyway-js-sdk/graphs/contributors
 
 ![https://github.com/skyway/skyway-js-sdk/graphs/contributors](./img/contrib.png)
 
-※訳: （お忙しい本当の）中の（人に代わってがっつりコードを書く業をしてる）人です
+※訳: （お忙しい本当の）中の（人に代わってがっつりコードを書く業を請けてる）人です
 
 --
 
@@ -78,7 +78,7 @@ https://github.com/skyway/skyway-js-sdk/graphs/contributors
     └── util.js
 ```
 
-2017/09/11時点です。
+2017/09/24時点です。
 
 https://github.com/skyway/skyway-js-sdk/tree/master/src
 
@@ -88,8 +88,8 @@ https://github.com/skyway/skyway-js-sdk/tree/master/src
 
 - Peer: 親玉であるメインのオブジェクト
   - peer/
-    - Connection: Media or Data
-    - Room: Mesh or SFU
+    - Connection: Media or Data extends Base
+    - Room: Mesh or SFU extends Base
     - 実際にP2P通信を行うためのコア（ユーザーは触らない）
   - shared/
     - ただの関数やら定数やら（ユーザーは触らない）
@@ -151,8 +151,9 @@ WatchしてるだけでWebRTC界隈全体の動きもわかるかも？
 > https://webrtc.ecl.ntt.com/pricing.html
 
 - 普通に個人で利用するならまず問題ない
-- シグナリングサーバー用意しなくていい
-- まさかのSFUが無料で使える
+- 個人開発の敷居が下がる
+  - シグナリングサーバー用意しなくていい
+  - まさかのSFUが無料で使える
 
 神・・ 🙏
 
@@ -160,7 +161,7 @@ WatchしてるだけでWebRTC界隈全体の動きもわかるかも？
 
 ### XXX: 🙊
 
-- 歴史があるので色々とアレなこともあ・・
+- 歴史があるので色々とアレなコードももあ・・
 
 時間もないので気になる方は後で個別にどうぞ😇
 
