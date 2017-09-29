@@ -27,6 +27,11 @@ blockquote {
   border-left: 0.25em solid #fff;
 }
 
+@media (max-width: 480px) {
+  ul {
+    padding-top: 5px;
+  }
+}
 @media (min-width: 480px) {
   ul {
     padding: 10px 0 10px 3vw;
