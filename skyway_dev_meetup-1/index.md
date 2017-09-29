@@ -36,11 +36,16 @@ https://github.com/skyway/skyway-js-sdk/graphs/contributors
 - ビルド / 開発環境の整理
 - ES Modules化
 - Safari / Edge対応（一部）
-- ブラウザの謎挙動の調査
+- ブラウザの気まぐれ<s>謎挙動</s>の調査
 - 機能追加あれこれ
 - etc..
 
-仕事してみての感想: これがWebRTC沼か😇
+--
+
+### 仕事してみての感想
+
+- これがWebRTC沼か😇
+- @iwashi86 神ーーー
 
 --
 
@@ -68,6 +73,7 @@ https://github.com/skyway/skyway-js-sdk/graphs/contributors
   - or ↑をダウンロードして自分で埋める
   - or GitHubからクローンしてきて自分でビルドする
   - 今のところ`npm`からは利用できません
+  - BabelがいるのでES Modulesな使い方もできません
 
 --
 

@@ -395,27 +395,34 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <li>ビルド / 開発環境の整理</li>
 <li>ES Modules化</li>
 <li>Safari / Edge対応（一部）</li>
-<li>ブラウザの謎挙動の調査</li>
+<li>ブラウザの気まぐれ<s>謎挙動</s>の調査</li>
 <li>機能追加あれこれ</li>
 <li>etc..</li>
 </ul>
-<p>仕事してみての感想: これがWebRTC沼か😇</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-5">
-    <section class="slide-content"><h1 id="-">＼ 祝・商用リリース 🎉 ／</h1>
+    <section class="slide-content"><h3 id="-">仕事してみての感想</h3>
+<ul>
+<li>これがWebRTC沼か😇</li>
+<li>@iwashi86 神ーーー</li>
+</ul>
 </section>
   </div>
   <div class="slide hidden" id="slide-6">
-    <section class="slide-content"><h1 id="skyway-js-sdk-">SkyWay JS SDKの歩き方</h1>
+    <section class="slide-content"><h1 id="-">＼ 祝・商用リリース 🎉 ／</h1>
 </section>
   </div>
   <div class="slide hidden" id="slide-7">
     <section class="slide-content"><h1 id="skyway-js-sdk-">SkyWay JS SDKの歩き方</h1>
-<h2 id="-5-skyway-js-sdk">もとい、5分でわかるSkyWay JS SDK</h2>
 </section>
   </div>
   <div class="slide hidden" id="slide-8">
+    <section class="slide-content"><h1 id="skyway-js-sdk-">SkyWay JS SDKの歩き方</h1>
+<h2 id="-5-skyway-js-sdk">もとい、5分でわかるSkyWay JS SDK</h2>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-9">
     <section class="slide-content"><h3 id="skyway-js-sdk">SkyWay JS SDK</h3>
 <p><img src="./img/repo.png" alt="https://github.com/skyway/skyway-js-sdk"></p>
 <ul>
@@ -426,12 +433,13 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <li>or ↑をダウンロードして自分で埋める</li>
 <li>or GitHubからクローンしてきて自分でビルドする</li>
 <li>今のところ<code>npm</code>からは利用できません</li>
+<li>BabelがいるのでES Modulesな使い方もできません</li>
 </ul>
 </li>
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-9">
+  <div class="slide hidden" id="slide-10">
     <section class="slide-content"><h3 id="-">ライブラリの構造</h3>
 <pre><code class="lang-js">/src
 ├── peer.js
@@ -453,7 +461,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <p>コードは全部4000行ほど。あれだけのことをやってるなら妥当な量・・？</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-10">
+  <div class="slide hidden" id="slide-11">
     <section class="slide-content"><h3 id="-">ざっくり簡略化すると</h3>
 <ul>
 <li>Peer: 親玉であるメインのオブジェクト<ul>
@@ -473,7 +481,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <p><code>Peer</code>と、各<code>Connection</code>、各<code>Room</code>さえ把握すればOK！</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-11">
+  <div class="slide hidden" id="slide-12">
     <section class="slide-content"><h3 id="-">コードを読むなら</h3>
 <ul>
 <li>とりあえず読むなら<ul>
@@ -500,7 +508,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-12">
+  <div class="slide hidden" id="slide-13">
     <section class="slide-content"><h3 id="-">コードでみても</h3>
 <pre><code class="lang-js"><span class="hljs-keyword">const</span> peer = <span class="hljs-keyword">new</span> Peer({ key: <span class="hljs-string">'xxxx'</span> }); <span class="hljs-comment">// Peer</span>
 
@@ -514,11 +522,11 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <p><a href="https://webrtc.ecl.ntt.com/js-reference/">https://webrtc.ecl.ntt.com/js-reference/</a> もチェック！</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-13">
+  <div class="slide hidden" id="slide-14">
     <section class="slide-content"><h1 id="-sdk-">このSDKのココが○○</h1>
 </section>
   </div>
-  <div class="slide hidden" id="slide-14">
+  <div class="slide hidden" id="slide-15">
     <section class="slide-content"><h3 id="-oss-">すごい: OSSである</h3>
 <ul>
 <li>コードが読める</li>
@@ -531,7 +539,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <p>WatchしてるだけでWebRTC界隈全体の動きもわかるかも？</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-15">
+  <div class="slide hidden" id="slide-16">
     <section class="slide-content"><h3 id="-">すごい: これがほとんど無料</h3>
 <blockquote>
 <p><a href="https://webrtc.ecl.ntt.com/pricing.html">https://webrtc.ecl.ntt.com/pricing.html</a></p>
@@ -547,7 +555,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <p>神・・ 🙏</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-16">
+  <div class="slide hidden" id="slide-17">
     <section class="slide-content"><h3 id="xxx-">XXX: 🙊</h3>
 <ul>
 <li>歴史があるので色々とアレなコードもあ・・</li>
@@ -555,12 +563,12 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <p>時間もないので気になる方は後で個別にどうぞ😇</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-17">
+  <div class="slide hidden" id="slide-18">
     <section class="slide-content"><h1 id="thank-you-">Thank you!</h1>
 <h2 id="-leader22-https-twitter-com-leader22-"><a href="https://twitter.com/leader22">@leader22</a></h2>
 </section>
   </div>
-  <div class="slide hidden" id="slide-18">
+  <div class="slide hidden" id="slide-19">
     <section class="slide-content"><h3 id="links">Links</h3>
 <ul>
 <li><a href="https://leader22.github.io/slides/skyway_dev_meetup-1">このスライド</a></li>
