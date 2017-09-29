@@ -399,7 +399,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <li>機能追加あれこれ</li>
 <li>etc..</li>
 </ul>
-<p>仕事してみての感想: これがかの有名なWebRTC沼か😇</p>
+<p>仕事してみての感想: これがWebRTC沼か😇</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-5">
@@ -416,6 +416,21 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </section>
   </div>
   <div class="slide hidden" id="slide-8">
+    <section class="slide-content"><h3 id="skyway-js-sdk">SkyWay JS SDK</h3>
+<p><img src="./img/repo.png" alt="https://github.com/skyway/skyway-js-sdk"></p>
+<ul>
+<li><a href="https://github.com/skyway/skyway-js-sdk">https://github.com/skyway/skyway-js-sdk</a></li>
+<li>Star / Watch数はまだ控えめ・・ &lt;- 今がチャンスですよ！</li>
+<li>使い方<ul>
+<li>CDN: <a href="https://cdn.webrtc.ecl.ntt.com/skyway-latest.js">https://cdn.webrtc.ecl.ntt.com/skyway-latest.js</a></li>
+<li>or ↑をダウンロードして自分で埋める</li>
+<li>今のところ<code>npm</code>からは利用できません</li>
+</ul>
+</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-9">
     <section class="slide-content"><h3 id="-">ライブラリの構造</h3>
 <pre><code class="lang-js">/src
 ├── peer.js
@@ -433,42 +448,28 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
     ├── logger.js
     ├── sdpUtil.js
     └── util.js</code></pre>
-<p>2017/09/24時点です。</p>
-<p><a href="https://github.com/skyway/skyway-js-sdk/tree/master/src">https://github.com/skyway/skyway-js-sdk/tree/master/src</a></p>
+<p>2017/09/29時点です。</p>
+<p>コードは全部4000行ほど。あれだけのことをやってるなら妥当な量・・？</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-9">
+  <div class="slide hidden" id="slide-10">
     <section class="slide-content"><h3 id="-">ざっくり簡略化すると</h3>
 <ul>
 <li>Peer: 親玉であるメインのオブジェクト<ul>
 <li>peer/<ul>
-<li>Connection: Media or Data extends Base</li>
-<li>Room: Mesh or SFU extends Base</li>
-<li>実際にP2P通信を行うためのコア（ユーザーは触らない）</li>
+<li>XxxConnection: Media or Data extends Base</li>
+<li>XxxRoom: Mesh or SFU extends Base</li>
+<li>コア: 実際にP2P通信を行う（ユーザーは触らない）</li>
 </ul>
 </li>
 <li>shared/<ul>
-<li>ただの関数やら定数やら（ユーザーは触らない）</li>
+<li>その他: ただの関数・定数（ユーザーは触らない）</li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
 <p><code>Peer</code>と、各<code>Connection</code>、各<code>Room</code>さえ把握すればOK！</p>
-</section>
-  </div>
-  <div class="slide hidden" id="slide-10">
-    <section class="slide-content"><h3 id="-">コードでみても</h3>
-<pre><code class="lang-js"><span class="hljs-keyword">const</span> peer = <span class="hljs-keyword">new</span> Peer({ key: <span class="hljs-string">'xxxx'</span> }); <span class="hljs-comment">// Peer</span>
-
-<span class="hljs-comment">// 1:1なら</span>
-<span class="hljs-keyword">const</span> mediaConn = peer.call(peerId); <span class="hljs-comment">// MediaConnection</span>
-<span class="hljs-keyword">const</span> dataConn = peer.connect(peerId); <span class="hljs-comment">// DataConnection</span>
-
-<span class="hljs-comment">// N:Nなら</span>
-<span class="hljs-keyword">const</span> meshRoom = peer.joinRoom(roomName); <span class="hljs-comment">// MeshRoom</span>
-<span class="hljs-keyword">const</span> sfuRoom = peer.joinRoom(roomName, { mode: <span class="hljs-string">'sfu'</span> }); <span class="hljs-comment">// SDURoom</span></code></pre>
-<p><a href="https://webrtc.ecl.ntt.com/js-reference/">https://webrtc.ecl.ntt.com/js-reference/</a> もチェック！</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-11">
@@ -499,20 +500,37 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </section>
   </div>
   <div class="slide hidden" id="slide-12">
-    <section class="slide-content"><h1 id="-sdk-">このSDKのココが○○</h1>
+    <section class="slide-content"><h3 id="-">コードでみても</h3>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> peer = <span class="hljs-keyword">new</span> Peer({ key: <span class="hljs-string">'xxxx'</span> }); <span class="hljs-comment">// Peer</span>
+
+<span class="hljs-comment">// 1:1なら</span>
+<span class="hljs-keyword">const</span> mediaConn = peer.call(peerId); <span class="hljs-comment">// MediaConnection</span>
+<span class="hljs-keyword">const</span> dataConn = peer.connect(peerId); <span class="hljs-comment">// DataConnection</span>
+
+<span class="hljs-comment">// N:Nなら</span>
+<span class="hljs-keyword">const</span> meshRoom = peer.joinRoom(roomName); <span class="hljs-comment">// MeshRoom</span>
+<span class="hljs-keyword">const</span> sfuRoom = peer.joinRoom(roomName, { mode: <span class="hljs-string">'sfu'</span> }); <span class="hljs-comment">// SFURoom</span></code></pre>
+<p><a href="https://webrtc.ecl.ntt.com/js-reference/">https://webrtc.ecl.ntt.com/js-reference/</a> もチェック！</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-13">
+    <section class="slide-content"><h1 id="-sdk-">このSDKのココが○○</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-14">
     <section class="slide-content"><h3 id="-oss-">すごい: OSSである</h3>
 <ul>
 <li>コードが読める</li>
-<li>コードが<s>パクれる</s>参考にできる</li>
-<li>自分で機能追加PRも出せる</li>
+<li>長年の知見の塊<ul>
+<li><s>パクれる</s>参考にできる</li>
+</ul>
+</li>
+<li>自分で機能追加・修正のPRも出せる</li>
 </ul>
 <p>WatchしてるだけでWebRTC界隈全体の動きもわかるかも？</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-14">
+  <div class="slide hidden" id="slide-15">
     <section class="slide-content"><h3 id="-">すごい: これがほとんど無料</h3>
 <blockquote>
 <p><a href="https://webrtc.ecl.ntt.com/pricing.html">https://webrtc.ecl.ntt.com/pricing.html</a></p>
@@ -521,14 +539,14 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <li>普通に個人で利用するならまず問題ない</li>
 <li>個人開発の敷居が下がる<ul>
 <li>シグナリングサーバー用意しなくていい</li>
-<li>まさかのSFUが無料で使える</li>
+<li>まさかのSFUも無料で使える</li>
 </ul>
 </li>
 </ul>
 <p>神・・ 🙏</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-15">
+  <div class="slide hidden" id="slide-16">
     <section class="slide-content"><h3 id="xxx-">XXX: 🙊</h3>
 <ul>
 <li>歴史があるので色々とアレなコードももあ・・</li>
@@ -536,12 +554,12 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <p>時間もないので気になる方は後で個別にどうぞ😇</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-16">
+  <div class="slide hidden" id="slide-17">
     <section class="slide-content"><h1 id="thank-you-">Thank you!</h1>
 <h2 id="-leader22-https-twitter-com-leader22-"><a href="https://twitter.com/leader22">@leader22</a></h2>
 </section>
   </div>
-  <div class="slide hidden" id="slide-17">
+  <div class="slide hidden" id="slide-18">
     <section class="slide-content"><h3 id="links">Links</h3>
 <ul>
 <li><a href="https://leader22.github.io/slides/skyway_dev_meetup-1">このスライド</a></li>

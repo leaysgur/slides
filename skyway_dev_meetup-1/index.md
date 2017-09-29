@@ -40,7 +40,7 @@ https://github.com/skyway/skyway-js-sdk/graphs/contributors
 - 機能追加あれこれ
 - etc..
 
-仕事してみての感想: これがかの有名なWebRTC沼か😇
+仕事してみての感想: これがWebRTC沼か😇
 
 --
 
@@ -54,6 +54,19 @@ https://github.com/skyway/skyway-js-sdk/graphs/contributors
 
 # SkyWay JS SDKの歩き方
 ## もとい、5分でわかるSkyWay JS SDK
+
+--
+
+### SkyWay JS SDK
+
+![https://github.com/skyway/skyway-js-sdk](./img/repo.png)
+
+- https://github.com/skyway/skyway-js-sdk
+- Star / Watch数はまだ控えめ・・ <- 今がチャンスですよ！
+- 使い方
+  - CDN: https://cdn.webrtc.ecl.ntt.com/skyway-latest.js
+  - or ↑をダウンロードして自分で埋める
+  - 今のところ`npm`からは利用できません
 
 --
 
@@ -78,9 +91,9 @@ https://github.com/skyway/skyway-js-sdk/graphs/contributors
     └── util.js
 ```
 
-2017/09/24時点です。
+2017/09/29時点です。
 
-https://github.com/skyway/skyway-js-sdk/tree/master/src
+コードは全部4000行ほど。あれだけのことをやってるなら妥当な量・・？
 
 --
 
@@ -88,31 +101,13 @@ https://github.com/skyway/skyway-js-sdk/tree/master/src
 
 - Peer: 親玉であるメインのオブジェクト
   - peer/
-    - Connection: Media or Data extends Base
-    - Room: Mesh or SFU extends Base
-    - 実際にP2P通信を行うためのコア（ユーザーは触らない）
+    - XxxConnection: Media or Data extends Base
+    - XxxRoom: Mesh or SFU extends Base
+    - コア: 実際にP2P通信を行う（ユーザーは触らない）
   - shared/
-    - ただの関数やら定数やら（ユーザーは触らない）
+    - その他: ただの関数・定数（ユーザーは触らない）
 
 `Peer`と、各`Connection`、各`Room`さえ把握すればOK！
-
---
-
-### コードでみても
-
-```js
-const peer = new Peer({ key: 'xxxx' }); // Peer
-
-// 1:1なら
-const mediaConn = peer.call(peerId); // MediaConnection
-const dataConn = peer.connect(peerId); // DataConnection
-
-// N:Nなら
-const meshRoom = peer.joinRoom(roomName); // MeshRoom
-const sfuRoom = peer.joinRoom(roomName, { mode: 'sfu' }); // SDURoom
-```
-
-https://webrtc.ecl.ntt.com/js-reference/ もチェック！
 
 --
 
@@ -132,6 +127,24 @@ https://webrtc.ecl.ntt.com/js-reference/ もチェック！
 
 --
 
+### コードでみても
+
+```js
+const peer = new Peer({ key: 'xxxx' }); // Peer
+
+// 1:1なら
+const mediaConn = peer.call(peerId); // MediaConnection
+const dataConn = peer.connect(peerId); // DataConnection
+
+// N:Nなら
+const meshRoom = peer.joinRoom(roomName); // MeshRoom
+const sfuRoom = peer.joinRoom(roomName, { mode: 'sfu' }); // SFURoom
+```
+
+https://webrtc.ecl.ntt.com/js-reference/ もチェック！
+
+--
+
 # このSDKのココが○○
 
 --
@@ -139,8 +152,9 @@ https://webrtc.ecl.ntt.com/js-reference/ もチェック！
 ### すごい: OSSである
 
 - コードが読める
-- コードが<s>パクれる</s>参考にできる
-- 自分で機能追加PRも出せる
+- 長年の知見の塊
+  - <s>パクれる</s>参考にできる
+- 自分で機能追加・修正のPRも出せる
 
 WatchしてるだけでWebRTC界隈全体の動きもわかるかも？
 
@@ -153,7 +167,7 @@ WatchしてるだけでWebRTC界隈全体の動きもわかるかも？
 - 普通に個人で利用するならまず問題ない
 - 個人開発の敷居が下がる
   - シグナリングサーバー用意しなくていい
-  - まさかのSFUが無料で使える
+  - まさかのSFUも無料で使える
 
 神・・ 🙏
 
