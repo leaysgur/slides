@@ -63,9 +63,10 @@ https://github.com/skyway/skyway-js-sdk/graphs/contributors
 
 - https://github.com/skyway/skyway-js-sdk
 - Star / Watch数はまだ控えめ・・ <- 今がチャンスですよ！
-- 使い方
+- インストール
   - CDN: https://cdn.webrtc.ecl.ntt.com/skyway-latest.js
   - or ↑をダウンロードして自分で埋める
+  - or GitHubからクローンしてきて自分でビルドする
   - 今のところ`npm`からは利用できません
 
 --
