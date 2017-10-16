@@ -1,0 +1,818 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <title>MediaStream to HttpLiveStreaming</title>
+  <style type="text/css">
+    body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #222;
+  font-size: 100%;
+}
+
+.slide {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 0; right: 0;
+  background-color: #f7f7f7;
+}
+
+.slide-content {
+  width: 800px;
+  height: 600px;
+  overflow: hidden;
+  margin: 80px auto 0 auto;
+  padding: 30px;
+
+  font-weight: 200;
+  font-size: 200%;
+  line-height: 1.375;
+}
+
+.controls {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+}
+
+.arrow {
+  width: 0; height: 0;
+  border: 30px solid #333;
+  float: left;
+  margin-right: 30px;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.prev {
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+
+  border-left-width: 0;
+  border-right-width: 50px;
+}
+
+.next {
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  border-right-color: transparent;
+
+  border-left-width: 50px;
+  border-right-width: 0;
+}
+
+.prev:hover {
+  border-right-color: #888;
+  cursor: pointer;
+}
+
+.next:hover {
+  border-left-color: #888;
+  cursor: pointer;
+}
+
+h1 {
+  font-size: 300%;
+  line-height: 1.2;
+  text-align: center;
+  margin: 170px 0 0;
+}
+
+h2 {
+  font-size: 100%;
+  line-height: 1.2;
+  margin: 5px 0;
+  text-align: center;
+  font-weight: 200;
+}
+
+h3 {
+  font-size: 140%;
+  line-height: 1.2;
+  border-bottom: 1px solid #aaa;
+  margin: 0;
+  padding-bottom: 15px;
+}
+
+ul {
+  padding: 20px 0 0 60px;
+  font-weight: 200;
+  line-height: 1.375;
+}
+
+.author h1 {
+  font-size: 170%;
+  font-weight: 200;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.author h3 {
+  font-weight: 100;
+  text-align: center;
+  font-size: 95%;
+  border: none;
+}
+
+a {
+  text-decoration: none;
+  color: #44a4dd;
+}
+
+a:hover {
+  color: #66b5ff;
+}
+
+pre {
+  font-size: 60%;
+  line-height: 1.3;
+}
+
+.progress {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  z-index: 1;
+}
+
+.progress-bar {
+  width: 0%;
+  height: 3px;
+  background-color: #b4b4b4;
+
+  -webkit-transition: width 0.05s ease-out;
+  -moz-transition: width 0.05s ease-out;
+  -o-transition: width 0.05s ease-out;
+  transition: width 0.05s ease-out;
+}
+
+.hidden {
+  display: none;
+}
+
+@media (max-width: 850px) {
+
+  body {
+    font-size: 70%;
+  }
+
+  .slide-content {
+    width: auto;
+  }
+
+  img {
+    width: 100%;
+  }
+
+  h1 {
+    margin-top: 120px;
+  }
+
+  .prev, .prev:hover {
+    border-right-color: rgba(135, 135, 135, 0.5);
+  }
+
+  .next, .next:hover {
+    border-left-color: rgba(135, 135, 135, 0.5);
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 50%;
+    overflow: hidden;
+  }
+
+  .slide-content {
+    padding: 10px;
+    margin-top: 10px;
+    height: 340px;
+  }
+
+  h1 {
+    margin-top: 50px;
+  }
+
+  ul {
+    padding-left: 25px;
+  }
+}
+
+@media print {
+  * {
+    -webkit-print-color-adjust: exact;
+  }
+
+  @page {
+    size: letter;
+  }
+
+  .hidden {
+    display: inline;
+  }
+
+  html {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  body {
+    margin: 0 auto !important;
+    border: 0;
+    padding: 0;
+    float: none !important;
+    overflow: visible;
+    background: none !important;
+    font-size: 52%;
+  }
+
+  .progress, .controls {
+    display: none;
+  }
+
+  .slide {
+    position: static;
+  }
+
+  .slide-content {
+    border: 1px solid #222;
+    margin-top: 0;
+    margin-bottom: 40px;
+    height: 3.5in;
+    overflow: visible;
+  }
+
+  .slide:nth-child(even) {
+    /* 2 slides per page */
+    page-break-before: always;
+  }
+}
+
+/*
+
+github.com style (c) Vasily Polovnyov <vast@whiteants.net>
+
+*/
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  color: #333;
+  background: #f8f8f8;
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: #998;
+  font-style: italic;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-subst {
+  color: #333;
+  font-weight: bold;
+}
+
+.hljs-number,
+.hljs-literal,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag .hljs-attr {
+  color: #008080;
+}
+
+.hljs-string,
+.hljs-doctag {
+  color: #d14;
+}
+
+.hljs-title,
+.hljs-section,
+.hljs-selector-id {
+  color: #900;
+  font-weight: bold;
+}
+
+.hljs-subst {
+  font-weight: normal;
+}
+
+.hljs-type,
+.hljs-class .hljs-title {
+  color: #458;
+  font-weight: bold;
+}
+
+.hljs-tag,
+.hljs-name,
+.hljs-attribute {
+  color: #000080;
+  font-weight: normal;
+}
+
+.hljs-regexp,
+.hljs-link {
+  color: #009926;
+}
+
+.hljs-symbol,
+.hljs-bullet {
+  color: #990073;
+}
+
+.hljs-built_in,
+.hljs-builtin-name {
+  color: #0086b3;
+}
+
+.hljs-meta {
+  color: #999;
+  font-weight: bold;
+}
+
+.hljs-deletion {
+  background: #fdd;
+}
+
+.hljs-addition {
+  background: #dfd;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+
+
+  </style>
+</head>
+<body>
+    <div class="progress">
+    <div class="progress-bar"></div>
+  </div>
+
+  <div class="slide" id="slide-1">
+    <section class="slide-content"><h1 id="-a-m-a-edia-a-s-a-tream-br-to-br-a-h-a-ttp-a-l-a-ive-a-s-a-treaming"><a>M</a>edia<a>S</a>tream<br>to<br><a>H</a>ttp<a>L</a>ive<a>S</a>treaming</h1>
+<h2 id="2017-10-15-17-pixelgrid-inc-in-">2017/10/15-17 PixelGrid Inc. 開発合宿 in 柏たなか</h2>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-2">
+    <section class="slide-content"><h3 id="-">事の発端</h3>
+<ul>
+<li>iOS SafariにWebRTCがきた<ul>
+<li><code>getUserMedia()</code>とかWebRTCでなんかやりたいな？</li>
+<li>カメラで撮った内容を録画できたらよいのでは！</li>
+</ul>
+</li>
+<li>WebRTCでPCに飛ばしてMediaRecorderでWebMにしよう<ul>
+<li>でも録画見るならHLSが良さそう</li>
+</ul>
+</li>
+<li>よろしい、ならばMediaStream2HLSだ！</li>
+</ul>
+<p>すっかり動画エンジニアになってしまった(˘ω˘ )</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-3">
+    <section class="slide-content"><h3 id="-">いちおう前提知識</h3>
+<ul>
+<li><code>getUserMedia()</code><ul>
+<li>端末カメラやマイクからMediaStreamを取得できるAPI</li>
+</ul>
+</li>
+<li>WebRTC<ul>
+<li>MediaStreamを相互に送ったりできるAPI群</li>
+<li>つまりはP2P</li>
+</ul>
+</li>
+<li>MediaRecorder<ul>
+<li>MediaStreamを録画しできるAPI</li>
+<li>動画ファイルにできる</li>
+</ul>
+</li>
+<li>HLS<ul>
+<li>動画配信の方式</li>
+<li>キャッシュが効くので長時間のライブ配信などに適してる</li>
+<li>マニフェストに細切れになった動画URLが書かれてる</li>
+</ul>
+</li>
+</ul>
+<p>ね？簡単でしょ？</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-4">
+    <section class="slide-content"><h3 id="-">構成</h3>
+<pre><code>iOS Safari OR other browsers
+      ↑      ↑
+    WebRTC
+      ↓      ↑
+Chrome or Firefox -&gt; MediaRecorder
+      ↓
+    fetch() w/ .webm
+      ↓
+Node.js -&gt; ffmpeg -&gt; .ts + .m3u8 = HLS</code></pre>
+<p>お手元のスマートフォンで撮った動画が、いい感じに後から見直せるフォーマットで保存される仕組み。</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-5">
+    <section class="slide-content"><h3 id="-">できました</h3>
+<blockquote>
+<p><a href="https://github.com/leader22/ms2hls">https://github.com/leader22/ms2hls</a></p>
+</blockquote>
+<ul>
+<li><a href="https://github.com/leader22/ms2hls/tree/master/ms2hls-server">https://github.com/leader22/ms2hls/tree/master/ms2hls-server</a></li>
+<li><a href="https://github.com/leader22/ms2hls/tree/master/ms2hls-client">https://github.com/leader22/ms2hls/tree/master/ms2hls-client</a></li>
+</ul>
+<p>monorepo風。</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-6">
+    <section class="slide-content"><h1 id="server">Server</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-7">
+    <section class="slide-content"><h3 id="ms2hls-server">ms2hls-server</h3>
+<ul>
+<li><code>/initialize/:liveId</code><ul>
+<li>ディレクトリの用意</li>
+</ul>
+</li>
+<li><code>/chunks/:liveId</code><ul>
+<li><code>.webm</code>を受けて<code>.ts</code>へ</li>
+<li>内部では<code>ffmpeg</code>が頑張る</li>
+</ul>
+</li>
+<li><code>/finalize/:liveId</code><ul>
+<li>送られてきた<code>.webm</code>を数えて<code>.m3u8</code>を生成</li>
+<li>HLSのマニフェストを手動で作る</li>
+</ul>
+</li>
+</ul>
+<p>CPUに余裕があれば、画質レベルをいくつか用意したりもできそう。今回は単一画質のみ。</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-8">
+    <section class="slide-content"><h3 id="-hls-">学び: HLSは作れる</h3>
+<p>こういうマニフェストを手書きするだけ。</p>
+<pre><code>#EXTM3U
+#EXT-X-VERSION:3
+#EXT-X-TARGETDURATION:5
+#EXT-X-PLAYLIST-TYPE:VOD
+#EXT-X-MEDIA-SEQUENCE:0
+#EXTINF:4.0,
+http://localhost:9999/live/1e26162b-2435-41c0-8140-667bf08ff072/1.ts
+#EXTINF:4.0,
+http://localhost:9999/live/1e26162b-2435-41c0-8140-667bf08ff072/2.ts
+
+...
+
+#EXT-X-ENDLIST</code></pre>
+<p>仕様: <a href="https://tools.ietf.org/html/draft-pantos-http-live-streaming-23">https://tools.ietf.org/html/draft-pantos-http-live-streaming-23</a></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-9">
+    <section class="slide-content"><h3 id="-hls-">学び: HLSは簡単だが奥深い</h3>
+<ul>
+<li>仕様に則って文字列を用意するだけ</li>
+<li>妥当なコンテナ・コーデックの<code>.ts</code>ファイルならなんでも動く</li>
+<li>ただ<code>EXTINF</code>を適当にすると、上手く再生されなくなる・・？<ul>
+<li>HLS.jsでも上手く再生できなかった</li>
+<li>Safariが強い</li>
+</ul>
+</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-10">
+    <section class="slide-content"><h3 id="-fastify-">学び: fastifyはいいぞ</h3>
+<ul>
+<li>Expressより速いと噂のNodeのサーバー<ul>
+<li><a href="https://github.com/fastify/fastify">https://github.com/fastify/fastify</a></li>
+</ul>
+</li>
+<li>だいたいのMiddlewareは揃ってる<ul>
+<li><code>.webm</code>を<code>multipart</code>で受けるところにハマったくらい</li>
+</ul>
+</li>
+<li><code>async / await</code>標準対応でシュッとしてていい感じ</li>
+</ul>
+<p>なんでもいいけど合宿の度にNodeでサーバー書いてる気がする・・。</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-11">
+    <section class="slide-content"><h3 id="-fluent-ffmpeg-">学び: fluent-ffmpegもいいぞ</h3>
+<ul>
+<li>ffmpegをNodeから使いやすくしたやつ<ul>
+<li><a href="https://github.com/fluent-ffmpeg/node-fluent-ffmpeg">https://github.com/fluent-ffmpeg/node-fluent-ffmpeg</a></li>
+</ul>
+</li>
+</ul>
+<pre><code class="lang-js">ffmpeg()
+  .input(inputPath)
+  .videoCodec(<span class="hljs-string">'libx264'</span>)
+  .audioCodec(<span class="hljs-string">'libfdk_aac'</span>)
+  .format(<span class="hljs-string">'mpegts'</span>)
+  .output(outputPath)
+  .on(<span class="hljs-string">'error'</span>, err =&gt; { <span class="hljs-keyword">throw</span> err; })
+  .run();</code></pre>
+<p>ただし「Looking for a new maintainer」らしい・・・！</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-12">
+    <section class="slide-content"><h1 id="client">Client</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-13">
+    <section class="slide-content"><h3 id="ms2hls-client">ms2hls-client</h3>
+<ul>
+<li>Recorder<ul>
+<li>MediaStreamを4秒ごとに<code>.webm</code>にしてサーバーへ<ul>
+<li>まさかのニッチな自作ライブラリがここでも・・</li>
+</ul>
+</li>
+<li>これをChromeかFirefoxで開く</li>
+</ul>
+</li>
+<li>Reporter<ul>
+<li>RecorderにMediaStreamを送る</li>
+<li>これをiOS Safariで開く</li>
+</ul>
+</li>
+<li>Viewer<ul>
+<li>サーバーが生成したHLSのストリームを見れる</li>
+<li>別にこれで見なくてもいい（正直おまけ）</li>
+</ul>
+</li>
+</ul>
+<p>JSフレームワークとか使ってません。</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-14">
+    <section class="slide-content"><h3 id="-mediarecorder-xxx">学び: MediaRecorderがxxx</h3>
+<ul>
+<li>WebMしか吐けない（2017/10/17時点）<ul>
+<li>コンストラクタに渡すオプションで指定はできる（仕様上）</li>
+<li>Chromeはそのまま再生できる / Firefoxでは再生できない（吐けるのに）</li>
+</ul>
+</li>
+<li><code>#start(timeSlice)</code>の存在意義が不明<ul>
+<li>指定した㍉秒単位でWebMを出力できるようになる</li>
+<li>ただし、2つ目以降は不完全で再生できない<code>.webm</code>が出力される</li>
+</ul>
+</li>
+<li>WebMはMatoroskaというコンテナのサブセット<ul>
+<li>最初の<code>.webm</code>にだけ、ヘッダがついてる &lt;- は？？？</li>
+<li>もちろん不完全なメディアなので<code>.ts</code>に変換もできない</li>
+</ul>
+</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-15">
+    <section class="slide-content"><h3 id="-mediarecorder-xxx">学び: MediaRecorderが本当にxxx</h3>
+<ul>
+<li>迫られる3択<ul>
+<li>1 サーバーサイドで自前で<code>.webm</code>を結合する</li>
+<li>2 バイナリ解析してヘッダ部を抽出して使いまわす</li>
+<li>3 手動で<code>#start()</code> / <code>#stop()</code>を繰り返す</li>
+</ul>
+</li>
+<li>結局3にした<ul>
+<li>これだと完全な<code>.webm</code>ができる</li>
+<li>個人的には許容できるが、動画の切れ目がわかる<ul>
+<li>ダブルバッファでなんとか・・</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Chromeの実装がバグってるというダメ押し<ul>
+<li><a href="http://lealog.hateblo.jp/entry/2017/10/16/144127">http://lealog.hateblo.jp/entry/2017/10/16/144127</a></li>
+</ul>
+</li>
+</ul>
+<p>動画コンテナ・コーデックに関わるとろくなことない。</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-16">
+    <section class="slide-content"><h3 id="-">学び: その他</h3>
+<ul>
+<li>ES Modulesは時期尚早<ul>
+<li><a href="https://twitter.com/leader22/status/919454960189816833">https://twitter.com/leader22/status/919454960189816833</a></li>
+<li>Webpack最高！</li>
+<li>だれかnpm兼cdnみたいなやつはよ</li>
+</ul>
+</li>
+<li>SkyWay最高！<ul>
+<li>今回書いたWebRTC関連のコードは10行未満</li>
+</ul>
+</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-17">
+    <section class="slide-content"><h1 id="-">結論: 録画するならサーバーで</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-18">
+    <section class="slide-content"><h3 id="special-thanks">Special thanks</h3>
+<ul>
+<li><a href="https://github.com/JosePedroDias/webcam2hls">https://github.com/JosePedroDias/webcam2hls</a><ul>
+<li>これの焼き直しな面がある</li>
+</ul>
+</li>
+<li><a href="https://www.slideshare.net/mganeko/media-recorder-and-webm">https://www.slideshare.net/mganeko/media-recorder-and-webm</a><ul>
+<li>2015年に先を行く先輩芸人さすがです</li>
+</ul>
+</li>
+<li><a href="https://qiita.com/tomoyukilabs/items/57ba8a982ab372611669">https://qiita.com/tomoyukilabs/items/57ba8a982ab372611669</a><ul>
+<li>WebMを解くのをやめる決断をさせてくれた偉人</li>
+</ul>
+</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-19">
+    <section class="slide-content"><h1 id="thank-you-">Thank you!</h1>
+<p><style>
+:root {
+  --bg-color: #fafff8;
+  --bar-color: #59ec47;
+  --em-color: #3e984c;
+}
+</style></p>
+<p><link rel="stylesheet" href="../public/base.css"></p>
+<p><link rel="stylesheet" href="../public/timer.css"></p>
+<script src="../public/timer.js"></script>
+<script src="../public/mobile-controls.js"></script></section>
+  </div>
+
+
+
+  <script type="text/javascript">
+    /**
+ * Returns the current page number of the presentation.
+ */
+function currentPosition() {
+  return parseInt(document.querySelector('.slide:not(.hidden)').id.slice(6));
+}
+
+
+/**
+ * Navigates forward n pages
+ * If n is negative, we will navigate in reverse
+ */
+function navigate(n) {
+  var position = currentPosition();
+  var numSlides = document.getElementsByClassName('slide').length;
+
+  /* Positions are 1-indexed, so we need to add and subtract 1 */
+  var nextPosition = (position - 1 + n) % numSlides + 1;
+
+  /* Normalize nextPosition in-case of a negative modulo result */
+  nextPosition = (nextPosition - 1 + numSlides) % numSlides + 1;
+
+  document.getElementById('slide-' + position).classList.add('hidden');
+  document.getElementById('slide-' + nextPosition).classList.remove('hidden');
+
+  updateProgress();
+  updateURL();
+  updateTabIndex();
+}
+
+
+/**
+ * Updates the current URL to include a hashtag of the current page number.
+ */
+function updateURL() {
+  try {
+    window.history.replaceState({} , null, '#' + currentPosition());
+  } catch (e) {
+    window.location.hash = currentPosition();
+  }
+}
+
+
+/**
+ * Sets the progress indicator.
+ */
+function updateProgress() {
+  var progressBar = document.querySelector('.progress-bar');
+
+  if (progressBar !== null) {
+    var numSlides = document.getElementsByClassName('slide').length;
+    var position = currentPosition() - 1;
+    var percent = (numSlides === 1) ? 100 : 100 * position / (numSlides - 1);
+    progressBar.style.width = percent.toString() + '%';
+  }
+}
+
+
+/**
+ * Removes tabindex property from all links on the current slide, sets
+ * tabindex = -1 for all links on other slides. Prevents slides from appearing
+ * out of control.
+ */
+function updateTabIndex() {
+  var allLinks = document.querySelectorAll('.slide a');
+  var position = currentPosition();
+  var currentPageLinks = document.getElementById('slide-' + position).querySelectorAll('a');
+  var i;
+
+  for (i = 0; i < allLinks.length; i++) {
+    allLinks[i].setAttribute('tabindex', -1);
+  }
+
+  for (i = 0; i < currentPageLinks.length; i++) {
+    currentPageLinks[i].removeAttribute('tabindex');
+  }
+}
+
+/**
+ * Determines whether or not we are currently in full screen mode
+ */
+function isFullScreen() {
+  return document.fullscreenElement ||
+         document.mozFullScreenElement ||
+         document.webkitFullscreenElement ||
+         document.msFullscreenElement;
+}
+
+/**
+ * Toggle fullScreen mode on document element.
+ * Works on chrome (>= 15), firefox (>= 9), ie (>= 11), opera(>= 12.1), safari (>= 5).
+ */
+function toggleFullScreen() {
+  /* Convenient renames */
+  var docElem = document.documentElement;
+  var doc = document;
+
+  docElem.requestFullscreen =
+      docElem.requestFullscreen ||
+      docElem.msRequestFullscreen ||
+      docElem.mozRequestFullScreen ||
+      docElem.webkitRequestFullscreen.bind(docElem, Element.ALLOW_KEYBOARD_INPUT);
+
+  doc.exitFullscreen =
+      doc.exitFullscreen ||
+      doc.msExitFullscreen ||
+      doc.mozCancelFullScreen ||
+      doc.webkitExitFullscreen;
+
+  isFullScreen() ? doc.exitFullscreen() : docElem.requestFullscreen();
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  // Update the tabindex to prevent weird slide transitioning
+  updateTabIndex();
+
+  // If the location hash specifies a page number, go to it.
+  var page = window.location.hash.slice(1);
+  if (page) {
+    navigate(parseInt(page) - 1);
+  }
+
+  document.onkeydown = function (e) {
+    var kc = e.keyCode;
+
+    // left, down, H, J, backspace, PgUp - BACK
+    // up, right, K, L, space, PgDn - FORWARD
+    // enter - FULLSCREEN
+    if (kc === 37 || kc === 40 || kc === 8 || kc === 72 || kc === 74 || kc === 33) {
+      navigate(-1);
+    } else if (kc === 38 || kc === 39 || kc === 32 || kc === 75 || kc === 76 || kc === 34) {
+      navigate(1);
+    } else if (kc === 13) {
+      toggleFullScreen();
+    }
+  };
+
+  if (document.querySelector('.next') && document.querySelector('.prev')) {
+    document.querySelector('.next').onclick = function (e) {
+      e.preventDefault();
+      navigate(1);
+    };
+
+    document.querySelector('.prev').onclick = function (e) {
+      e.preventDefault();
+      navigate(-1);
+    };
+  }
+});
+
+
+  </script>
+</body>
+</html>
