@@ -370,23 +370,37 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </section>
   </div>
   <div class="slide hidden" id="slide-2">
+    <section class="slide-content"><h3 id="-">作ったもの</h3>
+<ul>
+<li>MediaStreamを後からHLS形式で見れるようにする仕組み<ul>
+<li>ローカルのストリームでも</li>
+<li>リモートのストリームでも</li>
+</ul>
+</li>
+<li>サーバーサイドの実装と、それを利用するクライアント</li>
+</ul>
+<p>お手元のPC・スマートフォンで撮った動画が、いい感じに後から見直せるフォーマットで保存される仕組み。</p>
+<p>おそらくやろうと思えばHDとかでも撮れるし、別に音だけでもいけるので、ポッドキャストとかにも。（とりあえず45分は問題なく撮れた）</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-3">
     <section class="slide-content"><h3 id="-">事の発端</h3>
 <ul>
-<li>iOS SafariにWebRTCがきた<ul>
+<li>ついにiOS SafariにWebRTCがきた<ul>
 <li><code>getUserMedia()</code>とかWebRTCでなんかやりたいな？</li>
 <li>カメラで撮った内容を録画できたらよいのでは！</li>
 </ul>
 </li>
-<li>WebRTCでPCに飛ばしてMediaRecorderでWebMにしよう<ul>
+<li>WebRTCでPCに飛ばしてMediaRecorderで録画しよう<ul>
 <li>でも録画見るならHLSが良さそう</li>
 </ul>
 </li>
-<li>よろしい、ならばMediaStream2HLSだ！</li>
+<li>ならばMediaStream2HLSだ！</li>
 </ul>
-<p>すっかり動画エンジニアになってしまった(˘ω˘ )</p>
+<p>フロントエンドとは(˘ω˘ )</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-3">
+  <div class="slide hidden" id="slide-4">
     <section class="slide-content"><h3 id="-">いちおう前提知識</h3>
 <ul>
 <li><code>getUserMedia()</code><ul>
@@ -394,27 +408,30 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </ul>
 </li>
 <li>WebRTC<ul>
-<li>MediaStreamを相互に送ったりできるAPI群</li>
-<li>つまりはP2P</li>
+<li>MediaStreamをブラウザ間で相互に送ったりできるAPI群</li>
+<li>ちょろっとコードを書くだけでいい</li>
 </ul>
 </li>
 <li>MediaRecorder<ul>
-<li>MediaStreamを録画しできるAPI</li>
-<li>動画ファイルにできる</li>
+<li>MediaStreamを録画できるAPI</li>
+<li>Blobを保存すればそのまま動画ファイルにできる</li>
 </ul>
 </li>
 <li>HLS<ul>
 <li>動画配信の方式</li>
 <li>キャッシュが効くので長時間のライブ配信などに適してる</li>
-<li>マニフェストに細切れになった動画URLが書かれてる</li>
+<li>マニフェストに細切れになった動画URLが書かれてて、それを読み込む</li>
 </ul>
 </li>
 </ul>
 <p>ね？簡単でしょ？</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-4">
-    <section class="slide-content"><h3 id="-">構成</h3>
+  <div class="slide hidden" id="slide-5">
+    <section class="slide-content"><h3 id="-">できました</h3>
+<blockquote>
+<p><a href="https://github.com/leader22/ms2hls">https://github.com/leader22/ms2hls</a></p>
+</blockquote>
 <pre><code>iOS Safari OR other browsers
       ↑      ↑
     WebRTC
@@ -424,19 +441,11 @@ Chrome or Firefox -&gt; MediaRecorder
     fetch() w/ .webm
       ↓
 Node.js -&gt; ffmpeg -&gt; .ts + .m3u8 = HLS</code></pre>
-<p>お手元のスマートフォンで撮った動画が、いい感じに後から見直せるフォーマットで保存される仕組み。</p>
-</section>
-  </div>
-  <div class="slide hidden" id="slide-5">
-    <section class="slide-content"><h3 id="-">できました</h3>
-<blockquote>
-<p><a href="https://github.com/leader22/ms2hls">https://github.com/leader22/ms2hls</a></p>
-</blockquote>
 <ul>
-<li><a href="https://github.com/leader22/ms2hls/tree/master/ms2hls-server">https://github.com/leader22/ms2hls/tree/master/ms2hls-server</a></li>
-<li><a href="https://github.com/leader22/ms2hls/tree/master/ms2hls-client">https://github.com/leader22/ms2hls/tree/master/ms2hls-client</a></li>
+<li>クライアント: <a href="https://github.com/leader22/ms2hls/tree/master/ms2hls-server">https://github.com/leader22/ms2hls/tree/master/ms2hls-server</a></li>
+<li>サーバー: <a href="https://github.com/leader22/ms2hls/tree/master/ms2hls-client">https://github.com/leader22/ms2hls/tree/master/ms2hls-client</a></li>
 </ul>
-<p>monorepo風。</p>
+<p>なんちゃってmonorepo風。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-6">
@@ -445,23 +454,24 @@ Node.js -&gt; ffmpeg -&gt; .ts + .m3u8 = HLS</code></pre>
   </div>
   <div class="slide hidden" id="slide-7">
     <section class="slide-content"><h3 id="ms2hls-server">ms2hls-server</h3>
+<p>3つのエンドポイントがあるだけ。</p>
 <ul>
-<li><code>/initialize/:liveId</code><ul>
-<li>ディレクトリの用意</li>
+<li><code>/api/initialize/:liveId</code><ul>
+<li>配信用ディレクトリの用意</li>
 </ul>
 </li>
-<li><code>/chunks/:liveId</code><ul>
-<li><code>.webm</code>を受けて<code>.ts</code>へ</li>
-<li>内部では<code>ffmpeg</code>が頑張る</li>
+<li><code>/api/chunks/:liveId</code><ul>
+<li><code>.webm</code>を受けて<code>.ts</code>へトランスコード</li>
+<li>内部では<code>ffmpeg</code>が頑張ってる</li>
 </ul>
 </li>
-<li><code>/finalize/:liveId</code><ul>
-<li>送られてきた<code>.webm</code>を数えて<code>.m3u8</code>を生成</li>
-<li>HLSのマニフェストを手動で作る</li>
+<li><code>/api/finalize/:liveId</code><ul>
+<li>HLSのマニフェスト<code>.m3u8</code>を手動で作る</li>
+<li>用意しておいた<code>.ts</code>を数える</li>
 </ul>
 </li>
 </ul>
-<p>CPUに余裕があれば、画質レベルをいくつか用意したりもできそう。今回は単一画質のみ。</p>
+<p>レベル（画質）をいくつか用意したり、リアルタイムで見れるようにもできそう。今回は雑に単一画質でアーカイブのみ。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-8">
@@ -489,11 +499,17 @@ http://localhost:9999/live/1e26162b-2435-41c0-8140-667bf08ff072/2.ts
 <li>仕様に則って文字列を用意するだけ</li>
 <li>妥当なコンテナ・コーデックの<code>.ts</code>ファイルならなんでも動く</li>
 <li>ただ<code>EXTINF</code>を適当にすると、上手く再生されなくなる・・？<ul>
-<li>HLS.jsでも上手く再生できなかった</li>
-<li>Safariが強い</li>
+<li>動画長がズレてうまくストリーミングできない風な挙動</li>
+</ul>
+</li>
+<li>[未解決] HLS.jsで上手く再生できない<ul>
+<li>マニフェストも動画も問題ないはずだが・・</li>
+<li>Safariだと問題なく動く</li>
+<li>なんのためにHLSにしたの感</li>
 </ul>
 </li>
 </ul>
+<p>Safari最高！</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-10">
@@ -507,9 +523,9 @@ http://localhost:9999/live/1e26162b-2435-41c0-8140-667bf08ff072/2.ts
 <li><code>.webm</code>を<code>multipart</code>で受けるところにハマったくらい</li>
 </ul>
 </li>
-<li><code>async / await</code>標準対応でシュッとしてていい感じ</li>
+<li><code>async / await</code>も標準対応でシュッとしてていい感じ</li>
 </ul>
-<p>なんでもいいけど合宿の度にNodeでサーバー書いてる気がする・・。</p>
+<p>なんでもいいけど合宿の度にNodeでサーバー書いてる気がする。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-11">
@@ -520,23 +536,51 @@ http://localhost:9999/live/1e26162b-2435-41c0-8140-667bf08ff072/2.ts
 </ul>
 </li>
 </ul>
-<pre><code class="lang-js">ffmpeg()
+<pre><code class="lang-js"><span class="hljs-comment">// こういう感じで</span>
+ffmpeg()
   .input(inputPath)
   .videoCodec(<span class="hljs-string">'libx264'</span>)
   .audioCodec(<span class="hljs-string">'libfdk_aac'</span>)
+  .audioChannels(<span class="hljs-number">2</span>)
   .format(<span class="hljs-string">'mpegts'</span>)
+  .outputOptions([
+    <span class="hljs-string">'-mpegts_copyts 1'</span>,
+  ])
   .output(outputPath)
-  .on(<span class="hljs-string">'error'</span>, err =&gt; { <span class="hljs-keyword">throw</span> err; })
+  .on(<span class="hljs-string">'error'</span>, err =&gt; {})
+  .on(<span class="hljs-string">'end'</span>, () =&gt; {})
   .run();</code></pre>
 <p>ただし「Looking for a new maintainer」らしい・・・！</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-12">
-    <section class="slide-content"><h1 id="client">Client</h1>
+    <section class="slide-content"><h3 id="-error-read-econnreset">学び: Error: read ECONNRESET</h3>
+<ul>
+<li>HLSのマニフェスト用に<code>ffprobe</code>でまとめて<code>duration</code>を取得する処理で出た<ul>
+<li>他のライブラリでも、自分で<code>execFile</code>してもダメ</li>
+<li>コールバックの<code>err</code>は常に<code>null</code>なのに出る</li>
+</ul>
+</li>
+<li>ただ本体側の動作には支障なし<ul>
+<li>ただ気持ち悪いのでなおしたくて半日くらい潰した</li>
+</ul>
+</li>
+<li>なんと<code>NODE_ENV=production</code>にするとエラーが見えなくなる！<ul>
+<li>ログに吐かれないだけなのか、消えるのか謎</li>
+</ul>
+</li>
+<li>処理タイミングを一括処理から逐次処理に変えたら出なくなった</li>
+</ul>
+<p>お手上げ＼(^o^)／</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-13">
+    <section class="slide-content"><h1 id="client">Client</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-14">
     <section class="slide-content"><h3 id="ms2hls-client">ms2hls-client</h3>
+<p>こちらも3つの構成要素。</p>
 <ul>
 <li>Recorder<ul>
 <li>MediaStreamを4秒ごとに<code>.webm</code>にしてサーバーへ<ul>
@@ -557,56 +601,61 @@ http://localhost:9999/live/1e26162b-2435-41c0-8140-667bf08ff072/2.ts
 </ul>
 </li>
 </ul>
-<p>JSフレームワークとか使ってません。</p>
+<p>JSフレームワークとかは使ってません！</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-14">
+  <div class="slide hidden" id="slide-15">
     <section class="slide-content"><h3 id="-mediarecorder-xxx">学び: MediaRecorderがxxx</h3>
 <ul>
 <li>WebMしか吐けない（2017/10/17時点）<ul>
-<li>コンストラクタに渡すオプションで指定はできる（仕様上）</li>
+<li><code>mimeType</code>をコンストラクタに渡せる（仕様上）</li>
 <li>Chromeはそのまま再生できる / Firefoxでは再生できない（吐けるのに）</li>
 </ul>
 </li>
 <li><code>#start(timeSlice)</code>の存在意義が不明<ul>
 <li>指定した㍉秒単位でWebMを出力できるようになる</li>
-<li>ただし、2つ目以降は不完全で再生できない<code>.webm</code>が出力される</li>
+<li>ただし、2つ目以降は「不完全で再生できない」<code>.webm</code>が出力される</li>
 </ul>
 </li>
 <li>WebMはMatoroskaというコンテナのサブセット<ul>
-<li>最初の<code>.webm</code>にだけ、ヘッダがついてる &lt;- は？？？</li>
+<li>最初の<code>.webm</code>にだけ、ヘッダがついてる</li>
 <li>もちろん不完全なメディアなので<code>.ts</code>に変換もできない</li>
 </ul>
 </li>
 </ul>
+<p>どういうユースケースを想定した結果この実装になってるのか・・。</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-15">
+  <div class="slide hidden" id="slide-16">
     <section class="slide-content"><h3 id="-mediarecorder-xxx">学び: MediaRecorderが本当にxxx</h3>
 <ul>
 <li>迫られる3択<ul>
-<li>1 サーバーサイドで自前で<code>.webm</code>を結合する</li>
-<li>2 バイナリ解析してヘッダ部を抽出して使いまわす</li>
-<li>3 手動で<code>#start()</code> / <code>#stop()</code>を繰り返す</li>
+<li>1: サーバーサイドで自前で<code>.webm</code>を結合する<ul>
+<li>動画が長くなればなるほど不利になる（時間・CPU）</li>
+<li>巨大ファイルをPOST・トランスコードとか嫌な予感しかしない</li>
+</ul>
+</li>
+<li>2: バイナリ解析してヘッダ部を抽出して使いまわす<ul>
+<li>バイナリ解析とか合宿でやるもんじゃない！</li>
+</ul>
+</li>
+<li>3: 手動で<code>#start()</code> / <code>#stop()</code>を繰り返す</li>
 </ul>
 </li>
 <li>結局3にした<ul>
 <li>これだと完全な<code>.webm</code>ができる</li>
-<li>個人的には許容できるが、動画の切れ目がわかる<ul>
-<li>ダブルバッファでなんとか・・</li>
+<li>個人的には許容できるが、動画の切れ目がわかる</li>
 </ul>
 </li>
-</ul>
-</li>
-<li>Chromeの実装がバグってるというダメ押し<ul>
+<li>そしてChromeの実装がバグってるというダメ押し<ul>
 <li><a href="http://lealog.hateblo.jp/entry/2017/10/16/144127">http://lealog.hateblo.jp/entry/2017/10/16/144127</a></li>
 </ul>
 </li>
 </ul>
-<p>動画コンテナ・コーデックに関わるとろくなことない。</p>
+<p>動画コンテナ・コーデックに関わると時間を無限に持っていかれる・・。</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-16">
+  <div class="slide hidden" id="slide-17">
     <section class="slide-content"><h3 id="-">学び: その他</h3>
 <ul>
 <li>ES Modulesは時期尚早<ul>
@@ -622,29 +671,31 @@ http://localhost:9999/live/1e26162b-2435-41c0-8140-667bf08ff072/2.ts
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-17">
-    <section class="slide-content"><h1 id="-">結論: 録画するならサーバーで</h1>
+  <div class="slide hidden" id="slide-18">
+    <section class="slide-content"><h1 id="-">結論: 録画はサーバーでやれ</h1>
 </section>
   </div>
-  <div class="slide hidden" id="slide-18">
+  <div class="slide hidden" id="slide-19">
     <section class="slide-content"><h3 id="special-thanks">Special thanks</h3>
 <ul>
 <li><a href="https://github.com/JosePedroDias/webcam2hls">https://github.com/JosePedroDias/webcam2hls</a><ul>
 <li>これの焼き直しな面がある</li>
+<li>まさかの2014年製！</li>
 </ul>
 </li>
 <li><a href="https://www.slideshare.net/mganeko/media-recorder-and-webm">https://www.slideshare.net/mganeko/media-recorder-and-webm</a><ul>
-<li>2015年に先を行く先輩芸人さすがです</li>
+<li>2015年に先を行ってた先輩<s>芸人</s>さすがです</li>
+<li>ただ2017年でもこの分野にあまり進捗はないようです</li>
 </ul>
 </li>
 <li><a href="https://qiita.com/tomoyukilabs/items/57ba8a982ab372611669">https://qiita.com/tomoyukilabs/items/57ba8a982ab372611669</a><ul>
-<li>WebMを解くのをやめる決断をさせてくれた偉人</li>
+<li>これを見てWebM解くのをやめる決断をしました</li>
 </ul>
 </li>
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-19">
+  <div class="slide hidden" id="slide-20">
     <section class="slide-content"><h1 id="thank-you-">Thank you!</h1>
 <p><style>
 :root {
