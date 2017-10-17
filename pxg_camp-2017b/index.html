@@ -372,15 +372,14 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   <div class="slide hidden" id="slide-2">
     <section class="slide-content"><h3 id="-">作ったもの</h3>
 <ul>
-<li>MediaStreamを後からHLS形式で見れるようにする仕組み<ul>
-<li>ローカルのストリームでも</li>
-<li>リモートのストリームでも</li>
+<li>カメラ・マイクのストリームを後から見れるようにする仕組み<ul>
+<li>手元の端末でも、iPhoneからでもOK</li>
 </ul>
 </li>
-<li>サーバーサイドの実装と、それを利用するクライアント</li>
+<li>そのためのサーバーサイド実装と、それを利用するクライアント実装</li>
 </ul>
-<p>お手元のPC・スマートフォンで撮った動画が、いい感じに後から見直せるフォーマットで保存される仕組み。</p>
-<p>おそらくやろうと思えばHDとかでも撮れるし、別に音だけでもいけるので、ポッドキャストとかにも。（とりあえず45分は問題なく撮れた）</p>
+<p>仕組み的には、カメラが対応してればHDとかでも撮れる。</p>
+<p>別に音だけでもいけるので、ポッドキャストとかにも。（とりあえず雑に回した感じ、45分くらいは問題なく撮れた）</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-3">
@@ -392,12 +391,12 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </ul>
 </li>
 <li>WebRTCでPCに飛ばしてMediaRecorderで録画しよう<ul>
-<li>でも録画見るならHLSが良さそう</li>
+<li>でも録画見るならWebMよりHLSが良さそう</li>
 </ul>
 </li>
 <li>ならばMediaStream2HLSだ！</li>
 </ul>
-<p>フロントエンドとは(˘ω˘ )</p>
+<p>注: フロントエンドの話をしています(˘ω˘ )</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-4">
@@ -489,12 +488,14 @@ http://localhost:9999/live/1e26162b-2435-41c0-8140-667bf08ff072/2.ts
 
 ...
 
+#EXTINF:4.0,
+http://localhost:9999/live/1e26162b-2435-41c0-8140-667bf08ff072/99.ts
 #EXT-X-ENDLIST</code></pre>
 <p>仕様: <a href="https://tools.ietf.org/html/draft-pantos-http-live-streaming-23">https://tools.ietf.org/html/draft-pantos-http-live-streaming-23</a></p>
 </section>
   </div>
   <div class="slide hidden" id="slide-9">
-    <section class="slide-content"><h3 id="-hls-">学び: HLSは簡単だが奥深い</h3>
+    <section class="slide-content"><h3 id="-hls-">学び: HLSは単純だが奥深い</h3>
 <ul>
 <li>仕様に則って文字列を用意するだけ</li>
 <li>妥当なコンテナ・コーデックの<code>.ts</code>ファイルならなんでも動く</li>
@@ -524,6 +525,7 @@ http://localhost:9999/live/1e26162b-2435-41c0-8140-667bf08ff072/2.ts
 </ul>
 </li>
 <li><code>async / await</code>も標準対応でシュッとしてていい感じ</li>
+<li>皆さん使って枯らしていきましょう</li>
 </ul>
 <p>なんでもいいけど合宿の度にNodeでサーバー書いてる気がする。</p>
 </section>
@@ -535,6 +537,7 @@ http://localhost:9999/live/1e26162b-2435-41c0-8140-667bf08ff072/2.ts
 <li><a href="https://github.com/fluent-ffmpeg/node-fluent-ffmpeg">https://github.com/fluent-ffmpeg/node-fluent-ffmpeg</a></li>
 </ul>
 </li>
+<li>それにしてもffmpegのオプションの秘伝のタレ感よ</li>
 </ul>
 <pre><code class="lang-js"><span class="hljs-comment">// こういう感じで</span>
 ffmpeg()
@@ -558,20 +561,19 @@ ffmpeg()
 <ul>
 <li>HLSのマニフェスト用に<code>ffprobe</code>でまとめて<code>duration</code>を取得する処理で出た<ul>
 <li>他のライブラリでも、自分で<code>execFile</code>してもダメ</li>
-<li>コールバックの<code>err</code>は常に<code>null</code>なのに出る</li>
+<li>コールバックの<code>err</code>は常に<code>null</code>なのに出る、拾えない・・</li>
 </ul>
 </li>
 <li>ただ本体側の動作には支障なし<ul>
 <li>ただ気持ち悪いのでなおしたくて半日くらい潰した</li>
 </ul>
 </li>
-<li>なんと<code>NODE_ENV=production</code>にするとエラーが見えなくなる！<ul>
+<li>なんと<code>NODE_ENV=production</code>にするとエラーが見えなくなることが判明した<ul>
 <li>ログに吐かれないだけなのか、消えるのか謎</li>
 </ul>
 </li>
-<li>処理タイミングを一括処理から逐次処理に変えたら出なくなった</li>
 </ul>
-<p>お手上げ＼(^o^)／</p>
+<p>結局、処理タイミングを一括処理から逐次処理に変えたら出なくなった・・お手上げ＼(^o^)／</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-13">
