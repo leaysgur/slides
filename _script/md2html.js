@@ -13,6 +13,8 @@ if (target === undefined) {
 
 if (isWatch) {
   console.log('watching changes...');
+  exec(`open ./${target}/index.html`);
+  exec(`open ./${target}/index.md`);
 }
 
 exec(`$(npm bin)/cleaver ${isWatch} ./${target}/index.md --output ./${target}/index.html`, (err, stdout, stderr) => {
