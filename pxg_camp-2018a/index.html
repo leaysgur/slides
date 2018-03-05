@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-  <title>動画をトリミングするアプリをElectronで作った</title>
+  <title>動画切り出しアプリをElectronで作った</title>
   <style type="text/css">
     body {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -365,8 +365,8 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   </div>
 
   <div class="slide" id="slide-1">
-    <section class="slide-content"><h1 id="-a-a-br-electron-"><a>動画をトリミングするアプリ</a>を<br>Electronで作った</h1>
-<h2 id="2017-03-04-06-pixelgrid-inc-in-">2017/03/04-06 PixelGrid Inc. 開発合宿 in 湯河原</h2>
+    <section class="slide-content"><h1 id="-a-a-br-electron-"><a>動画切り出しアプリ</a>を<br>Electronで作った</h1>
+<h2 id="2018-03-04-06-pixelgrid-inc-in-">2018/03/04-06 PixelGrid Inc. 開発合宿 in 湯河原</h2>
 </section>
   </div>
   <div class="slide hidden" id="slide-2">
@@ -374,20 +374,22 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </section>
   </div>
   <div class="slide hidden" id="slide-3">
-    <section class="slide-content"><h3 id="-">全部イカのせい</h3>
+    <section class="slide-content"><h3 id="-a-a-">全部<a>イカ</a>のせい</h3>
 <ul>
 <li>普段のプレイ動画はYouTubeにUPしてる<ul>
 <li>けどUPしてない箇所も結構ある</li>
 </ul>
 </li>
-<li>この数十秒を切り出してTwitterにUPしたいと思うことはあるが、編集が面倒</li>
-<li>YouTubeにUPする用のやつ（録画アプリ付属）だと、元動画の開き直しが面倒</li>
+<li>UPしてない箇所から数十秒を切り出してTwitterにUPしたいと思うことはあるが、編集が面倒くさい<ul>
+<li>YouTubeにUPする用の動画を作るアプリ（録画アプリ付属）だと、元動画の開き直しが面倒くさい</li>
+</ul>
+</li>
 </ul>
 <p>なんとかしたい！</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-4">
-    <section class="slide-content"><h3 id="-">既存のアプリありそう</h3>
+    <section class="slide-content"><h3 id="-">既存のアプリではダメ？</h3>
 <p>あるにはあるけど、</p>
 <ul>
 <li>Twitterの動画投稿フォーマットに沿ってない<ul>
@@ -405,12 +407,13 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </section>
   </div>
   <div class="slide hidden" id="slide-5">
-    <section class="slide-content"><h3 id="cli-">CLIでやれば</h3>
+    <section class="slide-content"><h3 id="cli-">CLIではダメ？</h3>
 <p>やれんことはないけど、</p>
 <ul>
-<li>巨大な動画（2時間で30GBとか）なので、GUIじゃないと辛い</li>
+<li>巨大な動画（2時間で30GBとか）もあるので、GUIじゃないと辛い</li>
 <li><code>Preview.app</code>でひらいて、切り取り秒数をメモって<code>ffmpeg</code>で・・<ul>
 <li>いやなにこれ面倒くさい</li>
+<li>それができるアプリください</li>
 </ul>
 </li>
 </ul>
@@ -430,10 +433,11 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
     <section class="slide-content"><h3 id="-">作ったもの</h3>
 <ul>
 <li>動画をトリミングして書き出せるElectronアプリ<ul>
+<li>裏で動くのは毎度おなじみ<code>ffmpeg</code></li>
 <li><code>ffmpeg</code>に渡す引数をGUIで編集できる</li>
 </ul>
 </li>
-<li>書き出しフォーマットはTwitterがターゲット<ul>
+<li>書き出しフォーマットはTwitterをターゲット<ul>
 <li>ただデフォルトなだけで、変更もできる</li>
 </ul>
 </li>
@@ -446,9 +450,6 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   </div>
   <div class="slide hidden" id="slide-10">
     <section class="slide-content"><h3 id="-">タイムライン: サムネイル</h3>
-<blockquote>
-<p><a href="https://github.com/leader22/movie-slicer/blob/master/src/renderer/component/selector/thumb.jsx">https://github.com/leader22/movie-slicer/blob/master/src/renderer/component/selector/thumb.jsx</a></p>
-</blockquote>
 <ul>
 <li>動画の様子が見やすい<ul>
 <li>ざっくり切り取り位置を探すのに最高</li>
@@ -457,7 +458,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <li>そのぶん実装はダルい<ul>
 <li>動画長と画面サイズから、1サムネイルあたりの秒数を割り出す</li>
 <li>その秒数で、サムネイルが何枚必要かを割り出す</li>
-<li>この2つをかけ合わせて、<code>video.currentTime</code>に指定</li>
+<li>この2つの積を、<code>video.currentTime</code>に指定してく</li>
 <li><code>canplay</code>イベントを待って、非同期で<code>video</code>を<code>canvas</code>に転写して表示</li>
 </ul>
 </li>
@@ -466,16 +467,13 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   </div>
   <div class="slide hidden" id="slide-11">
     <section class="slide-content"><h3 id="-">タイムライン: 拡大と縮小</h3>
-<blockquote>
-<p><a href="https://github.com/leader22/movie-slicer/blob/master/src/renderer/store/ui.js">https://github.com/leader22/movie-slicer/blob/master/src/renderer/store/ui.js</a></p>
-</blockquote>
 <ul>
 <li>短い動画・長い動画、どちらがきても編集しやすいように<ul>
-<li>5分の動画から3時間の動画までいい感じ</li>
+<li>5分の動画から3時間の動画までいい感じに</li>
 </ul>
 </li>
 <li>「1秒を何pxとして扱うか」を、倍率とあわせて管理する<ul>
-<li>全ての幅は、この値をかけ合わせて算出する</li>
+<li>アプリ内の幅や位置は、この値をかけて算出する</li>
 </ul>
 </li>
 </ul>
@@ -483,28 +481,25 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   </div>
   <div class="slide hidden" id="slide-12">
     <section class="slide-content"><h3 id="-">タイムライン: 選択する部分</h3>
-<blockquote>
-<p><a href="https://github.com/leader22/movie-slicer/blob/master/src/renderer/component/selector/main.jsx">https://github.com/leader22/movie-slicer/blob/master/src/renderer/component/selector/main.jsx</a></p>
-</blockquote>
 <ul>
 <li>範囲選択がしやすい<ul>
 <li>ドラッグで移動可能</li>
 <li>フチを掴んでリサイズ可能</li>
-<li><code>bokuweb/react-rnd</code>最高<ul>
-<li>ただしイベントを<code>stopPropagation()</code>させてくれない</li>
+<li>半分くらい<code>bokuweb/react-rnd</code>のおかげ<ul>
+<li>ただしイベントを<code>stopPropagation()</code>させてくれなくてfolkしかけた</li>
 </ul>
 </li>
 </ul>
 </li>
-<li>選択範囲を繰り返し再生するので、出来上がりを想像しやすい</li>
+<li>その選択範囲を繰り返し再生<ul>
+<li>出来上がりを想像しやすくて最高</li>
+</ul>
+</li>
 </ul>
 </section>
   </div>
   <div class="slide hidden" id="slide-13">
     <section class="slide-content"><h3 id="-">動画プレーヤー</h3>
-<blockquote>
-<p><a href="https://github.com/leader22/movie-slicer/blob/master/src/renderer/component/video.jsx">https://github.com/leader22/movie-slicer/blob/master/src/renderer/component/video.jsx</a></p>
-</blockquote>
 <ul>
 <li>今まで何回作ってきたことか<ul>
 <li>キーボードから再生・一時停止の切り替え</li>
@@ -517,9 +512,6 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   </div>
   <div class="slide hidden" id="slide-14">
     <section class="slide-content"><h3 id="-">書き出し結果の表示</h3>
-<blockquote>
-<p><a href="https://github.com/leader22/movie-slicer/blob/master/src/renderer/component/progress.jsx">https://github.com/leader22/movie-slicer/blob/master/src/renderer/component/progress.jsx</a></p>
-</blockquote>
 <ul>
 <li>Twitterの動画投稿フォーマットの面倒なところ<ul>
 <li>40FPS以下</li>
@@ -562,31 +554,51 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <li>3時間から数十秒切り出すのも一瞬でできる</li>
 </ul>
 </li>
-<li><code>preset</code>を調整すれば、エンコありでもそれなりで終わる<ul>
+<li>ただし<code>preset</code>を調整すれば、エンコありでもそれなりで終わる<ul>
 <li>現状<code>ultrafast</code>が最も速度重視だが、もっと攻めてほしい</li>
 </ul>
 </li>
 </ul>
+<p>こういう親和性の面でみると、VP8/9よりも良いよね・・。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-18">
     <section class="slide-content"><h3 id="electron-">Electronでの開発</h3>
 <ul>
-<li>オレオレボイラープレートは滅べ<ul>
+<li>この2つだけで十分<ul>
 <li><code>sindresorhus/electron-reloader</code></li>
 <li><code>webpack</code>(<code>target: electron-renderer</code>)</li>
 </ul>
 </li>
-<li>この2つだけで十分</li>
+<li>環境変数（パス）の問題だけハマった<ul>
+<li><a href="http://lealog.hateblo.jp/entry/2018/03/05/171036">ElectronでMainプロセスからchild_processでコマンドを叩くとエラーコード: 127 - console.lealog();</a></li>
+</ul>
+</li>
+<li>アプリ用アイコンの作成がいちばんつらかった<ul>
+<li>今のダサいのでカッコいいアイコンほしい</li>
+</ul>
+</li>
 </ul>
 </section>
   </div>
   <div class="slide hidden" id="slide-19">
-    <section class="slide-content"><h3 id="-">なんか</h3>
+    <section class="slide-content"><h3 id="webpack-v4">Webpack v4</h3>
+<ul>
+<li>特につまづきポイントなし<ul>
+<li><code>npm i webpack webpack-cli -D</code></li>
+<li><code>webpack --mode development -w</code></li>
+</ul>
+</li>
+<li><code>--mode production</code>だけでMinifyしてくれる<ul>
+<li>この<code>mode</code>のおかげで<code>DefinePlugin({})</code>で<code>NODE_ENV</code>が取れる</li>
+</ul>
+</li>
+</ul>
+<p>どっかの誰かのオレオレボイラープレート使ってる勢は、更新されるまで耐えてください。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-20">
-    <section class="slide-content"><h1 id="-">付録</h1>
+    <section class="slide-content"><h1 id="-">おまけ</h1>
 </section>
   </div>
   <div class="slide hidden" id="slide-21">
@@ -594,17 +606,17 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <ul>
 <li>合宿前<ul>
 <li>各種検証<ul>
-<li>そもそも巨大な動画をロードできるかとか</li>
+<li>そもそも巨大な動画を<code>video</code>でロードできるかとか</li>
 <li>Electronから<code>ffmpeg</code>どう呼ぶか</li>
 <li><code>ffmpeg</code>の引数・処理速度の確認</li>
 </ul>
 </li>
-<li>仕様Fix</li>
+<li>アプリのUI、仕様のFix</li>
 </ul>
 </li>
 <li>1日目: 見た目以外と本筋の機能は完成<ul>
 <li>基本的な書き出し機能</li>
-<li>タイムラインの使い勝手向上</li>
+<li>タイムライン</li>
 </ul>
 </li>
 <li>2日目: ひたすら完成度を高める<ul>

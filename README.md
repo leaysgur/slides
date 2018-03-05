@@ -2,6 +2,7 @@
 
 |タイトル|発表日|イベント名|枠|
 |:-------|:----:|:---------|:-:|
+|[動画切り出しアプリをElectronで作った](https://leader22.github.io/slides/pxg_camp-2018a/)|20180306|PixelGrid Inc. 開発合宿 in 湯河原|10min|
 |[MediaStream to HttpLiveStreaming](https://leader22.github.io/slides/pxg_camp-2017b/)|20171017|PixelGrid Inc. 開発合宿 in 柏たなか|10min|
 |[SkyWay JS SDKの歩き方](https://leader22.github.io/slides/skyway_dev_meetup-1//)|20170929|SkyWay Developer Meetup #1|5min|
 |[俺たちは雰囲気でgetUserMedia()をやっている](https://leader22.github.io/slides/webrtc_meetup-16/)|20170825|WebRTC Meetup Tokyo #16|15min|
