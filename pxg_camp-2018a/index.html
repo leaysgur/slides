@@ -377,10 +377,11 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
     <section class="slide-content"><h3 id="-a-a-">全部<a>イカ</a>のせい</h3>
 <ul>
 <li>普段のプレイ動画はYouTubeにUPしてる<ul>
-<li>けどUPしてない箇所も結構ある</li>
+<li>けど、全てのシーンをUPしてるわけではない</li>
 </ul>
 </li>
-<li>UPしてない箇所から数十秒を切り出してTwitterにUPしたいと思うことはあるが、編集が面倒くさい<ul>
+<li>UPしてない箇所から数十秒を切り出して、TwitterにUPしたいと思うことがある<ul>
+<li>が、編集が面倒くさい</li>
 <li>YouTubeにUPする用の動画を作るアプリ（録画アプリ付属）だと、元動画の開き直しが面倒くさい</li>
 </ul>
 </li>
@@ -394,6 +395,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <ul>
 <li>Twitterの動画投稿フォーマットに沿ってない<ul>
 <li><a href="https://help.twitter.com/ja/using-twitter/twitter-videos">https://help.twitter.com/ja/using-twitter/twitter-videos</a></li>
+<li>これが割と微妙なラインを攻めてくる</li>
 </ul>
 </li>
 <li>余計な機能たくさんついてる</li>
@@ -412,16 +414,16 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <ul>
 <li>巨大な動画（2時間で30GBとか）もあるので、GUIじゃないと辛い</li>
 <li><code>Preview.app</code>でひらいて、切り取り秒数をメモって<code>ffmpeg</code>で・・<ul>
-<li>いやなにこれ面倒くさい</li>
-<li>それができるアプリください</li>
+<li>いやなにそれ面倒くさい</li>
+<li>てかそれができるアプリください！</li>
 </ul>
 </li>
 </ul>
-<p>これはもう自作するしかない・・！</p>
+<p>もう自作するしかない・・！</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-6">
-    <section class="slide-content"><h1 id="-">というわけで、作りました</h1>
+    <section class="slide-content"><h1 id="-">というわけで、できました</h1>
 <h2 id="https-github-com-leader22-movie-slicer"><a href="https://github.com/leader22/movie-slicer">https://github.com/leader22/movie-slicer</a></h2>
 </section>
   </div>
@@ -434,11 +436,11 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <ul>
 <li>動画をトリミングして書き出せるElectronアプリ<ul>
 <li>裏で動くのは毎度おなじみ<code>ffmpeg</code></li>
-<li><code>ffmpeg</code>に渡す引数をGUIで編集できる</li>
+<li>つまり、<code>ffmpeg</code>に渡す引数をGUIで操作できるアプリ</li>
 </ul>
 </li>
 <li>書き出しフォーマットはTwitterをターゲット<ul>
-<li>ただデフォルトなだけで、変更もできる</li>
+<li>ただデフォルトなだけで、変更もできるようにした</li>
 </ul>
 </li>
 </ul>
@@ -455,7 +457,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <li>ざっくり切り取り位置を探すのに最高</li>
 </ul>
 </li>
-<li>そのぶん実装はダルい<ul>
+<li>そのぶん実装は大変だった<ul>
 <li>動画長と画面サイズから、1サムネイルあたりの秒数を割り出す</li>
 <li>その秒数で、サムネイルが何枚必要かを割り出す</li>
 <li>この2つの積を、<code>video.currentTime</code>に指定してく</li>
@@ -472,7 +474,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <li>5分の動画から3時間の動画までいい感じに</li>
 </ul>
 </li>
-<li>「1秒を何pxとして扱うか」を、倍率とあわせて管理する<ul>
+<li>実装は、「1秒を何pxとして扱うか」を倍率とあわせて管理<ul>
 <li>アプリ内の幅や位置は、この値をかけて算出する</li>
 </ul>
 </li>
@@ -513,30 +515,29 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   <div class="slide hidden" id="slide-14">
     <section class="slide-content"><h3 id="-">書き出し結果の表示</h3>
 <ul>
+<li>書き出し後に、どういうフォーマットになったかを表示するようにした</li>
 <li>Twitterの動画投稿フォーマットの面倒なところ<ul>
 <li>40FPS以下</li>
 <li>2分20秒以内</li>
 <li>etc...</li>
 </ul>
 </li>
-<li>書き出し後に、どういうフォーマットになったかを表示するようにした</li>
+<li>アップロードしてからエラーにされないために・・</li>
 </ul>
 </section>
   </div>
   <div class="slide hidden" id="slide-15">
     <section class="slide-content"><h3 id="-ux">それっぽいデザインとそれっぽいUX</h3>
 <ul>
-<li>黒を基調とした高級感のある（ｒｙ<ul>
-<li>温かみのある手書きCSS</li>
-</ul>
-</li>
-<li>アイコンは、Material Icons<ul>
+<li>温かみのある手書きCSSによるそれっぽいデザイン</li>
+<li>アイコンは、<a href="material.io/icons/">Material Icons</a>より<ul>
 <li>必要なものだけSVGでローカルに</li>
 </ul>
 </li>
 <li>アプリ感のあるUX<ul>
 <li>動画をドロップして編集</li>
 <li>切り出し後は<code>Finder</code>で表示</li>
+<li>メニュー・キーボードショートカット完備</li>
 </ul>
 </li>
 </ul>
@@ -590,18 +591,35 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </ul>
 </li>
 <li><code>--mode production</code>だけでMinifyしてくれる<ul>
-<li>この<code>mode</code>のおかげで<code>DefinePlugin({})</code>で<code>NODE_ENV</code>が取れる</li>
+<li>この<code>mode</code>のおかげで<code>DefinePlugin({})</code>で<code>NODE_ENV</code>が取れる<ul>
+<li>謎<code>JSON.stringify()</code>が不要に</li>
 </ul>
 </li>
 </ul>
-<p>どっかの誰かのオレオレボイラープレート使ってる勢は、更新されるまで耐えてください。</p>
+</li>
+</ul>
+<p>どっかの誰かのオレオレボイラープレートを使ってる勢は、更新されるまで耐えてください。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-20">
-    <section class="slide-content"><h1 id="-">おまけ</h1>
+    <section class="slide-content"><h3 id="web-mediarecorder-">Web技術、もといMediaRecorderのことは</h3>
+<ul>
+<li>忘れてください<ul>
+<li>詳細は<a href="https://leader22.github.io/slides/pxg_camp-2017b/#15">前回</a>の合宿発表を参照</li>
+</ul>
+</li>
+<li>ただスナップショットの取得を<code>canvas.toBlob()</code>でやるのは十分に実用的<ul>
+<li>まあ<code>ffmpeg</code>が使える状況なのでそっち使ったけど・・</li>
+</ul>
+</li>
+</ul>
 </section>
   </div>
   <div class="slide hidden" id="slide-21">
+    <section class="slide-content"><h1 id="-">おまけ</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-22">
     <section class="slide-content"><h3 id="-">今回の作業の内訳</h3>
 <ul>
 <li>合宿前<ul>
@@ -615,27 +633,28 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </ul>
 </li>
 <li>1日目: 見た目以外と本筋の機能は完成<ul>
-<li>基本的な書き出し機能</li>
-<li>タイムライン</li>
+<li>基本的な機能と書き出しまでの導線</li>
+<li>タイムラインの細かい機能</li>
 </ul>
 </li>
 <li>2日目: ひたすら完成度を高める<ul>
-<li>スタイル・アイコン反映</li>
+<li>見た目の調整</li>
 <li>書き出し設定</li>
-<li>アプリ化</li>
+<li>メニュー・ショートカット</li>
+<li>アプリのパッケージ化</li>
 <li>バグ修正</li>
 <li>プレゼン資料ざっくり</li>
 </ul>
 </li>
 <li>3日目: のんびり暮らす<ul>
-<li>簡単な機能追加・調整</li>
+<li>見た目や使い勝手の調整</li>
 <li>プレゼン資料の微調整</li>
 </ul>
 </li>
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-22">
+  <div class="slide hidden" id="slide-23">
     <section class="slide-content"><h1 id="thank-you-">Thank you!</h1>
 <p><style>
 :root {
