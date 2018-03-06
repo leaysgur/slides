@@ -380,13 +380,13 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <li>けど、全てのシーンをUPしてるわけではない</li>
 </ul>
 </li>
-<li>UPしてない箇所から数十秒を切り出して、TwitterにUPしたいと思うことがある<ul>
+<li>UPしてない箇所から数秒だけを切り出して、TwitterにUPしたいと思うことがある<ul>
 <li>が、編集が面倒くさい</li>
 <li>YouTubeにUPする用の動画を作るアプリ（録画アプリ付属）だと、元動画の開き直しが面倒くさい</li>
 </ul>
 </li>
 </ul>
-<p>なんとかしたい！</p>
+<p>これをなんとかしたい！</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-4">
@@ -403,9 +403,9 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <li>そして調整できない</li>
 </ul>
 </li>
-<li>謎のバナー付けられる</li>
+<li>謎のバナーが付いたり</li>
 </ul>
-<p>微妙。</p>
+<p>惜しい。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-5">
@@ -434,24 +434,61 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   <div class="slide hidden" id="slide-8">
     <section class="slide-content"><h3 id="-">作ったもの</h3>
 <ul>
+<li><a href="https://github.com/leader22/movie-slicer">https://github.com/leader22/movie-slicer</a></li>
 <li>動画をトリミングして書き出せるElectronアプリ<ul>
 <li>裏で動くのは毎度おなじみ<code>ffmpeg</code></li>
 <li>つまり、<code>ffmpeg</code>に渡す引数をGUIで操作できるアプリ</li>
-</ul>
-</li>
-<li>書き出しフォーマットはTwitterをターゲット<ul>
-<li>ただデフォルトなだけで、変更もできるようにした</li>
 </ul>
 </li>
 </ul>
 </section>
   </div>
   <div class="slide hidden" id="slide-9">
-    <section class="slide-content"><h1 id="-">推しポイントの紹介</h1>
+    <section class="slide-content"><h3 id="-">使ったもの（抜粋）</h3>
+<ul>
+<li>Electron v1.8.2</li>
+<li>React v16.2</li>
+<li>MobX v3.6</li>
+<li>ffmpeg / ffprobe v3.4.1</li>
+<li>Webpack v4.1</li>
+</ul>
+<p>See <a href="https://github.com/leader22/movie-slicer/blob/master/package.json">https://github.com/leader22/movie-slicer/blob/master/package.json</a></p>
 </section>
   </div>
   <div class="slide hidden" id="slide-10">
+    <section class="slide-content"><h3 id="-">使おうとしてやめたもの（一部）</h3>
+<ul>
+<li>生ES Modules<ul>
+<li>Electronのエントリーが<code>file://</code>なのでダメ</li>
+<li>React使いたいのでダメ</li>
+<li>Webpack最高</li>
+</ul>
+</li>
+<li>WebComponents<ul>
+<li>言いたいこと山ほどある</li>
+<li>これだけでアプリ作るの一生無理やと思う</li>
+</ul>
+</li>
+<li>Redux<ul>
+<li>規模的にも無用の長物</li>
+<li>便利に使うにはMiddlewareまみれにならないと無理</li>
+</ul>
+</li>
+<li>MobX v4<ul>
+<li>さっきBetaがリリースされたところ</li>
+<li>Webpackで読むとエラーになった＼(^o^)／</li>
+</ul>
+</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-11">
+    <section class="slide-content"><h1 id="-">推しポイントの紹介</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-12">
     <section class="slide-content"><h3 id="-">タイムライン: サムネイル</h3>
+<p><img src="./img/timeline.png" alt=""></p>
 <ul>
 <li>動画の様子が見やすい<ul>
 <li>ざっくり切り取り位置を探すのに最高</li>
@@ -467,9 +504,11 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-11">
+  <div class="slide hidden" id="slide-13">
     <section class="slide-content"><h3 id="-">タイムライン: 拡大と縮小</h3>
+<p><img src="./img/timeline.png" alt=""></p>
 <ul>
+<li>右上のボタン2つ</li>
 <li>短い動画・長い動画、どちらがきても編集しやすいように<ul>
 <li>5分の動画から3時間の動画までいい感じに</li>
 </ul>
@@ -481,11 +520,13 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-12">
+  <div class="slide hidden" id="slide-14">
     <section class="slide-content"><h3 id="-">タイムライン: 選択する部分</h3>
+<p><img src="./img/timeline.png" alt=""></p>
 <ul>
-<li>範囲選択がしやすい<ul>
-<li>ドラッグで移動可能</li>
+<li>中央の薄白い部分</li>
+<li>範囲選択がしやすいように<ul>
+<li>ドラッグでいい感じに移動可能</li>
 <li>フチを掴んでリサイズ可能</li>
 <li>半分くらい<code>bokuweb/react-rnd</code>のおかげ<ul>
 <li>ただしイベントを<code>stopPropagation()</code>させてくれなくてfolkしかけた</li>
@@ -500,20 +541,9 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-13">
-    <section class="slide-content"><h3 id="-">動画プレーヤー</h3>
-<ul>
-<li>今まで何回作ってきたことか<ul>
-<li>キーボードから再生・一時停止の切り替え</li>
-<li>Mute/Unmuteの切り替え</li>
-<li>コンポーネント外に現在の再生秒数を出す</li>
-</ul>
-</li>
-</ul>
-</section>
-  </div>
-  <div class="slide hidden" id="slide-14">
+  <div class="slide hidden" id="slide-15">
     <section class="slide-content"><h3 id="-">書き出し結果の表示</h3>
+<p><img src="./img/progress.png" alt=""></p>
 <ul>
 <li>書き出し後に、どういうフォーマットになったかを表示するようにした</li>
 <li>Twitterの動画投稿フォーマットの面倒なところ<ul>
@@ -526,7 +556,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-15">
+  <div class="slide hidden" id="slide-16">
     <section class="slide-content"><h3 id="-ux">それっぽいデザインとそれっぽいUX</h3>
 <ul>
 <li>温かみのある手書きCSSによるそれっぽいデザイン</li>
@@ -535,19 +565,20 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </ul>
 </li>
 <li>アプリ感のあるUX<ul>
-<li>動画をドロップして編集</li>
+<li>動画をドロップして起動</li>
 <li>切り出し後は<code>Finder</code>で表示</li>
 <li>メニュー・キーボードショートカット完備</li>
 </ul>
 </li>
 </ul>
-</section>
-  </div>
-  <div class="slide hidden" id="slide-16">
-    <section class="slide-content"><h1 id="-">学び</h1>
+<p>我ながらよく頑張った。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-17">
+    <section class="slide-content"><h1 id="-">学び</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-18">
     <section class="slide-content"><h3 id="-h-264-ffmpeg-"><code>H.264</code>を<code>ffmpeg</code>で扱う</h3>
 <ul>
 <li>WebRTC界隈でもよく見るコーデック</li>
@@ -563,7 +594,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <p>こういう親和性の面でみると、VP8/9よりも良いよね・・。</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-18">
+  <div class="slide hidden" id="slide-19">
     <section class="slide-content"><h3 id="electron-">Electronでの開発</h3>
 <ul>
 <li>この2つだけで十分<ul>
@@ -571,28 +602,26 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <li><code>webpack</code>(<code>target: electron-renderer</code>)</li>
 </ul>
 </li>
-<li>環境変数（パス）の問題だけハマった<ul>
+<li>ビルドは<code>electron-userland/electron-packager</code>で楽々</li>
+<li>ハマったのは環境変数（パス）の問題だけ<ul>
 <li><a href="http://lealog.hateblo.jp/entry/2018/03/05/171036">ElectronでMainプロセスからchild_processでコマンドを叩くとエラーコード: 127 - console.lealog();</a></li>
 </ul>
 </li>
-<li>アプリ用アイコンの作成がいちばんつらかった<ul>
-<li>今のダサいのでカッコいいアイコンほしい</li>
 </ul>
-</li>
-</ul>
+<p>アプリ用アイコンの作成がいちばんつらかった（カッコいいアイコンほしい・・）</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-19">
+  <div class="slide hidden" id="slide-20">
     <section class="slide-content"><h3 id="webpack-v4">Webpack v4</h3>
 <ul>
-<li>特につまづきポイントなし<ul>
+<li>手書きconfigなライトユーザーなので、特につまづきポイントなし<ul>
 <li><code>npm i webpack webpack-cli -D</code></li>
 <li><code>webpack --mode development -w</code></li>
 </ul>
 </li>
 <li><code>--mode production</code>だけでMinifyしてくれる<ul>
-<li>この<code>mode</code>のおかげで<code>DefinePlugin({})</code>で<code>NODE_ENV</code>が取れる<ul>
-<li>謎<code>JSON.stringify()</code>が不要に</li>
+<li>この<code>mode</code>のおかげで<code>DefinePlugin({})</code>だけで<code>NODE_ENV</code>が取れる<ul>
+<li>謎<code>JSON.stringify()</code>が不要に！</li>
 </ul>
 </li>
 </ul>
@@ -601,7 +630,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <p>どっかの誰かのオレオレボイラープレートを使ってる勢は、更新されるまで耐えてください。</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-20">
+  <div class="slide hidden" id="slide-21">
     <section class="slide-content"><h3 id="web-mediarecorder-">Web技術、もといMediaRecorderのことは</h3>
 <ul>
 <li>忘れてください<ul>
@@ -615,11 +644,11 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-21">
+  <div class="slide hidden" id="slide-22">
     <section class="slide-content"><h1 id="-">おまけ</h1>
 </section>
   </div>
-  <div class="slide hidden" id="slide-22">
+  <div class="slide hidden" id="slide-23">
     <section class="slide-content"><h3 id="-">今回の作業の内訳</h3>
 <ul>
 <li>合宿前<ul>
@@ -654,7 +683,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-23">
+  <div class="slide hidden" id="slide-24">
     <section class="slide-content"><h1 id="thank-you-">Thank you!</h1>
 <p><style>
 :root {
