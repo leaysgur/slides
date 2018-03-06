@@ -52,20 +52,20 @@ controls: false
 
 --
 
-# というわけで、できました
+# できました 👍
 ## https://github.com/leader22/movie-slicer
 
 --
 
-# DEMO
-
---
-
 ### 作ったもの
-- https://github.com/leader22/movie-slicer
+
+![](./img/icon.png)
+
 - 動画をトリミングして書き出せるElectronアプリ
   - 裏で動くのは毎度おなじみ`ffmpeg`
   - つまり、`ffmpeg`に渡す引数をGUIで操作できるアプリ
+- 動画だけでなく静止画も書き出せる
+- 書き出し設定も一部変更可能
 
 --
 
@@ -88,12 +88,13 @@ See https://github.com/leader22/movie-slicer/blob/master/package.json
 - WebComponents
   - 言いたいこと山ほどある
   - これだけでアプリ作るの一生無理やと思う
-- Redux
-  - 規模的にも無用の長物
+- Redux（w/ immer）
+  - 今後もReactやるならやっとくかーと思った
+  - が、規模的にも無用の長物
   - 便利に使うにはMiddlewareまみれにならないと無理
 - MobX v4
-  - さっきBetaがリリースされたところ
-  - Webpackで読むとエラーになった＼(^o^)／
+  - ついさっきBeta-1がリリースされたところ
+  - `mobx-react`がまだ未対応っぽくて断念
 
 --
 
@@ -113,6 +114,8 @@ See https://github.com/leader22/movie-slicer/blob/master/package.json
   - この2つの積を、`video.currentTime`に指定してく
   - `canplay`イベントを待って、非同期で`video`を`canvas`に転写して表示
 
+See https://github.com/leader22/movie-slicer/blob/master/src/renderer/component/selector/thumb.jsx
+
 --
 
 ### タイムライン: 拡大と縮小
@@ -122,8 +125,9 @@ See https://github.com/leader22/movie-slicer/blob/master/package.json
 - 右上のボタン2つ
 - 短い動画・長い動画、どちらがきても編集しやすいように
   - 5分の動画から3時間の動画までいい感じに
-- 実装は、「1秒を何pxとして扱うか」を倍率とあわせて管理
+- 実装的には、「1秒を何pxとして扱うか」を倍率とあわせて管理
   - アプリ内の幅や位置は、この値をかけて算出する
+  - `computed`最高
 
 --
 
@@ -131,7 +135,7 @@ See https://github.com/leader22/movie-slicer/blob/master/package.json
 
 ![](./img/timeline.png)
 
-- 中央の薄白い部分
+- 中央の薄白い部分がそれ
 - 範囲選択がしやすいように
   - ドラッグでいい感じに移動可能
   - フチを掴んでリサイズ可能
@@ -158,12 +162,13 @@ See https://github.com/leader22/movie-slicer/blob/master/package.json
 ### それっぽいデザインとそれっぽいUX
 
 - 温かみのある手書きCSSによるそれっぽいデザイン
-- アイコンは、[Material Icons](material.io/icons/)より
-  - 必要なものだけSVGでローカルに
+  - アイコンは、[Material Icons](material.io/icons/)より
+    - 必要なものだけSVGでローカルに
 - アプリ感のあるUX
   - 動画をドロップして起動
-  - 切り出し後は`Finder`で表示
-  - メニュー・キーボードショートカット完備
+  - 切り出し後は`Finder`に表示
+  - ディレクトリ選択も`Finder`から
+  - アプリメニュー、キーボードショートカットも完備
 
 我ながらよく頑張った。
 
@@ -175,17 +180,18 @@ See https://github.com/leader22/movie-slicer/blob/master/package.json
 
 ### `H.264`を`ffmpeg`で扱う
 - WebRTC界隈でもよく見るコーデック
+  - というかもはやDe Facto...
 - 再エンコなしの切り出しは高速
   - 3時間から数十秒切り出すのも一瞬でできる
-- ただし`preset`を調整すれば、エンコありでもそれなりで終わる
-  - 現状`ultrafast`が最も速度重視だが、もっと攻めてほしい
+- `preset`を調整すれば、再エンコありでもそれなりで終わる
+  - 現状`ultrafast`が最も速度重視だが、もっと攻めてほしい気持ちある
 
-こういう親和性の面でみると、VP8/9よりも良いよね・・。
+こういう親和性の面でみると、`VP8/9`よりも`H.264`が良いよね・・。
 
 --
 
 ### Electronでの開発
-- この2つだけで十分
+- この2つだけで十分だった
   - `sindresorhus/electron-reloader`
   - `webpack`(`target: electron-renderer`)
 - ビルドは`electron-userland/electron-packager`で楽々
@@ -196,7 +202,7 @@ See https://github.com/leader22/movie-slicer/blob/master/package.json
 
 --
 
-### Webpack v4
+### Webpack v4のすすめ
 - 手書きconfigなライトユーザーなので、特につまづきポイントなし
   - `npm i webpack webpack-cli -D`
   - `webpack --mode development -w`
@@ -208,9 +214,9 @@ See https://github.com/leader22/movie-slicer/blob/master/package.json
 
 --
 
-### Web技術、もといMediaRecorderのことは
+### Web技術だけでできないの？
 
-- 忘れてください
+- MediaRecorderのことは忘れてください
   - 詳細は[前回](https://leader22.github.io/slides/pxg_camp-2017b/#15)の合宿発表を参照
 - ただスナップショットの取得を`canvas.toBlob()`でやるのは十分に実用的
   - まあ`ffmpeg`が使える状況なのでそっち使ったけど・・
@@ -221,13 +227,14 @@ See https://github.com/leader22/movie-slicer/blob/master/package.json
 
 --
 
-### 今回の作業の内訳
+### 作業の段取り
 
 - 合宿前
   - 各種検証
     - そもそも巨大な動画を`video`でロードできるかとか
     - Electronから`ffmpeg`どう呼ぶか
     - `ffmpeg`の引数・処理速度の確認
+    - WebComponentsの用途
   - アプリのUI、仕様のFix
 - 1日目: 見た目以外と本筋の機能は完成
   - 基本的な機能と書き出しまでの導線
@@ -242,6 +249,18 @@ See https://github.com/leader22/movie-slicer/blob/master/package.json
 - 3日目: のんびり暮らす
   - 見た目や使い勝手の調整
   - プレゼン資料の微調整
+
+--
+
+### 合宿の記録
+
+- コード
+  - 120コミット
+  - 12 + 245 + 1416 = 1673行
+    - HTML + CSS + JavaScript
+- 生活
+  - 約8時間睡眠😪
+  - 約3おかわり🍚
 
 --
 

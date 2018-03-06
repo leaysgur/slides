@@ -423,27 +423,25 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </section>
   </div>
   <div class="slide hidden" id="slide-6">
-    <section class="slide-content"><h1 id="-">というわけで、できました</h1>
+    <section class="slide-content"><h1 id="-">できました 👍</h1>
 <h2 id="https-github-com-leader22-movie-slicer"><a href="https://github.com/leader22/movie-slicer">https://github.com/leader22/movie-slicer</a></h2>
 </section>
   </div>
   <div class="slide hidden" id="slide-7">
-    <section class="slide-content"><h1 id="demo">DEMO</h1>
-</section>
-  </div>
-  <div class="slide hidden" id="slide-8">
     <section class="slide-content"><h3 id="-">作ったもの</h3>
+<p><img src="./img/icon.png" alt=""></p>
 <ul>
-<li><a href="https://github.com/leader22/movie-slicer">https://github.com/leader22/movie-slicer</a></li>
 <li>動画をトリミングして書き出せるElectronアプリ<ul>
 <li>裏で動くのは毎度おなじみ<code>ffmpeg</code></li>
 <li>つまり、<code>ffmpeg</code>に渡す引数をGUIで操作できるアプリ</li>
 </ul>
 </li>
+<li>動画だけでなく静止画も書き出せる</li>
+<li>書き出し設定も一部変更可能</li>
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-9">
+  <div class="slide hidden" id="slide-8">
     <section class="slide-content"><h3 id="-">使ったもの（抜粋）</h3>
 <ul>
 <li>Electron v1.8.2</li>
@@ -455,7 +453,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <p>See <a href="https://github.com/leader22/movie-slicer/blob/master/package.json">https://github.com/leader22/movie-slicer/blob/master/package.json</a></p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-10">
+  <div class="slide hidden" id="slide-9">
     <section class="slide-content"><h3 id="-">使おうとしてやめたもの（一部）</h3>
 <ul>
 <li>生ES Modules<ul>
@@ -469,24 +467,25 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <li>これだけでアプリ作るの一生無理やと思う</li>
 </ul>
 </li>
-<li>Redux<ul>
-<li>規模的にも無用の長物</li>
+<li>Redux（w/ immer）<ul>
+<li>今後もReactやるならやっとくかーと思った</li>
+<li>が、規模的にも無用の長物</li>
 <li>便利に使うにはMiddlewareまみれにならないと無理</li>
 </ul>
 </li>
 <li>MobX v4<ul>
-<li>さっきBetaがリリースされたところ</li>
-<li>Webpackで読むとエラーになった＼(^o^)／</li>
+<li>ついさっきBeta-1がリリースされたところ</li>
+<li><code>mobx-react</code>がまだ未対応っぽくて断念</li>
 </ul>
 </li>
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-11">
+  <div class="slide hidden" id="slide-10">
     <section class="slide-content"><h1 id="-">推しポイントの紹介</h1>
 </section>
   </div>
-  <div class="slide hidden" id="slide-12">
+  <div class="slide hidden" id="slide-11">
     <section class="slide-content"><h3 id="-">タイムライン: サムネイル</h3>
 <p><img src="./img/timeline.png" alt=""></p>
 <ul>
@@ -502,9 +501,10 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </ul>
 </li>
 </ul>
+<p>See <a href="https://github.com/leader22/movie-slicer/blob/master/src/renderer/component/selector/thumb.jsx">https://github.com/leader22/movie-slicer/blob/master/src/renderer/component/selector/thumb.jsx</a></p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-13">
+  <div class="slide hidden" id="slide-12">
     <section class="slide-content"><h3 id="-">タイムライン: 拡大と縮小</h3>
 <p><img src="./img/timeline.png" alt=""></p>
 <ul>
@@ -513,18 +513,19 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <li>5分の動画から3時間の動画までいい感じに</li>
 </ul>
 </li>
-<li>実装は、「1秒を何pxとして扱うか」を倍率とあわせて管理<ul>
+<li>実装的には、「1秒を何pxとして扱うか」を倍率とあわせて管理<ul>
 <li>アプリ内の幅や位置は、この値をかけて算出する</li>
+<li><code>computed</code>最高</li>
 </ul>
 </li>
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-14">
+  <div class="slide hidden" id="slide-13">
     <section class="slide-content"><h3 id="-">タイムライン: 選択する部分</h3>
 <p><img src="./img/timeline.png" alt=""></p>
 <ul>
-<li>中央の薄白い部分</li>
+<li>中央の薄白い部分がそれ</li>
 <li>範囲選択がしやすいように<ul>
 <li>ドラッグでいい感じに移動可能</li>
 <li>フチを掴んでリサイズ可能</li>
@@ -541,7 +542,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-15">
+  <div class="slide hidden" id="slide-14">
     <section class="slide-content"><h3 id="-">書き出し結果の表示</h3>
 <p><img src="./img/progress.png" alt=""></p>
 <ul>
@@ -556,48 +557,54 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-16">
+  <div class="slide hidden" id="slide-15">
     <section class="slide-content"><h3 id="-ux">それっぽいデザインとそれっぽいUX</h3>
 <ul>
-<li>温かみのある手書きCSSによるそれっぽいデザイン</li>
+<li>温かみのある手書きCSSによるそれっぽいデザイン<ul>
 <li>アイコンは、<a href="material.io/icons/">Material Icons</a>より<ul>
 <li>必要なものだけSVGでローカルに</li>
 </ul>
 </li>
+</ul>
+</li>
 <li>アプリ感のあるUX<ul>
 <li>動画をドロップして起動</li>
-<li>切り出し後は<code>Finder</code>で表示</li>
-<li>メニュー・キーボードショートカット完備</li>
+<li>切り出し後は<code>Finder</code>に表示</li>
+<li>ディレクトリ選択も<code>Finder</code>から</li>
+<li>アプリメニュー、キーボードショートカットも完備</li>
 </ul>
 </li>
 </ul>
 <p>我ながらよく頑張った。</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-17">
+  <div class="slide hidden" id="slide-16">
     <section class="slide-content"><h1 id="-">学び</h1>
 </section>
   </div>
-  <div class="slide hidden" id="slide-18">
+  <div class="slide hidden" id="slide-17">
     <section class="slide-content"><h3 id="-h-264-ffmpeg-"><code>H.264</code>を<code>ffmpeg</code>で扱う</h3>
 <ul>
-<li>WebRTC界隈でもよく見るコーデック</li>
+<li>WebRTC界隈でもよく見るコーデック<ul>
+<li>というかもはやDe Facto...</li>
+</ul>
+</li>
 <li>再エンコなしの切り出しは高速<ul>
 <li>3時間から数十秒切り出すのも一瞬でできる</li>
 </ul>
 </li>
-<li>ただし<code>preset</code>を調整すれば、エンコありでもそれなりで終わる<ul>
-<li>現状<code>ultrafast</code>が最も速度重視だが、もっと攻めてほしい</li>
+<li><code>preset</code>を調整すれば、再エンコありでもそれなりで終わる<ul>
+<li>現状<code>ultrafast</code>が最も速度重視だが、もっと攻めてほしい気持ちある</li>
 </ul>
 </li>
 </ul>
-<p>こういう親和性の面でみると、VP8/9よりも良いよね・・。</p>
+<p>こういう親和性の面でみると、<code>VP8/9</code>よりも<code>H.264</code>が良いよね・・。</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-19">
+  <div class="slide hidden" id="slide-18">
     <section class="slide-content"><h3 id="electron-">Electronでの開発</h3>
 <ul>
-<li>この2つだけで十分<ul>
+<li>この2つだけで十分だった<ul>
 <li><code>sindresorhus/electron-reloader</code></li>
 <li><code>webpack</code>(<code>target: electron-renderer</code>)</li>
 </ul>
@@ -611,8 +618,8 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <p>アプリ用アイコンの作成がいちばんつらかった（カッコいいアイコンほしい・・）</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-20">
-    <section class="slide-content"><h3 id="webpack-v4">Webpack v4</h3>
+  <div class="slide hidden" id="slide-19">
+    <section class="slide-content"><h3 id="webpack-v4-">Webpack v4のすすめ</h3>
 <ul>
 <li>手書きconfigなライトユーザーなので、特につまづきポイントなし<ul>
 <li><code>npm i webpack webpack-cli -D</code></li>
@@ -630,10 +637,10 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <p>どっかの誰かのオレオレボイラープレートを使ってる勢は、更新されるまで耐えてください。</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-21">
-    <section class="slide-content"><h3 id="web-mediarecorder-">Web技術、もといMediaRecorderのことは</h3>
+  <div class="slide hidden" id="slide-20">
+    <section class="slide-content"><h3 id="web-">Web技術だけでできないの？</h3>
 <ul>
-<li>忘れてください<ul>
+<li>MediaRecorderのことは忘れてください<ul>
 <li>詳細は<a href="https://leader22.github.io/slides/pxg_camp-2017b/#15">前回</a>の合宿発表を参照</li>
 </ul>
 </li>
@@ -644,18 +651,19 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-22">
+  <div class="slide hidden" id="slide-21">
     <section class="slide-content"><h1 id="-">おまけ</h1>
 </section>
   </div>
-  <div class="slide hidden" id="slide-23">
-    <section class="slide-content"><h3 id="-">今回の作業の内訳</h3>
+  <div class="slide hidden" id="slide-22">
+    <section class="slide-content"><h3 id="-">作業の段取り</h3>
 <ul>
 <li>合宿前<ul>
 <li>各種検証<ul>
 <li>そもそも巨大な動画を<code>video</code>でロードできるかとか</li>
 <li>Electronから<code>ffmpeg</code>どう呼ぶか</li>
 <li><code>ffmpeg</code>の引数・処理速度の確認</li>
+<li>WebComponentsの用途</li>
 </ul>
 </li>
 <li>アプリのUI、仕様のFix</li>
@@ -678,6 +686,25 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <li>3日目: のんびり暮らす<ul>
 <li>見た目や使い勝手の調整</li>
 <li>プレゼン資料の微調整</li>
+</ul>
+</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-23">
+    <section class="slide-content"><h3 id="-">合宿の記録</h3>
+<ul>
+<li>コード<ul>
+<li>120コミット</li>
+<li>12 + 245 + 1416 = 1673行<ul>
+<li>HTML + CSS + JavaScript</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>生活<ul>
+<li>約8時間睡眠😪</li>
+<li>約3おかわり🍚</li>
 </ul>
 </li>
 </ul>
