@@ -139,6 +139,7 @@ pre {
   position: fixed;
   top: 0; left: 0; right: 0;
   height: 3px;
+  z-index: 1;
 }
 
 .progress-bar {
@@ -534,8 +535,8 @@ CDNとか、オートスケールとか、そんなのないです。</p>
 postcss -c ./.postcssrc.json
 
 # js
-browserify ./src/script/main.js -t babelify -t uglifyify -o ./dist/script.js</code></pre>
-</section>
+browserify ./src/script/main.js -t babelify -t uglifyify -o ./dist/script.js
+</code></pre></section>
   </div>
   <div class="slide hidden" id="slide-20">
     <section class="slide-content"><h3 id="-flux-">仕組み(Flux)</h3>

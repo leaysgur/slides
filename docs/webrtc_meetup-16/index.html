@@ -366,7 +366,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 
   <div class="slide" id="slide-1">
     <section class="slide-content"><h1 id="-br-a-getusermedia-a-br-">俺たちは雰囲気で<br><a>getUserMedia()</a>を<br>やっている</h1>
-<h2 id="-nbsp-">&nbsp;</h2>
+<h2 id="">&nbsp;</h2>
 <h2 id="2017-08-25-webrtc-meetup-tokyo-16">2017/08/25 WebRTC Meetup Tokyo #16</h2>
 </section>
   </div>
@@ -402,11 +402,13 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </blockquote>
 <pre><code class="lang-swift">partial interface <span class="hljs-type">MediaDevices</span> {
   <span class="hljs-type">Promise</span>&lt;<span class="hljs-type">MediaStream</span>&gt;  getUserMedia(<span class="hljs-keyword">optional</span> <span class="hljs-type">MediaStreamConstraints</span> constraints);
-};</code></pre>
+};
+</code></pre>
 <p>・使い方</p>
 <pre><code class="lang-js">navigator.mediaDevices.getUserMedia(constraints)
-  .then(stream =&gt; {})
-  .catch(err =&gt; {});</code></pre>
+  .then(<span class="hljs-function"><span class="hljs-params">stream</span> =&gt;</span> {})
+  .catch(<span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> {});
+</code></pre>
 <p><code>Promise</code>が返り、resolveされると<code>MediaStream</code>が取得できます。</p>
 </section>
   </div>
@@ -417,16 +419,18 @@ navigator.getUserMedia(constraints, successCallback, errorCallback);
 
 <span class="hljs-comment">// なんか変な接頭辞ついてる</span>
 navigator.mozGetUserMedia(constraints, successCallback, errorCallback);
-navigator.webkitGetUserMedia(constraints, successCallback, errorCallback);</code></pre>
+navigator.webkitGetUserMedia(constraints, successCallback, errorCallback);
+</code></pre>
 <p>2017年になっても謎の圧力によって古いブラウザを切れない人は、がんばってください・・。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-7">
     <section class="slide-content"><h3 id="-">本日の主役</h3>
 <pre><code class="lang-js"><span class="hljs-comment">// コレ</span>
-<span class="hljs-keyword">const</span> constraints = { video: <span class="hljs-literal">true</span> };
+<span class="hljs-keyword">const</span> constraints = { <span class="hljs-attr">video</span>: <span class="hljs-literal">true</span> };
 
-navigator.mediaDevices.getUserMedia(constraints); <span class="hljs-comment">// &lt;- コレ！！</span></code></pre>
+navigator.mediaDevices.getUserMedia(constraints); <span class="hljs-comment">// &lt;- コレ！！</span>
+</code></pre>
 <p><code>getUserMedia()</code>には、どういう<code>MediaStream</code>が欲しいかを決めるオプションを渡すことができます。</p>
 <p>オプションというより、Constraints: 制約を課すイメージ。</p>
 </section>
@@ -439,13 +443,15 @@ navigator.mediaDevices.getUserMedia(constraints); <span class="hljs-comment">// 
 <pre><code class="lang-swift">dictionary <span class="hljs-type">MediaStreamConstraints</span> {
   (boolean or <span class="hljs-type">MediaTrackConstraints</span>) video = <span class="hljs-literal">false</span>;
   (boolean or <span class="hljs-type">MediaTrackConstraints</span>) audio = <span class="hljs-literal">false</span>;
-};</code></pre>
+};
+</code></pre>
 <p><code>audio</code>と<code>video</code>それぞれ、どうしたいか決められる。</p>
 <pre><code class="lang-js"><span class="hljs-comment">// カメラもマイクもくださいな</span>
-navigator.mediaDevices.getUserMedia({ video: <span class="hljs-literal">true</span>, audio: <span class="hljs-literal">true</span> });
+navigator.mediaDevices.getUserMedia({ <span class="hljs-attr">video</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">audio</span>: <span class="hljs-literal">true</span> });
 
 <span class="hljs-comment">// マイクのストリームだけくださいな</span>
-navigator.mediaDevices.getUserMedia({ audio: <span class="hljs-literal">true</span> });</code></pre>
+navigator.mediaDevices.getUserMedia({ <span class="hljs-attr">audio</span>: <span class="hljs-literal">true</span> });
+</code></pre>
 <p><code>false</code>または未定義の場合は、取得しない。</p>
 </section>
   </div>
@@ -454,7 +460,8 @@ navigator.mediaDevices.getUserMedia({ audio: <span class="hljs-literal">true</sp
 <pre><code class="lang-swift">dictionary <span class="hljs-type">MediaStreamConstraints</span> {
   (boolean or <span class="hljs-type">MediaTrackConstraints</span>) video = <span class="hljs-literal">false</span>;
   (boolean or <span class="hljs-type">MediaTrackConstraints</span>) audio = <span class="hljs-literal">false</span>;
-};</code></pre>
+};
+</code></pre>
 <p>実はコレ・・・、<code>bool</code>以外にも指定できます！！</p>
 <p>指定してるとこ、見たことありますよね？その指定の意味、把握してますよね？！</p>
 </section>
@@ -462,91 +469,95 @@ navigator.mediaDevices.getUserMedia({ audio: <span class="hljs-literal">true</sp
   <div class="slide hidden" id="slide-10">
     <section class="slide-content"><h3 id="-1">よく見る例 1</h3>
 <pre><code class="lang-js">{
-  video: {
-    width: <span class="hljs-number">1280</span>,
-    height: <span class="hljs-number">720</span>,
-    frameRate: <span class="hljs-number">15</span>,
+  <span class="hljs-attr">video</span>: {
+    <span class="hljs-attr">width</span>: <span class="hljs-number">1280</span>,
+    <span class="hljs-attr">height</span>: <span class="hljs-number">720</span>,
+    <span class="hljs-attr">frameRate</span>: <span class="hljs-number">15</span>,
   },
-}</code></pre>
+}
+</code></pre>
 <p>これはわかる！</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-11">
     <section class="slide-content"><h3 id="-2">よく見る例 2</h3>
 <pre><code class="lang-js">{
-  video: {
-    width: <span class="hljs-number">1280</span>,
-    height: <span class="hljs-number">720</span>,
-    aspectRatio: <span class="hljs-number">1.5</span>,
+  <span class="hljs-attr">video</span>: {
+    <span class="hljs-attr">width</span>: <span class="hljs-number">1280</span>,
+    <span class="hljs-attr">height</span>: <span class="hljs-number">720</span>,
+    <span class="hljs-attr">aspectRatio</span>: <span class="hljs-number">1.5</span>,
   },
-}</code></pre>
+}
+</code></pre>
 <p>これもわかる・・と思ったけど、この場合のアスペクト比はどうなる・・？</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-12">
     <section class="slide-content"><h3 id="-3">よく見る例 3</h3>
 <pre><code class="lang-js">{
-  video: {
-    width: { min: <span class="hljs-number">320</span>, ideal: <span class="hljs-number">1280</span>, max: <span class="hljs-number">1920</span> },
-    height: { min: <span class="hljs-number">240</span>, ideal: <span class="hljs-number">720</span>, max: <span class="hljs-number">1080</span> },
-    frameRate: <span class="hljs-number">30</span>,
-    facingMode: { exact: <span class="hljs-string">'environment'</span> },
+  <span class="hljs-attr">video</span>: {
+    <span class="hljs-attr">width</span>: { <span class="hljs-attr">min</span>: <span class="hljs-number">320</span>, <span class="hljs-attr">ideal</span>: <span class="hljs-number">1280</span>, <span class="hljs-attr">max</span>: <span class="hljs-number">1920</span> },
+    <span class="hljs-attr">height</span>: { <span class="hljs-attr">min</span>: <span class="hljs-number">240</span>, <span class="hljs-attr">ideal</span>: <span class="hljs-number">720</span>, <span class="hljs-attr">max</span>: <span class="hljs-number">1080</span> },
+    <span class="hljs-attr">frameRate</span>: <span class="hljs-number">30</span>,
+    <span class="hljs-attr">facingMode</span>: { <span class="hljs-attr">exact</span>: <span class="hljs-string">'environment'</span> },
   }
-}</code></pre>
+}
+</code></pre>
 <p>なんとなくわかる気はするけど、謎のキーワードがいっぱいある・・うっ・・。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-13">
     <section class="slide-content"><h3 id="-4">よく見る例 4</h3>
 <pre><code class="lang-js">{
-  audio: {
-    advanced: [{
-      echoCancellation: {
-        exact: <span class="hljs-literal">true</span>
+  <span class="hljs-attr">audio</span>: {
+    <span class="hljs-attr">advanced</span>: [{
+      <span class="hljs-attr">echoCancellation</span>: {
+        <span class="hljs-attr">exact</span>: <span class="hljs-literal">true</span>
       }
     }, {
-      googEchoCancellation: {
-        exact: <span class="hljs-literal">true</span>
+      <span class="hljs-attr">googEchoCancellation</span>: {
+        <span class="hljs-attr">exact</span>: <span class="hljs-literal">true</span>
       }
     }, {
-      googExperimentalEchoCancellation: {
-        exact: <span class="hljs-literal">true</span>
+      <span class="hljs-attr">googExperimentalEchoCancellation</span>: {
+        <span class="hljs-attr">exact</span>: <span class="hljs-literal">true</span>
       }
     }, {
-      googNoiseSuppression: {
-        exact: <span class="hljs-literal">true</span>
+      <span class="hljs-attr">googNoiseSuppression</span>: {
+        <span class="hljs-attr">exact</span>: <span class="hljs-literal">true</span>
       }
     }, {
-      googExperimentalNoiseSuppression: {
-        exact: <span class="hljs-literal">true</span>
+      <span class="hljs-attr">googExperimentalNoiseSuppression</span>: {
+        <span class="hljs-attr">exact</span>: <span class="hljs-literal">true</span>
       }
     }, {
-      googAutoGainControl: {
-        exact: <span class="hljs-literal">true</span>
+      <span class="hljs-attr">googAutoGainControl</span>: {
+        <span class="hljs-attr">exact</span>: <span class="hljs-literal">true</span>
       }
     }, {
-      googExperimentalAutoGainControl: {
-        exact: <span class="hljs-literal">true</span>
+      <span class="hljs-attr">googExperimentalAutoGainControl</span>: {
+        <span class="hljs-attr">exact</span>: <span class="hljs-literal">true</span>
       }
     }, {
-      googHighpassFilter: {
-        exact: <span class="hljs-literal">true</span>
+      <span class="hljs-attr">googHighpassFilter</span>: {
+        <span class="hljs-attr">exact</span>: <span class="hljs-literal">true</span>
       }
     }, {
-      googTypingNoiseDetection: {
-        exact: <span class="hljs-literal">true</span>
+      <span class="hljs-attr">googTypingNoiseDetection</span>: {
+        <span class="hljs-attr">exact</span>: <span class="hljs-literal">true</span>
       }
     }, {
-      googAudioMirroring: {
-        exact: <span class="hljs-literal">false</span>
+      <span class="hljs-attr">googAudioMirroring</span>: {
+        <span class="hljs-attr">exact</span>: <span class="hljs-literal">false</span>
       }
     }, {
-      deviceId: {
-        exact: [<span class="hljs-string">"default"</span>]
+      <span class="hljs-attr">deviceId</span>: {
+        <span class="hljs-attr">exact</span>: [<span class="hljs-string">"default"</span>]
       }
     }]
   },
-}</code></pre>
+}
+</code></pre>
 <p>全然わからない（^ω^#）</p>
 </section>
   </div>
@@ -565,7 +576,8 @@ navigator.mediaDevices.getUserMedia({ audio: <span class="hljs-literal">true</sp
 </blockquote>
 <pre><code class="lang-swift">dictionary <span class="hljs-type">MediaTrackConstraints</span> : <span class="hljs-type">MediaTrackConstraintSet</span> {
   sequence&lt;<span class="hljs-type">MediaTrackConstraintSet</span>&gt; advanced;
-};</code></pre>
+};
+</code></pre>
 <pre><code class="lang-swift">dictionary <span class="hljs-type">MediaTrackConstraintSet</span> {
   <span class="hljs-type">ConstrainLong</span>      width;
   <span class="hljs-type">ConstrainLong</span>      height;
@@ -582,7 +594,8 @@ navigator.mediaDevices.getUserMedia({ audio: <span class="hljs-literal">true</sp
   <span class="hljs-type">ConstrainLong</span>      channelCount;
   <span class="hljs-type">ConstrainDOMString</span> deviceId;
   <span class="hljs-type">ConstrainDOMString</span> groupId;
-};</code></pre>
+};
+</code></pre>
 <p>これが<code>video</code>と<code>audio</code>の直下に指定できるものたち。それに加えて、<code>advanced</code>にも指定できる。</p>
 <p>さっきの<code>googXxxx</code>はChromeが勝手にやってる独自プロパティで、仕様書にはない😇</p>
 </section>
@@ -591,16 +604,18 @@ navigator.mediaDevices.getUserMedia({ audio: <span class="hljs-literal">true</sp
     <section class="slide-content"><h3 id="min-max-exact">min / max / exact</h3>
 <p>「絶対これに制限したいです！」という指定。</p>
 <pre><code class="lang-js">{
-  video: {
-    facingMode: { exact: <span class="hljs-string">'environment'</span> }
+  <span class="hljs-attr">video</span>: {
+    <span class="hljs-attr">facingMode</span>: { <span class="hljs-attr">exact</span>: <span class="hljs-string">'environment'</span> }
   }
-}</code></pre>
+}
+</code></pre>
 <p>リアカメラのないMacbook Proとかでコレやると、rejectされます。</p>
 <pre><code class="lang-js">{
-  video: {
-    width: { min: <span class="hljs-number">1920</span>, },
+  <span class="hljs-attr">video</span>: {
+    <span class="hljs-attr">width</span>: { <span class="hljs-attr">min</span>: <span class="hljs-number">1920</span>, },
   }
-}</code></pre>
+}
+</code></pre>
 <p>Macbook ProのFaceカメラは720pなので、<code>width: 1280</code>以上を指定するとrejectされます。</p>
 <p>なのでとりあえず付けておくものではない！</p>
 </section>
@@ -609,16 +624,18 @@ navigator.mediaDevices.getUserMedia({ audio: <span class="hljs-literal">true</sp
     <section class="slide-content"><h3 id="ideal">ideal</h3>
 <p>「なにも制限せずブラウザに委ねます」という指定。</p>
 <pre><code class="lang-js">{
-  video: {
-    width: { ideal: <span class="hljs-number">1920</span>, },
+  <span class="hljs-attr">video</span>: {
+    <span class="hljs-attr">width</span>: { <span class="hljs-attr">ideal</span>: <span class="hljs-number">1920</span>, },
   }
-}</code></pre>
+}
+</code></pre>
 <p>実はこれ、値を直指定するのと同じ。</p>
 <pre><code class="lang-js">{
-  video: {
-    width: <span class="hljs-number">1920</span>,
+  <span class="hljs-attr">video</span>: {
+    <span class="hljs-attr">width</span>: <span class="hljs-number">1920</span>,
   }
-}</code></pre>
+}
+</code></pre>
 <p>ただ、指定したからといってそうなる保証はない。←重要</p>
 </section>
   </div>
@@ -626,17 +643,18 @@ navigator.mediaDevices.getUserMedia({ audio: <span class="hljs-literal">true</sp
     <section class="slide-content"><h3 id="advanced">advanced</h3>
 <p>「できたら制限したいんですよねー、無理なら別に良いんですけど」という指定。</p>
 <pre><code class="lang-js">{
-  video: {
-    width: { min: <span class="hljs-number">640</span>, ideal: <span class="hljs-number">1280</span> },
-    height: { min: <span class="hljs-number">480</span>, ideal: <span class="hljs-number">720</span> },
+  <span class="hljs-attr">video</span>: {
+    <span class="hljs-attr">width</span>: { <span class="hljs-attr">min</span>: <span class="hljs-number">640</span>, <span class="hljs-attr">ideal</span>: <span class="hljs-number">1280</span> },
+    <span class="hljs-attr">height</span>: { <span class="hljs-attr">min</span>: <span class="hljs-number">480</span>, <span class="hljs-attr">ideal</span>: <span class="hljs-number">720</span> },
 
     <span class="hljs-comment">// 値として使うキーワードではない</span>
     advanced: [
-      { width: <span class="hljs-number">1920</span>, height: <span class="hljs-number">1280</span> },
-      { aspectRatio: <span class="hljs-number">1.3333333333</span> },
+      { <span class="hljs-attr">width</span>: <span class="hljs-number">1920</span>, <span class="hljs-attr">height</span>: <span class="hljs-number">1280</span> },
+      { <span class="hljs-attr">aspectRatio</span>: <span class="hljs-number">1.3333333333</span> },
     ]
   },
-}</code></pre>
+}
+</code></pre>
 <p>最低でも640x480以上の解像度がいいです！</p>
 <p>「でもできたら解像度は1920x1280がいいんですよねー。
 それがダメならアス比は4:3のやつにしてもらえます？」</p>
@@ -646,18 +664,19 @@ navigator.mediaDevices.getUserMedia({ audio: <span class="hljs-literal">true</sp
   <div class="slide hidden" id="slide-20">
     <section class="slide-content"><h3 id="-advanced">続・advanced</h3>
 <pre><code class="lang-js">{
-  video: {
-    advanced: [
+  <span class="hljs-attr">video</span>: {
+    <span class="hljs-attr">advanced</span>: [
       <span class="hljs-comment">// exactと同じ</span>
-      { aspectRatio: <span class="hljs-number">1.3333333333</span> },
+      { <span class="hljs-attr">aspectRatio</span>: <span class="hljs-number">1.3333333333</span> },
       <span class="hljs-comment">// こっちはフォールバック</span>
-      { aspectRatio: <span class="hljs-number">1</span> },
+      { <span class="hljs-attr">aspectRatio</span>: <span class="hljs-number">1</span> },
 
       <span class="hljs-comment">// widthだけOKでもheightがNGなら両方NGになる</span>
-      { width: <span class="hljs-number">1920</span>, height: <span class="hljs-number">1280</span> },
+      { <span class="hljs-attr">width</span>: <span class="hljs-number">1920</span>, <span class="hljs-attr">height</span>: <span class="hljs-number">1280</span> },
     ]
   },
-}</code></pre>
+}
+</code></pre>
 <ul>
 <li>リスト内での値の直指定は、<code>exact</code>と同じ意味</li>
 <li>リストの先頭から順にチェックされるので、同じ指定をフォールバックとして使える</li>
@@ -693,12 +712,13 @@ navigator.mediaDevices.getUserMedia({ audio: <span class="hljs-literal">true</sp
   <div class="slide hidden" id="slide-22">
     <section class="slide-content"><h3 id="-">択一の答えにならないとき</h3>
 <pre><code class="lang-js">{
-  video: {
-    width: <span class="hljs-number">1280</span>,
-    height: <span class="hljs-number">720</span>,
-    aspectRatio: <span class="hljs-number">1.5</span>,
+  <span class="hljs-attr">video</span>: {
+    <span class="hljs-attr">width</span>: <span class="hljs-number">1280</span>,
+    <span class="hljs-attr">height</span>: <span class="hljs-number">720</span>,
+    <span class="hljs-attr">aspectRatio</span>: <span class="hljs-number">1.5</span>,
   },
-}</code></pre>
+}
+</code></pre>
 <p><code>width / height</code>は<code>1.777</code>なので、3/3は満たせない。</p>
 <p>この場合の組合せは3C2の3通りだが、どれになるかはブラウザがよしなにする。</p>
 <p>手元のChromeは<code>width</code> x <code>height</code>になりました。</p>
@@ -714,7 +734,8 @@ navigator.mediaDevices.getUserMedia({ audio: <span class="hljs-literal">true</sp
   </div>
   <div class="slide hidden" id="slide-25">
     <section class="slide-content"><h3 id="-">どうなるでしょうか？</h3>
-<pre><code class="lang-js">navigator.mediaDevices.getUserMedia({ video: { width: <span class="hljs-number">100</span> } });</code></pre>
+<pre><code class="lang-js">navigator.mediaDevices.getUserMedia({ <span class="hljs-attr">video</span>: { <span class="hljs-attr">width</span>: <span class="hljs-number">100</span> } });
+</code></pre>
 <p>サイズ指定をしてない<code>video</code>に、これで取得したストリームを表示した際、どうなるか。</p>
 <ul>
 <li>Chrome Canary</li>
@@ -740,9 +761,11 @@ navigator.mediaDevices.getUserMedia({ audio: <span class="hljs-literal">true</sp
   </div>
   <div class="slide hidden" id="slide-27">
     <section class="slide-content"><h3 id="-">結局はブラウザ次第</h3>
-<pre><code class="lang-js">{ video: { width: <span class="hljs-number">100</span> } }</code></pre>
+<pre><code class="lang-js">{ <span class="hljs-attr">video</span>: { <span class="hljs-attr">width</span>: <span class="hljs-number">100</span> } }
+</code></pre>
 <p>この指定は<code>ideal</code>なので、制約が受け入れられるかはブラウザ次第。FirefoxもEdgeも、挙動としては仕様書通り。</p>
-<pre><code class="lang-js">{ video: { width: { exact: <span class="hljs-number">100</span> } } }</code></pre>
+<pre><code class="lang-js">{ <span class="hljs-attr">video</span>: { <span class="hljs-attr">width</span>: { <span class="hljs-attr">exact</span>: <span class="hljs-number">100</span> } } }
+</code></pre>
 <p>ちなみにこうするとRejectされる。</p>
 <p>・・・Safari？知らない子ですね・・。</p>
 </section>
@@ -760,7 +783,8 @@ navigator.mediaDevices.getUserMedia({ audio: <span class="hljs-literal">true</sp
 </ul>
 </li>
 </ul>
-<pre><code class="lang-js">navigator.mediaDevices.getSupportedConstraints();</code></pre>
+<pre><code class="lang-js">navigator.mediaDevices.getSupportedConstraints();
+</code></pre>
 <p>仕様書的には、これで事前に確認しろって書いてあるけど、ブラウザは解釈できないプロパティを無視するので気休め。
 （ちなみにSafariは<code>width: true</code>って返してくる😇)</p>
 </section>
@@ -778,51 +802,52 @@ navigator.mediaDevices.getUserMedia({ audio: <span class="hljs-literal">true</sp
     <section class="slide-content"><h3 id="-">ナニコレ</h3>
 <pre><code class="lang-js"><span class="hljs-comment">// Google ハングアウトより</span>
 {
-  audio: {
-    advanced: [
+  <span class="hljs-attr">audio</span>: {
+    <span class="hljs-attr">advanced</span>: [
       {
-        googEchoCancellation: {
-          exact: <span class="hljs-literal">true</span>
+        <span class="hljs-attr">googEchoCancellation</span>: {
+          <span class="hljs-attr">exact</span>: <span class="hljs-literal">true</span>
         }
       },
       {
-        googExperimentalEchoCancellation: {
-          exact: <span class="hljs-literal">true</span>
+        <span class="hljs-attr">googExperimentalEchoCancellation</span>: {
+          <span class="hljs-attr">exact</span>: <span class="hljs-literal">true</span>
         }
       },
       {
-        googAutoGainControl: {
-          exact: <span class="hljs-literal">true</span>
+        <span class="hljs-attr">googAutoGainControl</span>: {
+          <span class="hljs-attr">exact</span>: <span class="hljs-literal">true</span>
         }
       },
       {
-        googExperimentalAutoGainControl: {
-          exact: <span class="hljs-literal">true</span>
+        <span class="hljs-attr">googExperimentalAutoGainControl</span>: {
+          <span class="hljs-attr">exact</span>: <span class="hljs-literal">true</span>
         }
       },
       {
-        googNoiseSuppression: {
-          exact: <span class="hljs-literal">true</span>
+        <span class="hljs-attr">googNoiseSuppression</span>: {
+          <span class="hljs-attr">exact</span>: <span class="hljs-literal">true</span>
         }
       },
       {
-        googHighpassFilter: {
-          exact: <span class="hljs-literal">true</span>
+        <span class="hljs-attr">googHighpassFilter</span>: {
+          <span class="hljs-attr">exact</span>: <span class="hljs-literal">true</span>
         }
       },
       {
-        googAudioMirroring: {
-          exact: <span class="hljs-literal">false</span>
+        <span class="hljs-attr">googAudioMirroring</span>: {
+          <span class="hljs-attr">exact</span>: <span class="hljs-literal">false</span>
         }
       },
       {
-        googExperimentalNoiseSuppression: {
-          exact: <span class="hljs-literal">true</span>
+        <span class="hljs-attr">googExperimentalNoiseSuppression</span>: {
+          <span class="hljs-attr">exact</span>: <span class="hljs-literal">true</span>
         }
       }
     ]
   }
-}</code></pre>
+}
+</code></pre>
 <p><code>chrome://webrtc-internals</code>で色んなサービスを探すと色々見つかる。</p>
 </section>
   </div>

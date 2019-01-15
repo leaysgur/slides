@@ -366,7 +366,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 
   <div class="slide" id="slide-1">
     <section class="slide-content"><h1 id="-a-skyway-js-sdk-a-"><a>SkyWay JS SDK</a>の歩き方</h1>
-<h2 id="-nbsp-">&nbsp;</h2>
+<h2 id="">&nbsp;</h2>
 <h2 id="2017-09-29-skyway-developer-meetup-1">2017/09/29 SkyWay Developer Meetup #1</h2>
 </section>
   </div>
@@ -456,7 +456,8 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
     ├── config.js
     ├── logger.js
     ├── sdpUtil.js
-    └── util.js</code></pre>
+    └── util.js
+</code></pre>
 <p>2017/09/29時点です。</p>
 <p>コードは全部4000行ほど。あれだけのことをやってるなら妥当な量・・？</p>
 </section>
@@ -510,7 +511,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   </div>
   <div class="slide hidden" id="slide-13">
     <section class="slide-content"><h3 id="-">コードでみても</h3>
-<pre><code class="lang-js"><span class="hljs-keyword">const</span> peer = <span class="hljs-keyword">new</span> Peer({ key: <span class="hljs-string">'xxxx'</span> }); <span class="hljs-comment">// Peer</span>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> peer = <span class="hljs-keyword">new</span> Peer({ <span class="hljs-attr">key</span>: <span class="hljs-string">'xxxx'</span> }); <span class="hljs-comment">// Peer</span>
 
 <span class="hljs-comment">// 1:1なら</span>
 <span class="hljs-keyword">const</span> mediaConn = peer.call(peerId); <span class="hljs-comment">// MediaConnection</span>
@@ -518,7 +519,8 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 
 <span class="hljs-comment">// N:Nなら</span>
 <span class="hljs-keyword">const</span> meshRoom = peer.joinRoom(roomName); <span class="hljs-comment">// MeshRoom</span>
-<span class="hljs-keyword">const</span> sfuRoom = peer.joinRoom(roomName, { mode: <span class="hljs-string">'sfu'</span> }); <span class="hljs-comment">// SFURoom</span></code></pre>
+<span class="hljs-keyword">const</span> sfuRoom = peer.joinRoom(roomName, { <span class="hljs-attr">mode</span>: <span class="hljs-string">'sfu'</span> }); <span class="hljs-comment">// SFURoom</span>
+</code></pre>
 <p><a href="https://webrtc.ecl.ntt.com/js-reference/">https://webrtc.ecl.ntt.com/js-reference/</a> もチェック！</p>
 </section>
   </div>
@@ -565,7 +567,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   </div>
   <div class="slide hidden" id="slide-18">
     <section class="slide-content"><h1 id="thank-you-">Thank you!</h1>
-<h2 id="-leader22-https-twitter-com-leader22-"><a href="https://twitter.com/leader22">@leader22</a></h2>
+<h2 id="-leader22"><a href="https://twitter.com/leader22">@leader22</a></h2>
 </section>
   </div>
   <div class="slide hidden" id="slide-19">

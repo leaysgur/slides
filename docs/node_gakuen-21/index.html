@@ -139,6 +139,7 @@ pre {
   position: fixed;
   top: 0; left: 0; right: 0;
   height: 3px;
+  z-index: 1;
 }
 
 .progress-bar {
@@ -365,7 +366,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 
   <div class="slide" id="slide-1">
     <section class="slide-content"><h1 id="0-a-flow-a-">0からはじめる<a>Flow</a></h1>
-<h2 id="-nbsp-">&nbsp;</h2>
+<h2 id="">&nbsp;</h2>
 <h2 id="2016-06-29-node-21-">2016/06/29 Node学園 21時限目</h2>
 </section>
   </div>
@@ -393,7 +394,8 @@ eventName = <span class="hljs-number">21</span>;
 
 <span class="hljs-comment">// @flow</span>
 <span class="hljs-keyword">let</span> eventName: <span class="hljs-built_in">string</span> = <span class="hljs-string">'Node学園'</span>;
-eventName = <span class="hljs-number">21</span>; <span class="hljs-comment">// This type is incompatible with string</span></code></pre>
+eventName = <span class="hljs-number">21</span>; <span class="hljs-comment">// This type is incompatible with string</span>
+</code></pre>
 <ul>
 <li>新たな言語ではない🍀</li>
 <li>あとから型の注釈をつけていく</li>
@@ -490,9 +492,10 @@ eventName = <span class="hljs-number">21</span>; <span class="hljs-comment">// T
 <pre><code class="lang-ts"><span class="hljs-keyword">class</span> C {
   x: <span class="hljs-built_in">string</span>; <span class="hljs-comment">// &lt;- コレ</span>
 
-  <span class="hljs-keyword">constructor</span>(x) { <span class="hljs-keyword">this</span>.x = x; }
+  <span class="hljs-keyword">constructor</span>(<span class="hljs-params">x</span>) { <span class="hljs-keyword">this</span>.x = x; }
   foo() { <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.x; }
-}</code></pre>
+}
+</code></pre>
 <p>アプリのコードで一切使ってなくてもコケます😇</p>
 </section>
   </div>
@@ -514,20 +517,21 @@ eventName = <span class="hljs-number">21</span>; <span class="hljs-comment">// T
 </section>
   </div>
   <div class="slide hidden" id="slide-17">
-    <section class="slide-content"><h3 id="-passperpreset-"><code>passPerPreset</code></h3>
+    <section class="slide-content"><h3 id="passperpreset"><code>passPerPreset</code></h3>
 <p>Babel 6.5から入った機能で、ざーーーっくり言うとプラグイン、プリセットの処理順を指定できる機能。<br>
 詳しくは、 <a href="http://lealog.hateblo.jp/entry/2016/06/29/212247">http://lealog.hateblo.jp/entry/2016/06/29/212247</a> に。</p>
 <pre><code class="lang-javascript"><span class="hljs-comment">// .babelrc</span>
 {
-  passPerPreset: <span class="hljs-literal">true</span>,
-  presets: [
+  <span class="hljs-attr">passPerPreset</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">presets</span>: [
     {
-      plugins: [ <span class="hljs-string">"babel-plugin-transform-flow-strip-types"</span> ]
+      <span class="hljs-attr">plugins</span>: [ <span class="hljs-string">"babel-plugin-transform-flow-strip-types"</span> ]
     },
     <span class="hljs-string">"es2015"</span>,
     <span class="hljs-string">"react"</span>
   ]
-}</code></pre>
+}
+</code></pre>
 <p>Stage1の機能なんか使いたくないなーと思ったけど、結局コレもEXPERIMENTALな機能やので、<br>おとなしく<code>transform-class-properties</code>するが吉💦</p>
 </section>
   </div>
@@ -558,7 +562,8 @@ eventName = <span class="hljs-number">21</span>; <span class="hljs-comment">// T
 <span class="hljs-keyword">const</span> FOO = {
   <span class="hljs-string">'1'</span>: <span class="hljs-string">'foo'</span>,
   <span class="hljs-string">'2'</span>: <span class="hljs-string">'bar'</span>,
-};</code></pre>
+};
+</code></pre>
 <p>オブジェクトに数値キーがダメやったり。</p>
 </section>
   </div>
@@ -580,7 +585,8 @@ eventName = <span class="hljs-number">21</span>; <span class="hljs-comment">// T
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params">_val: <span class="hljs-built_in">string</span></span>) </span>{
   <span class="hljs-keyword">let</span> val: <span class="hljs-built_in">number</span> = <span class="hljs-built_in">parseInt</span>(_val, <span class="hljs-number">10</span>);
   val = <span class="hljs-built_in">isNaN</span>(val) ? <span class="hljs-number">0</span> : val;
-}</code></pre>
+}
+</code></pre>
 <p>ビット演算子でキャストするのもダメ。<br>
 息を吸う用に使いまくってた・・・😇</p>
 </section>
@@ -588,14 +594,16 @@ eventName = <span class="hljs-number">21</span>; <span class="hljs-comment">// T
   <div class="slide hidden" id="slide-22">
     <section class="slide-content"><h3 id="-">既存コードに ...</h3>
 <p>よくある<code>input[type=text]</code>のイベントハンドラ。</p>
-<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">onChange</span>=<span class="hljs-string">{this.onChangeInput}</span> /&gt;</span></code></pre>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">onChange</span>=<span class="hljs-string">{this.onChangeInput}</span> /&gt;</span>
+</code></pre>
 <pre><code class="lang-ts">onChangeInput(ev: Event) {
   <span class="hljs-keyword">const</span> action = {
     target: <span class="hljs-keyword">this</span>.props.partsName,
     text:   ev.target.value <span class="hljs-comment">// ココでエラー</span>
   };
   <span class="hljs-keyword">this</span>.dispatch(<span class="hljs-string">'set:text'</span>, action);
-}</code></pre>
+}
+</code></pre>
 <p><code>EventTarget</code>に<code>value</code>なんかねえよ！って言われる。</p>
 </section>
   </div>
@@ -611,7 +619,8 @@ onChangeInput(ev: Event) {
     };
     <span class="hljs-keyword">this</span>.dispatch(<span class="hljs-string">'set:text'</span>, action);
   }
-}</code></pre>
+}
+</code></pre>
 <p>他にも似たようなのが色々出てくるが、面倒くさいと思ってはいけない・・(˘ω˘ )</p>
 </section>
   </div>
@@ -619,10 +628,12 @@ onChangeInput(ev: Event) {
     <section class="slide-content"><h3 id="-">困ったときのコメント</h3>
 <pre><code class="lang-sh"><span class="hljs-comment"># .flowconfig</span>
 [options]
-suppress_comment= \\(.\\|\n\\)*\\flow-disable-line</code></pre>
+suppress_comment= \\(.\\|\n\\)*\\flow-disable-line
+</code></pre>
 <p>こう書いておくと、</p>
 <pre><code class="lang-ts"><span class="hljs-comment">// flow-disable-line</span>
-<span class="hljs-keyword">const</span> str: <span class="hljs-built_in">string</span> = <span class="hljs-number">1</span>;</code></pre>
+<span class="hljs-keyword">const</span> str: <span class="hljs-built_in">string</span> = <span class="hljs-number">1</span>;
+</code></pre>
 <p>その行のエラーを無視できる・・・！<br>
 文言は好きなのにできる。</p>
 </section>
@@ -633,9 +644,9 @@ suppress_comment= \\(.\\|\n\\)*\\flow-disable-line</code></pre>
   </div>
   <div class="slide hidden" id="slide-26">
     <section class="slide-content"><h3 id="-">必読ドキュメント</h3>
-<h4 id="-flow-quick-reference-https-flowtype-org-docs-quick-reference-html-"><a href="https://flowtype.org/docs/quick-reference.html">Flow | Quick Reference</a></h4>
+<h4 id="flow-quick-reference"><a href="https://flowtype.org/docs/quick-reference.html">Flow | Quick Reference</a></h4>
 <p><s>だいたいのこと書いてるけど困った時は助けてくれない</s></p>
-<h4 id="-flow-lib-at-master-facebook-flow-github-https-github-com-facebook-flow-tree-master-lib-"><a href="https://github.com/facebook/flow/tree/master/lib">flow/lib at master · facebook/flow · GitHub</a></h4>
+<h4 id="flow-lib-at-master-facebook-flow-github"><a href="https://github.com/facebook/flow/tree/master/lib">flow/lib at master · facebook/flow · GitHub</a></h4>
 <p>Flow側で定義済みの型が置いてあるディレクトリ</p>
 <ul>
 <li>core.js</li>
@@ -647,9 +658,9 @@ suppress_comment= \\(.\\|\n\\)*\\flow-disable-line</code></pre>
   </div>
   <div class="slide hidden" id="slide-27">
     <section class="slide-content"><h3 id="-">余力あれば</h3>
-<h4 id="-advanced-features-in-flow-sitr-us-http-sitr-us-2015-05-31-advanced-features-in-flow-html-"><a href="http://sitr.us/2015/05/31/advanced-features-in-flow.html">Advanced features in Flow - sitr.us</a></h4>
+<h4 id="advanced-features-in-flow-sitr-us"><a href="http://sitr.us/2015/05/31/advanced-features-in-flow.html">Advanced features in Flow - sitr.us</a></h4>
 <p>ドキュメントに載ってない記法が紹介されてる（ただし1年前の記事）</p>
-<h4 id="-flow-type_annotation-ml-at-master-facebook-flow-github-https-github-com-facebook-flow-blob-master-src-typing-type_annotation-ml-l147-l328-"><a href="https://github.com/facebook/flow/blob/master/src/typing/type_annotation.ml#L147-L328">flow/type_annotation.ml at master · facebook/flow · GitHub</a></h4>
+<h4 id="flow-type_annotation-ml-at-master-facebook-flow-github"><a href="https://github.com/facebook/flow/blob/master/src/typing/type_annotation.ml#L147-L328">flow/type_annotation.ml at master · facebook/flow · GitHub</a></h4>
 <p>そのドキュメントに載ってない記法が実装されてるぽい箇所（OCaml読めません）</p>
 </section>
   </div>
@@ -663,12 +674,14 @@ suppress_comment= \\(.\\|\n\\)*\\flow-disable-line</code></pre>
 <span class="hljs-keyword">const</span> { a, b, c, }: { a: <span class="hljs-built_in">string</span>, b: <span class="hljs-built_in">number</span>, c: <span class="hljs-built_in">boolean</span> } = A;
 
 <span class="hljs-comment">// コレはダメ</span>
-<span class="hljs-keyword">const</span> { a: <span class="hljs-built_in">string</span>, b: <span class="hljs-built_in">number</span>, c: <span class="hljs-built_in">boolean</span>, } = A;</code></pre>
+<span class="hljs-keyword">const</span> { a: <span class="hljs-built_in">string</span>, b: <span class="hljs-built_in">number</span>, c: <span class="hljs-built_in">boolean</span>, } = A;
+</code></pre>
 <p>公式のDestructuringのページに書いてないからねコレ！</p>
 <h4 id="-">普通のオブジェクトに型</h4>
 <pre><code class="lang-ts"><span class="hljs-keyword">const</span> A: {
   a: <span class="hljs-built_in">string</span>, b: <span class="hljs-built_in">number</span>, c: <span class="hljs-built_in">boolean</span>,
-} = { a: <span class="hljs-string">'1'</span>, b: <span class="hljs-number">2</span>, c: <span class="hljs-literal">true</span> };</code></pre>
+} = { a: <span class="hljs-string">'1'</span>, b: <span class="hljs-number">2</span>, c: <span class="hljs-literal">true</span> };
+</code></pre>
 <p>さっきとは逆で、型 &gt; 値の順。</p>
 </section>
   </div>
@@ -691,12 +704,13 @@ suppress_comment= \\(.\\|\n\\)*\\flow-disable-line</code></pre>
 <span class="hljs-comment">// そんなObjectの配列</span>
 <span class="hljs-keyword">type</span> TabItems = TabItem[];
 <span class="hljs-comment">// 違う書き方</span>
-<span class="hljs-keyword">type</span> TabItems = <span class="hljs-built_in">Array</span>&lt;TabItem&gt;;</code></pre>
+<span class="hljs-keyword">type</span> TabItems = <span class="hljs-built_in">Array</span>&lt;TabItem&gt;;
+</code></pre>
 <p>FluxのActionとかをまとめたり。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-31">
-    <section class="slide-content"><h3 id="-keys-lt-t-gt-enum-lt-t-gt-">$Keys&lt;T&gt;（元 $Enum&lt;T&gt;）</h3>
+    <section class="slide-content"><h3 id="-keyst-enumt-">$Keys&lt;T&gt;（元 $Enum&lt;T&gt;）</h3>
 <p>ドキュメントに載ってない記法シリーズ。</p>
 <pre><code class="lang-ts"><span class="hljs-keyword">const</span> CARD_TYPES = {
   <span class="hljs-string">"Diamonds"</span>: <span class="hljs-string">"Diamonds"</span>,
@@ -705,10 +719,12 @@ suppress_comment= \\(.\\|\n\\)*\\flow-disable-line</code></pre>
   <span class="hljs-string">"Spades"</span>:   <span class="hljs-string">"Spades"</span>
 };
 
-<span class="hljs-keyword">type</span> CardTypes = $Keys&lt;<span class="hljs-keyword">typeof</span> CARD_TYPES&gt;;</code></pre>
+<span class="hljs-keyword">type</span> CardTypes = $Keys&lt;<span class="hljs-keyword">typeof</span> CARD_TYPES&gt;;
+</code></pre>
 <p>としておいて、</p>
 <pre><code class="lang-ts"><span class="hljs-keyword">const</span> type1: CardTypes = <span class="hljs-string">'Diamonds'</span>; <span class="hljs-comment">// ok</span>
-<span class="hljs-keyword">const</span> type2: CardTypes = <span class="hljs-string">'Fooo'</span>; <span class="hljs-comment">// error</span></code></pre>
+<span class="hljs-keyword">const</span> type2: CardTypes = <span class="hljs-string">'Fooo'</span>; <span class="hljs-comment">// error</span>
+</code></pre>
 <p>まぁもちろんEXPERIMENTALなんでしょうね。</p>
 </section>
   </div>

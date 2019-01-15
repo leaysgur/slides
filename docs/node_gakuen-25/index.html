@@ -139,6 +139,7 @@ pre {
   position: fixed;
   top: 0; left: 0; right: 0;
   height: 3px;
+  z-index: 1;
 }
 
 .progress-bar {
@@ -365,7 +366,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 
   <div class="slide" id="slide-1">
     <section class="slide-content"><h1 id="hello-a-mobx-a-">Hello, <a>MobX</a>!</h1>
-<h2 id="-nbsp-">&nbsp;</h2>
+<h2 id="">&nbsp;</h2>
 <h2 id="2017-04-24-node-25-">2017/04/24 Node学園 25時限目</h2>
 </section>
   </div>
@@ -500,8 +501,9 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <pre><code class="lang-js"><span class="hljs-keyword">const</span> { observable } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'mobx'</span>);
 
 <span class="hljs-keyword">const</span> state = observable({
-  count: <span class="hljs-number">1</span>,
-});</code></pre>
+  <span class="hljs-attr">count</span>: <span class="hljs-number">1</span>,
+});
+</code></pre>
 <blockquote>
 <p><a href="https://mobx.js.org/refguide/api.html#creating-observables">https://mobx.js.org/refguide/api.html#creating-observables</a></p>
 </blockquote>
@@ -512,10 +514,11 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
     <section class="slide-content"><h3 id="2-state-">2. Stateでなんかする</h3>
 <pre><code class="lang-js"><span class="hljs-keyword">const</span> { autorun } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'mobx'</span>);
 
-autorun(() =&gt; {
+autorun(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
   <span class="hljs-comment">// いわゆる`render()`的なこと</span>
   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Count is <span class="hljs-subst">${state.count}</span>!`</span>);
-});</code></pre>
+});
+</code></pre>
 <blockquote>
 <p><a href="https://mobx.js.org/refguide/autorun.html">https://mobx.js.org/refguide/autorun.html</a></p>
 </blockquote>
@@ -523,7 +526,8 @@ autorun(() =&gt; {
   </div>
   <div class="slide hidden" id="slide-17">
     <section class="slide-content"><h3 id="3-state-">3. Stateを更新</h3>
-<pre><code class="lang-js">state.count = <span class="hljs-number">2</span>;</code></pre>
+<pre><code class="lang-js">state.count = <span class="hljs-number">2</span>;
+</code></pre>
 <p>これだけで、<a>自動的に</a>さっきの関数が呼ばれます。</p>
 </section>
   </div>
@@ -533,17 +537,18 @@ autorun(() =&gt; {
 
 <span class="hljs-comment">// state</span>
 <span class="hljs-keyword">const</span> state = observable({
-  count: <span class="hljs-number">1</span>,
+  <span class="hljs-attr">count</span>: <span class="hljs-number">1</span>,
 });
 
 <span class="hljs-comment">// view</span>
-autorun(() =&gt; {
+autorun(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Count is <span class="hljs-subst">${state.count}</span>!`</span>); <span class="hljs-comment">// Count is 1!</span>
 });
 
 <span class="hljs-comment">// action</span>
 state.count = <span class="hljs-number">2</span>; <span class="hljs-comment">// Count is 2!</span>
-state.count = <span class="hljs-number">3</span>; <span class="hljs-comment">// Count is 3!</span></code></pre>
+state.count = <span class="hljs-number">3</span>; <span class="hljs-comment">// Count is 3!</span>
+</code></pre>
 <p>おどろきの簡単さ・・！</p>
 </section>
   </div>
@@ -567,14 +572,16 @@ state.count = <span class="hljs-number">3</span>; <span class="hljs-comment">// 
 <pre><code class="lang-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Store</span> </span>{
   <span class="hljs-keyword">constructor</span>() {
     extendObservable(<span class="hljs-keyword">this</span>, {
-      items: [],
+      <span class="hljs-attr">items</span>: [],
     }),
   }
-}</code></pre>
+}
+</code></pre>
 <p>or</p>
 <pre><code class="lang-java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Store</span> </span>{
   <span class="hljs-meta">@observable</span> items = [];
-}</code></pre>
+}
+</code></pre>
 <p>Decoratorsの使用はマストではないが、使えるなら使いたくなると思う・・！</p>
 </section>
   </div>
@@ -587,11 +594,13 @@ state.count = <span class="hljs-number">3</span>; <span class="hljs-comment">// 
   <span class="hljs-meta">@computed</span> <span class="hljs-function">get <span class="hljs-title">total</span><span class="hljs-params">()</span> </span>{
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.price * <span class="hljs-keyword">this</span>.amount;
   }
-}</code></pre>
+}
+</code></pre>
 <pre><code class="lang-js"><span class="hljs-keyword">const</span> ticket = <span class="hljs-keyword">new</span> Ticket();
 <span class="hljs-built_in">console</span>.log(ticket.total); <span class="hljs-comment">// 1000</span>
 ticket.amount = <span class="hljs-number">2</span>;
-<span class="hljs-built_in">console</span>.log(ticket.total); <span class="hljs-comment">// 2000</span></code></pre>
+<span class="hljs-built_in">console</span>.log(ticket.total); <span class="hljs-comment">// 2000</span>
+</code></pre>
 <p><a>特定の状態に由来する状態</a>を<code>computed</code>で宣言的に。</p>
 <ul>
 <li>いちいち手動で更新しなくていいので事故らない</li>
@@ -604,24 +613,25 @@ ticket.amount = <span class="hljs-number">2</span>;
   </div>
   <div class="slide hidden" id="slide-23">
     <section class="slide-content"><h3 id="view-w-react">View: w/ React</h3>
-<pre><code class="lang-js">const React = require('react');
-const { observer } = require('mobx-react');
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> React = <span class="hljs-built_in">require</span>(<span class="hljs-string">'react'</span>);
+<span class="hljs-keyword">const</span> { observer } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'mobx-react'</span>);
 
-const View = ({ todoStore }) =&gt; (
-  &lt;div&gt;
+<span class="hljs-keyword">const</span> View = <span class="hljs-function">(<span class="hljs-params">{ todoStore }</span>) =&gt;</span> (
+  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
     残TODO数: {todoStore.unfinishedCount}
-    &lt;ul&gt;
+    <span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>
       { todoStore.items.map(todo =&gt; (
-      &lt;li key={todo.id}
-        &lt;Todo item={todo} /&gt;
-      &lt;/li&gt;
+      <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">key</span>=<span class="hljs-string">{todo.id}</span>
+        &lt;<span class="hljs-attr">Todo</span> <span class="hljs-attr">item</span>=<span class="hljs-string">{todo}</span> /&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
       )) }
-    &lt;/ul&gt;
-  &lt;/div&gt;
+    <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 );
 
 // いるのココだけ
-module.exports = observer(View);</code></pre>
+module.exports = observer(View);</span>
+</code></pre>
 <p><code>mobx-react</code>という別パッケージがあり、<code>observer</code>はさっきの<code>autorun</code>のラッパー。</p>
 <p>必要なStateに更新があった時<a>だけ</a>、自動で<code>render()</code>されるように。</p>
 </section>
@@ -629,10 +639,11 @@ module.exports = observer(View);</code></pre>
   <div class="slide hidden" id="slide-24">
     <section class="slide-content"><h3 id="view-">View: 以外の更新も</h3>
 <pre><code class="lang-js"><span class="hljs-comment">// for rendering views</span>
-ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">View</span> <span class="hljs-attr">todoStore</span>=<span class="hljs-string">{store}</span> /&gt;</span>, $el);</span></code></pre>
+ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">View</span> <span class="hljs-attr">todoStore</span>=<span class="hljs-string">{store}</span> /&gt;</span>, $el);</span>
+</code></pre>
 <pre><code class="lang-js"><span class="hljs-comment">// for others</span>
 reaction(
-  () =&gt; store.unfinishedCount,
+  <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> store.unfinishedCount,
   count =&gt; {
     <span class="hljs-keyword">if</span> (count &gt; <span class="hljs-number">10</span>) {
       askColleagueToHelp(store.items);
@@ -641,7 +652,8 @@ reaction(
       reportToBoss(store.items);
     }
   }
-)</code></pre>
+)
+</code></pre>
 <p><code>observable</code>な値の変化に対する<code>reaction</code>を指定することで、Viewの表示に関することも、それ以外のことも、State由来の事柄は全てを<a>宣言的・リアクティブ</a>に書ける。</p>
 </section>
   </div>
@@ -651,12 +663,14 @@ reaction(
 
 useStrict(<span class="hljs-literal">true</span>);
 
-state.count = <span class="hljs-number">10</span>; <span class="hljs-comment">// Error!</span></code></pre>
-<pre><code class="lang-js"><span class="hljs-keyword">const</span> modCount = action(() =&gt; {
+state.count = <span class="hljs-number">10</span>; <span class="hljs-comment">// Error!</span>
+</code></pre>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> modCount = action(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
   state.count = <span class="hljs-number">10</span>;
 });
 
-modCount(); <span class="hljs-comment">// Ok!</span></code></pre>
+modCount(); <span class="hljs-comment">// Ok!</span>
+</code></pre>
 <p><code>action()</code>でラップすることで、その関数からしかStateが変更できないようにできる。</p>
 </section>
   </div>
@@ -665,13 +679,14 @@ modCount(); <span class="hljs-comment">// Ok!</span></code></pre>
 <pre><code class="lang-js">uiStore.setLoading(<span class="hljs-literal">true</span>);
 
 fetch(<span class="hljs-string">'/api/my/todos/'</span>)
-  .then(items =&gt; {
+  .then(<span class="hljs-function"><span class="hljs-params">items</span> =&gt;</span> {
     todoStore.init(items);
     uiStore.setLoading(<span class="hljs-literal">false</span>);
   })
-  .catch(err =&gt; {
+  .catch(<span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> {
     uiStore.showError(err);
-  });</code></pre>
+  });
+</code></pre>
 <p>非同期だからといって特殊なことをする必要はない。
 直感的に、ただStateを更新するだけ。</p>
 </section>
@@ -686,14 +701,17 @@ fetch(<span class="hljs-string">'/api/my/todos/'</span>)
   addTodo(title) {
     <span class="hljs-keyword">this</span>.items.push(<span class="hljs-keyword">new</span> Todo(title));
   }
-}</code></pre>
+}
+</code></pre>
 <pre><code class="lang-html"><span class="hljs-comment">&lt;!-- View --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> /&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{()</span> =&gt;</span> addTodo($input.value)}&gt;ADD<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></code></pre>
+<span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> /&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{()</span> =&gt;</span> addTodo($input.value)}&gt;ADD<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+</code></pre>
 <pre><code class="lang-js"><span class="hljs-comment">// Event</span>
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">addToto</span>(<span class="hljs-params">title</span>) </span>{
   <span class="hljs-keyword">if</span> (title.trim().length === <span class="hljs-number">0</span>) { <span class="hljs-keyword">return</span>; }
   store.addTodo(title);
-}</code></pre>
+}
+</code></pre>
 <p>※コードはイメージです</p>
 </section>
   </div>

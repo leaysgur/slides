@@ -1,4 +1,5 @@
 const exec = require('child_process').exec;
+
 const target  = process.argv[2];
 const isWatch = process.argv[3] ? 'watch' : '';
 
@@ -17,13 +18,13 @@ if (isWatch) {
   exec(`open ./${target}/index.md`);
 }
 
-exec(`$(npm bin)/cleaver ${isWatch} ./${target}/index.md --output ./${target}/index.html`, (err, stdout, stderr) => {
+exec(`$(npm bin)/cleaver ${isWatch} ./docs/${target}/index.md --output ./docs/${target}/index.html`, (err, stdout, stderr) => {
   if (err || stderr) {
     console.error(err || stderr);
     process.exit(1);
   }
 
-  console.log(stdout);
+  stdout && console.log(stdout);
 
   console.log('done!');
   console.log('');

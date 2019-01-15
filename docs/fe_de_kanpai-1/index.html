@@ -139,6 +139,7 @@ pre {
   position: fixed;
   top: 0; left: 0; right: 0;
   height: 3px;
+  z-index: 1;
 }
 
 .progress-bar {
@@ -365,7 +366,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 
   <div class="slide" id="slide-1">
     <section class="slide-content"><h1 id="-a-mobx-a-a-reactive-a-"><a>MobX</a>ではじめる<a>Reactive</a>アーキテクチャ</h1>
-<h2 id="-nbsp-">&nbsp;</h2>
+<h2 id="">&nbsp;</h2>
 <h2 id="2017-06-21-frontend-de-kanpai-">2017/06/21 Frontend de KANPAI!</h2>
 </section>
   </div>
@@ -386,7 +387,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   <div class="slide hidden" id="slide-3">
     <section class="slide-content"><h3 id="-pr-">[PR] 技術メディアやってます（有料）</h3>
 <p><img src="./img/cg.png" alt="CodeGrid"></p>
-<h2 id="-codegrid-https-www-codegrid-net-"><a href="https://www.codegrid.net/">CodeGrid - フロントエンドに関わる人々のガイド</a></h2>
+<h2 id="codegrid-"><a href="https://www.codegrid.net/">CodeGrid - フロントエンドに関わる人々のガイド</a></h2>
 </section>
   </div>
   <div class="slide hidden" id="slide-4">
@@ -507,11 +508,11 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 
 <span class="hljs-comment">// State</span>
 <span class="hljs-keyword">const</span> state = observable({
-  count: <span class="hljs-number">1</span>,
+  <span class="hljs-attr">count</span>: <span class="hljs-number">1</span>,
 });
 
 <span class="hljs-comment">// Reaction(Views)</span>
-autorun(() =&gt; {
+autorun(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Count is <span class="hljs-subst">${state.count}</span>!`</span>); <span class="hljs-comment">// Count is 1!</span>
 });
 
@@ -521,7 +522,8 @@ autorun(() =&gt; {
 
 increment(); <span class="hljs-comment">// Count is 2!</span>
 increment(); <span class="hljs-comment">// Count is 3!</span>
-decrement(); <span class="hljs-comment">// Count is 2!</span></code></pre>
+decrement(); <span class="hljs-comment">// Count is 2!</span>
+</code></pre>
 <p><code>State</code>を定義して、使用して、変更するだけ。これが全て。</p>
 </section>
   </div>
@@ -565,7 +567,8 @@ decrement(); <span class="hljs-comment">// Count is 2!</span></code></pre>
   <span class="hljs-meta">@action</span> decrement() {
     <span class="hljs-keyword">this</span>.count--;
   }
-}</code></pre>
+}
+</code></pre>
 <pre><code class="lang-js"><span class="hljs-comment">// ViewからStoreのActionを呼ぶための・View以外の用途にStoreを使う層</span>
 <span class="hljs-comment">// 別にViewから直接Storeを叩いてもいいけど</span>
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createEvent</span>(<span class="hljs-params">store</span>) </span>{
@@ -577,7 +580,8 @@ decrement(); <span class="hljs-comment">// Count is 2!</span></code></pre>
       store.decrement();
     }
   };
-}</code></pre>
+}
+</code></pre>
 <pre><code class="lang-js"><span class="hljs-keyword">const</span> React, { Component } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'react'</span>);
 <span class="hljs-keyword">const</span> { observer } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'mobx-react'</span>);
 
@@ -591,10 +595,11 @@ decrement(); <span class="hljs-comment">// Count is 2!</span></code></pre>
         <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>{store.count}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{event.increment}</span>&gt;</span>+<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{event.decrement}</span>&gt;</span>-<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
-      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-    )</span>;
+      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+    );
   }
-}</code></pre>
+}
+</code></pre>
 <pre><code class="lang-js"><span class="hljs-keyword">const</span> ReactDOM = <span class="hljs-built_in">require</span>(<span class="hljs-string">'react-dom'</span>);
 <span class="hljs-keyword">const</span> { useStrict, reaction } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'mobx'</span>);
 
@@ -606,7 +611,7 @@ useStrict(<span class="hljs-literal">true</span>);
 <span class="hljs-comment">// Stateの用途1</span>
 <span class="hljs-comment">// ObservableなStateに更新があった時"だけ"、自動的に呼ばれる関数</span>
 reaction(
-  () =&gt; store.isOdd,
+  <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> store.isOdd,
   isOdd =&gt; {
     <span class="hljs-built_in">console</span>.log(isOdd ? <span class="hljs-string">'odd'</span> : <span class="hljs-string">'even'</span>);
   }
@@ -616,7 +621,8 @@ reaction(
 ReactDOM.render(
   <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">View</span> <span class="hljs-attr">store</span>=<span class="hljs-string">{store}</span> <span class="hljs-attr">event</span>=<span class="hljs-string">{createEvent(store)}</span> /&gt;</span>,
   document.getElementById('app')
-);</span></code></pre>
+);</span>
+</code></pre>
 <p>MobX自身はアーキテクチャは規定しないので、Fluxぽくするもよし、MVCぽくするもよし、MVVMぽくするもよし。</p>
 </section>
   </div>
@@ -698,7 +704,8 @@ shop.view.openBooksPage()
 shop.books.keys()
 shop.cart.addBook(shop.books.get(<span class="hljs-string">'978-1423103349'</span>))
 shop.cart.addBook(shop.books.get(<span class="hljs-string">'978-1423103349'</span>), <span class="hljs-number">2</span>, <span class="hljs-literal">false</span>)
-shop.cart.checkout()</code></pre>
+shop.cart.checkout()
+</code></pre>
 </section>
   </div>
   <div class="slide hidden" id="slide-23">

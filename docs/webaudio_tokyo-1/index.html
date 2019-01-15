@@ -139,6 +139,7 @@ pre {
   position: fixed;
   top: 0; left: 0; right: 0;
   height: 3px;
+  z-index: 1;
 }
 
 .progress-bar {
@@ -365,7 +366,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 
   <div class="slide" id="slide-1">
     <section class="slide-content"><h1 id="-a-webaudio-a-br-webrtc"><a>WebAudio</a>で<br>なんちゃってWebRTC</h1>
-<h2 id="-nbsp-">&nbsp;</h2>
+<h2 id="">&nbsp;</h2>
 <h2 id="2016-09-06-webaudio-tokyo-1">2016/09/06 WebAudio.tokyo #1</h2>
 </section>
   </div>
@@ -393,7 +394,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   </div>
   <div class="slide hidden" id="slide-4">
     <section class="slide-content"><h1 id="-webaudio-tokyo">🎉WebAudio.tokyo</h1>
-<h2 id="-webaudio-">まさかWebAudioの勉強会が開催される日がくるとは！</h2>
+<p>##まさかWebAudioの勉強会が開催される日がくるとは！</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-5">
@@ -442,7 +443,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   </div>
   <div class="slide hidden" id="slide-11">
     <section class="slide-content"><h1 id="-">デモ👀</h1>
-<h2 id="-wifi-">（WiFiがあれば）</h2>
+<p>##（WiFiがあれば）</p>
 <p><img src="https://raw.githubusercontent.com/leader22/audio-streaming-over-websocket/master/demo-img.jpg" alt=""></p>
 </section>
   </div>
@@ -509,13 +510,14 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 
 navigator.mediaDevices
   <span class="hljs-comment">// 今回は音さえあればOK</span>
-  .getUserMedia({ audio: <span class="hljs-literal">true</span> })
-  .then((stream) =&gt; {
+  .getUserMedia({ <span class="hljs-attr">audio</span>: <span class="hljs-literal">true</span> })
+  .then(<span class="hljs-function">(<span class="hljs-params">stream</span>) =&gt;</span> {
     <span class="hljs-keyword">var</span> micSrc = ctx.createMediaStreamSource(stream);
 
     <span class="hljs-comment">// micSrc: AudioBufferSourceNode</span>
     <span class="hljs-comment">// コレをつないでいく</span>
-  })</code></pre>
+  })
+</code></pre>
 <p><code>getUserMedia()</code>は、localhostかhttps環境でお試しください！</p>
 </section>
   </div>
@@ -528,7 +530,8 @@ filter.frequency.value = (<span class="hljs-number">100</span> + <span class="hl
 <span class="hljs-comment">// 固定ならだいたい聴き良いのがこれくらい・・？</span>
 filter.Q.value = <span class="hljs-number">0.25</span>;
 
-micSrc.connect(filter);</code></pre>
+micSrc.connect(filter);
+</code></pre>
 <p>リアルタイムに周波数帯を検知して、ダイナミックにフィルタも変動したかったけど面倒なのでやめた・・。</p>
 </section>
   </div>
@@ -543,7 +546,8 @@ analyser.fftSize = BUFFER_SIZE;
 <span class="hljs-keyword">var</span> freqs = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Uint8Array</span>(fbc);
 analyser.getByteFrequencyData(freqs);
 
-<span class="hljs-comment">// freqsの中身を、canvasにグラフとして描画</span></code></pre>
+<span class="hljs-comment">// freqsの中身を、canvasにグラフとして描画</span>
+</code></pre>
 <p>入力音によって波打つアレ。<br>
 これがあるとそれっぽい感じに！</p>
 </section>
@@ -564,10 +568,11 @@ processor.onaudioprocess = _onAudioProcess;
   outputData.set(inputData);
   <span class="hljs-comment">// これをそのままWebSocketで流す</span>
   worker.postMessage({
-    type: <span class="hljs-string">'AUDIO'</span>,
-    data: outputData.buffer
+    <span class="hljs-attr">type</span>: <span class="hljs-string">'AUDIO'</span>,
+    <span class="hljs-attr">data</span>: outputData.buffer
   });
-}</code></pre>
+}
+</code></pre>
 <p>音質にこだわるなら、ここで巨大なバッファに2chつめこめば・・？</p>
 </section>
   </div>
@@ -586,7 +591,8 @@ processor.onaudioprocess = _onAudioProcess;
   <span class="hljs-keyword">var</span> source = ctx.createBufferSource();
   source.buffer = audioBuffer;
   source.connect(audio.gain);
-}</code></pre>
+}
+</code></pre>
 <p>後は鳴らすだけ！</p>
 </section>
   </div>
@@ -604,7 +610,8 @@ processor.onaudioprocess = _onAudioProcess;
 <span class="hljs-keyword">else</span> {
   source.start(_startTime);
   _startTime = currentTime + audioBuffer.duration;
-}</code></pre>
+}
+</code></pre>
 <p>これが地味に重要で、こうしないとプツプツとぎれとぎれになります・・。</p>
 </section>
   </div>

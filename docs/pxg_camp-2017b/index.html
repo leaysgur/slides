@@ -439,8 +439,8 @@ Chrome or Firefox -&gt; MediaRecorder
       ↓
     fetch() w/ .webm
       ↓
-Node.js -&gt; ffmpeg -&gt; .ts + .m3u8 = HLS</code></pre>
-<ul>
+Node.js -&gt; ffmpeg -&gt; .ts + .m3u8 = HLS
+</code></pre><ul>
 <li>クライアント: <a href="https://github.com/leader22/ms2hls/tree/master/ms2hls-server">https://github.com/leader22/ms2hls/tree/master/ms2hls-server</a></li>
 <li>サーバー: <a href="https://github.com/leader22/ms2hls/tree/master/ms2hls-client">https://github.com/leader22/ms2hls/tree/master/ms2hls-client</a></li>
 </ul>
@@ -490,8 +490,8 @@ http://localhost:9999/live/1e26162b-2435-41c0-8140-667bf08ff072/2.ts
 
 #EXTINF:4.0,
 http://localhost:9999/live/1e26162b-2435-41c0-8140-667bf08ff072/99.ts
-#EXT-X-ENDLIST</code></pre>
-<p>仕様: <a href="https://tools.ietf.org/html/draft-pantos-http-live-streaming-23">https://tools.ietf.org/html/draft-pantos-http-live-streaming-23</a></p>
+#EXT-X-ENDLIST
+</code></pre><p>仕様: <a href="https://tools.ietf.org/html/draft-pantos-http-live-streaming-23">https://tools.ietf.org/html/draft-pantos-http-live-streaming-23</a></p>
 </section>
   </div>
   <div class="slide hidden" id="slide-9">
@@ -552,7 +552,8 @@ ffmpeg()
   .output(outputPath)
   .on(<span class="hljs-string">'error'</span>, err =&gt; {})
   .on(<span class="hljs-string">'end'</span>, () =&gt; {})
-  .run();</code></pre>
+  .run();
+</code></pre>
 <p>ただし「Looking for a new maintainer」らしい・・・！</p>
 </section>
   </div>

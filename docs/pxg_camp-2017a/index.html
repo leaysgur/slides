@@ -139,6 +139,7 @@ pre {
   position: fixed;
   top: 0; left: 0; right: 0;
   height: 3px;
+  z-index: 1;
 }
 
 .progress-bar {
@@ -496,23 +497,24 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <pre><code class="lang-js">self.addEventListener(<span class="hljs-string">'fetch'</span>, ev =&gt; {
   <span class="hljs-keyword">if</span> (ev.request.url.match(<span class="hljs-regexp">/\api\/track/</span>) === <span class="hljs-literal">false</span>) { <span class="hljs-keyword">return</span>; }
   ev.respondWith(
-    caches.open(<span class="hljs-string">'v1'</span>).then(cache =&gt; {
-      <span class="hljs-keyword">return</span> cache.match(ev.request).then(res =&gt; {
+    caches.open(<span class="hljs-string">'v1'</span>).then(<span class="hljs-function"><span class="hljs-params">cache</span> =&gt;</span> {
+      <span class="hljs-keyword">return</span> cache.match(ev.request).then(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> {
         <span class="hljs-keyword">if</span> (res) { <span class="hljs-keyword">return</span> res; }
 
         <span class="hljs-comment">// net::ERR_FAILED!</span>
         fetch(ev.request.clone())
           <span class="hljs-comment">// but call then() and cache something...</span>
-          .then(response =&gt; {
+          .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> {
             cache.put(ev.request, response.clone());
             <span class="hljs-keyword">return</span> response;
           })
           <span class="hljs-comment">// never comes</span>
-          .catch(err =&gt; { err; <span class="hljs-keyword">debugger</span>; });
+          .catch(<span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> { err; <span class="hljs-keyword">debugger</span>; });
       });
     })
   );
-});</code></pre>
+});
+</code></pre>
 <p>そもそも数MBの音源をキャッシュすると、すぐに<code>DOMException: Quota exceeded.</code>に・・。</p>
 </section>
   </div>
@@ -522,7 +524,8 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 postcss -c ./.postcssrc.json
 
 <span class="hljs-comment"># v3</span>
-postcss ./path/to/src.css -c ./postcss.config.js -o ./path/to/dist.css</code></pre>
+postcss ./path/to/src.css -c ./postcss.config.js -o ./path/to/dist.css
+</code></pre>
 <p>設定ファイルに<code>from</code>/<code>to</code>あるのに見てくれない！</p>
 <p>Issue立てたけど仕様らしい・・
 <a href="https://github.com/postcss/postcss-cli/issues/93">https://github.com/postcss/postcss-cli/issues/93</a></p>

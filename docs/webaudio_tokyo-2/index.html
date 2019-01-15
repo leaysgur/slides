@@ -139,6 +139,7 @@ pre {
   position: fixed;
   top: 0; left: 0; right: 0;
   height: 3px;
+  z-index: 1;
 }
 
 .progress-bar {
@@ -365,7 +366,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 
   <div class="slide" id="slide-1">
     <section class="slide-content"><h1 id="-a-webaudio-a-br-"><a>WebAudio</a>の初学者を<br>阻む壁について</h1>
-<h2 id="-nbsp-">&nbsp;</h2>
+<h2 id="">&nbsp;</h2>
 <h2 id="2016-11-08-webaudio-tokyo-2">2016/11/08 WebAudio.tokyo #2</h2>
 </section>
   </div>
@@ -438,7 +439,8 @@ oscillator.start();
 oscillator.stop();
 
 <span class="hljs-comment">// また鳴らそうとするとエラーになって音が鳴らない！</span>
-oscillator.start();</code></pre>
+oscillator.start();
+</code></pre>
 <p>Failed to execute &#39;start&#39; on &#39;OscillatorNode&#39;: cannot call start more than once.</p>
 </section>
   </div>
@@ -462,7 +464,8 @@ oscillator.start();</code></pre>
 oscillator.frequency.value = <span class="hljs-number">440</span>; <span class="hljs-comment">// コレとか</span>
 
 <span class="hljs-keyword">var</span> delay = audioCtx.createDelay(<span class="hljs-number">5.0</span>);
-delay.delayTime.value = <span class="hljs-number">3.0</span>; <span class="hljs-comment">// コレとか</span></code></pre>
+delay.delayTime.value = <span class="hljs-number">3.0</span>; <span class="hljs-comment">// コレとか</span>
+</code></pre>
 <ul>
 <li><code>.value</code>って必要？</li>
 <li>ほかにどんななパラメータを設定できる？</li>
@@ -475,7 +478,8 @@ delay.delayTime.value = <span class="hljs-number">3.0</span>; <span class="hljs-
     <section class="slide-content"><h3 id="a-audioparam-">A. AudioParamで検索！</h3>
 <pre><code class="lang-js"><span class="hljs-comment">// これらは実は AudioParam というオブジェクト（インターフェース）</span>
 oscillator.frequency;
-delay.delayTime;</code></pre>
+delay.delayTime;
+</code></pre>
 <ul>
 <li><a href="https://webaudio.github.io/web-audio-api/#AudioParam">https://webaudio.github.io/web-audio-api/#AudioParam</a></li>
 <li>値を直接セットしたり</li>
@@ -495,7 +499,8 @@ delay.delayTime;</code></pre>
   <div class="slide hidden" id="slide-16">
     <section class="slide-content"><h3 id="-">さっきの例だと</h3>
 <pre><code class="lang-js"><span class="hljs-keyword">var</span> delay = audioCtx.createDelay(<span class="hljs-number">5.0</span>);
-delay.delayTime.value = <span class="hljs-number">3.0</span>;</code></pre>
+delay.delayTime.value = <span class="hljs-number">3.0</span>;
+</code></pre>
 <p>設定できる値は、</p>
 <ul>
 <li>min: 0</li>
@@ -512,7 +517,8 @@ delay.delayTime.value = <span class="hljs-number">3.0</span>;</code></pre>
   <div class="slide hidden" id="slide-18">
     <section class="slide-content"><h3 id="-">例: マイクから拾って音を出す</h3>
 <p>音は無事に鳴った。</p>
-<pre><code class="lang-js">micStream.stop(); <span class="hljs-comment">// micStream.stop is not a function</span></code></pre>
+<pre><code class="lang-js">micStream.stop(); <span class="hljs-comment">// micStream.stop is not a function</span>
+</code></pre>
 <p>が、止めるとエラーになる！</p>
 </section>
   </div>
@@ -523,7 +529,8 @@ delay.delayTime.value = <span class="hljs-number">3.0</span>;</code></pre>
 <li>ある時から仕様が変わった</li>
 </ul>
 <pre><code class="lang-js"><span class="hljs-comment">// micStream.stop();</span>
-micStream.getAudioTracks().forEach((track) =&gt; { track.stop(); });</code></pre>
+micStream.getAudioTracks().forEach(<span class="hljs-function">(<span class="hljs-params">track</span>) =&gt;</span> { track.stop(); });
+</code></pre>
 <p>ちなみにこれはWebAudioではなく、WebRTC方面のAPIの問題。</p>
 </section>
   </div>
@@ -555,7 +562,8 @@ micStream.getAudioTracks().forEach((track) =&gt; { track.stop(); });</code></pre
 audioCtx.decodeAudioData(audioData)
   .then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">buffer</span>) </span>{
     <span class="hljs-comment">// Promise</span>
-  });</code></pre>
+  });
+</code></pre>
 <p>便利なものは使っていきましょう！</p>
 </section>
   </div>

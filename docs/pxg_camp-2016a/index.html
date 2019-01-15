@@ -139,6 +139,7 @@ pre {
   position: fixed;
   top: 0; left: 0; right: 0;
   height: 3px;
+  z-index: 1;
 }
 
 .progress-bar {
@@ -451,7 +452,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   </div>
   <div class="slide hidden" id="slide-12">
     <section class="slide-content"><h1 id="demo">DEMO</h1>
-<h2 id="-publisher-http-localhost-8888-client-pub-subscriber-http-localhost-8888-client-sub-"><a href="http://localhost:8888/client/pub/">Publisher</a> / <a href="http://localhost:8888/client/sub/">Subscriber</a></h2>
+<h2 id="publisher-subscriber"><a href="http://localhost:8888/client/pub/">Publisher</a> / <a href="http://localhost:8888/client/sub/">Subscriber</a></h2>
 </section>
   </div>
   <div class="slide hidden" id="slide-13">
@@ -492,7 +493,8 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <pre><code class="lang-javascript">socket.on(<span class="hljs-string">'audio'</span>, (payload) =&gt; {
   <span class="hljs-comment">// 送り先はともかく、ほんとに流すだけ</span>
   socket.to(payload.ch).emit(<span class="hljs-string">'audio'</span>, payload.buf);
-});</code></pre>
+});
+</code></pre>
 </section>
   </div>
   <div class="slide hidden" id="slide-17">
@@ -566,7 +568,8 @@ processor.onaudioprocess = <span class="hljs-function"><span class="hljs-keyword
   }
   <span class="hljs-comment">// or just set</span>
   <span class="hljs-comment">// outputData.set(inputData);</span>
-};</code></pre>
+};
+</code></pre>
 <p>PCMのサンプルデータに直接アクセスできるAudioNode</p>
 </section>
   </div>
@@ -580,14 +583,16 @@ filter.type = <span class="hljs-string">'bandpass'</span>;
 <span class="hljs-comment">// 今回は高品質あたりに山を作る</span>
 filter.frequency.value = (<span class="hljs-number">100</span> + <span class="hljs-number">7000</span>) / <span class="hljs-number">2</span>;
 <span class="hljs-comment">// 固定ならだいたい聴き良いのがこれくらい・・？</span>
-filter.Q.value = <span class="hljs-number">0.25</span>;</code></pre>
+filter.Q.value = <span class="hljs-number">0.25</span>;
+</code></pre>
 <p>最適な通過帯域は声や音によってそれぞれなので、決め打ちは気休めでしかない・・<br>が、コレが有るのと無いのでは大違い</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-24">
     <section class="slide-content"><h3 id="webworker">WebWorker</h3>
 <pre><code class="lang-javascript"><span class="hljs-keyword">new</span> Worker(<span class="hljs-string">'./worker.js'</span>);
-<span class="hljs-comment">// require('webworkify')(require('./worker.js'));</span></code></pre>
+<span class="hljs-comment">// require('webworkify')(require('./worker.js'));</span>
+</code></pre>
 <ul>
 <li>Mainスレッドとは別<ul>
 <li>Workerスレッドでjs処理ができる</li>
@@ -620,7 +625,8 @@ filter.Q.value = <span class="hljs-number">0.25</span>;</code></pre>
     source.start(startTime);
     startTime = currentTime + audioBuffer.duration;
   }
-}</code></pre>
+}
+</code></pre>
 <p>こうしないと、Socketの到着タイミングで随時再生されちゃうので、プツプツと聞けたもんじゃない！</p>
 </section>
   </div>
