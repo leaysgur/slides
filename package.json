@@ -3,14 +3,14 @@
   "name": "slides",
   "description": "My presentations!",
   "scripts": {
-    "postinstall": "chmod -R +x ./_script",
-    "md2html": "node ./_script/md2html.js",
-    "md2html:all": "for x in `ls | grep -E '^_|.md|.json|public|node_modules' -v`; do npm run md2html $x; done"
+    "postinstall": "chmod -R +x ./script",
+    "md2html": "node ./script/md2html.js",
+    "md2html:all": "for x in `ls ./docs | grep -E '^_|public' -v`; do npm run md2html $x; done"
   },
   "author": "leader22",
   "license": "MIT",
   "dependencies": {
-    "cleaver": "^0.8.5"
+    "cleaver": "^0.8.7"
   },
   "repository": {
     "type": "git",
