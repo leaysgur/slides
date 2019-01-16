@@ -38,7 +38,8 @@ controls: false
 ### 目次
 
 - STUNの概要
-- STUNの詳細 w/ デモ
+- STUNのユースケース w/ デモ
+- 実装の詳細
 - NodeJS(TypeScript)でこういうことをやっての学び
 
 半分くらいはこの記事に書いてあります。
@@ -59,6 +60,8 @@ controls: false
 - Obsoletes RFC 3489
   - [RFC 3489 - STUN - Simple Traversal of User Datagram Protocol (UDP) Through Network Address Translators (NATs)](https://tools.ietf.org/html/rfc3489)
   - いろいろやってみたら考慮が足らんかったらしい
+
+このRFC5389についての話をします。
 
 --
 
@@ -147,19 +150,20 @@ pc.onicecandidate = ev => {
 ```
 
 この時、ブラウザが内部的にSTUNを使ってます。
+candidateやSDPを読めば使われてるかどうかがわかります。
 
-その内部的な挙動を切り出して実装したのが、今回のやつ。
+その内部的な挙動を切り出して実装したのが、今回のやつです。
 
 --
 
-### STUNの詳細
+### STUNの実装
 
 - <a>STUNメッセージ</a>💌をやり取りする決まり
   - フォーマットが決まってる
-  - 固定のヘッダ + Nヶのアトリビュート（属性値）
-- 実装 = これらを抽象化してコードにすること
+- これをUDPやTCPのペイロードに載せて送りあう
+  - どっちを使ってもよい（という仕様）
 
-これをUDPやTCPのペイロードに載せて送りあうことになってる。
+実装 = このメッセージの組み上げ・読み取りを抽象化してコードにすること。
 
 --
 
@@ -197,7 +201,7 @@ pc.onicecandidate = ev => {
 
 --
 
-### メッセージフォーマット（おさらい）
+### メッセージフォーマット
 
 - ヘッダ
   - 20byte固定
@@ -205,7 +209,7 @@ pc.onicecandidate = ev => {
   - 任意の数
   - RFC5389では11種類
 
-フォーマットに沿って、さっきの数字を当てはめていけばOK！
+このフォーマットに沿って、さっきの数字を当てはめていけばOK！
 
 --
 
@@ -254,7 +258,11 @@ pc.onicecandidate = ev => {
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ```
 
-つまりこうなる！
+なんとなく薄目で見える気がしませんか・・！
+
+--
+
+### 16進数で当てはめる
 
 ```
 +-+-+-+-+-+-+
@@ -268,7 +276,7 @@ pc.onicecandidate = ev => {
 +-+-+-+-+-+-+
 ```
 
-なんか読めそうな気がしてましたね？
+なんか読めそうな気がしてきましたね？！
 
 --
 
@@ -307,12 +315,6 @@ pc.onicecandidate = ev => {
 ### レスポンス（Octet Stream）
 
 ```
-01 01 00 0c 21 12 a4 42 de ee 57 d0 40 3a fa c8 bc 0d 04 80 00 20 00 08 00 01 c3 f7 a2 81 ee fd
-```
-
-つまりこうなる！
-
-```
 +-+-+-+-+-+-+
 |01 01|00 0c|
 +-+-+-+-+-+-+
@@ -335,7 +337,7 @@ pc.onicecandidate = ev => {
 - MagicCookieは固定値
   - なのでリクエストと同じ
 - Transaction IDはリクエストのIDと同じ
-  - これでReq/ResのTransactionを表すことになってる
+  - これでReq/ResのTransactionを表す決まり
 - なんらかのアトリビュートが12byteついてる
 
 --
@@ -441,7 +443,7 @@ Comprehension-optional range (0x8000-0xFFFF)
   - Familyで長さが変わる
   - IPv4: 32bit = 4byte OR IPv6: 128bit = 16byte
 
-ポートとアドレスが`XOR`演算されてるのが特徴。
+ポートとアドレスが`XOR`演算されてるのが特徴。（ロジックは割愛）
 
 > [15.2.  XOR-MAPPED-ADDRESS](https://tools.ietf.org/html/rfc5389#section-15.2)
 
@@ -495,10 +497,10 @@ Valueのみ抜粋し先頭から、
 元はといえば、
 
 ```
-01 01 00 0c 21 12 a4 42 9f 72 14 42 cb 78 7e 2c 5e 00 f6 3f 00 20 00 08 00|01 c3 f7 a2 81 ee fd
+01 01 00 0c 21 12 a4 42 9f 72 14 42 cb 78 7e 2c 5e 00 f6 3f 00 20 00 08 00 01 c3 f7 a2 81 ee fd
 ```
 
-今なら読める🎉
+今なら読める🤩
 
 --
 
@@ -601,8 +603,9 @@ socket.on('message', msg => {
 
 --
 
-### ビット単位の処理
+### ビット単位の処理が面倒
 
+- そんなに頻繁ではないけど
 - 直接ビット列にアクセスする手段がない
   - 例えば、先頭2bitが`0`かどうか
 - 愚直に実装するしかない
@@ -611,6 +614,7 @@ socket.on('message', msg => {
   - 桁をあわせて
   - 文字列として判定する
 - 他の言語でも同じ・・？
+  - ビット演算しろという話ではある
 
 --
 
@@ -618,7 +622,8 @@ socket.on('message', msg => {
 
 - 控えめにいって最高
 - `node --inspect-brk ./client.js`
-  - `debugger`で止められる
+  - 任意の行を`debugger`で止められる
+  - ログ吐き放題
 - ただし16進数を脳内でパースする必要あり
   - DevToolsに見える数値はすべて10進数になってる
   - RFCはだいたい16進数で書いてある
@@ -641,8 +646,8 @@ socket.on('message', msg => {
 
 <style>
 :root {
-  --bg-color: #effaff;
-  --bar-color: #274a78;
+  --bg-color: #f8fdff;
+  --bar-color: #66b5ff;
   --em-color: #6f89d8;
 }
 </style>

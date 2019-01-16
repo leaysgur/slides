@@ -358,7 +358,6 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 
 
   </style>
-    <script async src="http://localhost:35729/livereload.js"></script>
 </head>
 <body>
     <div class="progress">
@@ -405,7 +404,8 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
     <section class="slide-content"><h3 id="-">目次</h3>
 <ul>
 <li>STUNの概要</li>
-<li>STUNの詳細 w/ デモ</li>
+<li>STUNのユースケース w/ デモ</li>
+<li>実装の詳細</li>
 <li>NodeJS(TypeScript)でこういうことをやっての学び</li>
 </ul>
 <p>半分くらいはこの記事に書いてあります。</p>
@@ -432,6 +432,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </ul>
 </li>
 </ul>
+<p>このRFC5389についての話をします。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-8">
@@ -524,21 +525,24 @@ pc.onicecandidate = <span class="hljs-function"><span class="hljs-params">ev</sp
   }
 }
 </code></pre>
-<p>この時、ブラウザが内部的にSTUNを使ってます。</p>
-<p>その内部的な挙動を切り出して実装したのが、今回のやつ。</p>
+<p>この時、ブラウザが内部的にSTUNを使ってます。
+candidateやSDPを読めば使われてるかどうかがわかります。</p>
+<p>その内部的な挙動を切り出して実装したのが、今回のやつです。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-15">
-    <section class="slide-content"><h3 id="stun-">STUNの詳細</h3>
+    <section class="slide-content"><h3 id="stun-">STUNの実装</h3>
 <ul>
 <li><a>STUNメッセージ</a>💌をやり取りする決まり<ul>
 <li>フォーマットが決まってる</li>
-<li>固定のヘッダ + Nヶのアトリビュート（属性値）</li>
 </ul>
 </li>
-<li>実装 = これらを抽象化してコードにすること</li>
+<li>これをUDPやTCPのペイロードに載せて送りあう<ul>
+<li>どっちを使ってもよい（という仕様）</li>
 </ul>
-<p>これをUDPやTCPのペイロードに載せて送りあうことになってる。</p>
+</li>
+</ul>
+<p>実装 = このメッセージの組み上げ・読み取りを抽象化してコードにすること。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-16">
@@ -562,7 +566,7 @@ pc.onicecandidate = <span class="hljs-function"><span class="hljs-params">ev</sp
 </section>
   </div>
   <div class="slide hidden" id="slide-19">
-    <section class="slide-content"><h3 id="-">メッセージフォーマット（おさらい）</h3>
+    <section class="slide-content"><h3 id="-">メッセージフォーマット</h3>
 <ul>
 <li>ヘッダ<ul>
 <li>20byte固定</li>
@@ -574,7 +578,7 @@ pc.onicecandidate = <span class="hljs-function"><span class="hljs-params">ev</sp
 </ul>
 </li>
 </ul>
-<p>フォーマットに沿って、さっきの数字を当てはめていけばOK！</p>
+<p>このフォーマットに沿って、さっきの数字を当てはめていけばOK！</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-20">
@@ -616,7 +620,11 @@ pc.onicecandidate = <span class="hljs-function"><span class="hljs-params">ev</sp
 |1 1 0 0 1 0 1 1 0 1 1 1 1 0 0 0 0 1 1 1 1 1 1 0 0 0 1 0 1 1 0 0|
 |0 1 0 1 1 1 1 0 0 0 0 0 0 0 0 0 1 1 1 1 0 1 1 0 0 0 1 1 1 1 1 1|
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-</code></pre><p>つまりこうなる！</p>
+</code></pre><p>なんとなく薄目で見える気がしませんか・・！</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-22">
+    <section class="slide-content"><h3 id="16-">16進数で当てはめる</h3>
 <pre><code>+-+-+-+-+-+-+
 |00 01|00 00|
 +-+-+-+-+-+-+
@@ -626,10 +634,10 @@ pc.onicecandidate = <span class="hljs-function"><span class="hljs-params">ev</sp
 |cb 78 7e 2c|
 |5e 00 f6 3f|
 +-+-+-+-+-+-+
-</code></pre><p>なんか読めそうな気がしてましたね？</p>
+</code></pre><p>なんか読めそうな気がしてきましたね？！</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-22">
+  <div class="slide hidden" id="slide-23">
     <section class="slide-content"><h3 id="stun-header-">STUN Headerを読み解く</h3>
 <pre><code>+-+-+-+-+-+-+
 |00 01|00 00|
@@ -659,14 +667,12 @@ pc.onicecandidate = <span class="hljs-function"><span class="hljs-params">ev</sp
 <p>つまり、アトリビュートなしの<code>BINDING-REQUEST</code>を送信していた！</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-23">
+  <div class="slide hidden" id="slide-24">
     <section class="slide-content"><h1 id="-">つづいてレスポンス</h1>
 </section>
   </div>
-  <div class="slide hidden" id="slide-24">
+  <div class="slide hidden" id="slide-25">
     <section class="slide-content"><h3 id="-octet-stream-">レスポンス（Octet Stream）</h3>
-<pre><code>01 01 00 0c 21 12 a4 42 de ee 57 d0 40 3a fa c8 bc 0d 04 80 00 20 00 08 00 01 c3 f7 a2 81 ee fd
-</code></pre><p>つまりこうなる！</p>
 <pre><code>+-+-+-+-+-+-+
 |01 01|00 0c|
 +-+-+-+-+-+-+
@@ -691,14 +697,14 @@ pc.onicecandidate = <span class="hljs-function"><span class="hljs-params">ev</sp
 </ul>
 </li>
 <li>Transaction IDはリクエストのIDと同じ<ul>
-<li>これでReq/ResのTransactionを表すことになってる</li>
+<li>これでReq/ResのTransactionを表す決まり</li>
 </ul>
 </li>
 <li>なんらかのアトリビュートが12byteついてる</li>
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-25">
+  <div class="slide hidden" id="slide-26">
     <section class="slide-content"><h3 id="stun-attribute">STUN Attribute</h3>
 <pre><code> 0                   1                   2                   3
  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
@@ -722,7 +728,7 @@ pc.onicecandidate = <span class="hljs-function"><span class="hljs-params">ev</sp
 </blockquote>
 </section>
   </div>
-  <div class="slide hidden" id="slide-26">
+  <div class="slide hidden" id="slide-27">
     <section class="slide-content"><h3 id="stun-attribute-types">STUN Attribute Types</h3>
 <pre><code>Comprehension-required range (0x0000-0x7FFF):
  0x0000: (Reserved)
@@ -755,7 +761,7 @@ Comprehension-optional range (0x8000-0xFFFF)
 </blockquote>
 </section>
   </div>
-  <div class="slide hidden" id="slide-27">
+  <div class="slide hidden" id="slide-28">
     <section class="slide-content"><h3 id="-attribute">レスポンスのattribute</h3>
 <pre><code>+-+-+-+-+-+-+
 |00 20|00 08|
@@ -771,7 +777,7 @@ Comprehension-optional range (0x8000-0xFFFF)
 <p>このアトリビュートは<code>0x0020: XOR-MAPPED-ADDRESS</code>だ！</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-28">
+  <div class="slide hidden" id="slide-29">
     <section class="slide-content"><h3 id="xor-mapped-address-attribute">XOR-MAPPED-ADDRESS attribute</h3>
 <pre><code> 0                   1                   2                   3
  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
@@ -794,13 +800,13 @@ Comprehension-optional range (0x8000-0xFFFF)
 </ul>
 </li>
 </ul>
-<p>ポートとアドレスが<code>XOR</code>演算されてるのが特徴。</p>
+<p>ポートとアドレスが<code>XOR</code>演算されてるのが特徴。（ロジックは割愛）</p>
 <blockquote>
 <p><a href="https://tools.ietf.org/html/rfc5389#section-15.2">15.2.  XOR-MAPPED-ADDRESS</a></p>
 </blockquote>
 </section>
   </div>
-  <div class="slide hidden" id="slide-29">
+  <div class="slide hidden" id="slide-30">
     <section class="slide-content"><h3 id="-attribute-">レスポンスのattribute（再掲）</h3>
 <pre><code>+-+-+-+-+-+-+
 |00|01|c3 f7|
@@ -827,7 +833,7 @@ Comprehension-optional range (0x8000-0xFFFF)
 <p>これで読めた！</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-30">
+  <div class="slide hidden" id="slide-31">
     <section class="slide-content"><h3 id="-">レスポンスを読み解く</h3>
 <pre><code>+-+-+-+-+-+-+
 |01 01|00 0c| STUN Message Type | Message Length
@@ -845,15 +851,15 @@ Comprehension-optional range (0x8000-0xFFFF)
 |a2 81 ee fd| X-Address
 +-+-+-+-+-+-+
 </code></pre><p>元はといえば、</p>
-<pre><code>01 01 00 0c 21 12 a4 42 9f 72 14 42 cb 78 7e 2c 5e 00 f6 3f 00 20 00 08 00|01 c3 f7 a2 81 ee fd
-</code></pre><p>今なら読める🎉</p>
-</section>
-  </div>
-  <div class="slide hidden" id="slide-31">
-    <section class="slide-content"><h1 id="nodejs-typescript-br-">NodeJS(TypeScript)で<br>これを実装</h1>
+<pre><code>01 01 00 0c 21 12 a4 42 9f 72 14 42 cb 78 7e 2c 5e 00 f6 3f 00 20 00 08 00 01 c3 f7 a2 81 ee fd
+</code></pre><p>今なら読める🤩</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-32">
+    <section class="slide-content"><h1 id="nodejs-typescript-br-">NodeJS(TypeScript)で<br>これを実装</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-33">
     <section class="slide-content"><h3 id="-">しました</h3>
 <blockquote>
 <p><a href="https://github.com/leader22/webrtc-stun">leader22/webrtc-stun: 100% TypeScript STUN implementation for WebRTC.</a></p>
@@ -874,7 +880,7 @@ Comprehension-optional range (0x8000-0xFFFF)
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-33">
+  <div class="slide hidden" id="slide-34">
     <section class="slide-content"><h3 id="-">リクエストの送信</h3>
 <pre><code class="lang-typescript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> dgram <span class="hljs-keyword">from</span> <span class="hljs-string">'dgram'</span>;
 <span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> stun <span class="hljs-keyword">from</span> <span class="hljs-string">'webrtc-stun'</span>;
@@ -896,7 +902,7 @@ socket.send(req.toBuffer(), <span class="hljs-number">19302</span>, <span class=
 <p>さっきのデモで使ったコードと同一のもの。</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-34">
+  <div class="slide hidden" id="slide-35">
     <section class="slide-content"><h3 id="-">レスポンスの受信</h3>
 <pre><code class="lang-typescript"><span class="hljs-comment">// ...</span>
 
@@ -919,11 +925,11 @@ socket.on(<span class="hljs-string">'message'</span>, <span class="hljs-function
 <p>これを使えば、ブラウザではなくサーバーでWebRTCを動かす第一歩に・・・！</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-35">
+  <div class="slide hidden" id="slide-36">
     <section class="slide-content"><h1 id="-">実装してみての学び</h1>
 </section>
   </div>
-  <div class="slide hidden" id="slide-36">
+  <div class="slide hidden" id="slide-37">
     <section class="slide-content"><h3 id="javascript-">JavaScriptでプロトコル実装</h3>
 <ul>
 <li>つらい🤮と思われがち</li>
@@ -943,7 +949,7 @@ socket.on(<span class="hljs-string">'message'</span>, <span class="hljs-function
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-37">
+  <div class="slide hidden" id="slide-38">
     <section class="slide-content"><h3 id="-">前提知識が多い🤯</h3>
 <ul>
 <li>プロトコル実装特有の前提知識（頻出語彙）<ul>
@@ -965,9 +971,10 @@ socket.on(<span class="hljs-string">'message'</span>, <span class="hljs-function
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-38">
-    <section class="slide-content"><h3 id="-">ビット単位の処理</h3>
+  <div class="slide hidden" id="slide-39">
+    <section class="slide-content"><h3 id="-">ビット単位の処理が面倒</h3>
 <ul>
+<li>そんなに頻繁ではないけど</li>
 <li>直接ビット列にアクセスする手段がない<ul>
 <li>例えば、先頭2bitが<code>0</code>かどうか</li>
 </ul>
@@ -979,16 +986,20 @@ socket.on(<span class="hljs-string">'message'</span>, <span class="hljs-function
 <li>文字列として判定する</li>
 </ul>
 </li>
-<li>他の言語でも同じ・・？</li>
+<li>他の言語でも同じ・・？<ul>
+<li>ビット演算しろという話ではある</li>
+</ul>
+</li>
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-39">
+  <div class="slide hidden" id="slide-40">
     <section class="slide-content"><h3 id="devtools-">DevToolsでデバッグできる</h3>
 <ul>
 <li>控えめにいって最高</li>
 <li><code>node --inspect-brk ./client.js</code><ul>
-<li><code>debugger</code>で止められる</li>
+<li>任意の行を<code>debugger</code>で止められる</li>
+<li>ログ吐き放題</li>
 </ul>
 </li>
 <li>ただし16進数を脳内でパースする必要あり<ul>
@@ -999,7 +1010,7 @@ socket.on(<span class="hljs-string">'message'</span>, <span class="hljs-function
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-40">
+  <div class="slide hidden" id="slide-41">
     <section class="slide-content"><h3 id="rfc-">RFCの行間を読むのがつらい</h3>
 <ul>
 <li>何よりもつらい</li>
@@ -1016,12 +1027,12 @@ socket.on(<span class="hljs-string">'message'</span>, <span class="hljs-function
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-41">
+  <div class="slide hidden" id="slide-42">
     <section class="slide-content"><h1 id="thank-you-">Thank you!</h1>
 <p><style>
 :root {
-  --bg-color: #effaff;
-  --bar-color: #274a78;
+  --bg-color: #f8fdff;
+  --bar-color: #66b5ff;
   --em-color: #6f89d8;
 }
 </style></p>
