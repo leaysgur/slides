@@ -15,6 +15,7 @@ controls: false
 - NTTコミュニケーションズ株式会社
   - ex-株式会社PixelGrid
 - SkyWayの中の人やってます
+- WebRTC Meetupは2度目の登壇
 
 ![leader22](../public/img/prof.jpg)
 
@@ -37,18 +38,18 @@ controls: false
 
 ### 目次
 
-- STUNの概要
-- STUNのユースケース w/ デモ
+- STUNとはなにか
+- STUNの使用例 w/ デモ
 - 実装の詳細
 - NodeJS(TypeScript)でこういうことをやっての学び
 
-半分くらいはこの記事に書いてあります。
+半分くらいはこの記事に書いてあります・・！
 
 > [NodeJSでSTUN(RFC5389)(の一部)を実装した - console.lealog();](https://lealog.hateblo.jp/entry/2018/12/28/184909)
 
 --
 
-# STUNの概要
+# <a>STUN</a>とはなにか
 
 --
 
@@ -84,7 +85,7 @@ from https://ja.wikipedia.org/wiki/ネットワークアドレス変換
 - WebRTCで通信するために、相手のピアに自分のNW情報を知らせる必要がある
   - IPとかPortとか
   - `icecandidate`というやつ
-- ただし、外部のNWから見た自分のIP/Portはわからない
+- ただし、<a>外部のNWから見た</a>自分のIP/Portはわからない
   - わからないと知らせることができない
 - 知らせることができないと、もちろんつながらない
   - ＼(^o^)／
@@ -99,13 +100,13 @@ from https://ja.wikipedia.org/wiki/ネットワークアドレス変換
 
 ![STUNサーバーにSTUNクライアントから問い合わせる](./img/stun.png)
 
-これで自分のNW情報がわかる！
+これで自分のNW情報がわかるので、それを送ればOK！
 
 --
 
-### これはあくまで一例
+### 他にもいろいろ使われてる
 
-- 他にもSTUNのWebRTC的なユースケースはいくつかある
+- 他にもSTUNのWebRTC的なユースケースはある
   - ユースケース = STUNというコンポーネントを使ってなんかすること
 - RFC5389よりも、他のRFCで言及されてたりする
   - [RFC 8445 - Interactive Connectivity Establishment (ICE): A Protocol for Network Address Translator (NAT) Traversal](https://tools.ietf.org/html/rfc8445)
@@ -144,7 +145,7 @@ pc.onicecandidate = ev => {
   if (ev.candidate !== null) {
     console.log(ev.candidate.candidate);
   } else {
-    console.log(pc.localDescription.sdp);
+    console.warn(pc.localDescription.sdp);
   }
 }
 ```
@@ -161,9 +162,9 @@ candidateやSDPを読めば使われてるかどうかがわかります。
 - <a>STUNメッセージ</a>💌をやり取りする決まり
   - フォーマットが決まってる
 - これをUDPやTCPのペイロードに載せて送りあう
-  - どっちを使ってもよい（という仕様）
+  - どっちを使ってもよい
 
-実装 = このメッセージの組み上げ・読み取りを抽象化してコードにすること。
+つまり実装 = このメッセージの組み上げ・読み取りを抽象化してコードにすること。
 
 --
 
@@ -258,7 +259,7 @@ candidateやSDPを読めば使われてるかどうかがわかります。
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ```
 
-なんとなく薄目で見える気がしませんか・・！
+ね？簡単でしょう？
 
 --
 
@@ -276,22 +277,22 @@ candidateやSDPを読めば使われてるかどうかがわかります。
 +-+-+-+-+-+-+
 ```
 
-なんか読めそうな気がしてきましたね？！
+これなら読めそうな気がする！
 
 --
 
 ### STUN Headerを読み解く
 
 ```
-+-+-+-+-+-+-+
-|00 01|00 00|
-+-+-+-+-+-+-+
-|21 12 a4 42|
-+-+-+-+-+-+-+
-|9f 72 14 42|
-|cb 78 7e 2c|
-|5e 00 f6 3f|
-+-+-+-+-+-+-+
++-+-+-+-+-+-+      +-+-+-+-+-+-++-+-+-+-+-+-++-+-+-+-+-+-+
+|00 01|00 00|      |   Message Type  |  Message Length   |
++-+-+-+-+-+-+      +-+-+-+-+-+-++-+-+-+-+-+-++-+-+-+-+-+-+
+|21 12 a4 42|      |             MagicCookie             |
++-+-+-+-+-+-+  =>  +-+-+-+-+-+-++-+-+-+-+-+-++-+-+-+-+-+-+
+|9f 72 14 42|      |                                     |
+|cb 78 7e 2c|      |             Transaction ID          |
+|5e 00 f6 3f|      |                                     |
++-+-+-+-+-+-+      +-+-+-+-+-+-++-+-+-+-+-+-++-+-+-+-+-+-+
 ```
 
 先頭から、
@@ -333,12 +334,13 @@ candidateやSDPを読めば使われてるかどうかがわかります。
 
 - Typeは`0101` as 16進数 = `257` as 10進数
 - Lengthは`000c` as 16進数 = `12` as 10進数
-  - なんらかのアトリビュート値がついてる
+  - 12byte分のアトリビュートがついてる
 - MagicCookieは固定値
   - なのでリクエストと同じ
 - Transaction IDはリクエストのIDと同じ
   - これでReq/ResのTransactionを表す決まり
-- なんらかのアトリビュートが12byteついてる
+
+なんらかのアトリビュートがついてる！
 
 --
 
@@ -477,21 +479,21 @@ Valueのみ抜粋し先頭から、
 ### レスポンスを読み解く
 
 ```
-+-+-+-+-+-+-+
-|01 01|00 0c| STUN Message Type | Message Length
-+-+-+-+-+-+-+
-|21 12 a4 42| MagicCookie
-+-+-+-+-+-+-+
-|9f 72 14 42|
-|cb 78 7e 2c| Transaction ID
-|5e 00 f6 3f|
-+-+-+-+-+-+-+
-|00 20|00 08| STUN Attribute Type(XOR-MAPPED-ADDRESS) | Attribute Length
-+-+-+-+-+-+-+
-|00|01|c3 f7| -- | Family | X-Port
-+-+-+-+-+-+-+
-|a2 81 ee fd| X-Address
-+-+-+-+-+-+-+
++-+-+-+-+-+-+      +-+-+-+-+-+-++-+-+-+-+-+-++-+-+-+-+-+-+
+|01 01|00 0c|      |   Message Type  |  Message Length   |
++-+-+-+-+-+-+      +-+-+-+-+-+-++-+-+-+-+-+-++-+-+-+-+-+-+
+|21 12 a4 42|      |             MagicCookie             |
++-+-+-+-+-+-+      +-+-+-+-+-+-++-+-+-+-+-+-++-+-+-+-+-+-+
+|9f 72 14 42|      |                                     |
+|cb 78 7e 2c|      |             Transaction ID          |
+|5e 00 f6 3f|  =>  |                                     |
++-+-+-+-+-+-+      +-+-+-+-+-+-++-+-+-+-+-+-++-+-+-+-+-+-+
+|00 20|00 08|      | AttrType(XOR-MA) |    Attr Length   |
++-+-+-+-+-+-+      +-+-+-+-+-+-++-+-+-+-+-+-++-+-+-+-+-+-+
+|00|01|c3 f7|      |  ----  | Family  |       X-Port     |
++-+-+-+-+-+-+      +-+-+-+-+-+-++-+-+-+-+-+-++-+-+-+-+-+-+
+|a2 81 ee fd|      |           X-Address                 |
++-+-+-+-+-+-+      +-+-+-+-+-+-++-+-+-+-+-+-++-+-+-+-+-+-+
 ```
 
 元はといえば、
@@ -515,7 +517,7 @@ Valueのみ抜粋し先頭から、
 - 100% TypeScript
   - 型定義いれて1000行くらい
 - RFC5389の一部のみ
-  - 6/11ヶのattributeを実装済
+  - 6/11ヶのattributeを実装
 - だいたい1ヶ月くらい
   - こういうことするの初なので遠回りした感
 
@@ -526,17 +528,15 @@ Valueのみ抜粋し先頭から、
 ```typescript
 import * as dgram from 'dgram';
 import * as stun from 'webrtc-stun';
-import * as pkg from '../package.json';
 
 // communicate on UDP
 const socket = dgram.createSocket({ type: 'udp4' });
 
 // use this id for transaction
 const tid = stun.generateTransactionId();
-const req = stun
-  .createBindingRequest(tid)
-  .setSoftwareAttribute(`${pkg.name}@${pkg.version}`);
 
+// send BINDING-REQUEST
+const req = stun.createBindingRequest(tid);
 socket.send(req.toBuffer(), 19302, 'stun.l.google.com');
 
 // ...
@@ -567,7 +567,7 @@ socket.on('message', msg => {
 });
 ```
 
-これを使えば、ブラウザではなくサーバーでWebRTCを動かす第一歩に・・・！
+自作WebRTCスタックの第一歩・・・！
 
 --
 
@@ -577,11 +577,11 @@ socket.on('message', msg => {
 
 ### JavaScriptでプロトコル実装
 
-- つらい🤮と思われがち
+- つらい🤮と思われがち + 思ってた
 - が、トータルで省みると、思ってたよりつらくなかった
   - フロントエンドエンジニア補正はありそう
 - 勝手がわかるまではもちろん大変だった
-  - NodeJSの`Buffer`の使い方
+  - 主にNodeJSの`Buffer`の使い方
   - と、さっきのビット列のマッピングなど
 - 型はあったほうが嬉しい
   - こんなにI/Fが単純な要件でも
@@ -597,13 +597,12 @@ socket.on('message', msg => {
   - NBO / HBO
   - MSB / LSB
   - etc...
-- コードをシュッと書くテクニック
-  - ビット演算
-    - 回避した結果、冗長なコードに・・・
+- ビット演算のための筋肉
+  - 回避した結果、一部は冗長なコードに・・・
 
 --
 
-### ビット単位の処理が面倒
+### ビット単位の処理は面倒
 
 - そんなに頻繁ではないけど
 - 直接ビット列にアクセスする手段がない
@@ -623,7 +622,7 @@ socket.on('message', msg => {
 - 控えめにいって最高
 - `node --inspect-brk ./client.js`
   - 任意の行を`debugger`で止められる
-  - ログ吐き放題
+  - 変数も覗き放題
 - ただし16進数を脳内でパースする必要あり
   - DevToolsに見える数値はすべて10進数になってる
   - RFCはだいたい16進数で書いてある
@@ -637,8 +636,46 @@ socket.on('message', msg => {
   - 要件の全容が把握できないまま、ベストなAPIを模索
   - カジュアルに破壊的変更するしかない
 - 読んで理解しないと実装できないけど、実装しないとそもそも理解できないという怪現象が起こる
-  - 🤔
-- そして関連RFCの数が膨大
+  - 🤔🤔🤔
+- そして関連RFCの数も膨大
+
+--
+
+# まとめ
+
+--
+
+### まとめ
+
+- STUNはWebRTCを支える技術
+  - であるICEを支える技術
+  - いわゆるNAT越えを実現するための道具
+- STUNメッセージをやり取りする決まり
+  - メッセージにはTypeがある
+  - メッセージにはアトリビュートがついてる
+- JavaScriptでもこういう実装はできる
+  - DevToolsのおかげでデバッグはしやすい
+
+--
+
+### 今後の展望
+
+- 全てのアトリビュートを実装する・・？
+  - 拡張されまくりで、40種類くらいある🤗
+  - [Session Traversal Utilities for NAT (STUN) Parameters](https://www.iana.org/assignments/stun-parameters/stun-parameters.xhtml)
+- ICEを実装してみて、必要な拡張部分だけを追加する？
+  - 4-5種類くらいなはず
+- 次のレイヤーへ？
+  - DTLS・・？
+  - でも前例あるし・・
+
+--
+
+### 参考資料
+- [RFC 5389 - Session Traversal Utilities for NAT (STUN)](https://tools.ietf.org/html/rfc5389)
+- [NodeJSでSTUN(RFC5389)(の一部)を実装した - console.lealog();](https://lealog.hateblo.jp/entry/2018/12/28/184909)
+- [輪講資料 ICE（Interactive Connectivity Establishment）](http://www.wata-lab.meijo-u.ac.jp/file/seminar/2017/2017-Semi1-Yuma_Kamoshita.pdf)
+- [nodertc/stun: Low-level Session Traversal Utilities for NAT (STUN) server](https://github.com/nodertc/stun)
 
 --
 
