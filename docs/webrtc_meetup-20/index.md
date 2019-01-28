@@ -38,9 +38,10 @@ controls: false
 
 ### 目次
 
-- STUNとはなにか
-- STUNの使用例 w/ デモ
-- 実装の詳細
+- STUNとは
+  - 概要
+  - ユースケース w/ デモ
+- STUNの実装とその詳細
 - NodeJS(TypeScript)でこういうことをやっての学び
 
 半分くらいはこの記事に書いてあります・・！
@@ -53,20 +54,27 @@ controls: false
 
 --
 
-### STUN is プロトコル
+### その前にアンケート
 
-- <a>NAT</a>を越えて通信するためのユーティリティ
-  - の作り方が書いてあるRFCがある
-- [RFC 5389 - Session Traversal Utilities for NAT (STUN)](https://tools.ietf.org/html/rfc5389)
-- Obsoletes RFC 3489
-  - [RFC 3489 - STUN - Simple Traversal of User Datagram Protocol (UDP) Through Network Address Translators (NATs)](https://tools.ietf.org/html/rfc3489)
-  - いろいろやってみたら考慮が足らんかったらしい
-
-このRFC5389についての話をします。
+- WebRTC使って<a>P2P</a>したことある人✋
+- その中で、<a>STUN</a>を使ったことがある人✋
+  - どんなパターンでもOKです
 
 --
 
-### NATとは
+### STUN is プロトコル
+
+- <a>NAT</a>を越えて通信するための仕組み・ツール
+- [RFC 5389 - Session Traversal Utilities for NAT (STUN)](https://tools.ietf.org/html/rfc5389)
+  - Obsoletes RFC 3489
+    - [RFC 3489 - STUN - Simple Traversal of User Datagram Protocol (UDP) Through Network Address Translators (NATs)](https://tools.ietf.org/html/rfc3489)
+  - いろいろやってみたら考慮が足らんかったらしい
+
+今日はこのRFC5389+αの話です。
+
+--
+
+### 補足: NATとは
 
 <a>N</a>etwork <a>A</a>ddress <a>T</a>ranslationの略
 
@@ -80,35 +88,79 @@ from https://ja.wikipedia.org/wiki/ネットワークアドレス変換
 
 --
 
-### なぜSTUN
-
-- WebRTCで通信するために、相手のピアに自分のNW情報を知らせる必要がある
-  - IPとかPortとか
-  - `icecandidate`というやつ
-- ただし、<a>外部のNWから見た</a>自分のIP/Portはわからない
-  - わからないと知らせることができない
-- 知らせることができないと、もちろんつながらない
-  - ＼(^o^)／
-
-もっと詳しく（ｒｙ
-
-> [WebRTCのICEについて知る](https://www.slideshare.net/iwashi86/webrtcice)
+# 🤯
+## できるだけわかりやすくします！
 
 --
 
-### そこでSTUN
+### WebRTCがつながるまで（簡易）
+
+- 1: 自分のNW情報を把握する
+  - 相手に知らせる
+  - 相手のNW情報も教えてもらう
+- 2: 互いに疎通確認
+- 3: 確認できてはじめてMedia/Dataが流れる
+
+この過程で、STUNがすごく使われてます！
+
+--
+
+### 1: 自分のNW情報を把握する
+
+- そもそもWebRTCで通信するために、相手に自分のNW情報を知らせる必要がある
+  - IPとPort: あわせてトランスポートアドレスと呼ぶ
+- ただし、<a>外部のNWから見た</a>自分のIPとPortはわからない
+  - わからないと知らせることができない
+- 知らせることができないと、もちろんつながらない
+  - ローカルNWのアドレスなんか知らせても使えない
+
+＼(^o^)／
+
+--
+
+### なのでSTUNサーバーに聞く
 
 ![STUNサーバーにSTUNクライアントから問い合わせる](./img/stun.png)
 
-これで自分のNW情報がわかるので、それを送ればOK！
+これで自分のNW情報がわかるので、それを送ればOK💪
+
+--
+
+### このサーバーとクライアントのやり取り
+
+- STUNのユースケースの1つ
+- <a>STUNメッセージ</a>というものをやり取りしてる
+  - IPとポート教えてよリクエスト
+  - こうでしたよレスポンス
+- 全部フォーマットが決まってる
+  - 詳細は後述します
+
+--
+
+### 2: 互いに疎通確認
+
+- このブラウザ <-> ブラウザ間のやりとりもSTUN
+  - 教えてもらったこのIP/ポート本当に使えるのリクエスト
+  - 安心してください使えますよレスポンス
+  - じゃあこの組み合わせでいきますねリクエスト
+  - etc...
+- この一連の手順は<a>ICE</a>という仕様になってる
+  - [RFC 8445 - Interactive Connectivity Establishment (ICE): A Protocol for Network Address Translator (NAT) Traversal](https://tools.ietf.org/html/rfc8445)
+  - = ICEという仕組みの中、STUNが道具として使われてる
+
+もっと詳しく知りたい人へ👇
+
+> [WebRTCのICEについて知る](https://www.slideshare.net/iwashi86/webrtcice)
+
 
 --
 
 ### 他にもいろいろ使われてる
 
-- 他にもSTUNのWebRTC的なユースケースはある
-  - ユースケース = STUNというコンポーネントを使ってなんかすること
-- RFC5389よりも、他のRFCで言及されてたりする
+- STUNはあくまで道具
+  - メッセージのフォーマットを決めてるだけ
+  - この用途はこの使い方、その用途ならこうしてね的な
+- 用途は他のRFCが決めるし、必要によって拡張も
   - [RFC 8445 - Interactive Connectivity Establishment (ICE): A Protocol for Network Address Translator (NAT) Traversal](https://tools.ietf.org/html/rfc8445)
   - [RFC 5766 - Traversal Using Relays around NAT (TURN): Relay Extensions to Session Traversal Utilities for NAT (STUN)](https://tools.ietf.org/html/rfc5766)
   - [RFC 7350 - Datagram Transport Layer Security (DTLS) as Transport for Session Traversal Utilities for NAT (STUN)](https://tools.ietf.org/html/rfc7350)
@@ -118,11 +170,7 @@ from https://ja.wikipedia.org/wiki/ネットワークアドレス変換
 
 --
 
-# STUNの詳細
-
---
-
-# その前にデモ
+# デモ
 ## さっきの図の挙動を実際に見てみる
 
 --
@@ -136,35 +184,38 @@ const pc = new RTCPeerConnection({
   iceServers: [{ urls: 'stun:stun.l.google.com:19302' }],
 });
 
-pc.createDataChannel('');
+pc.createDataChannel('test');
 pc.createOffer()
   .then(s => pc.setLocalDescription(s));
 
-// ココが多く発火する
 pc.onicecandidate = ev => {
   if (ev.candidate !== null) {
+    // ココが多く発火する
     console.log(ev.candidate.candidate);
   } else {
+    // コレを相手に知らせる
     console.warn(pc.localDescription.sdp);
   }
 }
 ```
 
 この時、ブラウザが内部的にSTUNを使ってます。
-candidateやSDPを読めば使われてるかどうかがわかります。
+`candidate`やSDPを読めば使われてるかどうかがわかります。
 
-その内部的な挙動を切り出して実装したのが、今回のやつです。
+--
+
+# STUNを実装する
 
 --
 
 ### STUNの実装
 
-- <a>STUNメッセージ</a>💌をやり取りする決まり
+- <a>STUNメッセージ</a>💌をやり取りする
   - フォーマットが決まってる
 - これをUDPやTCPのペイロードに載せて送りあう
   - どっちを使ってもよい
 
-つまり実装 = このメッセージの組み上げ・読み取りを抽象化してコードにすること。
+つまり実装 = このメッセージの組み上げ・読み取りを抽象化すること。
 
 --
 
@@ -207,8 +258,8 @@ candidateやSDPを読めば使われてるかどうかがわかります。
 - ヘッダ
   - 20byte固定
 - アトリビュート
-  - 任意の数
-  - RFC5389では11種類
+  - 任意の数つけられる
+  - RFC5389では11種類を規定
 
 このフォーマットに沿って、さっきの数字を当てはめていけばOK！
 
@@ -488,7 +539,7 @@ Valueのみ抜粋し先頭から、
 |cb 78 7e 2c|      |             Transaction ID          |
 |5e 00 f6 3f|  =>  |                                     |
 +-+-+-+-+-+-+      +-+-+-+-+-+-++-+-+-+-+-+-++-+-+-+-+-+-+
-|00 20|00 08|      | AttrType(XOR-MA) |    Attr Length   |
+|00 20|00 08|      | AttrType(XOR-M-A)|    Attr Length   |
 +-+-+-+-+-+-+      +-+-+-+-+-+-++-+-+-+-+-+-++-+-+-+-+-+-+
 |00|01|c3 f7|      |  ----  | Family  |       X-Port     |
 +-+-+-+-+-+-+      +-+-+-+-+-+-++-+-+-+-+-+-++-+-+-+-+-+-+
@@ -518,6 +569,7 @@ Valueのみ抜粋し先頭から、
   - 型定義いれて1000行くらい
 - RFC5389の一部のみ
   - 6/11ヶのattributeを実装
+  - 残りはユースケースを理解したら実装予定
 - だいたい1ヶ月くらい
   - こういうことするの初なので遠回りした感
 
@@ -542,7 +594,7 @@ socket.send(req.toBuffer(), 19302, 'stun.l.google.com');
 // ...
 ```
 
-さっきのデモで使ったコードと同一のもの。
+フォーマットに間違いがなければ、STUNサーバーがレスポンスを返すはず。
 
 --
 
@@ -598,7 +650,7 @@ socket.on('message', msg => {
   - MSB / LSB
   - etc...
 - ビット演算のための筋肉
-  - 回避した結果、一部は冗長なコードに・・・
+  - 回避した結果、一部冗長なコードに・・・
 
 --
 
@@ -613,7 +665,7 @@ socket.on('message', msg => {
   - 桁をあわせて
   - 文字列として判定する
 - 他の言語でも同じ・・？
-  - ビット演算しろという話ではある
+  - ビット演算しろという話かも？
 
 --
 
@@ -629,7 +681,7 @@ socket.on('message', msg => {
 
 --
 
-### RFCの行間を読むのがつらい
+### RFCの相関を読むのがつらい
 
 - 何よりもつらい
 - 実装の100倍つらい
@@ -637,7 +689,8 @@ socket.on('message', msg => {
   - カジュアルに破壊的変更するしかない
 - 読んで理解しないと実装できないけど、実装しないとそもそも理解できないという怪現象が起こる
   - 🤔🤔🤔
-- そして関連RFCの数も膨大
+- そして関連RFCの数が多い・・・
+  - まぁ地道にやるしかない
 
 --
 
@@ -651,7 +704,7 @@ socket.on('message', msg => {
   - であるICEを支える技術
   - いわゆるNAT越えを実現するための道具
 - STUNメッセージをやり取りする決まり
-  - メッセージにはTypeがある
+  - メッセージには種類がある
   - メッセージにはアトリビュートがついてる
 - JavaScriptでもこういう実装はできる
   - DevToolsのおかげでデバッグはしやすい
@@ -663,19 +716,10 @@ socket.on('message', msg => {
 - 全てのアトリビュートを実装する・・？
   - 拡張されまくりで、40種類くらいある🤗
   - [Session Traversal Utilities for NAT (STUN) Parameters](https://www.iana.org/assignments/stun-parameters/stun-parameters.xhtml)
-- ICEを実装してみて、必要な拡張部分だけを追加する？
-  - 4-5種類くらいなはず
-- 次のレイヤーへ？
-  - DTLS・・？
-  - でも前例あるし・・
-
---
-
-### 参考資料
-- [RFC 5389 - Session Traversal Utilities for NAT (STUN)](https://tools.ietf.org/html/rfc5389)
-- [NodeJSでSTUN(RFC5389)(の一部)を実装した - console.lealog();](https://lealog.hateblo.jp/entry/2018/12/28/184909)
-- [輪講資料 ICE（Interactive Connectivity Establishment）](http://www.wata-lab.meijo-u.ac.jp/file/seminar/2017/2017-Semi1-Yuma_Kamoshita.pdf)
-- [nodertc/stun: Low-level Session Traversal Utilities for NAT (STUN) server](https://github.com/nodertc/stun)
+- まずICEのRFCを読んで実装してみて、必要な拡張を追加
+  - これが妥当な感じ
+- 追ってWebRTCスタックを実装していって、必要になったらまた実装
+  - どこまで行けるかは不明・・！
 
 --
 

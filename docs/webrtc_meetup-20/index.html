@@ -404,9 +404,12 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   <div class="slide hidden" id="slide-5">
     <section class="slide-content"><h3 id="-">目次</h3>
 <ul>
-<li>STUNとはなにか</li>
-<li>STUNの使用例 w/ デモ</li>
-<li>実装の詳細</li>
+<li>STUNとは<ul>
+<li>概要</li>
+<li>ユースケース w/ デモ</li>
+</ul>
+</li>
+<li>STUNの実装とその詳細</li>
 <li>NodeJS(TypeScript)でこういうことをやっての学び</li>
 </ul>
 <p>半分くらいはこの記事に書いてあります・・！</p>
@@ -420,24 +423,34 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </section>
   </div>
   <div class="slide hidden" id="slide-7">
-    <section class="slide-content"><h3 id="stun-is-">STUN is プロトコル</h3>
+    <section class="slide-content"><h3 id="-">その前にアンケート</h3>
 <ul>
-<li><a>NAT</a>を越えて通信するためのユーティリティ<ul>
-<li>の作り方が書いてあるRFCがある</li>
+<li>WebRTC使って<a>P2P</a>したことある人✋</li>
+<li>その中で、<a>STUN</a>を使ったことがある人✋<ul>
+<li>どんなパターンでもOKです</li>
 </ul>
 </li>
-<li><a href="https://tools.ietf.org/html/rfc5389">RFC 5389 - Session Traversal Utilities for NAT (STUN)</a></li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-8">
+    <section class="slide-content"><h3 id="stun-is-">STUN is プロトコル</h3>
+<ul>
+<li><a>NAT</a>を越えて通信するための仕組み・ツール</li>
+<li><a href="https://tools.ietf.org/html/rfc5389">RFC 5389 - Session Traversal Utilities for NAT (STUN)</a><ul>
 <li>Obsoletes RFC 3489<ul>
 <li><a href="https://tools.ietf.org/html/rfc3489">RFC 3489 - STUN - Simple Traversal of User Datagram Protocol (UDP) Through Network Address Translators (NATs)</a></li>
+</ul>
+</li>
 <li>いろいろやってみたら考慮が足らんかったらしい</li>
 </ul>
 </li>
 </ul>
-<p>このRFC5389についての話をします。</p>
+<p>今日はこのRFC5389+αの話です。</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-8">
-    <section class="slide-content"><h3 id="nat-">NATとは</h3>
+  <div class="slide hidden" id="slide-9">
+    <section class="slide-content"><h3 id="-nat-">補足: NATとは</h3>
 <p><a>N</a>etwork <a>A</a>ddress <a>T</a>ranslationの略</p>
 <blockquote>
 <p>インターネットプロトコルによって構築されたコンピュータネットワークにおいて、パケットヘッダに含まれるIPアドレスを、別のIPアドレスに変換する技術である。</p>
@@ -449,43 +462,97 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </blockquote>
 </section>
   </div>
-  <div class="slide hidden" id="slide-9">
-    <section class="slide-content"><h3 id="-stun">なぜSTUN</h3>
+  <div class="slide hidden" id="slide-10">
+    <section class="slide-content"><h1 id="-">🤯</h1>
+<h2 id="-">できるだけわかりやすくします！</h2>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-11">
+    <section class="slide-content"><h3 id="webrtc-">WebRTCがつながるまで（簡易）</h3>
 <ul>
-<li>WebRTCで通信するために、相手のピアに自分のNW情報を知らせる必要がある<ul>
-<li>IPとかPortとか</li>
-<li><code>icecandidate</code>というやつ</li>
+<li>1: 自分のNW情報を把握する<ul>
+<li>相手に知らせる</li>
+<li>相手のNW情報も教えてもらう</li>
 </ul>
 </li>
-<li>ただし、<a>外部のNWから見た</a>自分のIP/Portはわからない<ul>
+<li>2: 互いに疎通確認</li>
+<li>3: 確認できてはじめてMedia/Dataが流れる</li>
+</ul>
+<p>この過程で、STUNがすごく使われてます！</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-12">
+    <section class="slide-content"><h3 id="1-nw-">1: 自分のNW情報を把握する</h3>
+<ul>
+<li>そもそもWebRTCで通信するために、相手に自分のNW情報を知らせる必要がある<ul>
+<li>IPとPort: あわせてトランスポートアドレスと呼ぶ</li>
+</ul>
+</li>
+<li>ただし、<a>外部のNWから見た</a>自分のIPとPortはわからない<ul>
 <li>わからないと知らせることができない</li>
 </ul>
 </li>
 <li>知らせることができないと、もちろんつながらない<ul>
-<li>＼(^o^)／</li>
+<li>ローカルNWのアドレスなんか知らせても使えない</li>
 </ul>
 </li>
 </ul>
-<p>もっと詳しく（ｒｙ</p>
+<p>＼(^o^)／</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-13">
+    <section class="slide-content"><h3 id="-stun-">なのでSTUNサーバーに聞く</h3>
+<p><img src="./img/stun.png" alt="STUNサーバーにSTUNクライアントから問い合わせる"></p>
+<p>これで自分のNW情報がわかるので、それを送ればOK💪</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-14">
+    <section class="slide-content"><h3 id="-">このサーバーとクライアントのやり取り</h3>
+<ul>
+<li>STUNのユースケースの1つ</li>
+<li><a>STUNメッセージ</a>というものをやり取りしてる<ul>
+<li>IPとポート教えてよリクエスト</li>
+<li>こうでしたよレスポンス</li>
+</ul>
+</li>
+<li>全部フォーマットが決まってる<ul>
+<li>詳細は後述します</li>
+</ul>
+</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-15">
+    <section class="slide-content"><h3 id="2-">2: 互いに疎通確認</h3>
+<ul>
+<li>このブラウザ <-> ブラウザ間のやりとりもSTUN<ul>
+<li>教えてもらったこのIP/ポート本当に使えるのリクエスト</li>
+<li>安心してください使えますよレスポンス</li>
+<li>じゃあこの組み合わせでいきますねリクエスト</li>
+<li>etc...</li>
+</ul>
+</li>
+<li>この一連の手順は<a>ICE</a>という仕様になってる<ul>
+<li><a href="https://tools.ietf.org/html/rfc8445">RFC 8445 - Interactive Connectivity Establishment (ICE): A Protocol for Network Address Translator (NAT) Traversal</a></li>
+<li>= ICEという仕組みの中、STUNが道具として使われてる</li>
+</ul>
+</li>
+</ul>
+<p>もっと詳しく知りたい人へ👇</p>
 <blockquote>
 <p><a href="https://www.slideshare.net/iwashi86/webrtcice">WebRTCのICEについて知る</a></p>
 </blockquote>
 </section>
   </div>
-  <div class="slide hidden" id="slide-10">
-    <section class="slide-content"><h3 id="-stun">そこでSTUN</h3>
-<p><img src="./img/stun.png" alt="STUNサーバーにSTUNクライアントから問い合わせる"></p>
-<p>これで自分のNW情報がわかるので、それを送ればOK！</p>
-</section>
-  </div>
-  <div class="slide hidden" id="slide-11">
+  <div class="slide hidden" id="slide-16">
     <section class="slide-content"><h3 id="-">他にもいろいろ使われてる</h3>
 <ul>
-<li>他にもSTUNのWebRTC的なユースケースはある<ul>
-<li>ユースケース = STUNというコンポーネントを使ってなんかすること</li>
+<li>STUNはあくまで道具<ul>
+<li>メッセージのフォーマットを決めてるだけ</li>
+<li>この用途はこの使い方、その用途ならこうしてね的な</li>
 </ul>
 </li>
-<li>RFC5389よりも、他のRFCで言及されてたりする<ul>
+<li>用途は他のRFCが決めるし、必要によって拡張も<ul>
 <li><a href="https://tools.ietf.org/html/rfc8445">RFC 8445 - Interactive Connectivity Establishment (ICE): A Protocol for Network Address Translator (NAT) Traversal</a></li>
 <li><a href="https://tools.ietf.org/html/rfc5766">RFC 5766 - Traversal Using Relays around NAT (TURN): Relay Extensions to Session Traversal Utilities for NAT (STUN)</a></li>
 <li><a href="https://tools.ietf.org/html/rfc7350">RFC 7350 - Datagram Transport Layer Security (DTLS) as Transport for Session Traversal Utilities for NAT (STUN)</a></li>
@@ -496,16 +563,12 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <p>発表タイトルの(一部)とはそういう意味で、今日はさっきの図の範囲の話しかしません！</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-12">
-    <section class="slide-content"><h1 id="stun-">STUNの詳細</h1>
-</section>
-  </div>
-  <div class="slide hidden" id="slide-13">
-    <section class="slide-content"><h1 id="-">その前にデモ</h1>
+  <div class="slide hidden" id="slide-17">
+    <section class="slide-content"><h1 id="-">デモ</h1>
 <h2 id="-">さっきの図の挙動を実際に見てみる</h2>
 </section>
   </div>
-  <div class="slide hidden" id="slide-14">
+  <div class="slide hidden" id="slide-18">
     <section class="slide-content"><h3 id="-">挙動の確認</h3>
 <pre><code class="lang-javascript"><span class="hljs-keyword">const</span> pc = <span class="hljs-keyword">new</span> RTCPeerConnection({
   <span class="hljs-attr">sdpSemantics</span>: <span class="hljs-string">'unified-plan'</span>,
@@ -513,28 +576,32 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   iceServers: [{ <span class="hljs-attr">urls</span>: <span class="hljs-string">'stun:stun.l.google.com:19302'</span> }],
 });
 
-pc.createDataChannel(<span class="hljs-string">''</span>);
+pc.createDataChannel(<span class="hljs-string">'test'</span>);
 pc.createOffer()
   .then(<span class="hljs-function"><span class="hljs-params">s</span> =&gt;</span> pc.setLocalDescription(s));
 
-<span class="hljs-comment">// ココが多く発火する</span>
 pc.onicecandidate = <span class="hljs-function"><span class="hljs-params">ev</span> =&gt;</span> {
   <span class="hljs-keyword">if</span> (ev.candidate !== <span class="hljs-literal">null</span>) {
+    <span class="hljs-comment">// ココが多く発火する</span>
     <span class="hljs-built_in">console</span>.log(ev.candidate.candidate);
   } <span class="hljs-keyword">else</span> {
+    <span class="hljs-comment">// コレを相手に知らせる</span>
     <span class="hljs-built_in">console</span>.warn(pc.localDescription.sdp);
   }
 }
 </code></pre>
 <p>この時、ブラウザが内部的にSTUNを使ってます。
-candidateやSDPを読めば使われてるかどうかがわかります。</p>
-<p>その内部的な挙動を切り出して実装したのが、今回のやつです。</p>
+<code>candidate</code>やSDPを読めば使われてるかどうかがわかります。</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-15">
+  <div class="slide hidden" id="slide-19">
+    <section class="slide-content"><h1 id="stun-">STUNを実装する</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-20">
     <section class="slide-content"><h3 id="stun-">STUNの実装</h3>
 <ul>
-<li><a>STUNメッセージ</a>💌をやり取りする決まり<ul>
+<li><a>STUNメッセージ</a>💌をやり取りする<ul>
 <li>フォーマットが決まってる</li>
 </ul>
 </li>
@@ -543,21 +610,21 @@ candidateやSDPを読めば使われてるかどうかがわかります。</p>
 </ul>
 </li>
 </ul>
-<p>つまり実装 = このメッセージの組み上げ・読み取りを抽象化してコードにすること。</p>
+<p>つまり実装 = このメッセージの組み上げ・読み取りを抽象化すること。</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-16">
+  <div class="slide hidden" id="slide-21">
     <section class="slide-content"><h1 id="-">まずはリクエスト</h1>
 </section>
   </div>
-  <div class="slide hidden" id="slide-17">
+  <div class="slide hidden" id="slide-22">
     <section class="slide-content"><h3 id="-">リクエスト（パケット）</h3>
 <pre><code>0000000000000001000000000000000000100001000100101010010001000010100111110111001000010100010000101100101101111000011111100010110001011110000000001111011000111111
 </code></pre><p>お、おう・・。</p>
 <p>読めないし、理解できない・・。</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-18">
+  <div class="slide hidden" id="slide-23">
     <section class="slide-content"><h3 id="-octet-stream-">リクエスト（Octet Stream）</h3>
 <pre><code>000100002112a4429f721442cb787e2c5e00f63f
 </code></pre><p>だいぶマシになったけど、16進数を脳内変換する能力が必要。</p>
@@ -566,7 +633,7 @@ candidateやSDPを読めば使われてるかどうかがわかります。</p>
 <p>この数字の並びにはどういう意味が・・？</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-19">
+  <div class="slide hidden" id="slide-24">
     <section class="slide-content"><h3 id="-">メッセージフォーマット</h3>
 <ul>
 <li>ヘッダ<ul>
@@ -574,15 +641,15 @@ candidateやSDPを読めば使われてるかどうかがわかります。</p>
 </ul>
 </li>
 <li>アトリビュート<ul>
-<li>任意の数</li>
-<li>RFC5389では11種類</li>
+<li>任意の数つけられる</li>
+<li>RFC5389では11種類を規定</li>
 </ul>
 </li>
 </ul>
 <p>このフォーマットに沿って、さっきの数字を当てはめていけばOK！</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-20">
+  <div class="slide hidden" id="slide-25">
     <section class="slide-content"><h3 id="stun-header">STUN Header</h3>
 <pre><code> 0                   1                   2                   3
  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
@@ -608,7 +675,7 @@ candidateやSDPを読めば使われてるかどうかがわかります。</p>
 </blockquote>
 </section>
   </div>
-  <div class="slide hidden" id="slide-21">
+  <div class="slide hidden" id="slide-26">
     <section class="slide-content"><h3 id="-">さっきのパケットを当てはめる</h3>
 <pre><code> 0                   1                   2                   3
  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
@@ -624,7 +691,7 @@ candidateやSDPを読めば使われてるかどうかがわかります。</p>
 </code></pre><p>ね？簡単でしょう？</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-22">
+  <div class="slide hidden" id="slide-27">
     <section class="slide-content"><h3 id="16-">16進数で当てはめる</h3>
 <pre><code>+-+-+-+-+-+-+
 |00 01|00 00|
@@ -638,7 +705,7 @@ candidateやSDPを読めば使われてるかどうかがわかります。</p>
 </code></pre><p>これなら読めそうな気がする！</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-23">
+  <div class="slide hidden" id="slide-28">
     <section class="slide-content"><h3 id="stun-header-">STUN Headerを読み解く</h3>
 <pre><code>+-+-+-+-+-+-+      +-+-+-+-+-+-++-+-+-+-+-+-++-+-+-+-+-+-+
 |00 01|00 00|      |   Message Type  |  Message Length   |
@@ -668,11 +735,11 @@ candidateやSDPを読めば使われてるかどうかがわかります。</p>
 <p>つまり、アトリビュートなしの<code>BINDING-REQUEST</code>を送信していた！</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-24">
+  <div class="slide hidden" id="slide-29">
     <section class="slide-content"><h1 id="-">つづいてレスポンス</h1>
 </section>
   </div>
-  <div class="slide hidden" id="slide-25">
+  <div class="slide hidden" id="slide-30">
     <section class="slide-content"><h3 id="-octet-stream-">レスポンス（Octet Stream）</h3>
 <pre><code>+-+-+-+-+-+-+
 |01 01|00 0c|
@@ -705,7 +772,7 @@ candidateやSDPを読めば使われてるかどうかがわかります。</p>
 <p>なんらかのアトリビュートがついてる！</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-26">
+  <div class="slide hidden" id="slide-31">
     <section class="slide-content"><h3 id="stun-attribute">STUN Attribute</h3>
 <pre><code> 0                   1                   2                   3
  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
@@ -729,7 +796,7 @@ candidateやSDPを読めば使われてるかどうかがわかります。</p>
 </blockquote>
 </section>
   </div>
-  <div class="slide hidden" id="slide-27">
+  <div class="slide hidden" id="slide-32">
     <section class="slide-content"><h3 id="stun-attribute-types">STUN Attribute Types</h3>
 <pre><code>Comprehension-required range (0x0000-0x7FFF):
  0x0000: (Reserved)
@@ -762,7 +829,7 @@ Comprehension-optional range (0x8000-0xFFFF)
 </blockquote>
 </section>
   </div>
-  <div class="slide hidden" id="slide-28">
+  <div class="slide hidden" id="slide-33">
     <section class="slide-content"><h3 id="-attribute">レスポンスのattribute</h3>
 <pre><code>+-+-+-+-+-+-+
 |00 20|00 08|
@@ -778,7 +845,7 @@ Comprehension-optional range (0x8000-0xFFFF)
 <p>このアトリビュートは<code>0x0020: XOR-MAPPED-ADDRESS</code>だ！</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-29">
+  <div class="slide hidden" id="slide-34">
     <section class="slide-content"><h3 id="xor-mapped-address-attribute">XOR-MAPPED-ADDRESS attribute</h3>
 <pre><code> 0                   1                   2                   3
  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
@@ -807,7 +874,7 @@ Comprehension-optional range (0x8000-0xFFFF)
 </blockquote>
 </section>
   </div>
-  <div class="slide hidden" id="slide-30">
+  <div class="slide hidden" id="slide-35">
     <section class="slide-content"><h3 id="-attribute-">レスポンスのattribute（再掲）</h3>
 <pre><code>+-+-+-+-+-+-+
 |00|01|c3 f7|
@@ -834,7 +901,7 @@ Comprehension-optional range (0x8000-0xFFFF)
 <p>これで読めた！</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-31">
+  <div class="slide hidden" id="slide-36">
     <section class="slide-content"><h3 id="-">レスポンスを読み解く</h3>
 <pre><code>+-+-+-+-+-+-+      +-+-+-+-+-+-++-+-+-+-+-+-++-+-+-+-+-+-+
 |01 01|00 0c|      |   Message Type  |  Message Length   |
@@ -845,7 +912,7 @@ Comprehension-optional range (0x8000-0xFFFF)
 |cb 78 7e 2c|      |             Transaction ID          |
 |5e 00 f6 3f|  =&gt;  |                                     |
 +-+-+-+-+-+-+      +-+-+-+-+-+-++-+-+-+-+-+-++-+-+-+-+-+-+
-|00 20|00 08|      | AttrType(XOR-MA) |    Attr Length   |
+|00 20|00 08|      | AttrType(XOR-M-A)|    Attr Length   |
 +-+-+-+-+-+-+      +-+-+-+-+-+-++-+-+-+-+-+-++-+-+-+-+-+-+
 |00|01|c3 f7|      |  ----  | Family  |       X-Port     |
 +-+-+-+-+-+-+      +-+-+-+-+-+-++-+-+-+-+-+-++-+-+-+-+-+-+
@@ -856,11 +923,11 @@ Comprehension-optional range (0x8000-0xFFFF)
 </code></pre><p>今なら読める🤩</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-32">
+  <div class="slide hidden" id="slide-37">
     <section class="slide-content"><h1 id="nodejs-typescript-br-">NodeJS(TypeScript)で<br>これを実装</h1>
 </section>
   </div>
-  <div class="slide hidden" id="slide-33">
+  <div class="slide hidden" id="slide-38">
     <section class="slide-content"><h3 id="-">しました</h3>
 <blockquote>
 <p><a href="https://github.com/leader22/webrtc-stun">leader22/webrtc-stun: 100% TypeScript STUN implementation for WebRTC.</a></p>
@@ -872,6 +939,7 @@ Comprehension-optional range (0x8000-0xFFFF)
 </li>
 <li>RFC5389の一部のみ<ul>
 <li>6/11ヶのattributeを実装</li>
+<li>残りはユースケースを理解したら実装予定</li>
 </ul>
 </li>
 <li>だいたい1ヶ月くらい<ul>
@@ -881,7 +949,7 @@ Comprehension-optional range (0x8000-0xFFFF)
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-34">
+  <div class="slide hidden" id="slide-39">
     <section class="slide-content"><h3 id="-">リクエストの送信</h3>
 <pre><code class="lang-typescript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> dgram <span class="hljs-keyword">from</span> <span class="hljs-string">'dgram'</span>;
 <span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> stun <span class="hljs-keyword">from</span> <span class="hljs-string">'webrtc-stun'</span>;
@@ -898,10 +966,10 @@ socket.send(req.toBuffer(), <span class="hljs-number">19302</span>, <span class=
 
 <span class="hljs-comment">// ...</span>
 </code></pre>
-<p>さっきのデモで使ったコードと同一のもの。</p>
+<p>フォーマットに間違いがなければ、STUNサーバーがレスポンスを返すはず。</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-35">
+  <div class="slide hidden" id="slide-40">
     <section class="slide-content"><h3 id="-">レスポンスの受信</h3>
 <pre><code class="lang-typescript"><span class="hljs-comment">// ...</span>
 
@@ -924,11 +992,11 @@ socket.on(<span class="hljs-string">'message'</span>, <span class="hljs-function
 <p>自作WebRTCスタックの第一歩・・・！</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-36">
+  <div class="slide hidden" id="slide-41">
     <section class="slide-content"><h1 id="-">実装してみての学び</h1>
 </section>
   </div>
-  <div class="slide hidden" id="slide-37">
+  <div class="slide hidden" id="slide-42">
     <section class="slide-content"><h3 id="javascript-">JavaScriptでプロトコル実装</h3>
 <ul>
 <li>つらい🤮と思われがち + 思ってた</li>
@@ -948,7 +1016,7 @@ socket.on(<span class="hljs-string">'message'</span>, <span class="hljs-function
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-38">
+  <div class="slide hidden" id="slide-43">
     <section class="slide-content"><h3 id="-">前提知識が多い🤯</h3>
 <ul>
 <li>プロトコル実装特有の前提知識（頻出語彙）<ul>
@@ -961,13 +1029,13 @@ socket.on(<span class="hljs-string">'message'</span>, <span class="hljs-function
 </ul>
 </li>
 <li>ビット演算のための筋肉<ul>
-<li>回避した結果、一部は冗長なコードに・・・</li>
+<li>回避した結果、一部冗長なコードに・・・</li>
 </ul>
 </li>
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-39">
+  <div class="slide hidden" id="slide-44">
     <section class="slide-content"><h3 id="-">ビット単位の処理は面倒</h3>
 <ul>
 <li>そんなに頻繁ではないけど</li>
@@ -983,13 +1051,13 @@ socket.on(<span class="hljs-string">'message'</span>, <span class="hljs-function
 </ul>
 </li>
 <li>他の言語でも同じ・・？<ul>
-<li>ビット演算しろという話ではある</li>
+<li>ビット演算しろという話かも？</li>
 </ul>
 </li>
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-40">
+  <div class="slide hidden" id="slide-45">
     <section class="slide-content"><h3 id="devtools-">DevToolsでデバッグできる</h3>
 <ul>
 <li>控えめにいって最高</li>
@@ -1006,8 +1074,8 @@ socket.on(<span class="hljs-string">'message'</span>, <span class="hljs-function
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-41">
-    <section class="slide-content"><h3 id="rfc-">RFCの行間を読むのがつらい</h3>
+  <div class="slide hidden" id="slide-46">
+    <section class="slide-content"><h3 id="rfc-">RFCの相関を読むのがつらい</h3>
 <ul>
 <li>何よりもつらい</li>
 <li>実装の100倍つらい<ul>
@@ -1019,15 +1087,18 @@ socket.on(<span class="hljs-string">'message'</span>, <span class="hljs-function
 <li>🤔🤔🤔</li>
 </ul>
 </li>
-<li>そして関連RFCの数も膨大</li>
+<li>そして関連RFCの数が多い・・・<ul>
+<li>まぁ地道にやるしかない</li>
+</ul>
+</li>
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-42">
+  <div class="slide hidden" id="slide-47">
     <section class="slide-content"><h1 id="-">まとめ</h1>
 </section>
   </div>
-  <div class="slide hidden" id="slide-43">
+  <div class="slide hidden" id="slide-48">
     <section class="slide-content"><h3 id="-">まとめ</h3>
 <ul>
 <li>STUNはWebRTCを支える技術<ul>
@@ -1036,7 +1107,7 @@ socket.on(<span class="hljs-string">'message'</span>, <span class="hljs-function
 </ul>
 </li>
 <li>STUNメッセージをやり取りする決まり<ul>
-<li>メッセージにはTypeがある</li>
+<li>メッセージには種類がある</li>
 <li>メッセージにはアトリビュートがついてる</li>
 </ul>
 </li>
@@ -1047,7 +1118,7 @@ socket.on(<span class="hljs-string">'message'</span>, <span class="hljs-function
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-44">
+  <div class="slide hidden" id="slide-49">
     <section class="slide-content"><h3 id="-">今後の展望</h3>
 <ul>
 <li>全てのアトリビュートを実装する・・？<ul>
@@ -1055,29 +1126,18 @@ socket.on(<span class="hljs-string">'message'</span>, <span class="hljs-function
 <li><a href="https://www.iana.org/assignments/stun-parameters/stun-parameters.xhtml">Session Traversal Utilities for NAT (STUN) Parameters</a></li>
 </ul>
 </li>
-<li>ICEを実装してみて、必要な拡張部分だけを追加する？<ul>
-<li>4-5種類くらいなはず</li>
+<li>まずICEのRFCを読んで実装してみて、必要な拡張を追加<ul>
+<li>これが妥当な感じ</li>
 </ul>
 </li>
-<li>次のレイヤーへ？<ul>
-<li>DTLS・・？</li>
-<li>でも前例あるし・・</li>
+<li>追ってWebRTCスタックを実装していって、必要になったらまた実装<ul>
+<li>どこまで行けるかは不明・・！</li>
 </ul>
 </li>
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-45">
-    <section class="slide-content"><h3 id="-">参考資料</h3>
-<ul>
-<li><a href="https://tools.ietf.org/html/rfc5389">RFC 5389 - Session Traversal Utilities for NAT (STUN)</a></li>
-<li><a href="https://lealog.hateblo.jp/entry/2018/12/28/184909">NodeJSでSTUN(RFC5389)(の一部)を実装した - console.lealog();</a></li>
-<li><a href="http://www.wata-lab.meijo-u.ac.jp/file/seminar/2017/2017-Semi1-Yuma_Kamoshita.pdf">輪講資料 ICE（Interactive Connectivity Establishment）</a></li>
-<li><a href="https://github.com/nodertc/stun">nodertc/stun: Low-level Session Traversal Utilities for NAT (STUN) server</a></li>
-</ul>
-</section>
-  </div>
-  <div class="slide hidden" id="slide-46">
+  <div class="slide hidden" id="slide-50">
     <section class="slide-content"><h1 id="thank-you-">Thank you!</h1>
 <p><style>
 :root {
