@@ -42,7 +42,7 @@ controls: false
   - 概要
   - ユースケース w/ デモ
 - STUNの実装とその詳細
-- NodeJS(TypeScript)でこういうことをやっての学び
+- NodeJS(TypeScript)でこういうことやっての知見
 
 半分くらいはこの記事に書いてあります・・！
 
@@ -50,15 +50,16 @@ controls: false
 
 --
 
-# <a>STUN</a>とはなにか
-
---
-
 ### その前にアンケート
 
 - WebRTC使って<a>P2P</a>したことある人✋
 - その中で、<a>STUN</a>を使ったことがある人✋
-  - どんなパターンでもOKです
+  - 直感でいいです
+- <a>STUN</a>とはなにかを完全に理解している人✋
+
+--
+
+# <a>STUN</a>とは
 
 --
 
@@ -69,8 +70,9 @@ controls: false
   - Obsoletes RFC 3489
     - [RFC 3489 - STUN - Simple Traversal of User Datagram Protocol (UDP) Through Network Address Translators (NATs)](https://tools.ietf.org/html/rfc3489)
   - いろいろやってみたら考慮が足らんかったらしい
+- こういうフォーマットのメッセージを送ってねという内容
 
-今日はこのRFC5389+αの話です。
+今日はこのRFC5389+αの話をします。
 
 --
 
@@ -93,15 +95,15 @@ from https://ja.wikipedia.org/wiki/ネットワークアドレス変換
 
 --
 
-### WebRTCがつながるまで（簡易）
+### WebRTCがつながるまで（を簡単に）
 
 - 1: 自分のNW情報を把握する
   - 相手に知らせる
   - 相手のNW情報も教えてもらう
 - 2: 互いに疎通確認
-- 3: 確認できてはじめてMedia/Dataが流れる
+  - 互いの候補の中から最もイケてるペアを見つける
 
-この過程で、STUNがすごく使われてます！
+これができてはじめて、Media/Dataが流れます。
 
 --
 
@@ -109,10 +111,10 @@ from https://ja.wikipedia.org/wiki/ネットワークアドレス変換
 
 - そもそもWebRTCで通信するために、相手に自分のNW情報を知らせる必要がある
   - IPとPort: あわせてトランスポートアドレスと呼ぶ
-- ただし、<a>外部のNWから見た</a>自分のIPとPortはわからない
+- ただし、<a>外部のNWから見た</a>自分のIPとPortがわからない
   - わからないと知らせることができない
 - 知らせることができないと、もちろんつながらない
-  - ローカルNWのアドレスなんか知らせても使えない
+  - ローカルNWのアドレスなんか知らせてもほとんどの場合は使えない
 
 ＼(^o^)／
 
@@ -128,45 +130,51 @@ from https://ja.wikipedia.org/wiki/ネットワークアドレス変換
 
 ### このサーバーとクライアントのやり取り
 
-- STUNのユースケースの1つ
-- <a>STUNメッセージ</a>というものをやり取りしてる
+- ユースケースの1つ
+- <a>STUNメッセージ</a>というものをやり取りする
   - IPとポート教えてよリクエスト
   - こうでしたよレスポンス
-- 全部フォーマットが決まってる
-  - 詳細は後述します
+- 詳細は後述します
 
 --
 
 ### 2: 互いに疎通確認
 
-- このブラウザ <-> ブラウザ間のやりとりもSTUN
-  - 教えてもらったこのIP/ポート本当に使えるのリクエスト
+- P2Pしたいクライアント間のやりとり
+  - 教えてもらったこのIP/ポート使うよリクエスト
   - 安心してください使えますよレスポンス
   - じゃあこの組み合わせでいきますねリクエスト
   - etc...
+
+ここまでできたら、WenRTCの通信ができる！
+
+--
+
+### ちなみに
+
 - この一連の手順は<a>ICE</a>という仕様になってる
   - [RFC 8445 - Interactive Connectivity Establishment (ICE): A Protocol for Network Address Translator (NAT) Traversal](https://tools.ietf.org/html/rfc8445)
-  - = ICEという仕組みの中、STUNが道具として使われてる
+- ICEという仕組みの中で、STUNが道具として使われてる
 
 もっと詳しく知りたい人へ👇
 
 > [WebRTCのICEについて知る](https://www.slideshare.net/iwashi86/webrtcice)
 
-
 --
 
-### 他にもいろいろ使われてる
+### 他でもいろいろ使われるSTUN
 
 - STUNはあくまで道具
   - メッセージのフォーマットを決めてるだけ
-  - この用途はこの使い方、その用途ならこうしてね的な
-- 用途は他のRFCが決めるし、必要によって拡張も
+- 用途は他のRFCが決めるし、必要によって拡張もする
   - [RFC 8445 - Interactive Connectivity Establishment (ICE): A Protocol for Network Address Translator (NAT) Traversal](https://tools.ietf.org/html/rfc8445)
   - [RFC 5766 - Traversal Using Relays around NAT (TURN): Relay Extensions to Session Traversal Utilities for NAT (STUN)](https://tools.ietf.org/html/rfc5766)
   - [RFC 7350 - Datagram Transport Layer Security (DTLS) as Transport for Session Traversal Utilities for NAT (STUN)](https://tools.ietf.org/html/rfc7350)
   - etc...
+- 拡張されまくりで、40種類くらいある🤗
+  - [Session Traversal Utilities for NAT (STUN) Parameters](https://www.iana.org/assignments/stun-parameters/stun-parameters.xhtml)
 
-発表タイトルの(一部)とはそういう意味で、今日はさっきの図の範囲の話しかしません！
+発表タイトルの(一部)とはそういう意味で、今日はさっきの図の範囲の話だけをします。
 
 --
 
@@ -186,7 +194,7 @@ const pc = new RTCPeerConnection({
 
 pc.createDataChannel('test');
 pc.createOffer()
-  .then(s => pc.setLocalDescription(s));
+  .then(offer => pc.setLocalDescription(offer));
 
 pc.onicecandidate = ev => {
   if (ev.candidate !== null) {
@@ -196,7 +204,7 @@ pc.onicecandidate = ev => {
     // コレを相手に知らせる
     console.warn(pc.localDescription.sdp);
   }
-}
+};
 ```
 
 この時、ブラウザが内部的にSTUNを使ってます。
@@ -204,7 +212,48 @@ pc.onicecandidate = ev => {
 
 --
 
-# STUNを実装する
+### 挙動の確認（おまけ）
+
+```js
+const ice = new RTCIceTransport();
+
+ice.onicecandidate = ev => {
+  if (ev.candidate !== null) {
+    // ココが多く発火する
+    console.log(ev.candidate.candidate);
+  }
+};
+
+ice.gather({
+  iceServers: [{ urls: 'stun:stun.l.google.com:19302' }],
+});
+```
+
+そのうちくる（かもしれない）WebRTC-QUICの場合のコード。
+
+> [IceTransport Extensions for WebRTC](https://w3c.github.io/webrtc-ice/)
+
+--
+
+### 同じことを実装したやつ
+
+```sh
+# setup
+git clone git@github.com:leader22/webrtc-stun.git
+cd webrtc-stun
+npm i
+
+# exec
+npm run tsnode ./examples/client.ts
+```
+
+> [leader22/webrtc-stun: 100% TypeScript STUN implementation for WebRTC.](https://github.com/leader22/webrtc-stun/)
+
+ここからは、このライブラリの話です。
+
+--
+
+# <a>STUN</a>を実装する
 
 --
 
@@ -241,7 +290,9 @@ pc.onicecandidate = ev => {
 000100002112a4429f721442cb787e2c5e00f63f
 ```
 
-だいぶマシになったけど、16進数を脳内変換する能力が必要。
+だいぶマシになった。
+
+けど、16進数を脳内変換する能力が必要。
 
 ```
 00 01 00 00 21 12 a4 42 9f 72 14 42 cb 78 7e 2c 5e 00 f6 3f
@@ -249,7 +300,7 @@ pc.onicecandidate = ev => {
 
 少しだけ読みやすく区切るとこうなる。（プログラムで扱うのはほとんどこっちなはず）
 
-この数字の並びにはどういう意味が・・？
+この数字の並びにはどういう意味が・・？という話。
 
 --
 
@@ -557,7 +608,7 @@ Valueのみ抜粋し先頭から、
 
 --
 
-# NodeJS(TypeScript)で<br>これを実装
+# <a>NodeJS</a>(TypeScript)で<br>これを実装
 
 --
 
@@ -671,17 +722,17 @@ socket.on('message', msg => {
 
 ### DevToolsでデバッグできる
 
-- 控えめにいって最高
+- 控えめにいって最高😍
 - `node --inspect-brk ./client.js`
   - 任意の行を`debugger`で止められる
   - 変数も覗き放題
 - ただし16進数を脳内でパースする必要あり
   - DevToolsに見える数値はすべて10進数になってる
-  - RFCはだいたい16進数で書いてある
+  - RFCはだいたい16進数で書いてあるので
 
 --
 
-### RFCの相関を読むのがつらい
+### RFCの行間を読むのがつらい
 
 - 何よりもつらい
 - 実装の100倍つらい
@@ -708,18 +759,6 @@ socket.on('message', msg => {
   - メッセージにはアトリビュートがついてる
 - JavaScriptでもこういう実装はできる
   - DevToolsのおかげでデバッグはしやすい
-
---
-
-### 今後の展望
-
-- 全てのアトリビュートを実装する・・？
-  - 拡張されまくりで、40種類くらいある🤗
-  - [Session Traversal Utilities for NAT (STUN) Parameters](https://www.iana.org/assignments/stun-parameters/stun-parameters.xhtml)
-- まずICEのRFCを読んで実装してみて、必要な拡張を追加
-  - これが妥当な感じ
-- 追ってWebRTCスタックを実装していって、必要になったらまた実装
-  - どこまで行けるかは不明・・！
 
 --
 
