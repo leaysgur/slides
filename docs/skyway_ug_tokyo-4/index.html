@@ -386,7 +386,14 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   <div class="slide hidden" id="slide-3">
     <section class="slide-content"><h3 id="-">はじめまして</h3>
 <ul>
+<li>Twitter<ul>
 <li><a href="https://twitter.com/leader22">@leader22</a></li>
+</ul>
+</li>
+<li>GitHub<ul>
+<li><a href="https://github.com/leader22/">https://github.com/leader22/</a></li>
+</ul>
+</li>
 <li>技術ブログも書いてます<ul>
 <li><a href="http://lealog.hateblo.jp/">console.lealog();</a></li>
 </ul>
@@ -427,17 +434,18 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </section>
   </div>
   <div class="slide hidden" id="slide-7">
-    <section class="slide-content"><h3 id="-">裏側ぜんぶ見せます！</h3>
-<p>こんなWebアプリを実装するのに必要な、</p>
+    <section class="slide-content"><h3 id="-">そんな裏側ぜんぶ見せます！</h3>
+<p>このWebアプリを実装するのに必要な、</p>
 <ul>
 <li>SkyWayのJS-SDKの基本的なAPI</li>
 <li>UIごとの実装方法とTips</li>
+<li>WebRTCのJavaScript APIについてのアレコレ</li>
 </ul>
-<p>を紹介しつつ、WebRTCのJavaScript APIまわりのよもやまについても触れていきます。</p>
+<p>を紹介します！</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-8">
-    <section class="slide-content"><h1 id="js-sdk-api">JS-SDKのAPI</h1>
+    <section class="slide-content"><h1 id="skyway-api">SkyWayのAPI</h1>
 <h2 id="-">の中で、今回使うもの</h2>
 </section>
   </div>
@@ -568,9 +576,11 @@ room.on(<span class="hljs-string">"error"</span>, err =&gt; {});
     <section class="slide-content"><h3 id="-">続・デバイス選択</h3>
 <p>取得した<code>deviceId</code>を使って、<code>getUserMedia()</code>をやり直すだけ。</p>
 <pre><code class="lang-js"><span class="hljs-comment">// device.deviceId を指定</span>
-<span class="hljs-keyword">const</span> stream = <span class="hljs-keyword">await</span> navigator.mediaDevices.getUserMedia({ <span class="hljs-attr">video</span>: {
-  <span class="hljs-attr">deviceId</span>: { <span class="hljs-attr">exact</span>: deviceId }
-} });
+<span class="hljs-keyword">const</span> stream = <span class="hljs-keyword">await</span> navigator.mediaDevices.getUserMedia({
+  <span class="hljs-attr">video</span>: {
+    <span class="hljs-attr">deviceId</span>: { <span class="hljs-attr">exact</span>: deviceId }
+  }
+});
 </code></pre>
 <p><code>exact</code>をつけるのが重要。</p>
 <p>この<code>stream</code>を、さっきの<code>joinRoom()</code>に渡せばOK。</p>
@@ -582,13 +592,13 @@ room.on(<span class="hljs-string">"error"</span>, err =&gt; {});
 <pre><code class="lang-js"><span class="hljs-keyword">const</span> displayStream = <span class="hljs-keyword">await</span> navigator.mediaDevices.getDisplayMedia({ <span class="hljs-attr">video</span>: <span class="hljs-literal">true</span> });
 <span class="hljs-keyword">const</span> [videoTrack] = displayStream.getVideoTracks();
 </code></pre>
-<p>ちなみにコイツは、</p>
+<p>ちなみにコイツの「Stop sharing」は、</p>
 <p><img src="./img/screenshare.png" alt="screenshare"></p>
 <p><code>videoTrack.onended</code>を監視して制御します。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-19">
-    <section class="slide-content"><h3 id="-">ミュート</h3>
+    <section class="slide-content"><h3 id="-">ミュート（簡易）</h3>
 <pre><code class="lang-js"><span class="hljs-comment">// mute</span>
 videoTrack.enabled = <span class="hljs-literal">false</span>;
 
@@ -596,13 +606,46 @@ videoTrack.enabled = <span class="hljs-literal">false</span>;
 videoTrack.enabled = <span class="hljs-literal">true</span>;
 </code></pre>
 <p><code>MediaStreamTrack</code>には<code>muted</code>といういかにもなプロパティが生えてますが、お探しのものは<code>enabled</code>です👻</p>
-<p>ミュートするとそれらし黒画面ストリームになり、0とまではいかないものの、帯域の節約になります。</p>
-<p><code>MediaStreamTrack#stop()</code>だと完全に送信を止められるものの、再開するためにはストリームの取得からやり直す必要があり、<code>RTCRtpSender#replaceTrack(null)</code>だとリモートに別途それを知らせる必要があり・・。</p>
+<p>これをやると、</p>
+<ul>
+<li>映像はそれらしい黒画面になり</li>
+<li>音声は聞こえなく</li>
+</ul>
+<p>なります。</p>
+<p><code>0</code>とまではいかないものの、帯域の節約になります。</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-20">
+    <section class="slide-content"><h3 id="-">ミュート（発展）</h3>
+<p>帯域を<code>0</code>にしたい！そんなあなたには・・、</p>
+<ul>
+<li><code>MediaStreamTrack#stop()</code><ul>
+<li>ミュートしたことをリモートに知らせる必要あり</li>
+<li>ストリームの再取得も必要（再開できない）</li>
+</ul>
+</li>
+<li><code>RTCRtpSender#replaceTrack(null)</code><ul>
+<li>ミュートしたことをリモートに知らせる必要あり</li>
+<li>解除するには再度<code>replaceTrack(track)</code></li>
+</ul>
+</li>
+<li><code>RTCRtpSender#getParameters() + setParameters()</code><ul>
+<li><code>params.encodings[0].active = false</code>にする</li>
+<li>同じく知らせる必要あり</li>
+</ul>
+</li>
+<li><code>RTCPeerConnection#removeTrack(sender)</code><ul>
+<li><code>inactive</code>にして通信そのものをやめる</li>
+<li>解除するには再度ネゴシエーションから</li>
+</ul>
+</li>
+</ul>
+<p>要件に応じてお好きな方法を選んでください！</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-21">
     <section class="slide-content"><h3 id="voiceactivitydetection">VoiceActivityDetection</h3>
-<p>マイクの入力をチェックできます。</p>
+<p>マイクの入力レベルをチェックできます。</p>
 <p>WebAudio APIと組み合わせて実装します。</p>
 <pre><code class="lang-js"><span class="hljs-comment">// コンテキストを初期化</span>
 <span class="hljs-keyword">const</span> audioContext = <span class="hljs-keyword">new</span> AudioContext();
@@ -627,12 +670,25 @@ analyserNode.getFloatFrequencyData(fft);
 </blockquote>
 </section>
   </div>
-  <div class="slide hidden" id="slide-21">
+  <div class="slide hidden" id="slide-22">
+    <section class="slide-content"><h3 id="vad-">VAD（おまけ）</h3>
+<blockquote>
+<p><a href="https://w3c.github.io/webrtc-pc/#dom-rtcrtpcontributingsource-audiolevel">https://w3c.github.io/webrtc-pc/#dom-rtcrtpcontributingsource-audiolevel</a></p>
+</blockquote>
+<p><img src="./img/audiolevel.png" alt="audioLevel"></p>
+<p>お？🕵️‍</p>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> [receiver] = pc.getReceivers().filter(<span class="hljs-function"><span class="hljs-params">r</span> =&gt;</span> r.kind === <span class="hljs-string">"audio"</span>);
+<span class="hljs-keyword">const</span> [{ audioLevel }] = receiver.getSynchronizationSources();
+</code></pre>
+<p>条件つきではあるものの、ほぼほぼ使える・・が、各ブラウザで返り値の尺度が微妙に違う・・・！（特にSafariおまえだけは(ry</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-23">
     <section class="slide-content"><h2 id="-">参加者とそのストリーム表示</h2>
 <p><img src="./img/view.png" alt="view"></p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-22">
+  <div class="slide hidden" id="slide-24">
     <section class="slide-content"><h3 id="-">参加者リスト</h3>
 <p>人が増えたとき。</p>
 <pre><code class="lang-js"><span class="hljs-keyword">const</span> streams = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Map</span>();
@@ -653,7 +709,7 @@ room.on(<span class="hljs-string">"peerLeave"</span>, peerId =&gt; {
 </code></pre>
 </section>
   </div>
-  <div class="slide hidden" id="slide-23">
+  <div class="slide hidden" id="slide-25">
     <section class="slide-content"><h3 id="-">ストリームの表示</h3>
 <pre><code class="lang-html">// ReactのJSXの例
 <span class="hljs-tag">&lt;<span class="hljs-name">video</span> <span class="hljs-attr">srcObject</span>=<span class="hljs-string">{stream}</span> <span class="hljs-attr">muted</span> <span class="hljs-attr">playsInline</span> /&gt;</span>
@@ -661,9 +717,10 @@ room.on(<span class="hljs-string">"peerLeave"</span>, peerId =&gt; {
 </code></pre>
 <p><code>video+audio</code>で描画するのがオススメです。（同じ<code>stream</code>を渡すだけ）</p>
 <p>むしろこうしないと、iOS Safariで複数のストリームを再生できずに詰みます😇</p>
+<p>VADしたいなら、この<code>stream</code>をさっきと同じように表示すればよし。</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-24">
+  <div class="slide hidden" id="slide-26">
     <section class="slide-content"><h3 id="-">ピン留め表示</h3>
 <ul>
 <li>参加者リストのそれとは別に、大きく表示される機能</li>
@@ -674,12 +731,12 @@ room.on(<span class="hljs-string">"peerLeave"</span>, peerId =&gt; {
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-25">
+  <div class="slide hidden" id="slide-27">
     <section class="slide-content"><h2 id="-">チャット・その他</h2>
 <p><img src="./img/chat.png" alt="chat"></p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-26">
+  <div class="slide hidden" id="slide-28">
     <section class="slide-content"><h3 id="-">チャット</h3>
 <pre><code class="lang-js"><span class="hljs-comment">// 送信</span>
 room.send(<span class="hljs-string">"こんにちは"</span>);
@@ -693,8 +750,9 @@ room.on(<span class="hljs-string">"data"</span>, ({ src, data }) =&gt; {
 <p>宛先を指定する機能はないです。</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-27">
+  <div class="slide hidden" id="slide-29">
     <section class="slide-content"><h3 id="-">リアクション</h3>
+<p><img src="./img/reaction.png" alt="reaction"></p>
 <p>チャットと同じですが、いろいろ<code>send()</code>したくなるので最初から、</p>
 <pre><code class="lang-js"><span class="hljs-comment">// チャット</span>
 room.send({ <span class="hljs-attr">type</span>: <span class="hljs-string">"chat"</span>, <span class="hljs-attr">payload</span>: <span class="hljs-string">"こんにちは"</span> });
@@ -712,13 +770,15 @@ room.send({ <span class="hljs-attr">type</span>: <span class="hljs-string">"reac
 <p>JSONにできるオブジェクトならそのまま送受信できます。</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-28">
+  <div class="slide hidden" id="slide-30">
     <section class="slide-content"><h3 id="-">通知</h3>
+<p><img src="./img/notification.png" alt="notification"></p>
 <ul>
 <li>任意で<code>room.on()</code>をひろって表示</li>
 <li>あとはユーザーの操作にあわせて表示</li>
 <li>参加者のイベントは任意のタイミングで<code>room.send()</code><ul>
 <li>ユーザー名、UA</li>
+<li>さっきのリアクション</li>
 <li>「画面共有をはじめた」など</li>
 </ul>
 </li>
@@ -726,7 +786,7 @@ room.send({ <span class="hljs-attr">type</span>: <span class="hljs-string">"reac
 <p>SkyWayあんまり関係ないですね！</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-29">
+  <div class="slide hidden" id="slide-31">
     <section class="slide-content"><h3 id="stats">Stats</h3>
 <ul>
 <li>実装の都合でSFURoomでのみ使える</li>
@@ -734,17 +794,18 @@ room.send({ <span class="hljs-attr">type</span>: <span class="hljs-string">"reac
 <li>各参加者の<code>stream.id</code>で検索したり</li>
 </ul>
 </li>
+<li>なお、コアな人にしか需要はない</li>
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-30">
+  <div class="slide hidden" id="slide-32">
     <section class="slide-content"><h1 id="-">おまけ</h1>
 <h2 id="js-sdk-">JS-SDKよもやま</h2>
 </section>
   </div>
-  <div class="slide hidden" id="slide-31">
+  <div class="slide hidden" id="slide-33">
     <section class="slide-content"><h3 id="room-replacestream-">Room#replaceStream()</h3>
-<p>現状、<code>MediaStreamTrack</code>の増減ができません・・😨</p>
+<p>現状、<code>MediaStreamTrack</code>の増減ができません。</p>
 <ul>
 <li>audio =&gt; audio+video への置き換え<ul>
 <li>= videoのtrackが増えてる</li>
@@ -760,10 +821,10 @@ room.send({ <span class="hljs-attr">type</span>: <span class="hljs-string">"reac
 </ul>
 </li>
 </ul>
-<p>いったん部屋を<code>close()</code>して、再度<code>joinRoom()</code>すれば実現できるけど・・。</p>
+<p>いったん部屋を<code>close()</code>して、再度<code>joinRoom()</code>すれば実現・・😨😨😨</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-32">
+  <div class="slide hidden" id="slide-34">
     <section class="slide-content"><h3 id="extends-eventemitter">extends EventEmitter</h3>
 <p>すべてのクラスがNodeJSの<code>EventEmitter</code>継承です。</p>
 <p>つまり、</p>
@@ -787,12 +848,12 @@ room.send({ <span class="hljs-attr">type</span>: <span class="hljs-string">"reac
 </ul>
 </section>
   </div>
-  <div class="slide hidden" id="slide-33">
+  <div class="slide hidden" id="slide-35">
     <section class="slide-content"><h1 id="-">おまけ</h1>
 <h2 id="-">フロントエンドよもやま</h2>
 </section>
   </div>
-  <div class="slide hidden" id="slide-34">
+  <div class="slide hidden" id="slide-36">
     <section class="slide-content"><h3 id="q-webrtc-">Q. WebRTCと状態管理</h3>
 <ul>
 <li>トレンドとしてはステートレス<ul>
@@ -810,7 +871,7 @@ room.send({ <span class="hljs-attr">type</span>: <span class="hljs-string">"reac
 <p>どうするのが正解？</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-35">
+  <div class="slide hidden" id="slide-37">
     <section class="slide-content"><h3 id="a-">A. 無理に混ぜない</h3>
 <p>性質が違うなら用途も違うはずなので、ちゃんと分ける。</p>
 <ul>
@@ -821,7 +882,7 @@ room.send({ <span class="hljs-attr">type</span>: <span class="hljs-string">"reac
 <p>コンポーネントの中にだけは絶対に書かないでください🤮</p>
 </section>
   </div>
-  <div class="slide hidden" id="slide-36">
+  <div class="slide hidden" id="slide-38">
     <section class="slide-content"><h3 id="skyway-conference-">SkyWay Conferenceのコードベース</h3>
 <pre><code>src
 ├── conf
@@ -836,7 +897,7 @@ room.send({ <span class="hljs-attr">type</span>: <span class="hljs-string">"reac
 └── shared
 
 10 directories, 63 files
-</code></pre><p>行数にして<code>3688</code>行でした！</p>
+</code></pre><p>行数にして<code>3700</code>行でした！</p>
 <p>TypeScriptな上にCSS in JSな上にほぼコンポーネントなので、ロジックは<code>1500</code>行くらいなはず。</p>
 <p>設計の詳細はこちらから。</p>
 <blockquote>
@@ -844,13 +905,13 @@ room.send({ <span class="hljs-attr">type</span>: <span class="hljs-string">"reac
 </blockquote>
 </section>
   </div>
-  <div class="slide hidden" id="slide-37">
+  <div class="slide hidden" id="slide-39">
     <section class="slide-content"><h1 id="thank-you-">Thank you!</h1>
 <p><style>
 :root {
-  --bg-color: #eeefff;
-  --bar-color: #990073;
-  --em-color: #c44ede;
+  --bg-color: #f7f7ff;
+  --bar-color: #c81dff;
+  --em-color: #990073;
 }
 </style></p>
 <p><link rel="stylesheet" href="../public/base.css"></p>

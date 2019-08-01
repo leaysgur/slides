@@ -22,7 +22,10 @@ controls: false
 
 ### はじめまして
 
-- [@leader22](https://twitter.com/leader22)
+- Twitter
+  - [@leader22](https://twitter.com/leader22)
+- GitHub
+  - https://github.com/leader22/
 - 技術ブログも書いてます
   - [console.lealog();](http://lealog.hateblo.jp/)
 
@@ -55,18 +58,19 @@ controls: false
 
 --
 
-### 裏側ぜんぶ見せます！
+### そんな裏側ぜんぶ見せます！
 
-こんなWebアプリを実装するのに必要な、
+このWebアプリを実装するのに必要な、
 
 - SkyWayのJS-SDKの基本的なAPI
 - UIごとの実装方法とTips
+- WebRTCのJavaScript APIについてのアレコレ
 
-を紹介しつつ、WebRTCのJavaScript APIまわりのよもやまについても触れていきます。
+を紹介します！
 
 --
 
-# JS-SDKのAPI
+# SkyWayのAPI
 ## の中で、今回使うもの
 
 --
@@ -220,9 +224,11 @@ const devicesWithLabel = await navigator.mediaDevices.enumerateDevices();
 
 ```js
 // device.deviceId を指定
-const stream = await navigator.mediaDevices.getUserMedia({ video: {
-  deviceId: { exact: deviceId }
-} });
+const stream = await navigator.mediaDevices.getUserMedia({
+  video: {
+    deviceId: { exact: deviceId }
+  }
+});
 ```
 
 `exact`をつけるのが重要。
@@ -240,7 +246,7 @@ const displayStream = await navigator.mediaDevices.getDisplayMedia({ video: true
 const [videoTrack] = displayStream.getVideoTracks();
 ```
 
-ちなみにコイツは、
+ちなみにコイツの「Stop sharing」は、
 
 ![screenshare](./img/screenshare.png)
 
@@ -248,7 +254,7 @@ const [videoTrack] = displayStream.getVideoTracks();
 
 --
 
-### ミュート
+### ミュート（簡易）
 
 ```js
 // mute
@@ -260,15 +266,41 @@ videoTrack.enabled = true;
 
 `MediaStreamTrack`には`muted`といういかにもなプロパティが生えてますが、お探しのものは`enabled`です👻
 
-ミュートするとそれらし黒画面ストリームになり、0とまではいかないものの、帯域の節約になります。
+これをやると、
 
-`MediaStreamTrack#stop()`だと完全に送信を止められるものの、再開するためにはストリームの取得からやり直す必要があり、`RTCRtpSender#replaceTrack(null)`だとリモートに別途それを知らせる必要があり・・。
+- 映像はそれらしい黒画面になり
+- 音声は聞こえなく
+
+なります。
+
+`0`とまではいかないものの、帯域の節約になります。
+
+--
+
+### ミュート（発展）
+
+帯域を`0`にしたい！そんなあなたには・・、
+
+- `MediaStreamTrack#stop()`
+  - ミュートしたことをリモートに知らせる必要あり
+  - ストリームの再取得も必要（再開できない）
+- `RTCRtpSender#replaceTrack(null)`
+  - ミュートしたことをリモートに知らせる必要あり
+  - 解除するには再度`replaceTrack(track)`
+- `RTCRtpSender#getParameters() + setParameters()`
+  - `params.encodings[0].active = false`にする
+  - 同じく知らせる必要あり
+- `RTCPeerConnection#removeTrack(sender)`
+  - `inactive`にして通信そのものをやめる
+  - 解除するには再度ネゴシエーションから
+
+要件に応じてお好きな方法を選んでください！
 
 --
 
 ### VoiceActivityDetection
 
-マイクの入力をチェックできます。
+マイクの入力レベルをチェックできます。
 
 WebAudio APIと組み合わせて実装します。
 
@@ -293,6 +325,23 @@ analyserNode.getFloatFrequencyData(fft);
 > https://github.com/otalk/hark
 
 > https://github.com/Jam3/voice-activity-detection
+
+--
+
+### VAD（おまけ）
+
+> https://w3c.github.io/webrtc-pc/#dom-rtcrtpcontributingsource-audiolevel
+
+![audioLevel](./img/audiolevel.png)
+
+お？🕵️‍
+
+```js
+const [receiver] = pc.getReceivers().filter(r => r.kind === "audio");
+const [{ audioLevel }] = receiver.getSynchronizationSources();
+```
+
+条件つきではあるものの、ほぼほぼ使える・・が、各ブラウザで返り値の尺度が微妙に違う・・・！（特にSafariおまえだけは(ry
 
 --
 
@@ -340,6 +389,8 @@ room.on("peerLeave", peerId => {
 
 むしろこうしないと、iOS Safariで複数のストリームを再生できずに詰みます😇
 
+VADしたいなら、この`stream`をさっきと同じように表示すればよし。
+
 --
 
 ### ピン留め表示
@@ -375,6 +426,8 @@ room.on("data", ({ src, data }) => {
 
 ### リアクション
 
+![reaction](./img/reaction.png)
+
 チャットと同じですが、いろいろ`send()`したくなるので最初から、
 
 ```js
@@ -401,10 +454,13 @@ JSONにできるオブジェクトならそのまま送受信できます。
 
 ### 通知
 
+![notification](./img/notification.png)
+
 - 任意で`room.on()`をひろって表示
 - あとはユーザーの操作にあわせて表示
 - 参加者のイベントは任意のタイミングで`room.send()`
   - ユーザー名、UA
+  - さっきのリアクション
   - 「画面共有をはじめた」など
 
 SkyWayあんまり関係ないですね！
@@ -416,6 +472,7 @@ SkyWayあんまり関係ないですね！
 - 実装の都合でSFURoomでのみ使える
 - `RTCStatsReport`を文字列検索できる
   - 各参加者の`stream.id`で検索したり
+- なお、コアな人にしか需要はない
 
 --
 
@@ -426,7 +483,7 @@ SkyWayあんまり関係ないですね！
 
 ### Room#replaceStream()
 
-現状、`MediaStreamTrack`の増減ができません・・😨
+現状、`MediaStreamTrack`の増減ができません。
 
 - audio => audio+video への置き換え
   - = videoのtrackが増えてる
@@ -436,7 +493,7 @@ SkyWayあんまり関係ないですね！
   - = audioのtrackが減ってるし
   - = videoのtrackが増えてる
 
-いったん部屋を`close()`して、再度`joinRoom()`すれば実現できるけど・・。
+いったん部屋を`close()`して、再度`joinRoom()`すれば実現・・😨😨😨
 
 --
 
@@ -507,7 +564,7 @@ src
 10 directories, 63 files
 ```
 
-行数にして`3688`行でした！
+行数にして`3700`行でした！
 
 TypeScriptな上にCSS in JSな上にほぼコンポーネントなので、ロジックは`1500`行くらいなはず。
 
@@ -521,9 +578,9 @@ TypeScriptな上にCSS in JSな上にほぼコンポーネントなので、ロ�
 
 <style>
 :root {
-  --bg-color: #eeefff;
-  --bar-color: #990073;
-  --em-color: #c44ede;
+  --bg-color: #f7f7ff;
+  --bar-color: #c81dff;
+  --em-color: #990073;
 }
 </style>
 <link rel="stylesheet" href="../public/base.css">
