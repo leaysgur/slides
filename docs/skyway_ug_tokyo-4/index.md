@@ -33,6 +33,42 @@ controls: false
 
 --
 
+### 宣伝😎
+
+> leader22/simple-p2p: The simple p2p module for modern browsers. - https://github.com/leader22/simple-p2p
+
+WebRTCでP2Pしたいユースケースを、ひたすらシンプルにやるためのライブラリを書きました。
+
+```js
+import { createTransport } from "simple-p2p";
+
+const transport = createTransport({
+  iceServers: [{ urls: "stun:stun.l.google.com:19302" }]
+});
+
+// you need to do signaling by yourself
+signaling.on("signal", data => transport.handleNegotiation(data));
+transport.on("negotiation", data => signaling.signal(data));
+await transport.startNegotiation();
+
+const { mediaHandler } = transport;
+
+// when remote sendTrack() has called,
+mediaHandler.on("receiver", mediaReceiver => {
+  const { track, kind } = mediaReceiver;
+  renderMediaElement(track, kind);
+});
+
+const track = await navigator.mediaDevices.getUserMedia({ video: true })
+  .then(stream => stream.getTracks()[0]);
+
+const mediaSender = await mediaHandler.sendTrack(track);
+```
+
+
+
+--
+
 # 本日のテーマ
 
 --
@@ -41,14 +77,14 @@ controls: false
 
 --
 
-### SkyWay Conference
+### SkyWay Conferenceとは
 
 - SkyWayの<a>JS-SDKを使い倒した</a>Webアプリ
   - いわゆるSPAというやつ
   - React + MobX w/ TypeScript
 - JS-SDKのサポートブラウザで動作
   - Chrome/Firefox/Safari
-  - iOS/Android含む
+  - iOS/Androidでももちろん
 - 実はデモとして、公式サイトのトップで公開されてる
   - https://webrtc.ecl.ntt.com/#デモ
   - コードはいまのところ非公開🙈
@@ -60,18 +96,18 @@ controls: false
 
 ### そんな裏側ぜんぶ見せます！
 
-このWebアプリを実装するのに必要な、
+こんなWebアプリを実装するのに必要な、
 
-- SkyWayのJS-SDKの基本的なAPI
-- UIごとの実装方法とTips
+- SkyWay JS-SDKの基本的なAPIと
+- UIごとの実装方法と
 - WebRTCのJavaScript APIについてのアレコレ
 
-を紹介します！
+を紹介します。
 
 --
 
 # SkyWayのAPI
-## の中で、今回使うもの
+## の中で、今回使うものをおさらい
 
 --
 
@@ -117,6 +153,8 @@ const room = peer.joinRoom(roomName, {
 
 `stream`には、その部屋に送信したい`MediaStream`を渡します。（videoのみ、audioのみ、video+audio、そもそも渡さない）
 
+> SFUについて - https://webrtc.ecl.ntt.com/sfu.html
+
 --
 
 ### {SFU|Mesh}Room
@@ -152,19 +190,16 @@ room.on("open", () => {});
 
 // 誰かが部屋にはいってきた
 room.on("peerJoin", peerId => {});
-
 // 誰かが部屋からいなくなった
 room.on("peerLeave", peerId => {});
 
 // 誰かのストリームを受信した
 room.on("stream", stream => {});
-
 // 誰かのデータを受信した
 room.on("data", data => {});
 
 // 部屋が閉じた
 room.on("close", () => {});
-
 // なにかエラーがあった
 room.on("error", err => {});
 ```
@@ -212,7 +247,7 @@ const devicesWithLabel = await navigator.mediaDevices.enumerateDevices();
 ```
 
 - 2を飛ばすと、`device.label`が取れないなど不都合あり
-- 1を飛ばすと、もしビデオ入力がなかった場合に`getUserMedia()`でエラーになる
+- 1を飛ばすと、もし入力デバイスが存在しなかった場合に`getUserMedia()`でエラーになる
 
 なんて面倒なんでしょう😇
 
@@ -282,19 +317,20 @@ videoTrack.enabled = true;
 帯域を`0`にしたい！そんなあなたには・・、
 
 - `MediaStreamTrack#stop()`
-  - ミュートしたことをリモートに知らせる必要あり
-  - ストリームの再取得も必要（再開できない）
+  - 映像が止まるのでリモートに知らせる必要あり
+  - ストリームの再取得も必要（止めたら再開できない）
 - `RTCRtpSender#replaceTrack(null)`
-  - ミュートしたことをリモートに知らせる必要あり
+  - 同じくリモートに知らせる必要あり
   - 解除するには再度`replaceTrack(track)`
 - `RTCRtpSender#getParameters() + setParameters()`
   - `params.encodings[0].active = false`にする
   - 同じく知らせる必要あり
 - `RTCPeerConnection#removeTrack(sender)`
   - `inactive`にして通信そのものをやめる
-  - 解除するには再度ネゴシエーションから
+  - しかしネゴシエーションが必要
 
-要件に応じてお好きな方法を選んでください！
+要件に応じてお好きな方法を。
+（今のJS-SDKでやるなら1つ目しかないけど・・）
 
 --
 
@@ -334,14 +370,14 @@ analyserNode.getFloatFrequencyData(fft);
 
 ![audioLevel](./img/audiolevel.png)
 
-お？🕵️‍
+🕵️‍・・・！
 
 ```js
 const [receiver] = pc.getReceivers().filter(r => r.kind === "audio");
 const [{ audioLevel }] = receiver.getSynchronizationSources();
 ```
 
-条件つきではあるものの、ほぼほぼ使える・・が、各ブラウザで返り値の尺度が微妙に違う・・・！（特にSafariおまえだけは(ry
+いちおう使える・・が、各ブラウザで返り値の尺度が微妙に違います。（特にSafariおまえだけは(ry
 
 --
 
@@ -389,15 +425,15 @@ room.on("peerLeave", peerId => {
 
 むしろこうしないと、iOS Safariで複数のストリームを再生できずに詰みます😇
 
-VADしたいなら、この`stream`をさっきと同じように表示すればよし。
+VADしたいなら、この`stream`をさっきと同じように使うだけ。
 
 --
 
 ### ピン留め表示
 
 - 参加者リストのそれとは別に、大きく表示される機能
-- 任意の`stream`を、複数の`video`で再生するだけ
-  - ただし音はいらない
+- 任意の`stream`を、別の`video`で再生するだけ
+  - ただし音はいらないので`audio`は描画しない or `muted`
 
 --
 
@@ -420,7 +456,7 @@ room.on("data", ({ src, data }) => {
 
 部屋にいる全ての人に送られる = ブロードキャストされます。
 
-宛先を指定する機能はないです。
+宛先を指定する機能はないです！
 
 --
 
@@ -456,44 +492,37 @@ JSONにできるオブジェクトならそのまま送受信できます。
 
 ![notification](./img/notification.png)
 
-- 任意で`room.on()`をひろって表示
-- あとはユーザーの操作にあわせて表示
-- 参加者のイベントは任意のタイミングで`room.send()`
+- 任意のタイミングで表示
+  - `room.on()`をひろって表示
+  - ユーザーの操作にあわせて表示
+- 周知は`room.send()`で
   - ユーザー名、UA
-  - さっきのリアクション
+  - チャット、リアクション
   - 「画面共有をはじめた」など
 
 SkyWayあんまり関係ないですね！
 
 --
 
-### Stats
-
-- 実装の都合でSFURoomでのみ使える
-- `RTCStatsReport`を文字列検索できる
-  - 各参加者の`stream.id`で検索したり
-- なお、コアな人にしか需要はない
-
---
-
 # おまけ
-## JS-SDKよもやま
+## SkyWay JS-SDKよもやま
 
 --
 
 ### Room#replaceStream()
 
-現状、`MediaStreamTrack`の増減ができません。
+現状、`MediaStreamTrack`と`MediaStream`の増減ができません。
 
-- audio => audio+video への置き換え
+- audio => audio+video
   - = videoのtrackが増えてる
-- audio+video => audio への置き換え
+- audio+video => audio
   - = videoのtrackが減ってる
-- audio => video への置き換え
-  - = audioのtrackが減ってるし
-  - = videoのtrackが増えてる
+- audio => video
+  - = audioのtrackが減って、videoのtrackが増えてる
+- streamあり => streamなし
+- streamなし => streamあり
 
-いったん部屋を`close()`して、再度`joinRoom()`すれば実現・・😨😨😨
+いったん部屋を`close()`して、再度`joinRoom()`すれば実現可能ではある・・😨😨😨
 
 --
 
@@ -542,7 +571,7 @@ SkyWayあんまり関係ないですね！
 
 どちらにせよ、UIコンポーネントの外側の世界に配置すること。（Reactなら`Context`で注入したり）
 
-コンポーネントの中にだけは絶対に書かないでください🤮
+コンポーネントの中（ライフサイクルの中）に適当に書くのダメゼッタイ🤮
 
 --
 
@@ -551,9 +580,9 @@ SkyWayあんまり関係ないですね！
 ```
 src
 ├── conf
-│   ├── components: 状態をもたないコンポーネント
+│   ├── components: 状態をもたない描画用コンポーネント
 │   ├── effects: 状態を操作する処理（ReactHooks）
-│   ├── observers: 状態をもつコンポーネント
+│   ├── observers: 描画しない状態を配る用コンポーネント
 │   ├── stores: 状態そのもの（MobX）
 │   └── utils: 雑多なもの
 ├── index
@@ -575,12 +604,13 @@ TypeScriptな上にCSS in JSな上にほぼコンポーネントなので、ロ�
 --
 
 # Thank you!
+## 質問などあればいつでもお気軽に
 
 <style>
 :root {
   --bg-color: #f7f7ff;
   --bar-color: #c81dff;
-  --em-color: #990073;
+  --em-color: #843fc3;
 }
 </style>
 <link rel="stylesheet" href="../public/base.css">
