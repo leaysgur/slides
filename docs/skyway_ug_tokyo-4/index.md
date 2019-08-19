@@ -37,8 +37,6 @@ controls: false
 
 > leader22/simple-p2p: The simple p2p module for modern browsers. - https://github.com/leader22/simple-p2p
 
-WebRTCでP2Pしたいユースケースを、ひたすらシンプルにやるためのライブラリを書きました。
-
 ```js
 import { createTransport } from "simple-p2p";
 
@@ -59,13 +57,14 @@ mediaHandler.on("receiver", mediaReceiver => {
   renderMediaElement(track, kind);
 });
 
-const track = await navigator.mediaDevices.getUserMedia({ video: true })
-  .then(stream => stream.getTracks()[0]);
-
+// send single track
+const track = await getVideoTrack();
 const mediaSender = await mediaHandler.sendTrack(track);
 ```
 
+WebRTCでP2Pしたいユースケースを、ひたすらシンプルにやるためのライブラリを書きました。
 
+🌟や使ってみたお待ちしております！
 
 --
 

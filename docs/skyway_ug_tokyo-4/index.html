@@ -407,7 +407,6 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <blockquote>
 <p>leader22/simple-p2p: The simple p2p module for modern browsers. - <a href="https://github.com/leader22/simple-p2p">https://github.com/leader22/simple-p2p</a></p>
 </blockquote>
-<p>WebRTCでP2Pしたいユースケースを、ひたすらシンプルにやるためのライブラリを書きました。</p>
 <pre><code class="lang-js"><span class="hljs-keyword">import</span> { createTransport } <span class="hljs-keyword">from</span> <span class="hljs-string">"simple-p2p"</span>;
 
 <span class="hljs-keyword">const</span> transport = createTransport({
@@ -427,11 +426,12 @@ mediaHandler.on(<span class="hljs-string">"receiver"</span>, mediaReceiver =&gt;
   renderMediaElement(track, kind);
 });
 
-<span class="hljs-keyword">const</span> track = <span class="hljs-keyword">await</span> navigator.mediaDevices.getUserMedia({ <span class="hljs-attr">video</span>: <span class="hljs-literal">true</span> })
-  .then(<span class="hljs-function"><span class="hljs-params">stream</span> =&gt;</span> stream.getTracks()[<span class="hljs-number">0</span>]);
-
+<span class="hljs-comment">// send single track</span>
+<span class="hljs-keyword">const</span> track = <span class="hljs-keyword">await</span> getVideoTrack();
 <span class="hljs-keyword">const</span> mediaSender = <span class="hljs-keyword">await</span> mediaHandler.sendTrack(track);
 </code></pre>
+<p>WebRTCでP2Pしたいユースケースを、ひたすらシンプルにやるためのライブラリを書きました。</p>
+<p>🌟や使ってみたお待ちしております！</p>
 </section>
   </div>
   <div class="slide hidden" id="slide-5">
