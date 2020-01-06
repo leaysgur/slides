@@ -4,12 +4,13 @@
   "description": "My presentations!",
   "scripts": {
     "postinstall": "chmod -R +x ./script",
-    "md2html": "node ./script/md2html.js",
-    "md2html:all": "for x in `ls ./docs | grep -E '^_|public' -v`; do npm run md2html $x; done"
+    "cleaver": "node ./script/cleaver.js",
+    "cleaver:all": "for x in `ls ./docs | grep -E '^_|public' -v`; do npm run md2html $x; done"
   },
   "author": "leader22",
   "license": "MIT",
   "dependencies": {
+    "@marp-team/marp-cli": "^0.16.2",
     "cleaver": "^0.8.7"
   },
   "repository": {

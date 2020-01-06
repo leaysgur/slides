@@ -5,8 +5,8 @@ const isWatch = process.argv[3] ? 'watch' : '';
 
 if (target === undefined) {
   console.log('  Usage:');
-  console.log('    npm run md2html <targetDir>');
-  console.log('    npm run md2html <targetDir> [,<isWatch>]');
+  console.log('    npm run cleaver <targetDir>');
+  console.log('    npm run cleaver <targetDir> [,<isWatch>]');
   console.log('');
 
   process.exit(0);
