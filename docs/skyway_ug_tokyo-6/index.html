@@ -19,7 +19,7 @@
 <li>NTT Communications
 <ul>
 <li>WebRTC寄りフロントエンド寄りエンジニア</li>
-<li>SkyWayの中の人やってます</li>
+<li>いちおうSkyWayの中の人</li>
 </ul>
 </li>
 </ul>
@@ -46,7 +46,7 @@
 <ul>
 <li><code>navigator.mediaDevices.getUserMedia(constraints)</code></li>
 <li>（<code>navigator.mediaDevices.getDisplayMedia(constraints)</code>）</li>
-<li><code>new RTCPeerConnection(configuration)</code></li>
+<li><code>new RTCPeerConnection(configuration)</code>とその後</li>
 </ul>
 </li>
 <li><img class="emoji" draggable="false" alt="🥇" src="https://twemoji.maxcdn.com/2/svg/1f947.svg" data-marp-twemoji=""/>: Chromeでのみ利用可能
@@ -249,7 +249,7 @@
 <li>03%: グローバル変数・関数の定義</li>
 <li>04%: タブUI</li>
 <li>05%: ダンプ機能</li>
-<li>05%: PeerConnectionイベントテーブル</li>
+<li>05%: PeerConnectionイベントリスト</li>
 <li><strong>82%</strong>: Statsテーブル（グラフ描画含む）</li>
 </ul>
 </section>
@@ -258,7 +258,7 @@
 <ul>
 <li>描画するためのデータは全てブラウザ（C++）から受け取る
 <ul>
-<li>考えてみれば当然</li>
+<li>我々がさわれるAPIなどがあるわけではない</li>
 </ul>
 </li>
 <li>JavaScriptが、<code>chrome.send(evName)</code>という特別な関数でメッセージング
@@ -271,7 +271,7 @@
 <ul>
 <li>存在する<code>RTCPeerConnection</code>をかき集めたり</li>
 <li><code>RTCStatsReport</code>を取得したり</li>
-<li>マッピングされたJavaScript側のグローバル関数を叩いでデータ返す</li>
+<li>マッピングされたJavaScript側のグローバル関数を呼んでデータ返す</li>
 </ul>
 </li>
 </ul>
@@ -283,17 +283,18 @@
 <ul>
 <li><code>window.userMediaRequests</code></li>
 <li><code>window.peerConnectionDataStore</code></li>
+<li>ダウンロードできるダンプも、これらをJSONにしたもの</li>
 </ul>
 </li>
 <li>グラフもただの<code>canvas</code>要素
 <ul>
-<li>リアルタイムではなく1秒ごとに取得 &amp; 描画</li>
+<li>リアルタイムではなく1秒ごとに取得 &amp; 描画してる</li>
 </ul>
 </li>
 <li>そのための3000行
 <ul>
 <li>ほとんどがグラフ描画用の時系列データへのコンバート</li>
-<li>メトリクスの数が多いので、それぞれのクラスがあってかさむ</li>
+<li>メトリクスの数が多いので、それぞれのクラスがあってかさんでる</li>
 </ul>
 </li>
 </ul>
@@ -303,10 +304,14 @@
 <ul>
 <li>これが呼ばれると最終的にグラフが1フレーム描画される
 <ul>
-<li>1秒に1回くらい呼ばれる</li>
+<li>タイマーで1秒に1回くらい呼ばれる</li>
 </ul>
 </li>
-<li>渡されてくるデータは、<code>getStats()</code>で得られるものと構造が微妙に違うとのこと</li>
+<li>渡されてくるデータは、<code>getStats()</code>で得られるものと構造が微妙に違うとのこと
+<ul>
+<li>これは微妙にというかぜんぜん違うやろ<img class="emoji" draggable="false" alt="😑" src="https://twemoji.maxcdn.com/2/svg/1f611.svg" data-marp-twemoji=""/></li>
+</ul>
+</li>
 </ul>
 <pre><code class="language-js"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-comment">// |internalReports| is an array, each element represents an RTCStats object,</span>
 <span class="hljs-comment">// but the format is a little different from the spec. This is the format:</span>
@@ -327,13 +332,14 @@
 <h2>そこさえなんとかすれば</h2>
 
 <ul>
-<li>Firefoxでも同じように描画できる<img class="emoji" draggable="false" alt="🦊" src="https://twemoji.maxcdn.com/2/svg/1f98a.svg" data-marp-twemoji=""/></li>
+<li>Firefoxでもinternalsできる<img class="emoji" draggable="false" alt="🦊" src="https://twemoji.maxcdn.com/2/svg/1f98a.svg" data-marp-twemoji=""/></li>
 <li>というか、<code>getStats()</code>したデータさえあれば
 <ul>
 <li>Safariでも</li>
 <li>ネイティブアプリのSDKでも</li>
 </ul>
 </li>
+<li>ブラウザごとに取れる情報に差異はあるけど・・</li>
 </ul>
 </section>
 </foreignObject><foreignObject width="1280" height="720" data-marpit-advanced-background="pseudo"><section style="" data-marpit-advanced-background="pseudo"></section></foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="29">

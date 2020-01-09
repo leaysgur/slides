@@ -12,7 +12,7 @@ title: All about `chrome://webrtc-internals`
 - Yuji Sugiura
 - NTT Communications
   - WebRTC寄りフロントエンド寄りエンジニア
-  - SkyWayの中の人やってます
+  - いちおうSkyWayの中の人
 
 ![bg right](../public/img/prof.jpg)
 
@@ -42,7 +42,7 @@ title: All about `chrome://webrtc-internals`
 - WebRTC関連APIの用途をトラッキングできる特別✨なページ
   - `navigator.mediaDevices.getUserMedia(constraints)`
   - （`navigator.mediaDevices.getDisplayMedia(constraints)`）
-  - `new RTCPeerConnection(configuration)`
+  - `new RTCPeerConnection(configuration)`とその後
 - 🥇: Chromeでのみ利用可能
   - 🥈: Firefoxにも`about:webrtc`というものがある
   - 🥉: SafariはDevToolsにちょっとリッチなロガーがあるだけ...
@@ -209,7 +209,7 @@ title: All about `chrome://webrtc-internals`
 - 03%: グローバル変数・関数の定義
 - 04%: タブUI
 - 05%: ダンプ機能
-- 05%: PeerConnectionイベントテーブル
+- 05%: PeerConnectionイベントリスト
 - **82%**: Statsテーブル（グラフ描画含む）
 
 ---
@@ -217,14 +217,14 @@ title: All about `chrome://webrtc-internals`
 ## データの出どころ
 
 - 描画するためのデータは全てブラウザ（C++）から受け取る
-  - 考えてみれば当然
+  - 我々がさわれるAPIなどがあるわけではない
 - JavaScriptが、`chrome.send(evName)`という特別な関数でメッセージング
   - `chrome://`のページでだけ使える特別なやつ
   - 必要になったタイミングや、タイマーで定期的に
 - それをブラウザ（C++）が受けて処理して返す
   - 存在する`RTCPeerConnection`をかき集めたり
   - `RTCStatsReport`を取得したり
-  - マッピングされたJavaScript側のグローバル関数を叩いでデータ返す
+  - マッピングされたJavaScript側のグローバル関数を呼んでデータ返す
 
 ---
 
@@ -233,19 +233,21 @@ title: All about `chrome://webrtc-internals`
 - 渡されたデータの整形・保存はJavaScriptでやってる
   - `window.userMediaRequests`
   - `window.peerConnectionDataStore`
+  - ダウンロードできるダンプも、これらをJSONにしたもの
 - グラフもただの`canvas`要素
-  - リアルタイムではなく1秒ごとに取得 & 描画
+  - リアルタイムではなく1秒ごとに取得 & 描画してる
 - そのための3000行
   - ほとんどがグラフ描画用の時系列データへのコンバート
-  - メトリクスの数が多いので、それぞれのクラスがあってかさむ
+  - メトリクスの数が多いので、それぞれのクラスがあってかさんでる
 
 ---
 
 ## 起点: `addStandardStats()`
 
 - これが呼ばれると最終的にグラフが1フレーム描画される
-  - 1秒に1回くらい呼ばれる
+  - タイマーで1秒に1回くらい呼ばれる
 - 渡されてくるデータは、`getStats()`で得られるものと構造が微妙に違うとのこと
+  - これは微妙にというかぜんぜん違うやろ😑
 
 ```js
 // |internalReports| is an array, each element represents an RTCStats object,
@@ -268,10 +270,11 @@ title: All about `chrome://webrtc-internals`
 
 ![bg right contain](./img/firefox.png)
 
-- Firefoxでも同じように描画できる🦊
+- Firefoxでもinternalsできる🦊
 - というか、`getStats()`したデータさえあれば
   - Safariでも
   - ネイティブアプリのSDKでも
+- ブラウザごとに取れる情報に差異はあるけど・・
 
 ---
 
