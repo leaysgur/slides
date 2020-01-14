@@ -150,10 +150,12 @@ title: The `chrome://webrtc-internals` internals
 ![bg right contain](./img/stats-table.png)
 
 - `getStats()`データのサマリ・可視化
+  - 何をやりとりすることになったか
   - どのコーデックを使ってるか
   - どの通信経路が選ばれたのか
-  - 帯域の利用状況のグラフ
+  - 帯域の利用状況
   - etc..
+- 瞬間値を示す表と、推移の見れるグラフ
 
 ---
 
@@ -210,7 +212,7 @@ title: The `chrome://webrtc-internals` internals
 - 04%: タブUI
 - 05%: ダンプ機能
 - 05%: PeerConnectionイベントリスト
-- **82%**: Statsテーブル（グラフ描画含む）
+- **82%**: Statsテーブル（表 + グラフ）
 
 ---
 
@@ -236,9 +238,10 @@ title: The `chrome://webrtc-internals` internals
   - ダウンロードできるダンプも、これらをJSONにしたもの
 - グラフもただの`canvas`要素
   - リアルタイムではなく1秒ごとに取得 & 描画してる
-- そのための3000行
+- そのための3000行でした
   - ほとんどがグラフ描画用の時系列データへのコンバート
   - メトリクスの数が多いので、それぞれのクラスがあってかさんでる
+  - ただ現世では不要なコードも多いので実態は2000行くらい
 
 ---
 
@@ -247,7 +250,7 @@ title: The `chrome://webrtc-internals` internals
 - これが呼ばれると最終的にグラフが1フレーム描画される
   - タイマーで1秒に1回くらい呼ばれる
 - 渡されてくるデータは、`getStats()`で得られるものと構造が微妙に違うとのこと
-  - これは微妙にというかぜんぜん違うやろ😑
+  - 微妙にというかぜんぜん違う😑
 
 ```js
 // |internalReports| is an array, each element represents an RTCStats object,
@@ -274,7 +277,7 @@ title: The `chrome://webrtc-internals` internals
 - というか、`getStats()`したデータさえあれば
   - Safariでも
   - ネイティブアプリのSDKでも
-- ブラウザごとに取れる情報に差異はあるけど・・
+- ブラウザ差異は依然としてすごいけど・・
 
 ---
 

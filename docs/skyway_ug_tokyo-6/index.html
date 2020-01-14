@@ -169,12 +169,14 @@
 <ul>
 <li><code>getStats()</code>データのサマリ・可視化
 <ul>
+<li>何をやりとりすることになったか</li>
 <li>どのコーデックを使ってるか</li>
 <li>どの通信経路が選ばれたのか</li>
-<li>帯域の利用状況のグラフ</li>
+<li>帯域の利用状況</li>
 <li>etc..</li>
 </ul>
 </li>
+<li>瞬間値を示す表と、推移の見れるグラフ</li>
 </ul>
 </section>
 </foreignObject><foreignObject width="1280" height="720" data-marpit-advanced-background="pseudo"><section style="" data-marpit-advanced-background="pseudo"></section></foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="19">
@@ -250,7 +252,7 @@
 <li>04%: タブUI</li>
 <li>05%: ダンプ機能</li>
 <li>05%: PeerConnectionイベントリスト</li>
-<li><strong>82%</strong>: Statsテーブル（グラフ描画含む）</li>
+<li><strong>82%</strong>: Statsテーブル（表 + グラフ）</li>
 </ul>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="25">
@@ -291,10 +293,11 @@
 <li>リアルタイムではなく1秒ごとに取得 &amp; 描画してる</li>
 </ul>
 </li>
-<li>そのための3000行
+<li>そのための3000行でした
 <ul>
 <li>ほとんどがグラフ描画用の時系列データへのコンバート</li>
 <li>メトリクスの数が多いので、それぞれのクラスがあってかさんでる</li>
+<li>ただ現世では不要なコードも多いので実態は2000行くらい</li>
 </ul>
 </li>
 </ul>
@@ -309,7 +312,7 @@
 </li>
 <li>渡されてくるデータは、<code>getStats()</code>で得られるものと構造が微妙に違うとのこと
 <ul>
-<li>これは微妙にというかぜんぜん違うやろ<img class="emoji" draggable="false" alt="😑" src="https://twemoji.maxcdn.com/2/svg/1f611.svg" data-marp-twemoji=""/></li>
+<li>微妙にというかぜんぜん違う<img class="emoji" draggable="false" alt="😑" src="https://twemoji.maxcdn.com/2/svg/1f611.svg" data-marp-twemoji=""/></li>
 </ul>
 </li>
 </ul>
@@ -339,7 +342,7 @@
 <li>ネイティブアプリのSDKでも</li>
 </ul>
 </li>
-<li>ブラウザごとに取れる情報に差異はあるけど・・</li>
+<li>ブラウザ差異は依然としてすごいけど・・</li>
 </ul>
 </section>
 </foreignObject><foreignObject width="1280" height="720" data-marpit-advanced-background="pseudo"><section style="" data-marpit-advanced-background="pseudo"></section></foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="29">
