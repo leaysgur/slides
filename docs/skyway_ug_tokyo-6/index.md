@@ -1,8 +1,8 @@
 ---
-title: All about `chrome://webrtc-internals`
+title: The `chrome://webrtc-internals` internals
 ---
 
-# All about `chrome://webrtc-internals`
+# The `chrome://webrtc-internals` internals
 2020/01/15 SkyWay UG Tokyo #6
 
 ---
@@ -81,7 +81,7 @@ title: All about `chrome://webrtc-internals`
   - いま正に見てるデータをエクスポートできる
   - 特定の環境で収集して、あとで解析するなど
 - オーディオ（`.wav`）の録音
-  - いま入力されてるマイク音源と
+  - いま入力されてるマイク音源
   - いま出力されてるスピーカー音源
 - パケット、イベントのログ（`.log`）
   - incoming & outgoingのRTPヘッダ
@@ -122,7 +122,7 @@ title: All about `chrome://webrtc-internals`
 
 ---
 
-## `RTCPeerConnection`の様子 1
+## `RTCPeerConnection`の様子 1/3
 
 - `new RTCPeerConnection()`で生成されたインスタンスの数だけタブが増える
 - どこでどんな設定で（`RTCConfiguration`）で作られたか
@@ -132,7 +132,7 @@ title: All about `chrome://webrtc-internals`
 
 ---
 
-## 様子 2
+## 様子 2/3
 
 ![bg right contain](./img/event-table.png)
 
@@ -145,7 +145,7 @@ title: All about `chrome://webrtc-internals`
 
 ---
 
-## 様子 3
+## 様子 3/3
 
 ![bg right contain](./img/stats-table.png)
 
@@ -220,7 +220,7 @@ title: All about `chrome://webrtc-internals`
   - 我々がさわれるAPIなどがあるわけではない
 - JavaScriptが、`chrome.send(evName)`という特別な関数でメッセージング
   - `chrome://`のページでだけ使える特別なやつ
-  - 必要になったタイミングや、タイマーで定期的に
+  - 必要になったタイミングや、タイマーで定期的に呼ばれる
 - それをブラウザ（C++）が受けて処理して返す
   - 存在する`RTCPeerConnection`をかき集めたり
   - `RTCStatsReport`を取得したり
