@@ -1,12 +1,13 @@
 # slides
 
-| タイトル                                                                                                        |  発表日  | イベント名                          |  枠   |
-|:--------------------------------------------------------------------------------------------------------------- |:--------:|:----------------------------------- |:-----:|
+| タイトル                                                                                                        |  発表日  | イベント名                          |    枠 |
+|:--------------------------------------------------------------------------------------------------------------- |:--------:|:----------------------------------- | -----:|
+| [The chrome://webrtc-internals internals](https://leader22.github.io/slides/skyway_ug_tokyo-6/)                 | 20200115 | SkyWay UG Tokyo #6                  | 15min |
 | [SkyWay Conference 〜JS-SDKで作る会議アプリ〜](https://leader22.github.io/slides/skyway_ug_tokyo-4/)            | 20190821 | SkyWay UG Tokyo #4                  | 20min |
 | [NodeJS(TypeScript)でSTUN(RFC5389)(の一部)を実装した](https://leader22.github.io/slides/webrtc_meetup-20/)      | 20190206 | WebRTC Meetup Tokyo #20             | 20min |
 | [動画切り出しアプリをElectronで作った](https://leader22.github.io/slides/pxg_camp-2018a/)                       | 20180306 | PixelGrid Inc. 開発合宿 in 湯河原   | 10min |
 | [MediaStream to HttpLiveStreaming](https://leader22.github.io/slides/pxg_camp-2017b/)                           | 20171017 | PixelGrid Inc. 開発合宿 in 柏たなか | 10min |
-| [SkyWay JS SDKの歩き方](https://leader22.github.io/slides/skyway_dev_meetup-1/)                                 | 20170929 | SkyWay Developer Meetup #1          | 5min  |
+| [SkyWay JS SDKの歩き方](https://leader22.github.io/slides/skyway_dev_meetup-1/)                                 | 20170929 | SkyWay Developer Meetup #1          |  5min |
 | [俺たちは雰囲気でgetUserMedia()をやっている](https://leader22.github.io/slides/webrtc_meetup-16/)               | 20170825 | WebRTC Meetup Tokyo #16             | 15min |
 | [MobXではじめるReactiveアーキテクチャ](https://leader22.github.io/slides/fe_de_kanpai-1/)                       | 20170621 | Frontend de KANPAI! #01             | 15min |
 | [Hello, MobX!](https://leader22.github.io/slides/node_gakuen-25/)                                               | 20170424 | Node学園 25時限目                   | 10min |
