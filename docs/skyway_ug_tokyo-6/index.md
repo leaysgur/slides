@@ -293,4 +293,12 @@ title: The `chrome://webrtc-internals` internals
 
 ---
 
+## `getStats()`それ自体について
+
+- ブラウザの互換性はお察し
+  - このネタだけで何回か登壇できる
+- 気になる方はあとでお話しましょう🍻
+
+---
+
 # Thank you!
