@@ -2,7 +2,7 @@
 
 | タイトル                                                                                                        |  発表日  | イベント名                          |    枠 |
 |:--------------------------------------------------------------------------------------------------------------- |:--------:|:----------------------------------- | -----:|
-| [The chrome://webrtc-internals internals](https://leader22.github.io/slides/skyway_ug_tokyo-6/)                 | 20200115 | SkyWay UG Tokyo #6                  | 15min |
+| [The chrome://webrtc-internals internals](https://leader22.github.io/slides/skyway_ug_tokyo-6/)                 | 20200115 | SkyWay UG Tokyo #6                  | 20min |
 | [SkyWay Conference 〜JS-SDKで作る会議アプリ〜](https://leader22.github.io/slides/skyway_ug_tokyo-4/)            | 20190821 | SkyWay UG Tokyo #4                  | 20min |
 | [NodeJS(TypeScript)でSTUN(RFC5389)(の一部)を実装した](https://leader22.github.io/slides/webrtc_meetup-20/)      | 20190206 | WebRTC Meetup Tokyo #20             | 20min |
 | [動画切り出しアプリをElectronで作った](https://leader22.github.io/slides/pxg_camp-2018a/)                       | 20180306 | PixelGrid Inc. 開発合宿 in 湯河原   | 10min |
