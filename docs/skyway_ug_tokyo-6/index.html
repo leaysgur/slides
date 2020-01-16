@@ -13,19 +13,19 @@
 <p>2020/01/15 SkyWay UG Tokyo #6</p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section data-marpit-advanced-background="background" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:50%;"><div data-marpit-advanced-background-container="true" data-marpit-advanced-background-direction="horizontal"><figure style="background-image:url(&quot;../public/img/prof.jpg&quot;);"></figure></div></section></foreignObject><foreignObject width="50%" height="720"><section id="2" data-marpit-advanced-background="content" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:50%;">
-<h2>はじめまして</h2>
+<h2>About me 1/2</h2>
 <ul>
 <li>Yuji Sugiura</li>
 <li>NTT Communications
 <ul>
-<li>WebRTC寄りフロントエンド寄りエンジニア</li>
-<li>いちおうSkyWayの中の人</li>
+<li>Front-End Developer</li>
+<li>(work at SkyWay)</li>
 </ul>
 </li>
 </ul>
 </section>
 </foreignObject><foreignObject width="1280" height="720" data-marpit-advanced-background="pseudo"><section style="" data-marpit-advanced-background="pseudo"></section></foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section data-marpit-advanced-background="background" data-marpit-advanced-background-split="left" style="--marpit-advanced-background-split:50%;"><div data-marpit-advanced-background-container="true" data-marpit-advanced-background-direction="horizontal"><figure style="background-image:url(&quot;../public/img/doseisan.jpg&quot;);"></figure></div></section></foreignObject><foreignObject width="50%" height="720" x="50%"><section id="3" data-marpit-advanced-background="content" data-marpit-advanced-background-split="left" style="--marpit-advanced-background-split:50%;">
-<h2>はじめまして</h2>
+<h2>About me 2/2</h2>
 <ul>
 <li>Twitter: <a href="https://twitter.com/leader22">@leader22</a></li>
 <li>GitHub: <a href="https://github.com/leader22/">leader22</a></li>
@@ -33,202 +33,204 @@
 </ul>
 </section>
 </foreignObject><foreignObject width="1280" height="720" data-marpit-advanced-background="pseudo"><section style="" data-marpit-advanced-background="pseudo"></section></foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="4">
-<h1>本日のテーマ</h1>
+<h1>Today's theme</h1>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="5">
 <h2>chrome://webrtc-internals</h2>
 <p><img src="./img/webrtc-internals.png" alt="chrome://webrtc-internals" /></p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="6">
-<h2>これなに</h2>
+<h2>What's this?</h2>
 <ul>
-<li>WebRTC関連APIの用途をトラッキングできる特別<img class="emoji" draggable="false" alt="✨" src="https://twemoji.maxcdn.com/2/svg/2728.svg" data-marp-twemoji=""/>なページ
+<li>The special<img class="emoji" draggable="false" alt="✨" src="https://twemoji.maxcdn.com/2/svg/2728.svg" data-marp-twemoji=""/>page which tracks WebRTC API usage
 <ul>
 <li><code>navigator.mediaDevices.getUserMedia(constraints)</code></li>
 <li>（<code>navigator.mediaDevices.getDisplayMedia(constraints)</code>）</li>
-<li><code>new RTCPeerConnection(configuration)</code>とその後</li>
+<li><code>new RTCPeerConnection(configuration)</code> and its details</li>
 </ul>
 </li>
-<li><img class="emoji" draggable="false" alt="🥇" src="https://twemoji.maxcdn.com/2/svg/1f947.svg" data-marp-twemoji=""/>: Chromeでのみ利用可能
+<li><img class="emoji" draggable="false" alt="🥇" src="https://twemoji.maxcdn.com/2/svg/1f947.svg" data-marp-twemoji=""/>: Available in Chrome
 <ul>
-<li><img class="emoji" draggable="false" alt="🥈" src="https://twemoji.maxcdn.com/2/svg/1f948.svg" data-marp-twemoji=""/>: Firefoxにも<code>about:webrtc</code>というものがある</li>
-<li><img class="emoji" draggable="false" alt="🥉" src="https://twemoji.maxcdn.com/2/svg/1f949.svg" data-marp-twemoji=""/>: SafariはDevToolsにちょっとリッチなロガーがあるだけ...</li>
+<li><img class="emoji" draggable="false" alt="🥈" src="https://twemoji.maxcdn.com/2/svg/1f948.svg" data-marp-twemoji=""/>: Firefox has <code>about:webrtc</code></li>
+<li><img class="emoji" draggable="false" alt="🥉" src="https://twemoji.maxcdn.com/2/svg/1f949.svg" data-marp-twemoji=""/>: Safari has only logger function for DevTools</li>
 </ul>
 </li>
-<li>特別ではあるが、その実態はただの<strong>Webページ</strong></li>
+<li>It is special, but just a <strong>Web page</strong></li>
 </ul>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="7">
-<h2>ただのWebページならば</h2>
+<h2>If it's just a web page</h2>
 <ul>
-<li>ChromeのDevToolsでそのしくみを丸裸<img class="emoji" draggable="false" alt="😻" src="https://twemoji.maxcdn.com/2/svg/1f63b.svg" data-marp-twemoji=""/>にできる！</li>
-<li>ので、やってみたという話をします</li>
+<li>We can debug it w/ Chrome DevTools<img class="emoji" draggable="false" alt="😻" src="https://twemoji.maxcdn.com/2/svg/1f63b.svg" data-marp-twemoji=""/></li>
+<li>And done!</li>
 </ul>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="8">
 <h1>Overview (if needed)</h1>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="9">
-<h2>ページのつくり</h2>
+<h2>Components</h2>
 <ol>
-<li>ヘッダ</li>
-<li>GetUserMedia Requestsタブ（いつでも1つ）</li>
-<li>PeerConnectionタブ（あるだけタブが増える）</li>
+<li>Header</li>
+<li>Tab: for GetUserMedia Requests（always 1）</li>
+<li>Tab: for PeerConnection（N pc）</li>
 </ol>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section data-marpit-advanced-background="background" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:50%;"><div data-marpit-advanced-background-container="true" data-marpit-advanced-background-direction="horizontal"><figure style="background-image:url(&quot;./img/header.png&quot;);background-size:contain;"></figure></div></section></foreignObject><foreignObject width="50%" height="720"><section id="10" data-marpit-advanced-background="content" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:50%;">
-<h1>1. ヘッダ</h1>
+<h1>1. Header</h1>
 </section>
 </foreignObject><foreignObject width="1280" height="720" data-marpit-advanced-background="pseudo"><section style="" data-marpit-advanced-background="pseudo"></section></foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="11">
-<h2>各種ダンプのダウンロード</h2>
+<h2>Dump downloader</h2>
 <ul>
-<li>通信状況のダンプ（<code>.txt</code>だが中身はJSON）
+<li>PeerConnection updates and stats（<code>.txt</code>, JSON format）
 <ul>
-<li>いま正に見てるデータをエクスポートできる</li>
-<li>特定の環境で収集して、あとで解析するなど</li>
+<li>Exports how current session progress</li>
+<li>Dump now, diagnose later</li>
 </ul>
 </li>
-<li>オーディオ（<code>.wav</code>）の録音
+<li>Audio（<code>.wav</code>） recording
 <ul>
-<li>いま入力されてるマイク音源</li>
-<li>いま出力されてるスピーカー音源</li>
+<li>Input from microphone</li>
+<li>Output from speakers</li>
 </ul>
 </li>
-<li>パケット、イベントのログ（<code>.log</code>）
+<li>Packets and event logs（<code>.log</code>）
 <ul>
-<li>incoming &amp; outgoingのRTPヘッダ</li>
-<li>RTCPパケット</li>
-<li>フォーマットはProtocol Buffersっぽい？</li>
+<li>incoming &amp; outgoing RTP headers</li>
+<li>RTCP</li>
+<li>Format is Protocol Buffers...?</li>
 </ul>
 </li>
 </ul>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="12">
-<h2>バージョン設定</h2>
+<h2>Version settings</h2>
 <ul>
-<li><code>getStats()</code>のバージョン指定
+<li>For <code>getStats()</code> format
 <ul>
-<li>ある時を境に、APIと内容が変わった</li>
-<li>新旧のどっちを使ってこのページを表示するかの設定</li>
-<li>デフォルト（<code>Standarized(promise-based)</code>）のままが吉</li>
+<li>Standard or legacy format</li>
+<li>Use default（<code>Standarized(promise-based)</code>） is better</li>
 </ul>
 </li>
 </ul>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section data-marpit-advanced-background="background" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:50%;"><div data-marpit-advanced-background-container="true" data-marpit-advanced-background-direction="horizontal"><figure style="background-image:url(&quot;./img/tab-gum-request.png&quot;);background-size:contain;"></figure></div></section></foreignObject><foreignObject width="50%" height="720"><section id="13" data-marpit-advanced-background="content" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:50%;">
-<h1>2. GetUserMedia Requestsタブ</h1>
+<h1>2. Tab: GetUserMedia Requests</h1>
 </section>
 </foreignObject><foreignObject width="1280" height="720" data-marpit-advanced-background="pseudo"><section style="" data-marpit-advanced-background="pseudo"></section></foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="14">
-<h2><code>getXxxMedia()</code>の様子</h2>
+<h2>Track <code>getXxxMedia()</code></h2>
 <ul>
-<li><code>navigator.mediaDevices.getUserMedia()</code>を呼ぶとリストが増える
+<li><code>navigator.mediaDevices.getUserMedia()</code>
 <ul>
-<li>いつ</li>
-<li>どこ（のURL）で</li>
-<li>どのように</li>
-<li>メディアをキャプチャしようとしたのか</li>
+<li>When</li>
+<li>Where(URL)</li>
+<li>How(constraints)</li>
 </ul>
 </li>
-<li><code>getDisplayMedia()</code>の情報は、中途半端にしかでない...<img class="emoji" draggable="false" alt="🤔" src="https://twemoji.maxcdn.com/2/svg/1f914.svg" data-marp-twemoji=""/></li>
+<li><code>navigator.mediaDevices.getDisplayMedia()</code>
+<ul>
+<li>It also appears</li>
+<li>But information is missing...<img class="emoji" draggable="false" alt="🤔" src="https://twemoji.maxcdn.com/2/svg/1f914.svg" data-marp-twemoji=""/></li>
+</ul>
+</li>
 </ul>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section data-marpit-advanced-background="background" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:50%;"><div data-marpit-advanced-background-container="true" data-marpit-advanced-background-direction="horizontal"><figure style="background-image:url(&quot;./img/tab-pc-detail.png&quot;);background-size:contain;"></figure></div></section></foreignObject><foreignObject width="50%" height="720"><section id="15" data-marpit-advanced-background="content" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:50%;">
-<h1>3. PeerConnectionタブ</h1>
+<h1>3. Tab: PeerConnection</h1>
 </section>
 </foreignObject><foreignObject width="1280" height="720" data-marpit-advanced-background="pseudo"><section style="" data-marpit-advanced-background="pseudo"></section></foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="16">
-<h2><code>RTCPeerConnection</code>の様子 1/3</h2>
+<h2><code>RTCPeerConnection</code> 1/3</h2>
 <ul>
-<li><code>new RTCPeerConnection()</code>で生成されたインスタンスの数だけタブが増える</li>
-<li>どこでどんな設定で（<code>RTCConfiguration</code>）で作られたか
+<li>For each <code>new RTCPeerConnection()</code> instance</li>
+<li>How does it created(<code>RTCConfiguration</code>）
 <ul>
-<li>TURNを利用しようとしたか</li>
-<li>多重化しようとしたか</li>
+<li>Use TURN or NOT</li>
+<li>Use BUNDLE or NOT</li>
 <li>etc..</li>
 </ul>
 </li>
 </ul>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section data-marpit-advanced-background="background" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:50%;"><div data-marpit-advanced-background-container="true" data-marpit-advanced-background-direction="horizontal"><figure style="background-image:url(&quot;./img/event-table.png&quot;);background-size:contain;"></figure></div></section></foreignObject><foreignObject width="50%" height="720"><section id="17" data-marpit-advanced-background="content" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:50%;">
-<h2>様子 2/3</h2>
+<h2><code>RTCPeerConnection</code> 2/3</h2>
 
 <ul>
-<li>時系列のイベント一覧
+<li>Time-based events list
 <ul>
-<li>候補にあがった通信経路</li>
-<li>各種ステートマシンの遷移</li>
-<li>ネゴシエーションの進行状況</li>
-<li>どんなSDPをオファー・アンサーしたか</li>
+<li>Media added/removed/changed</li>
+<li>State changed</li>
+<li>Candidate found</li>
+<li>SDP Offer/Answer</li>
 <li>etc..</li>
 </ul>
 </li>
 </ul>
 </section>
 </foreignObject><foreignObject width="1280" height="720" data-marpit-advanced-background="pseudo"><section style="" data-marpit-advanced-background="pseudo"></section></foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section data-marpit-advanced-background="background" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:50%;"><div data-marpit-advanced-background-container="true" data-marpit-advanced-background-direction="horizontal"><figure style="background-image:url(&quot;./img/stats-table.png&quot;);background-size:contain;"></figure></div></section></foreignObject><foreignObject width="50%" height="720"><section id="18" data-marpit-advanced-background="content" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:50%;">
-<h2>様子 3/3</h2>
+<h2><code>RTCPeerConnection</code> 3/3</h2>
 
 <ul>
-<li><code>getStats()</code>データのサマリ・可視化
+<li>Various data from <code>getStats()</code>
 <ul>
-<li>何をやりとりすることになったか</li>
-<li>どのコーデックを使ってるか</li>
-<li>どの通信経路が選ばれたのか</li>
-<li>帯域の利用状況</li>
+<li>How many medias there</li>
+<li>Which codec used</li>
+<li>Which candidates are used</li>
+<li>Bandwidth usage</li>
 <li>etc..</li>
 </ul>
 </li>
-<li>瞬間値を示す表と、推移の見れるグラフ</li>
+<li>By tables and graphs</li>
 </ul>
 </section>
 </foreignObject><foreignObject width="1280" height="720" data-marpit-advanced-background="pseudo"><section style="" data-marpit-advanced-background="pseudo"></section></foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="19">
-<h1>本題: そのしくみ</h1>
+<h1>About inside</h1>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="20">
-<h2>いわゆるシングルページアプリケーション</h2>
+<h2>Single Page Application</h2>
 <ul>
 <li><code>webrtc-internals.html</code>
 <ul>
-<li>ただのHTML/CSS</li>
-<li>SPAなので中身は空っぽ</li>
-<li>以下の2つのJSを読み込んでる</li>
+<li>HTML + inline CSS</li>
+<li>Empty <code>&lt;div /&gt;</code> for SPA</li>
+<li>Just loads 2 JavaScript files below</li>
 </ul>
 </li>
 <li><code>util.js</code>
 <ul>
-<li>他のページでも使われる系util</li>
-<li>ただし<code>chrome://</code>でのみ使える</li>
-<li>今回はどうでもよい</li>
+<li>Utility functions</li>
+<li>Only available under <code>chrome://</code> urls</li>
+<li>Do not care this time</li>
 </ul>
 </li>
 <li><code>webrtc_internals.js</code>
 <ul>
-<li>本体</li>
-<li>3000行<img class="emoji" draggable="false" alt="😇" src="https://twemoji.maxcdn.com/2/svg/1f607.svg" data-marp-twemoji=""/>のクラシックなベタ書きコード</li>
+<li>Today's main dish</li>
+<li>3000 lines<img class="emoji" draggable="false" alt="😇" src="https://twemoji.maxcdn.com/2/svg/1f607.svg" data-marp-twemoji=""/></li>
 </ul>
 </li>
 </ul>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="21">
-<h2>知りたかったこと</h2>
+<h2>I wanna know...</h2>
 <ul>
-<li>表示されるデータはどこからくるのか
+<li>Where does data come from?
 <ul>
-<li>ただのWebページならJavaScriptがすべて処理してるはず</li>
-<li>各ページ側ではもちろん送ってない</li>
-<li>どこから取得してるの・・？</li>
+<li>JavaScript should handle everything</li>
+<li>Anybody send it</li>
 </ul>
 </li>
-<li>Chromeでだけ使える特別なものがある？
+<li>Chrome has special APIs for that?
 <ul>
-<li>それ用のHTTPの口があるとか</li>
-<li>グローバルにメソッドが公開されてるとか</li>
+<li>Secret REST API</li>
+<li>Secret global function</li>
 </ul>
 </li>
-<li>もしかして、我々も使えちゃったり・・？
+<li>Maybe we can use it..?
 <ul>
-<li>オレオレinternalsが作れるとアツい</li>
+<li>my custom internals!</li>
 </ul>
 </li>
-<li>確かめるべく、3000行のコードぜんぶ読む<img class="emoji" draggable="false" alt="💪" src="https://twemoji.maxcdn.com/2/svg/1f4aa.svg" data-marp-twemoji=""/>
+<li>Read all 3000 lines<img class="emoji" draggable="false" alt="💪" src="https://twemoji.maxcdn.com/2/svg/1f4aa.svg" data-marp-twemoji=""/>
 <ul>
 <li><a href="https://gist.github.com/leader22/a7e8db88a5fb304be4e45b73424a1ff5">https://gist.github.com/leader22/a7e8db88a5fb304be4e45b73424a1ff5</a></li>
 </ul>
@@ -236,83 +238,82 @@
 </ul>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="22">
-<h2>読んだ</h2>
+<h2>Did it!</h2>
 <blockquote>
 <p><a href="https://lealog.hateblo.jp/entry/2020/01/07/100402">chrome://webrtc-internals のしくみ - console.lealog();</a></p>
 </blockquote>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="23">
-<h1>わかったこと</h1>
+<h1>Analysis result</h1>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="24">
-<h2>3000行の内訳（雑）</h2>
+<h2>Breakdown of 3000 lines</h2>
 <ul>
-<li>01%: 初期化の実行</li>
-<li>03%: グローバル変数・関数の定義</li>
-<li>04%: タブUI</li>
-<li>05%: ダンプ機能</li>
-<li>05%: PeerConnectionイベントリスト</li>
-<li><strong>82%</strong>: Statsテーブル（表 + グラフ）</li>
+<li>01%: Initialization</li>
+<li>03%: Global variables, functions definition</li>
+<li>04%: For Tab UI</li>
+<li>05%: For Dump import/export</li>
+<li>05%: PeerConnection events list</li>
+<li><strong>82%</strong>: PeerConnection Stats visualization（table + graph）</li>
 </ul>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="25">
-<h2>データの出どころ</h2>
+<h2>Data comes from</h2>
 <ul>
-<li>描画するためのデータは全てブラウザ（C++）から受け取る
+<li>Browser itself(C++)
 <ul>
-<li>我々がさわれるAPIなどがあるわけではない</li>
+<li>No APIs we can touch<img class="emoji" draggable="false" alt="😨" src="https://twemoji.maxcdn.com/2/svg/1f628.svg" data-marp-twemoji=""/></li>
 </ul>
 </li>
-<li>JavaScriptが、<code>chrome.send(evName)</code>という特別な関数でメッセージング
+<li>Invoke <code>chrome.send(evName)</code> in JavaScript to signal
 <ul>
-<li><code>chrome://</code>のページでだけ使える特別なやつ</li>
-<li>必要になったタイミングや、タイマーで定期的に呼ばれる</li>
+<li>Available only under <code>chrome://</code> pages</li>
+<li>by manual, by timers</li>
 </ul>
 </li>
-<li>それをブラウザ（C++）が受けて処理して返す
+<li>Browser(C++) responds it
 <ul>
-<li>存在する<code>RTCPeerConnection</code>をかき集めたり</li>
-<li><code>RTCStatsReport</code>を取得したり</li>
-<li>マッピングされたJavaScript側のグローバル関数を呼んでデータ返す</li>
+<li>e.g. Then correct active <code>RTCPeerConnection</code></li>
+<li>e.g. Get <code>RTCStatsReport</code></li>
+<li>Then invoke corresponding global function w/ data</li>
 </ul>
 </li>
 </ul>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="26">
-<h2>データのその後</h2>
+<h2>Process data</h2>
 <ul>
-<li>渡されたデータの整形・保存はJavaScriptでやってる
+<li>Data is processed and stored in JavaScript
 <ul>
 <li><code>window.userMediaRequests</code></li>
 <li><code>window.peerConnectionDataStore</code></li>
-<li>ダウンロードできるダンプも、これらをJSONにしたもの</li>
+<li>Dumps = <code>JSON.stringify()</code> these</li>
 </ul>
 </li>
-<li>グラフもただの<code>canvas</code>要素
+<li>Graphs are <code>canvas</code> elements
 <ul>
-<li>リアルタイムではなく1秒ごとに取得 &amp; 描画してる</li>
+<li>Not real-time, timer calls by 1 sec</li>
 </ul>
 </li>
-<li>そのための3000行でした
+<li>Almost all of 3000 lines are for Graphs
 <ul>
-<li>ほとんどがグラフ描画用の時系列データへのコンバート</li>
-<li>メトリクスの数が多いので、それぞれのクラスがあってかさんでる</li>
-<li>ただ現世では不要なコードも多いので実態は2000行くらい</li>
+<li>Various class definitions for various metrics</li>
+<li>There are many lines not used anymore</li>
 </ul>
 </li>
 </ul>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="27">
-<h2>起点: <code>addStandardStats()</code></h2>
+<h2>Starting point: <code>addStandardStats()</code></h2>
 <ul>
-<li>これが呼ばれると最終的にグラフが1フレーム描画される
+<li>When this is invoked, the graphs are rendered 1 frame
 <ul>
-<li>タイマーで1秒に1回くらい呼ばれる</li>
+<li>by timer, 1 sec interval</li>
 </ul>
 </li>
-<li>渡されてくるデータは、<code>getStats()</code>で得られるものと構造が微妙に違うとのこと
+<li>Comment says like below...
 <ul>
-<li>微妙にというかぜんぜん違う<img class="emoji" draggable="false" alt="😑" src="https://twemoji.maxcdn.com/2/svg/1f611.svg" data-marp-twemoji=""/></li>
+<li>a little?<img class="emoji" draggable="false" alt="😑" src="https://twemoji.maxcdn.com/2/svg/1f611.svg" data-marp-twemoji=""/></li>
 </ul>
 </li>
 </ul>
@@ -332,39 +333,39 @@
 </blockquote>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section data-marpit-advanced-background="background" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:50%;"><div data-marpit-advanced-background-container="true" data-marpit-advanced-background-direction="horizontal"><figure style="background-image:url(&quot;./img/firefox.png&quot;);background-size:contain;"></figure></div></section></foreignObject><foreignObject width="50%" height="720"><section id="28" data-marpit-advanced-background="content" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:50%;">
-<h2>そこさえなんとかすれば</h2>
+<h2>If you cope with it</h2>
 
 <ul>
-<li>Firefoxでもinternalsできる<img class="emoji" draggable="false" alt="🦊" src="https://twemoji.maxcdn.com/2/svg/1f98a.svg" data-marp-twemoji=""/></li>
-<li>というか、<code>getStats()</code>したデータさえあれば
+<li><code>webrtc-internals</code> can run on Firefox<img class="emoji" draggable="false" alt="🦊" src="https://twemoji.maxcdn.com/2/svg/1f98a.svg" data-marp-twemoji=""/></li>
+<li>Or rather, if you have <code>getStats()</code>...
 <ul>
-<li>Safariでも</li>
-<li>ネイティブアプリのSDKでも</li>
+<li>With Safari</li>
+<li>With Native SDKs</li>
+<li>or...!</li>
 </ul>
 </li>
-<li>ブラウザ差異は依然としてすごいけど・・</li>
 </ul>
 </section>
 </foreignObject><foreignObject width="1280" height="720" data-marpit-advanced-background="pseudo"><section style="" data-marpit-advanced-background="pseudo"></section></foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="29">
-<h1>まとめ</h1>
+<h1>Summary</h1>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="30">
-<h2>便利</h2>
+<h2>The <code>chrome://webrtc-internals</code> is</h2>
 <ul>
-<li><code>chrome://webrtc-internals</code>は便利</li>
-<li>ただのWebページだが、ただのWebページではなかった</li>
-<li>オレオレStatsViewerを作るときはぜひ参考にしよう</li>
+<li>Usefull</li>
+<li>Just a web page, but special page</li>
+<li>Should help when making my own stats viewer</li>
 </ul>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="31">
-<h2><code>getStats()</code>それ自体について</h2>
+<h2>About <code>getStats()</code> itself</h2>
 <ul>
-<li>ブラウザの互換性はお察し
+<li>Compatibility issues are still there...
 <ul>
-<li>このネタだけで何回か登壇できる</li>
+<li>I can talk several times with just that</li>
 </ul>
 </li>
-<li>気になる方はあとでお話しましょう<img class="emoji" draggable="false" alt="🍻" src="https://twemoji.maxcdn.com/2/svg/1f37b.svg" data-marp-twemoji=""/></li>
+<li>Let's talk later if you interested<img class="emoji" draggable="false" alt="🍻" src="https://twemoji.maxcdn.com/2/svg/1f37b.svg" data-marp-twemoji=""/></li>
 </ul>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="32">

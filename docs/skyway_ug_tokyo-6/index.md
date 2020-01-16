@@ -7,18 +7,18 @@ title: The `chrome://webrtc-internals` internals
 
 ---
 
-## はじめまして
+## About me 1/2
 
 - Yuji Sugiura
 - NTT Communications
-  - WebRTC寄りフロントエンド寄りエンジニア
-  - いちおうSkyWayの中の人
+  - Front-End Developer
+  - (work at SkyWay)
 
 ![bg right](../public/img/prof.jpg)
 
 ---
 
-## はじめまして
+## About me 2/2
 
 - Twitter: [@leader22](https://twitter.com/leader22)
 - GitHub: [leader22](https://github.com/leader22/)
@@ -28,7 +28,7 @@ title: The `chrome://webrtc-internals` internals
 
 ---
 
-# 本日のテーマ
+# Today's theme
 
 ---
 
@@ -37,23 +37,23 @@ title: The `chrome://webrtc-internals` internals
 
 ---
 
-## これなに
+## What's this?
 
-- WebRTC関連APIの用途をトラッキングできる特別✨なページ
+- The special✨page which tracks WebRTC API usage
   - `navigator.mediaDevices.getUserMedia(constraints)`
   - （`navigator.mediaDevices.getDisplayMedia(constraints)`）
-  - `new RTCPeerConnection(configuration)`とその後
-- 🥇: Chromeでのみ利用可能
-  - 🥈: Firefoxにも`about:webrtc`というものがある
-  - 🥉: SafariはDevToolsにちょっとリッチなロガーがあるだけ...
-- 特別ではあるが、その実態はただの**Webページ**
+  - `new RTCPeerConnection(configuration)` and its details
+- 🥇: Available in Chrome
+  - 🥈: Firefox has `about:webrtc`
+  - 🥉: Safari has only logger function for DevTools
+- It is special, but just a **Web page**
 
 ---
 
-## ただのWebページならば
+## If it's just a web page
 
-- ChromeのDevToolsでそのしくみを丸裸😻にできる！
-- ので、やってみたという話をします
+- We can debug it w/ Chrome DevTools😻
+- And done!
 
 ---
 
@@ -61,196 +61,194 @@ title: The `chrome://webrtc-internals` internals
 
 ---
 
-## ページのつくり
+## Components
 
-1. ヘッダ
-2. GetUserMedia Requestsタブ（いつでも1つ）
-3. PeerConnectionタブ（あるだけタブが増える）
+1. Header
+2. Tab: for GetUserMedia Requests（always 1）
+3. Tab: for PeerConnection（N pc）
 
 ---
 
-# 1. ヘッダ
+# 1. Header
 
 ![bg right contain](./img/header.png)
 
 ---
 
-## 各種ダンプのダウンロード
+## Dump downloader
 
-- 通信状況のダンプ（`.txt`だが中身はJSON）
-  - いま正に見てるデータをエクスポートできる
-  - 特定の環境で収集して、あとで解析するなど
-- オーディオ（`.wav`）の録音
-  - いま入力されてるマイク音源
-  - いま出力されてるスピーカー音源
-- パケット、イベントのログ（`.log`）
-  - incoming & outgoingのRTPヘッダ
-  - RTCPパケット
-  - フォーマットはProtocol Buffersっぽい？
-
----
-
-## バージョン設定
-
-- `getStats()`のバージョン指定
-  - ある時を境に、APIと内容が変わった
-  - 新旧のどっちを使ってこのページを表示するかの設定
-  - デフォルト（`Standarized(promise-based)`）のままが吉
+- PeerConnection updates and stats（`.txt`, JSON format）
+  - Exports how current session progress
+  - Dump now, diagnose later
+- Audio（`.wav`） recording
+  - Input from microphone
+  - Output from speakers
+- Packets and event logs（`.log`）
+  - incoming & outgoing RTP headers
+  - RTCP
+  - Format is Protocol Buffers...?
 
 ---
 
-# 2. GetUserMedia Requestsタブ
+## Version settings
+
+- For `getStats()` format
+  - Standard or legacy format
+  - Use default（`Standarized(promise-based)`） is better
+
+---
+
+# 2. Tab: GetUserMedia Requests
 
 ![bg right contain](./img/tab-gum-request.png)
 
 ---
 
-## `getXxxMedia()`の様子
+## Track `getXxxMedia()`
 
-- `navigator.mediaDevices.getUserMedia()`を呼ぶとリストが増える
-  - いつ
-  - どこ（のURL）で
-  - どのように
-  - メディアをキャプチャしようとしたのか
-- `getDisplayMedia()`の情報は、中途半端にしかでない...🤔
+- `navigator.mediaDevices.getUserMedia()`
+  - When
+  - Where(URL)
+  - How(constraints)
+- `navigator.mediaDevices.getDisplayMedia()`
+  - It also appears
+  - But information is missing...🤔
 
 ---
 
-# 3. PeerConnectionタブ
+# 3. Tab: PeerConnection
 
 ![bg right contain](./img/tab-pc-detail.png)
 
 ---
 
-## `RTCPeerConnection`の様子 1/3
+## `RTCPeerConnection` 1/3
 
-- `new RTCPeerConnection()`で生成されたインスタンスの数だけタブが増える
-- どこでどんな設定で（`RTCConfiguration`）で作られたか
-  - TURNを利用しようとしたか
-  - 多重化しようとしたか
+- For each `new RTCPeerConnection()` instance
+- How does it created(`RTCConfiguration`）
+  - Use TURN or NOT
+  - Use BUNDLE or NOT
   - etc..
 
 ---
 
-## 様子 2/3
+## `RTCPeerConnection` 2/3
 
 ![bg right contain](./img/event-table.png)
 
-- 時系列のイベント一覧
-  - 候補にあがった通信経路
-  - 各種ステートマシンの遷移
-  - ネゴシエーションの進行状況
-  - どんなSDPをオファー・アンサーしたか
+- Time-based events list
+  - Media added/removed/changed
+  - State changed
+  - Candidate found
+  - SDP Offer/Answer
   - etc..
 
 ---
 
-## 様子 3/3
+## `RTCPeerConnection` 3/3
 
 ![bg right contain](./img/stats-table.png)
 
-- `getStats()`データのサマリ・可視化
-  - 何をやりとりすることになったか
-  - どのコーデックを使ってるか
-  - どの通信経路が選ばれたのか
-  - 帯域の利用状況
+- Various data from `getStats()`
+  - How many medias there
+  - Which codec used
+  - Which candidates are used
+  - Bandwidth usage
   - etc..
-- 瞬間値を示す表と、推移の見れるグラフ
+- By tables and graphs
 
 ---
 
-# 本題: そのしくみ
+# About inside
 
 ---
 
-## いわゆるシングルページアプリケーション
+## Single Page Application
 
 - `webrtc-internals.html`
-  - ただのHTML/CSS
-  - SPAなので中身は空っぽ
-  - 以下の2つのJSを読み込んでる
+  - HTML + inline CSS
+  - Empty `<div />` for SPA
+  - Just loads 2 JavaScript files below
 - `util.js`
-  - 他のページでも使われる系util
-  - ただし`chrome://`でのみ使える
-  - 今回はどうでもよい
+  - Utility functions
+  - Only available under `chrome://` urls
+  - Do not care this time
 - `webrtc_internals.js`
-  - 本体
-  - 3000行😇のクラシックなベタ書きコード
+  - Today's main dish
+  - 3000 lines😇
 
 ---
 
-## 知りたかったこと
+## I wanna know...
 
-- 表示されるデータはどこからくるのか
-  - ただのWebページならJavaScriptがすべて処理してるはず
-  - 各ページ側ではもちろん送ってない
-  - どこから取得してるの・・？
-- Chromeでだけ使える特別なものがある？
-  - それ用のHTTPの口があるとか
-  - グローバルにメソッドが公開されてるとか
-- もしかして、我々も使えちゃったり・・？
-  - オレオレinternalsが作れるとアツい
-- 確かめるべく、3000行のコードぜんぶ読む💪
+- Where does data come from?
+  - JavaScript should handle everything
+  - Anybody send it
+- Chrome has special APIs for that?
+  - Secret REST API
+  - Secret global function
+- Maybe we can use it..?
+  - my custom internals!
+- Read all 3000 lines💪
   - https://gist.github.com/leader22/a7e8db88a5fb304be4e45b73424a1ff5
 
 ---
 
-## 読んだ
+## Did it!
 
 > [chrome://webrtc-internals のしくみ - console.lealog();](https://lealog.hateblo.jp/entry/2020/01/07/100402)
 
 ---
 
-# わかったこと
+# Analysis result
 
 ---
 
-## 3000行の内訳（雑）
+## Breakdown of 3000 lines
 
-- 01%: 初期化の実行
-- 03%: グローバル変数・関数の定義
-- 04%: タブUI
-- 05%: ダンプ機能
-- 05%: PeerConnectionイベントリスト
-- **82%**: Statsテーブル（表 + グラフ）
-
----
-
-## データの出どころ
-
-- 描画するためのデータは全てブラウザ（C++）から受け取る
-  - 我々がさわれるAPIなどがあるわけではない
-- JavaScriptが、`chrome.send(evName)`という特別な関数でメッセージング
-  - `chrome://`のページでだけ使える特別なやつ
-  - 必要になったタイミングや、タイマーで定期的に呼ばれる
-- それをブラウザ（C++）が受けて処理して返す
-  - 存在する`RTCPeerConnection`をかき集めたり
-  - `RTCStatsReport`を取得したり
-  - マッピングされたJavaScript側のグローバル関数を呼んでデータ返す
+- 01%: Initialization
+- 03%: Global variables, functions definition
+- 04%: For Tab UI
+- 05%: For Dump import/export
+- 05%: PeerConnection events list
+- **82%**: PeerConnection Stats visualization（table + graph）
 
 ---
 
-## データのその後
+## Data comes from
 
-- 渡されたデータの整形・保存はJavaScriptでやってる
+- Browser itself(C++)
+  - No APIs we can touch😨
+- Invoke `chrome.send(evName)` in JavaScript to signal
+  - Available only under `chrome://` pages
+  - by manual, by timers
+- Browser(C++) responds it
+  - e.g. Then correct active `RTCPeerConnection`
+  - e.g. Get `RTCStatsReport`
+  - Then invoke corresponding global function w/ data
+
+---
+
+## Process data
+
+- Data is processed and stored in JavaScript
   - `window.userMediaRequests`
   - `window.peerConnectionDataStore`
-  - ダウンロードできるダンプも、これらをJSONにしたもの
-- グラフもただの`canvas`要素
-  - リアルタイムではなく1秒ごとに取得 & 描画してる
-- そのための3000行でした
-  - ほとんどがグラフ描画用の時系列データへのコンバート
-  - メトリクスの数が多いので、それぞれのクラスがあってかさんでる
-  - ただ現世では不要なコードも多いので実態は2000行くらい
+  - Dumps = `JSON.stringify()` these
+- Graphs are `canvas` elements
+  - Not real-time, timer calls by 1 sec
+- Almost all of 3000 lines are for Graphs
+  - Various class definitions for various metrics
+  - There are many lines not used anymore
 
 ---
 
-## 起点: `addStandardStats()`
+## Starting point: `addStandardStats()`
 
-- これが呼ばれると最終的にグラフが1フレーム描画される
-  - タイマーで1秒に1回くらい呼ばれる
-- 渡されてくるデータは、`getStats()`で得られるものと構造が微妙に違うとのこと
-  - 微妙にというかぜんぜん違う😑
+- When this is invoked, the graphs are rendered 1 frame
+  - by timer, 1 sec interval
+- Comment says like below...
+  - a little?😑
 
 ```js
 // |internalReports| is an array, each element represents an RTCStats object,
@@ -269,35 +267,35 @@ title: The `chrome://webrtc-internals` internals
 
 ---
 
-## そこさえなんとかすれば
+## If you cope with it
 
 ![bg right contain](./img/firefox.png)
 
-- Firefoxでもinternalsできる🦊
-- というか、`getStats()`したデータさえあれば
-  - Safariでも
-  - ネイティブアプリのSDKでも
-- ブラウザ差異は依然としてすごいけど・・
+- `webrtc-internals` can run on Firefox🦊
+- Or rather, if you have `getStats()`...
+  - With Safari
+  - With Native SDKs
+  - or...!
 
 ---
 
-# まとめ
+# Summary
 
 ---
 
-## 便利
+## The `chrome://webrtc-internals` is
 
-- `chrome://webrtc-internals`は便利
-- ただのWebページだが、ただのWebページではなかった
-- オレオレStatsViewerを作るときはぜひ参考にしよう
+- Usefull
+- Just a web page, but special page
+- Should help when making my own stats viewer
 
 ---
 
-## `getStats()`それ自体について
+## About `getStats()` itself
 
-- ブラウザの互換性はお察し
-  - このネタだけで何回か登壇できる
-- 気になる方はあとでお話しましょう🍻
+- Compatibility issues are still there...
+  - I can talk several times with just that
+- Let's talk later if you interested🍻
 
 ---
 
