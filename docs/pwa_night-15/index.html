@@ -82,6 +82,24 @@
 <p><img class="emoji" draggable="false" alt="☝🏻" src="https://twemoji.maxcdn.com/2/svg/261d-1f3fb.svg" data-marp-twemoji=""/> Today's main theme</p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="12">
+<h2>What can WebRTC do?</h2>
+<blockquote>
+<p>There are many different use-cases for WebRTC, from basic web apps that <strong>uses the camera or microphone</strong>, to more advanced <strong>video-calling applications and screen sharing</strong>.</p>
+</blockquote>
+<p>from <a href="https://webrtc.org/">https://webrtc.org/</a></p>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="13">
+<h2><code>WebRTC</code> <img class="emoji" draggable="false" alt="🤝" src="https://twemoji.maxcdn.com/2/svg/1f91d.svg" data-marp-twemoji=""/> <code>PWA</code> ?</h2>
+<ul>
+<li><code>RTCPeerConnection</code> requires network connection <img class="emoji" draggable="false" alt="📶" src="https://twemoji.maxcdn.com/2/svg/1f4f6.svg" data-marp-twemoji=""/>
+<ul>
+<li>Not suitable for offline app</li>
+</ul>
+</li>
+<li>But other APIs are available <img class="emoji" draggable="false" alt="😉" src="https://twemoji.maxcdn.com/2/svg/1f609.svg" data-marp-twemoji=""/></li>
+</ul>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="14">
 <h1>Table of Contents</h1>
 <ol>
 <li>About W3C <code>WebRTC</code> API</li>
@@ -89,17 +107,10 @@
 <li>RTC APIs in the future</li>
 </ol>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="13">
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="15">
 <h1>About W3C <code>WebRTC</code> API</h1>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="14">
-<h2>What can WebRTC do?</h2>
-<blockquote>
-<p>There are many different use-cases for WebRTC, from basic web apps that <strong>uses the camera or microphone</strong>, to more advanced <strong>video-calling applications and screen sharing</strong>.</p>
-</blockquote>
-<p>from <a href="https://webrtc.org/">https://webrtc.org/</a></p>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="15">
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="16">
 <h2><img class="emoji" draggable="false" alt="⚠️" src="https://twemoji.maxcdn.com/2/svg/26a0.svg" data-marp-twemoji=""/> Simplified explanation</h2>
 <ul>
 <li><code>WebRTC</code> protocols are huge and complicated <img class="emoji" draggable="false" alt="🤯" src="https://twemoji.maxcdn.com/2/svg/1f92f.svg" data-marp-twemoji=""/></li>
@@ -107,14 +118,14 @@
 </ul>
 <p>So today, I'll introduce the concepts only <img class="emoji" draggable="false" alt="🎯" src="https://twemoji.maxcdn.com/2/svg/1f3af.svg" data-marp-twemoji=""/></p>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section data-marpit-advanced-background="background" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:50%;"><div data-marpit-advanced-background-container="true" data-marpit-advanced-background-direction="horizontal"><figure style="background-image:url(&quot;./img/p0.png&quot;);background-size:80%;"></figure></div></section></foreignObject><foreignObject width="50%" height="720"><section id="16" data-marpit-advanced-background="content" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:50%;">
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section data-marpit-advanced-background="background" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:50%;"><div data-marpit-advanced-background-container="true" data-marpit-advanced-background-direction="horizontal"><figure style="background-image:url(&quot;./img/p0.png&quot;);background-size:80%;"></figure></div></section></foreignObject><foreignObject width="50%" height="720"><section id="17" data-marpit-advanced-background="content" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:50%;">
 <h2>Example scenario</h2>
 <ul>
 <li>P2P video-calling application</li>
 <li>Bidirectional communication between Alice <img class="emoji" draggable="false" alt="👩" src="https://twemoji.maxcdn.com/2/svg/1f469.svg" data-marp-twemoji=""/> and Bob <img class="emoji" draggable="false" alt="👨" src="https://twemoji.maxcdn.com/2/svg/1f468.svg" data-marp-twemoji=""/></li>
 </ul>
 </section>
-</foreignObject><foreignObject width="1280" height="720" data-marpit-advanced-background="pseudo"><section style="" data-marpit-advanced-background="pseudo"></section></foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section data-marpit-advanced-background="background" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:50%;"><div data-marpit-advanced-background-container="true" data-marpit-advanced-background-direction="horizontal"><figure style="background-image:url(&quot;./img/p1.png&quot;);background-size:80%;"></figure></div></section></foreignObject><foreignObject width="50%" height="720"><section id="17" data-marpit-advanced-background="content" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:50%;">
+</foreignObject><foreignObject width="1280" height="720" data-marpit-advanced-background="pseudo"><section style="" data-marpit-advanced-background="pseudo"></section></foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section data-marpit-advanced-background="background" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:50%;"><div data-marpit-advanced-background-container="true" data-marpit-advanced-background-direction="horizontal"><figure style="background-image:url(&quot;./img/p1.png&quot;);background-size:80%;"></figure></div></section></foreignObject><foreignObject width="50%" height="720"><section id="18" data-marpit-advanced-background="content" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:50%;">
 <h2>Procedure 1/4</h2>
 <ul>
 <li>Alice &amp; Bob: Set up
@@ -125,7 +136,7 @@
 </li>
 </ul>
 </section>
-</foreignObject><foreignObject width="1280" height="720" data-marpit-advanced-background="pseudo"><section style="" data-marpit-advanced-background="pseudo"></section></foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section data-marpit-advanced-background="background" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:50%;"><div data-marpit-advanced-background-container="true" data-marpit-advanced-background-direction="horizontal"><figure style="background-image:url(&quot;./img/p2.png&quot;);background-size:80%;"></figure></div></section></foreignObject><foreignObject width="50%" height="720"><section id="18" data-marpit-advanced-background="content" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:50%;">
+</foreignObject><foreignObject width="1280" height="720" data-marpit-advanced-background="pseudo"><section style="" data-marpit-advanced-background="pseudo"></section></foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section data-marpit-advanced-background="background" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:50%;"><div data-marpit-advanced-background-container="true" data-marpit-advanced-background-direction="horizontal"><figure style="background-image:url(&quot;./img/p2.png&quot;);background-size:80%;"></figure></div></section></foreignObject><foreignObject width="50%" height="720"><section id="19" data-marpit-advanced-background="content" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:50%;">
 <h2>Procedure 2/4</h2>
 <ul>
 <li>Alice: Create and send OFFER via Signaling server
@@ -137,7 +148,7 @@
 </li>
 </ul>
 </section>
-</foreignObject><foreignObject width="1280" height="720" data-marpit-advanced-background="pseudo"><section style="" data-marpit-advanced-background="pseudo"></section></foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section data-marpit-advanced-background="background" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:50%;"><div data-marpit-advanced-background-container="true" data-marpit-advanced-background-direction="horizontal"><figure style="background-image:url(&quot;./img/p3.png&quot;);background-size:80%;"></figure></div></section></foreignObject><foreignObject width="50%" height="720"><section id="19" data-marpit-advanced-background="content" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:50%;">
+</foreignObject><foreignObject width="1280" height="720" data-marpit-advanced-background="pseudo"><section style="" data-marpit-advanced-background="pseudo"></section></foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section data-marpit-advanced-background="background" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:50%;"><div data-marpit-advanced-background-container="true" data-marpit-advanced-background-direction="horizontal"><figure style="background-image:url(&quot;./img/p3.png&quot;);background-size:80%;"></figure></div></section></foreignObject><foreignObject width="50%" height="720"><section id="20" data-marpit-advanced-background="content" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:50%;">
 <h2>Procedure 3/4</h2>
 <ul>
 <li>Bob: Receive OFFER via Signaling server</li>
@@ -151,7 +162,7 @@
 </li>
 </ul>
 </section>
-</foreignObject><foreignObject width="1280" height="720" data-marpit-advanced-background="pseudo"><section style="" data-marpit-advanced-background="pseudo"></section></foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section data-marpit-advanced-background="background" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:50%;"><div data-marpit-advanced-background-container="true" data-marpit-advanced-background-direction="horizontal"><figure style="background-image:url(&quot;./img/p4.png&quot;);background-size:80%;"></figure></div></section></foreignObject><foreignObject width="50%" height="720"><section id="20" data-marpit-advanced-background="content" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:50%;">
+</foreignObject><foreignObject width="1280" height="720" data-marpit-advanced-background="pseudo"><section style="" data-marpit-advanced-background="pseudo"></section></foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section data-marpit-advanced-background="background" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:50%;"><div data-marpit-advanced-background-container="true" data-marpit-advanced-background-direction="horizontal"><figure style="background-image:url(&quot;./img/p4.png&quot;);background-size:80%;"></figure></div></section></foreignObject><foreignObject width="50%" height="720"><section id="21" data-marpit-advanced-background="content" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:50%;">
 <h2>Procedure 4/4</h2>
 <ul>
 <li>Alice: Receive ANSWER via Signaling server</li>
@@ -159,7 +170,7 @@
 <li>Alice &amp; Bob: Media flows <img class="emoji" draggable="false" alt="👏" src="https://twemoji.maxcdn.com/2/svg/1f44f.svg" data-marp-twemoji=""/></li>
 </ul>
 </section>
-</foreignObject><foreignObject width="1280" height="720" data-marpit-advanced-background="pseudo"><section style="" data-marpit-advanced-background="pseudo"></section></foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section data-marpit-advanced-background="background" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:50%;"><div data-marpit-advanced-background-container="true" data-marpit-advanced-background-direction="horizontal"><figure style="background-image:url(&quot;./img/p5.png&quot;);background-size:80%;"></figure></div></section></foreignObject><foreignObject width="50%" height="720"><section id="21" data-marpit-advanced-background="content" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:50%;">
+</foreignObject><foreignObject width="1280" height="720" data-marpit-advanced-background="pseudo"><section style="" data-marpit-advanced-background="pseudo"></section></foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section data-marpit-advanced-background="background" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:50%;"><div data-marpit-advanced-background-container="true" data-marpit-advanced-background-direction="horizontal"><figure style="background-image:url(&quot;./img/p5.png&quot;);background-size:80%;"></figure></div></section></foreignObject><foreignObject width="50%" height="720"><section id="22" data-marpit-advanced-background="content" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:50%;">
 <h2>Summary</h2>
 <ul>
 <li>Exchange OFFER and ANSWER to establish P2P connection
@@ -180,7 +191,7 @@
 </li>
 </ul>
 </section>
-</foreignObject><foreignObject width="1280" height="720" data-marpit-advanced-background="pseudo"><section style="" data-marpit-advanced-background="pseudo"></section></foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="22">
+</foreignObject><foreignObject width="1280" height="720" data-marpit-advanced-background="pseudo"><section style="" data-marpit-advanced-background="pseudo"></section></foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="23">
 <h2>How to try <code>WebRTC</code>?</h2>
 <ul>
 <li>Find demo sites through the Internet
@@ -201,19 +212,8 @@
 </li>
 </ul>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="23">
-<h1>APIs around the <code>WebRTC</code></h1>
-</section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="24">
-<h2><code>WebRTC</code> <img class="emoji" draggable="false" alt="🤝" src="https://twemoji.maxcdn.com/2/svg/1f91d.svg" data-marp-twemoji=""/> <code>PWA</code> ?</h2>
-<ul>
-<li><code>RTCPeerConnection</code> requires network connection <img class="emoji" draggable="false" alt="📶" src="https://twemoji.maxcdn.com/2/svg/1f4f6.svg" data-marp-twemoji=""/>
-<ul>
-<li>Not suitable for offline app</li>
-</ul>
-</li>
-<li>But other APIs are available <img class="emoji" draggable="false" alt="😉" src="https://twemoji.maxcdn.com/2/svg/1f609.svg" data-marp-twemoji=""/></li>
-</ul>
+<h1>APIs around the <code>WebRTC</code></h1>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="25">
 <h2>Establish P2P connection</h2>

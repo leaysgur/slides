@@ -87,7 +87,26 @@ title: APIs around the WebRTC
 
 ☝🏻 Today's main theme
 
+
 ---
+
+## What can WebRTC do?
+
+> There are many different use-cases for WebRTC, from basic web apps that **uses the camera or microphone**, to more advanced **video-calling applications and screen sharing**.
+
+from https://webrtc.org/
+
+
+---
+
+## `WebRTC` 🤝 `PWA` ?
+
+- `RTCPeerConnection` requires network connection 📶
+  - Not suitable for offline app
+- But other APIs are available 😉
+
+---
+
 
 # Table of Contents
 
@@ -98,14 +117,6 @@ title: APIs around the WebRTC
 ---
 
 # About W3C `WebRTC` API
-
----
-
-## What can WebRTC do?
-
-> There are many different use-cases for WebRTC, from basic web apps that **uses the camera or microphone**, to more advanced **video-calling applications and screen sharing**.
-
-from https://webrtc.org/
 
 ---
 
@@ -199,14 +210,6 @@ So today, I'll introduce the concepts only 🎯
 ---
 
 # APIs around the `WebRTC`
-
----
-
-## `WebRTC` 🤝 `PWA` ?
-
-- `RTCPeerConnection` requires network connection 📶
-  - Not suitable for offline app
-- But other APIs are available 😉
 
 ---
 
