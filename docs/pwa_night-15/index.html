@@ -49,7 +49,7 @@
 <h2>WebRTC: as protocol suite</h2>
 <ul>
 <li><a href="https://tools.ietf.org/html/draft-ietf-rtcweb-overview-19">https://tools.ietf.org/html/draft-ietf-rtcweb-overview-19</a></li>
-<li>and many many, ... many other RFCs and drafts <img class="emoji" draggable="false" alt="🤯" src="https://twemoji.maxcdn.com/2/svg/1f92f.svg" data-marp-twemoji=""/></li>
+<li>and many many, ... many other RFCs and drafts <img class="emoji" draggable="false" alt="😬" src="https://twemoji.maxcdn.com/2/svg/1f62c.svg" data-marp-twemoji=""/></li>
 </ul>
 </section>
 </foreignObject><foreignObject width="1280" height="720" data-marpit-advanced-background="pseudo"><section style="" data-marpit-advanced-background="pseudo"></section></foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section data-marpit-advanced-background="background" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:50%;"><div data-marpit-advanced-background-container="true" data-marpit-advanced-background-direction="horizontal"><figure style="background-image:url(&quot;./img/w3c.png&quot;);background-size:contain;"></figure></div></section></foreignObject><foreignObject width="50%" height="720"><section id="10" data-marpit-advanced-background="content" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:50%;">
@@ -59,7 +59,11 @@
 <li><a href="https://w3c.github.io/webrtc-pc/">https://w3c.github.io/webrtc-pc/</a></li>
 <li><code>RTCPeerConnection</code>
 <ul>
-<li><code>RTCRtpXxx</code></li>
+<li><code>RTCRtpTransceiver</code></li>
+<li><code>RTCRtpSender</code></li>
+<li><code>RTCRtpReceiver</code></li>
+<li><code>RTCDataChannel</code></li>
+<li>etc...</li>
 </ul>
 </li>
 </ul>
@@ -98,7 +102,7 @@
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="15">
 <h2><img class="emoji" draggable="false" alt="⚠️" src="https://twemoji.maxcdn.com/2/svg/26a0.svg" data-marp-twemoji=""/> Simplified explanation</h2>
 <ul>
-<li><code>WebRTC</code> protocols are huge and complicated</li>
+<li><code>WebRTC</code> protocols are huge and complicated <img class="emoji" draggable="false" alt="🤯" src="https://twemoji.maxcdn.com/2/svg/1f92f.svg" data-marp-twemoji=""/></li>
 <li>And W3C <code>WebRTC</code> also has a lot of APIs <img class="emoji" draggable="false" alt="😇" src="https://twemoji.maxcdn.com/2/svg/1f607.svg" data-marp-twemoji=""/></li>
 </ul>
 <p>So today, I'll introduce the concepts only <img class="emoji" draggable="false" alt="🎯" src="https://twemoji.maxcdn.com/2/svg/1f3af.svg" data-marp-twemoji=""/></p>
@@ -255,14 +259,15 @@ pc2.addEventListener(<span class="hljs-string">"track"</span>, ev =&gt; {
 <h2>Render <code>MediaStream</code></h2>
 <pre><code class="language-js"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-comment">// from MediaStream</span>
 videoElement.srcObject = stream;
+<span class="hljs-comment">// deprecated</span>
+<span class="hljs-comment">// videoElement.src = URL.createObjectURL(stream);</span>
 
 <span class="hljs-comment">// from MediaStreamTrack</span>
 audioElement.srcObject = <span class="hljs-keyword">new</span> MediaStream([audioTrack]);
 </span></span></foreignObject></svg></code></pre>
 <ul>
-<li>Be careful for <code>autoplay</code> restriction <img class="emoji" draggable="false" alt="📱" src="https://twemoji.maxcdn.com/2/svg/1f4f1.svg" data-marp-twemoji=""/></li>
-<li>And be sure to add <code>playsinline</code> for mobile browsers</li>
-<li>Never forget to <code>play()</code> it</li>
+<li>Be careful with <code>autoplay</code> restriction</li>
+<li>And be sure to add <code>playsinline</code> for mobile browsers <img class="emoji" draggable="false" alt="📱" src="https://twemoji.maxcdn.com/2/svg/1f4f1.svg" data-marp-twemoji=""/></li>
 </ul>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="28">
@@ -278,7 +283,7 @@ audioContext.createMediaStreamDestination();
 </ul>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="29">
-<h2>Tips using <code>MediaStream</code></h2>
+<h2>Techniques using <code>MediaStream</code></h2>
 <ul>
 <li>Virtual background
 <ul>
@@ -371,17 +376,21 @@ mediaRecorder.start();
 </blockquote>
 <pre><code class="language-js"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">const</span> pc = <span class="hljs-keyword">new</span> RTCPeerConnection({ <span class="hljs-attr">forceEncodedVideoInsertableStreams</span>: <span class="hljs-literal">true</span> });
 
-<span class="hljs-keyword">const</span> senderTransform = <span class="hljs-keyword">new</span> TransformStream({
-  <span class="hljs-keyword">async</span> transform(chunk, controller) { <span class="hljs-comment">/* ... */</span> }
-});
-
 <span class="hljs-keyword">const</span> senderStreams = videoSender.getEncodedVideoStreams();
 senderStreams.readable
-  .pipeThrough(senderTransform)
+  .pipeThrough(senderTransform) <span class="hljs-comment">// your pipeline here</span>
   .pipeTo(senderStreams.writable);
 </span></span></foreignObject></svg></code></pre>
 <ul>
-<li>API that allows the insertion of user-defined processing steps in the pipeline that handles media in a WebRTC context</li>
+<li>API that allows the insertion of user-defined processing steps in the pipeline that handles media in a WebRTC context
+<ul>
+<li>Real E2E-Encryption <img class="emoji" draggable="false" alt="🔐" src="https://twemoji.maxcdn.com/2/svg/1f510.svg" data-marp-twemoji=""/>
+<ul>
+<li><a href="https://webrtc.github.io/samples/src/content/peerconnection/endtoend-encryption/">https://webrtc.github.io/samples/src/content/peerconnection/endtoend-encryption/</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li>Chrome(Canary) only
 <ul>
 <li><a href="https://chromestatus.com/features/6321945865879552">https://chromestatus.com/features/6321945865879552</a></li>
@@ -408,7 +417,7 @@ senderStreams.readable
 <ul>
 <li><code>WebSocket</code> meets <code>whatwg/streams</code>
 <ul>
-<li>No worries about back pressure <img class="emoji" draggable="false" alt="✨" src="https://twemoji.maxcdn.com/2/svg/2728.svg" data-marp-twemoji=""/></li>
+<li>Supports backpressure <img class="emoji" draggable="false" alt="✨" src="https://twemoji.maxcdn.com/2/svg/2728.svg" data-marp-twemoji=""/></li>
 </ul>
 </li>
 <li>Chrome(Canary) only
@@ -423,12 +432,12 @@ senderStreams.readable
 <blockquote>
 <p><a href="https://github.com/WICG/web-transport">https://github.com/WICG/web-transport</a></p>
 </blockquote>
-<pre><code class="language-js"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">const</span> transport = <span class="hljs-keyword">new</span> QuicTransport(<span class="hljs-string">'example.com'</span>, <span class="hljs-number">10001</span>);
+<pre><code class="language-js"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">const</span> transport = <span class="hljs-keyword">new</span> QuicTransport(<span class="hljs-string">"example.com"</span>, <span class="hljs-number">10001</span>);
+
 setInterval(<span class="hljs-keyword">async</span> () =&gt; {
-  <span class="hljs-keyword">const</span> message = getSerializedGameState();
   <span class="hljs-keyword">const</span> stream = <span class="hljs-keyword">await</span> transport.createSendStream();
   <span class="hljs-keyword">const</span> writer = stream.writable.getWriter();
-  writer.write(message);
+  writer.write(getSerializedGameState());
   writer.close();
 }, <span class="hljs-number">100</span>);
 </span></span></foreignObject></svg></code></pre>
@@ -451,17 +460,16 @@ setInterval(<span class="hljs-keyword">async</span> () =&gt; {
 <blockquote>
 <p><a href="https://github.com/WICG/web-codecs">https://github.com/WICG/web-codecs</a></p>
 </blockquote>
-<pre><code class="language-js"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CanvasRendererSink</span> </span>{
-  write(videoFrame) { <span class="hljs-comment">/* ... */</span> }
-}
+<pre><code class="language-js"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">const</span> videoDecoder = <span class="hljs-keyword">new</span> VideoDecoder({
+  output(videoFrame) {
+    <span class="hljs-keyword">const</span> bitmap = videoFrame.transferToImageBitmap();
+    canvasContext.transferFromImageBitmap(bitmap);
+  }
+});
+<span class="hljs-keyword">await</span> videoDecoder.configure({ <span class="hljs-attr">codec</span>: <span class="hljs-string">"vp8"</span> });
 
-<span class="hljs-keyword">const</span> renderingStream = <span class="hljs-keyword">new</span> WritableStream(
-  <span class="hljs-keyword">new</span> CanvasRendererSink(canvas)
-);
-
-encodedVideoStream
-  .pipeThrough(<span class="hljs-keyword">new</span> VideoDecoder({ <span class="hljs-attr">codec</span>: <span class="hljs-string">"vp8"</span> }))
-  .pipeTo(renderingStream);
+<span class="hljs-comment">// provides stream of encoded chunks to decoder</span>
+streamEncodedChunks(<span class="hljs-function"><span class="hljs-params">chunk</span> =&gt;</span> videoDecoder.decode(chunk));
 </span></span></foreignObject></svg></code></pre>
 <ul>
 <li>API that allows web applications to encode and decode audio and video

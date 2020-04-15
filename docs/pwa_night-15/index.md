@@ -54,7 +54,7 @@ title: APIs around the WebRTC
 ## WebRTC: as protocol suite
 
 - https://tools.ietf.org/html/draft-ietf-rtcweb-overview-19
-- and many many, ... many other RFCs and drafts 🤯
+- and many many, ... many other RFCs and drafts 😬
 
 ![bg right 80%](./img/stack.png)
 
@@ -65,7 +65,11 @@ title: APIs around the WebRTC
 - https://tools.ietf.org/html/draft-ietf-rtcweb-jsep-26
 - https://w3c.github.io/webrtc-pc/
 - `RTCPeerConnection`
-  - `RTCRtpXxx`
+  - `RTCRtpTransceiver`
+  - `RTCRtpSender`
+  - `RTCRtpReceiver`
+  - `RTCDataChannel`
+  - etc...
 
 ![bg right contain](./img/w3c.png)
 
@@ -107,7 +111,7 @@ from https://webrtc.org/
 
 ## ⚠️ Simplified explanation
 
-- `WebRTC` protocols are huge and complicated
+- `WebRTC` protocols are huge and complicated 🤯
 - And W3C `WebRTC` also has a lot of APIs 😇
 
 So today, I'll introduce the concepts only 🎯
@@ -251,14 +255,15 @@ await navigator.mediaDevices.getDisplayMedia({ video: true });
 ```js
 // from MediaStream
 videoElement.srcObject = stream;
+// deprecated
+// videoElement.src = URL.createObjectURL(stream);
 
 // from MediaStreamTrack
 audioElement.srcObject = new MediaStream([audioTrack]);
 ```
 
-- Be careful for `autoplay` restriction 📱
-- And be sure to add `playsinline` for mobile browsers
-- Never forget to `play()` it
+- Be careful with `autoplay` restriction
+- And be sure to add `playsinline` for mobile browsers 📱
 
 ---
 
@@ -276,7 +281,7 @@ audioContext.createMediaStreamDestination();
 
 ---
 
-## Tips using `MediaStream`
+## Techniques using `MediaStream`
 
 - Virtual background
   - https://github.com/leader22/chromakey
@@ -364,17 +369,15 @@ mediaRecorder.start();
 ```js
 const pc = new RTCPeerConnection({ forceEncodedVideoInsertableStreams: true });
 
-const senderTransform = new TransformStream({
-  async transform(chunk, controller) { /* ... */ }
-});
-
 const senderStreams = videoSender.getEncodedVideoStreams();
 senderStreams.readable
-  .pipeThrough(senderTransform)
+  .pipeThrough(senderTransform) // your pipeline here
   .pipeTo(senderStreams.writable);
 ```
 
 - API that allows the insertion of user-defined processing steps in the pipeline that handles media in a WebRTC context
+  - Real E2E-Encryption 🔐
+    - https://webrtc.github.io/samples/src/content/peerconnection/endtoend-encryption/
 - Chrome(Canary) only
   - https://chromestatus.com/features/6321945865879552
 
@@ -398,7 +401,7 @@ while (true) {
 ```
 
 - `WebSocket` meets `whatwg/streams`
-  - No worries about back pressure ✨
+  - Supports backpressure ✨
 - Chrome(Canary) only
   - https://chromestatus.com/features/5189728691290112
 
@@ -409,12 +412,12 @@ while (true) {
 > https://github.com/WICG/web-transport
 
 ```js
-const transport = new QuicTransport('example.com', 10001);
+const transport = new QuicTransport("example.com", 10001);
+
 setInterval(async () => {
-  const message = getSerializedGameState();
   const stream = await transport.createSendStream();
   const writer = stream.writable.getWriter();
-  writer.write(message);
+  writer.write(getSerializedGameState());
   writer.close();
 }, 100);
 ```
@@ -432,17 +435,16 @@ setInterval(async () => {
 > https://github.com/WICG/web-codecs
 
 ```js
-class CanvasRendererSink {
-  write(videoFrame) { /* ... */ }
-}
+const videoDecoder = new VideoDecoder({
+  output(videoFrame) {
+    const bitmap = videoFrame.transferToImageBitmap();
+    canvasContext.transferFromImageBitmap(bitmap);
+  }
+});
+await videoDecoder.configure({ codec: "vp8" });
 
-const renderingStream = new WritableStream(
-  new CanvasRendererSink(canvas)
-);
-
-encodedVideoStream
-  .pipeThrough(new VideoDecoder({ codec: "vp8" }))
-  .pipeTo(renderingStream);
+// provides stream of encoded chunks to decoder
+streamEncodedChunks(chunk => videoDecoder.decode(chunk));
 ```
 
 
