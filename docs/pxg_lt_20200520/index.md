@@ -23,7 +23,7 @@ style: |
 - Yuji Sugiura
 - NTT Communications
   - Web Engineer
-  - ~2020/06/31
+  - ~2020/06/30
 
 ![bg right](../public/img/prof.jpg)
 
@@ -39,7 +39,7 @@ style: |
 
 ---
 
-# Today's theme: `MutationObserver`
+# Today's theme 👉 `MutationObserver`
 
 ---
 
@@ -63,13 +63,14 @@ https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver
 
 ---
 
-# Motivation
+# My motivation
 
 ---
 
 ## The world's worst UX ever
 
-🤢 🤢 🤢
+- 🤢
+- How can I cope with this?
 
 ![bg right contain](./img/unavailable.png)
 
@@ -77,7 +78,7 @@ https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver
 
 ## Browser extension to the resucue!
 
-- Create extension to remove tweets include unavailable contents
+- Extension to remove tweets include unavailable contents
 - Run it on
   - initial page loaded
   - new tweets added
@@ -177,7 +178,7 @@ https://dom.spec.whatwg.org/#mutationobserver
 
 ## `MutationRecord`
 
-- `MutationRecord`s are enqueued on microtask and notified
+- Mutations are enqueued on microtask and notified as records
 
 ```js
 const mo = new MutationObserver(mutationRecords => {
