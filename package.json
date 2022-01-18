@@ -5,7 +5,7 @@
   "author": "leader22",
   "license": "MIT",
   "dependencies": {
-    "@marp-team/marp-cli": "^0.16.2",
+    "@marp-team/marp-cli": "^1.5.1",
     "cleaver": "^0.8.7"
   },
   "repository": {
