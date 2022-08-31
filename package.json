@@ -4,10 +4,6 @@
   "description": "My presentations!",
   "author": "leader22",
   "license": "MIT",
-  "dependencies": {
-    "@marp-team/marp-cli": "^1.5.1",
-    "cleaver": "^0.8.7"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/leader22/slides.git"
