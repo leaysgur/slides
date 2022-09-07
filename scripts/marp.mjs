@@ -15,10 +15,10 @@ if (target === undefined) {
 if (isWatch) {
   console.log('watching changes...');
   console.log(`Open http://localhost:8080`);
-  exec(`open ./docs/${target}/index.md`);
+  exec(`open ${target}/index.md`);
 }
 
-exec(`npx @marp-team/marp-cli ${isWatch ? "-s" : "-I"} ./docs/${target}`, (err, stdout, stderr) => {
+exec(`npx @marp-team/marp-cli ${isWatch ? "-s" : "-I"} ${target}`, (err, stdout, stderr) => {
   if (err || stderr) {
     console.error(err || stderr);
     process.exit(1);
