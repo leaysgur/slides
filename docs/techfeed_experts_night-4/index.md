@@ -1,9 +1,9 @@
 ---
-title: The islands architecture
+title: The islands architecture recap
 class: invert
 ---
 
-# The islands architecture
+# The islands architecture recap
 2022/09/21 Techfeed Experts Night #4
 
 ---
@@ -45,10 +45,10 @@ class: invert
 
 - Page consists of **static ocean**🌊 and **dynamic islands**🏝
   - Static: Layouts, texts, images, etc...
-  - Dynamic: Carousel, Popup, VideoPlayer, etc...
+  - Dynamic(w/ JS): Carousel, Popup, VideoPlayer, etc...
 - Page is (pre-)rendered on the server
-- Dynamic islands become interactive on the client
-  - Hydrated with initial HTML
+- Dynamic islands are become interactive on the client
+  - Hydrated with rendered HTML
   - = Multiple entries, small apps
 
 ![bg right 80%](./img/arch.png)
@@ -61,7 +61,7 @@ class: invert
 
 ## Concerns about modern frameworks
 
-- Most web pages consist of a static part and a dynamic part that requires JS
+- Most web pages consist of a **static part** and a **dynamic part(requires JS)**
   - Of course, it depends on the situation
   - But generally the static part is more than you think
 - However, recent frameworks(SPA in mind) treat everything as dynamic by nature
@@ -79,8 +79,8 @@ It leads slow page load, waste bandwidth, slow TTI.
 
 - Hydration is top-down process with no priority
   - Carousel at the top should become interactive immediately
-  - But, why should I load (and wait) the video player at the bottom?
-- We don't need useless JS in the first place
+  - But, why should we load (and wait) the video player at the bottom?
+- We don't need useless JS in the first place!
   - You may not need a SPA, but even with a MPA, extra JS should be avoided
 - 🤖 Always imagine poor mobile device on slow network
 
@@ -96,12 +96,12 @@ I wish I could use minimum JS when the time I need it?
 
 ## Partial hydration to the rescue 🚒
 
-Instead of page-level(full), why not perform component🏝-level(partial) hydration?
+Instead of full(page-level), why not perform partial(component🏝-level) hydration?
 
 - Minimum size of JS are used
   - 0-JS by default 👌
-- Non-blocking, isolated hydration in parallel 🔜
-- Bonus: Lazy loading ✨
+- Non-blocking, isolated hydration in parallel 🔀
+- Bonus: Lazy loading + hydration ✨
   - With `requestIdleCallback()`
   - If `matchMedia()` matches
   - When visible w/ `IntersectionObserver`
@@ -126,10 +126,10 @@ Various islands architecture oriented frameworks implement these features!
 
 At that time, it took a lot of effort to cope with. 🤣
 
-- HTML was handwritten with server-side templates
+- HTML was handwritten, both server and client templates are needed
 - Manual execution timing management
 - Mount multiple Apps with complicated build steps
-- Web Components had a SSR issue
+- Web Components had SSR issues
 
 But now in 2022, sophisticated frameworks do it better with nice DX.
 
@@ -151,7 +151,7 @@ But now in 2022, sophisticated frameworks do it better with nice DX.
 - Tropical: https://github.com/bensmithett/tropical-utils/tree/main/packages/tropical-islands
 - Fresh: https://fresh.deno.dev/docs/getting-started/adding-interactivity
 
-Maybe more to come! 🏎
+Maybe more to come! 🦄
 
 ---
 
@@ -178,7 +178,7 @@ import VideoPlayer from "../components/video-player.jsx";
 </Layout>
 ```
 
-Looks familiar to you!
+Looks familiar to you?
 
 ---
 
@@ -225,4 +225,3 @@ https://twitter.com/t3dotgg/status/1437195415439360003
 See also https://www.builder.io/blog/hydration-is-pure-overhead
 
 ![bg right:33% 80%](./img/qwik.png)
-
