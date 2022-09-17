@@ -47,9 +47,10 @@ class: invert
   - Static: Layouts, texts, images, etc...
   - Dynamic(w/ JS): Carousel, Popup, VideoPlayer, etc...
 - Page is (pre-)rendered on the server
+  - !== SPA
 - Dynamic islands are become interactive on the client
   - Hydrated with rendered HTML
-  - = Multiple entries, small apps
+  - Multiple entries, small apps
 
 ![bg right 80%](./img/arch.png)
 
@@ -59,19 +60,29 @@ class: invert
 
 ---
 
+## Static >= Dynamic
+
+- Most web pages consist of **static contents** and **dynamic contents(requires JS)**
+- Generally the static contents are more than you think
+
+Of course, it depends on the situation. You may need a SPA 😌
+
+![bg right 80%](./img/arch.png)
+
+---
+
 ## Concerns about modern frameworks
 
-- Most web pages consist of a **static part** and a **dynamic part(requires JS)**
-  - Of course, it depends on the situation
-  - But generally the static part is more than you think
-- However, recent frameworks(SPA in mind) treat everything as dynamic by nature
-  - = Single entry, large app
+- Recent frameworks(SPA in mind) treat everything as dynamic by nature
+  - Single entry, large app
 - This means that a large amount of JS must be downloaded, parsed, and executed 💨
-  - JS includes framework itself, templates already rendered, hydration things, etc...
-  - Even if pre-rendering(SSG)
-  - Even if the page consists of 100% static part 🙄
+  - Includes framework itself, templates already rendered, hydration things, etc...
+  - Even if pre-rendering(SSG mode)
+  - Even if page is 100% static 🙄
 
-It leads slow page load, waste bandwidth, slow TTI.
+It leads slow page load, waste bandwidth, and also slow TTI.
+
+![bg right:40% 100%](./img/fw.png)
 
 ---
 
@@ -103,7 +114,6 @@ Instead of full(page-level), why not perform partial(component🏝-level) hydrat
 - Non-blocking, isolated hydration in parallel 🔀
 - Bonus: Lazy loading + hydration ✨
   - With `requestIdleCallback()`
-  - If `matchMedia()` matches
   - When visible w/ `IntersectionObserver`
   - On `mouseenter`, `touchstart`
   - etc...
@@ -126,7 +136,7 @@ Various islands architecture oriented frameworks implement these features!
 
 At that time, it took a lot of effort to cope with. 🤣
 
-- HTML was handwritten, both server and client templates are needed
+- HTML was handwritten, server and client templates are doubled
 - Manual execution timing management
 - Mount multiple Apps with complicated build steps
 - Web Components had SSR issues
@@ -147,9 +157,10 @@ But now in 2022, sophisticated frameworks do it better with nice DX.
 - 11ty: https://www.11ty.dev/docs/plugins/partial-hydration/
 - Slinkity: https://slinkity.dev/docs/partial-hydration/
 - Iles: https://iles-docs.netlify.app/guide/hydration
+- Elder.js: https://elderguide.com/tech/elderjs/#partial-hydration
 - Marko: https://markojs.com/#hydration
 - Tropical: https://github.com/bensmithett/tropical-utils/tree/main/packages/tropical-islands
-- Fresh: https://fresh.deno.dev/docs/getting-started/adding-interactivity
+- Fresh(for Deno): https://fresh.deno.dev/docs/getting-started/adding-interactivity
 
 Maybe more to come! 🦄
 
@@ -207,7 +218,7 @@ https://twitter.com/t3dotgg/status/1437195415439360003
   - [Modernizing Etsy’s codebase with React featuring Katie Sylor-Miller (JS Party #105) |> Changelog](https://changelog.com/jsparty/105)
   - [Islands Architecture - JASON Format](https://jasonformat.com/islands-architecture/)
   - [Islands Architecture - patterns.dev](https://www.patterns.dev/posts/islands-architecture/)
-- Perf
+- Benchmarks
   - [BuilderIO/framework-benchmarks: Test each framework for it's performance cost](https://github.com/builderio/framework-benchmarks)
 
 ---
@@ -219,9 +230,10 @@ https://twitter.com/t3dotgg/status/1437195415439360003
 ## Qwik
 
 - https://qwik.builder.io/
-- No hydration
+- No hydration, resumable
 - Lazy loading **everything**
+  - Load only (what|when) you need
 
-See also https://www.builder.io/blog/hydration-is-pure-overhead
+You should definitely try! 😻 https://qwik.builder.io/examples/introduction/hello-world/
 
 ![bg right:33% 80%](./img/qwik.png)
