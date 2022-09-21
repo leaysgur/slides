@@ -224,6 +224,7 @@ https://twitter.com/t3dotgg/status/1437195415439360003
 - No hydration, resumable
 - Lazy loading **everything**
   - Load only (what|when) you need
+  - *O(1)*, not *O(n)*
 
 You should definitely try! 😻 https://qwik.builder.io/examples/introduction/hello-world/
 
