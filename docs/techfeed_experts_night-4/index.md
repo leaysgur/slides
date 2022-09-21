@@ -52,7 +52,7 @@ class: invert
   - Hydrated with rendered HTML
   - Multiple entries, small apps
 
-![bg right 80%](./img/arch.png)
+![bg right:45% 90%](./img/arch.png)
 
 ---
 
@@ -65,9 +65,9 @@ class: invert
 - Most web pages consist of **static contents** and **dynamic contents(requires JS)**
 - Generally the static contents are more than you think
 
-Of course, it depends on the situation. You may need a SPA 😌
+Of course, it depends on the situation. You may (NOT) need SPA 😌
 
-![bg right 80%](./img/arch.png)
+![bg right:45% 90%](./img/arch.png)
 
 ---
 
@@ -82,7 +82,7 @@ Of course, it depends on the situation. You may need a SPA 😌
 
 It leads slow page load, waste bandwidth, and also slow TTI.
 
-![bg right:40% 100%](./img/fw.png)
+![bg right:40% 110%](./img/fw.png)
 
 ---
 
@@ -109,7 +109,7 @@ I wish I could use minimum JS when the time I need it?
 
 Instead of full(page-level), why not perform partial(component🏝-level) hydration?
 
-- Minimum size of JS are used
+- Minimum size of JS are always used
   - 0-JS by default 👌
 - Non-blocking, isolated hydration in parallel 🔀
 - Bonus: Lazy loading + hydration ✨
@@ -212,16 +212,6 @@ https://twitter.com/t3dotgg/status/1437195415439360003
 
 ---
 
-## References 📚
-
-- About architecture
-  - [Modernizing Etsy’s codebase with React featuring Katie Sylor-Miller (JS Party #105) |> Changelog](https://changelog.com/jsparty/105)
-  - [Islands Architecture - JASON Format](https://jasonformat.com/islands-architecture/)
-  - [Islands Architecture - patterns.dev](https://www.patterns.dev/posts/islands-architecture/)
-- Benchmarks
-  - [BuilderIO/framework-benchmarks: Test each framework for it's performance cost](https://github.com/builderio/framework-benchmarks)
-
----
 
 # Go 1 step further?
 
@@ -237,3 +227,14 @@ https://twitter.com/t3dotgg/status/1437195415439360003
 You should definitely try! 😻 https://qwik.builder.io/examples/introduction/hello-world/
 
 ![bg right:33% 80%](./img/qwik.png)
+
+---
+
+## References 📚
+
+- About architecture
+  - [Modernizing Etsy’s codebase with React featuring Katie Sylor-Miller (JS Party #105) |> Changelog](https://changelog.com/jsparty/105)
+  - [Islands Architecture - JASON Format](https://jasonformat.com/islands-architecture/)
+  - [Islands Architecture - patterns.dev](https://www.patterns.dev/posts/islands-architecture/)
+- Benchmarks
+  - [BuilderIO/framework-benchmarks: Test each framework for it's performance cost](https://github.com/builderio/framework-benchmarks)
