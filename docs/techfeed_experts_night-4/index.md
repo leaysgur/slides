@@ -16,6 +16,7 @@ class: invert
 
 - PixelGrid Inc.
   - Senior Engineer
+- TechFeed Expert No.52
 
 ![bg right](../public/img/prof-2.jpg)
 
