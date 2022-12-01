@@ -37,9 +37,9 @@ theme: gaia
 
 ---
 
-# Reduce JS!
+# Reduce your JavaScript!
 
-![bg right](./img/TODO:bloat.jpg)
+![bg opacity:.6](./img/bf-cat.jpg)
 
 ---
 
@@ -73,13 +73,13 @@ Too much, unused JS,
   - whether blocking or not
 - consume extra network bandwith, waste mobile data costs
 
-It makes the Web slower... 🐌
+This trend makes the Web slower... 🐌
 
 ---
 
 ### Even worse
 
-If DOM is rendered dynamically(CSR) for no reason,
+If DOM is rendered dynamically(CSR) _for no reason_,
 
 - require more time and resource **after** JS are loaded
 - may be less accessible on slow network, low-spec device
@@ -106,7 +106,7 @@ https://builtin.com/software-engineering-perspectives/fix-javascript-bloat
 
 for better UX, faster Web ✨
 
-![bg right](./img/TODO:better.jpg)
+![bg opacity:.6](./img/af-cat.jpg)
 
 ---
 
@@ -153,10 +153,10 @@ See also https://developer.mozilla.org/docs/Web/API
 
 ## X. Optimize build
 
-- Refine build target defined in `.babelrc`, `tsconfig.json`
+- Refine build target defined in `.babelrc`, `tsconfig.json`, `vite.config.js`, etc...
   - ~~IE? still alive?~~
-- Reconsider, optimize CSSinJS solutions
-  - to extract `.css`
+- Reconsider, optimize CSS-in-JS solutions
+  - to extract `.css` files
   - you might not need Autoprefixer anymore
 - Move `<svg>` icons out from JS
   - use `<defs>` + `<use>`
@@ -166,13 +166,13 @@ See also https://developer.mozilla.org/docs/Web/API
 ## X. Try precompiled disappearing FWs
 
 - Like [Svelte](https://svelte.dev/)([Kit](https://kit.svelte.dev/)), [Solid](https://www.solidjs.com/)([Start](https://start.solidjs.com/))
-- Declarative component as usual
-- It turns into compiled and optimized code! 👻
-  - no V-DOM overhead, tiny and efficient runtime
+- Declarative components as usual turn into optimized runtime! 👻
+  - no V-DOM overhead
+  - (relatively) small and efficient
 
 From [TodoMVC size comparison](https://dev.to/this-is-learning/javascript-framework-todomvc-size-comparison-504f)
 
-![bg right:45% contain](./img/todomvc-1.png)
+![bg right:40% contain](./img/todomvc-1.png)
 
 ---
 
@@ -185,7 +185,7 @@ From [TodoMVC size comparison](https://dev.to/this-is-learning/javascript-framew
 
 (Just for reference. 🙈)
 
-![bg right:45% contain](./img/todomvc-2.png)
+![bg right:40% contain](./img/todomvc-2.png)
 
 ---
 
@@ -208,7 +208,7 @@ Base line is 0 JS!
   - ≠ SSR
 - Render every pages and contents on the fly
   - authenticate, personalize
-- CDN Edge Workers are also available
+- CDN Edge Workers are also available in these days
   - e.g. Cloudflare Workers
 
 Base line is also 0 JS!
@@ -308,12 +308,11 @@ https://docs.astro.build/en/reference/directives-reference/#client-directives
 ## X. No hydration, resume it quickly
 
 - [Qwik](https://qwik.builder.io/)([City](https://qwik.builder.io/qwikcity/overview/))
-- Lazy loading everything by nature
-  - PH requires marking like `client:visible`
-- Even at event handler level!
+- Everything is lazy loadable
+  - even at event handler level!
   - PH can only perform at component(and its whole children) level
-- Simply resume the flow that done on server
-  - (P)H repeat the flow that done on server
+- Simply **resume** the flow that done on server
+  - (P)H **repeat** the flow that done on server
 
 Base line is close to 0 JS, order is _N(1)_ constantly. 🤯
 
@@ -323,12 +322,11 @@ Base line is close to 0 JS, order is _N(1)_ constantly. 🤯
 
 - 0 JS on initial load
   - bootstraps are inlined in HTML
-- Load minimum chunks by user action
+- Load minimum chunks progressively by user action
 
 https://todo-cloudflare-misko.sethealth.workers.dev
 
-![bg right:40% contain](./img/qwik-todo.png)
-
+![bg right contain](./img/qwik-todo.png)
 
 ---
 
@@ -347,7 +345,7 @@ const Counter = component$(async () => {
 ```
 
 - JSX as you have seen in React, Solid
-- [`$`](https://qwik.builder.io/docs/advanced/dollar/) means _boundary_ as a symbol
+- [`$`](https://qwik.builder.io/docs/advanced/dollar/) means _boundary_ as a qwik symbol
   - can be extracted for lazy, progressive loading
 
 ---
@@ -356,20 +354,26 @@ const Counter = component$(async () => {
 
 ---
 
-## 再掲
+## Smaller is better
 
-- もちろん要件次第であり、全てに当てはまるわけではない
-- JSが本当に必要で、使ってるならいい
-- ただし、妥協があったり、自信がないなら見直すべき
-- そのための知識を得たはず
+> A feature-rich, complex website is naturally going to have more JavaScript, and that’s OK.
+
+Of course it depends, but ship less code is better.
+
+> The problem happens when **a simple site has a large amount of JavaScript** that the user must download.
+
+Please do not bloat the Web. 🐈
 
 ---
 
-## Smaller is better
+## Everything is a trade-off
 
-- サイズがすべてではないが、少ないにこしたことはない
-- 用法用量を守って正しく使いましょう
-- DXとUXのバランスを取りながら
+Size is not the only aspect to determine UX.
+
+- Performance is also indispensable
+- DX, eco-systems affect iteration cycles
+
+Seeking for a better UX, that is what front-end development is all about.
 
 ---
 
