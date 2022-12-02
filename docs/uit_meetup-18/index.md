@@ -106,7 +106,7 @@ https://builtin.com/software-engineering-perspectives/fix-javascript-bloat
 
 for better UX, faster Web ✨
 
-![bg opacity:.6](./img/af-cat.jpg)
+![bg opacity:.6](./img/md-cat.jpg)
 
 ---
 
@@ -194,8 +194,7 @@ From [TodoMVC size comparison](https://dev.to/this-is-learning/javascript-framew
 - Use SSG(static site generator), instead of CSR(+SSR)
   - ≠ `next export`
 - Render every pages and contents beforehand
-- A.k.a. Jamstack(-y) approach
-  - https://almanac.httparchive.org/en/2022/jamstack#jamstack-y-a-disclaimer
+- A.k.a. [Jamstack(-y)](https://almanac.httparchive.org/en/2022/jamstack#jamstack-y-a-disclaimer) approach
 - Suitable for blog, document, company site, etc...
 
 Base line is 0 JS!
@@ -352,6 +351,8 @@ const Counter = component$(async () => {
 
 # Summary
 
+![bg opacity:.6](./img/af-cat.jpg)
+
 ---
 
 ## Smaller is better
@@ -362,7 +363,7 @@ Of course it depends, but ship less code is better.
 
 > The problem happens when **a simple site has a large amount of JavaScript** that the user must download.
 
-Please do not bloat the Web. 🐈
+Let's make the Web faster! 😌
 
 ---
 
@@ -373,7 +374,7 @@ Size is not the only aspect to determine UX.
 - Performance is also indispensable
 - DX, eco-systems affect iteration cycles
 
-Seeking for a better UX, that is what front-end development is all about.
+Seeking for a better UX, that is what front-end development is all about. 🐈
 
 ---
 
