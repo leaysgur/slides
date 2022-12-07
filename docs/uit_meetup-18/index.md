@@ -155,6 +155,7 @@ See also https://developer.mozilla.org/docs/Web/API
 
 - Refine build target defined in `.babelrc`, `tsconfig.json`, `vite.config.js`, etc...
   - ~~IE? still alive?~~
+- Do not forget to minify
 - Reconsider, optimize CSS-in-JS solutions
   - to extract `.css` files
   - you might not need Autoprefixer anymore
