@@ -1,10 +1,10 @@
 ---
-title: X ways to reduce your JS
+title: 10 ways to reduce your JS
 class: invert
 theme: gaia
 ---
 
-# X ways to reduce your JS
+# 10 ways to reduce your JS
 2022/12/14 UIT Meetup #18
 
 ---
@@ -45,10 +45,10 @@ theme: gaia
 
 ## The numbers are increasing
 
+From [State of JS | httparchive.org](https://httparchive.org/reports/state-of-javascript?lens=top1k&start=2017_12_15&end=latest&view=grid)
+
 - Top 1,000 sites
 - 2017/12/15 - 2022/10/01
-
-From [httparchive.org](https://httparchive.org/reports/state-of-javascript?lens=top1k&start=2017_12_15&end=latest&view=grid)
 
 ![bg right:45% contain](./img/js-size.png)
 
@@ -56,10 +56,10 @@ From [httparchive.org](https://httparchive.org/reports/state-of-javascript?lens=
 
 ## But...
 
+From [Web Almanac | httparchive.org](https://almanac.httparchive.org/en/2022/javascript#how-much-javascript-do-we-load)
+
 - 30 - 40% are unused 🥺
   - https://web.dev/unused-javascript/
-
-From [Web Almanac](https://almanac.httparchive.org/en/2022/javascript#how-much-javascript-do-we-load)
 
 ![bg right contain](./img/js-bytes-unused.png)
 
@@ -69,9 +69,9 @@ From [Web Almanac](https://almanac.httparchive.org/en/2022/javascript#how-much-j
 
 Too much, unused JS,
 
-- slow down entire page loading
+- Slow down entire page loading
   - whether blocking or not
-- consume extra network bandwith, waste mobile data costs
+- Consume extra network bandwith, waste mobile data costs
 
 This trend makes the Web slower... 🐌
 
@@ -81,10 +81,10 @@ This trend makes the Web slower... 🐌
 
 If DOM is rendered dynamically(CSR) _for no reason_,
 
-- require more time and resource **after** JS are loaded
-- may be less accessible on slow network, low-spec device
-- even with SSR, still cause UI jank
-- open in new tab run the same process again
+- Require more time and resource **after** JS are loaded
+- May be less accessible on slow network, low-spec device
+- Even with SSR, still cause UI jank
+- Open in new tab run the same process again
 
 Is your JS really needed...?
 
@@ -99,18 +99,17 @@ Is your JS really needed...?
 
 https://builtin.com/software-engineering-perspectives/fix-javascript-bloat
 
-
 ---
 
 # Let's reduce JS!
 
-for better UX, faster Web ✨
+For better UX, faster Web ✨
 
 ![bg opacity:.6](./img/md-cat.jpg)
 
 ---
 
-## X. Use HTML elements properly
+## 1. Use HTML elements properly
 
 - `<details>` + `<summary>` for (open|close) toggle menu
 - `<dialog>` for (modal|modeless) dialog
@@ -124,7 +123,7 @@ See also https://developer.mozilla.org/docs/Web/HTML/Element
 
 ---
 
-## X. Use Web Standard APIs
+## 2. Use Web Standard APIs
 
 - The same as https://youmightnotneedjquery.com
 - Instead of `EventEmitter`
@@ -138,7 +137,7 @@ See also https://developer.mozilla.org/docs/Web/API
 
 ---
 
-## X. Misc
+## 3. Misc
 
 - USE! CSS! FIRST!
   - for spacing
@@ -151,7 +150,7 @@ See also https://developer.mozilla.org/docs/Web/API
 
 ---
 
-## X. Optimize build
+## 4. Optimize build
 
 - Refine build target defined in `.babelrc`, `tsconfig.json`, `vite.config.js`, etc...
   - ~~IE? still alive?~~
@@ -164,7 +163,7 @@ See also https://developer.mozilla.org/docs/Web/API
 
 ---
 
-## X. Try precompiled disappearing FWs
+## 5. Try precompiled disappearing FWs
 
 - Like [Svelte](https://svelte.dev/)([Kit](https://kit.svelte.dev/)), [Solid](https://www.solidjs.com/)([Start](https://start.solidjs.com/))
 - Declarative components as usual turn into optimized runtime! 👻
@@ -173,7 +172,7 @@ See also https://developer.mozilla.org/docs/Web/API
 
 From [TodoMVC size comparison](https://dev.to/this-is-learning/javascript-framework-todomvc-size-comparison-504f)
 
-![bg right:40% contain](./img/todomvc-1.png)
+![bg right:45% contain](./img/todomvc-1.png)
 
 ---
 
@@ -186,14 +185,14 @@ From [TodoMVC size comparison](https://dev.to/this-is-learning/javascript-framew
 
 (Just for reference. 🙈)
 
-![bg right:40% contain](./img/todomvc-2.png)
+![bg right:45% contain](./img/todomvc-2.png)
 
 ---
 
-## X. Consider pre-rendering
+## 6. Consider pre-rendering
 
 - Use SSG(static site generator), instead of CSR(+SSR)
-  - ≠ `next export`
+  - ≠ `next export`[!!](https://leader22.github.io/slides/techfeed_experts_night-4/#10)
 - Render every pages and contents beforehand
 - A.k.a. [Jamstack(-y)](https://almanac.httparchive.org/en/2022/jamstack#jamstack-y-a-disclaimer) approach
 - Suitable for blog, document, company site, etc...
@@ -202,7 +201,7 @@ Base line is 0 JS!
 
 ---
 
-## X. Stick with Server rendering
+## 7. Stick with Server rendering
 
 - Use classic web server and templates
   - ≠ SSR
@@ -215,19 +214,19 @@ Base line is also 0 JS!
 
 ---
 
-## X. Adopt MPA style
+## 8. Adopt MPA style
 
 - Separate page(app)s by use-case
   - e.g. (Login app | Main app), (User app | Admin app)
-  - As you do dynamic `import()`, async routes
+  - as you do dynamic `import()`, async routes
 - Separete truly static pages
-  - ≠ `next export`
+  - not to be bundled with
 
 Separation of concerns! ✂️
 
 ---
 
-## X. Visit islands architecture
+## 9. Visit islands architecture
 
 - Like [Astro](https://astro.build/), [Marko](https://markojs.com/)
 - Pre-rendering static contents
@@ -305,9 +304,10 @@ https://docs.astro.build/en/reference/directives-reference/#client-directives
 
 ---
 
-## X. No hydration, resume it quickly
+## 10. No hydration, resume it quickly
 
 - [Qwik](https://qwik.builder.io/)([City](https://qwik.builder.io/qwikcity/overview/))
+  - reached beta at 2022/09/19
 - Everything is lazy loadable
   - even at event handler level!
   - PH can only perform at component(and its whole children) level
@@ -360,7 +360,7 @@ const Counter = component$(async () => {
 
 > A feature-rich, complex website is naturally going to have more JavaScript, and that’s OK.
 
-Of course it depends, but ship less code is better.
+Of course it depends, but ship less code is always better.
 
 > The problem happens when **a simple site has a large amount of JavaScript** that the user must download.
 
