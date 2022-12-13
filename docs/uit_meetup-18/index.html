@@ -48,7 +48,7 @@
 <li>2017/12/15 - 2022/10/01</li>
 </ul>
 </section>
-</foreignObject><foreignObject width="1280" height="720" data-marpit-advanced-background="pseudo"><section data-class="invert" data-theme="gaia" class="invert" style="" data-marpit-advanced-background="pseudo" data-marpit-advanced-background-split="right"></section></foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section data-class="invert" data-theme="gaia" class="invert" style="--class:invert;--theme:gaia;--marpit-advanced-background-split:50%;" data-marpit-advanced-background="background" data-marpit-advanced-background-split="right"><div data-marpit-advanced-background-container="true" data-marpit-advanced-background-direction="horizontal"><figure style="background-image:url(&quot;./img/js-bytes-unused.png&quot;);background-size:contain;"></figure></div></section></foreignObject><foreignObject width="50%" height="720"><section id="8" data-class="invert" data-theme="gaia" class="invert" style="--class:invert;--theme:gaia;--marpit-advanced-background-split:50%;" data-marpit-advanced-background="content" data-marpit-advanced-background-split="right">
+</foreignObject><foreignObject width="1280" height="720" data-marpit-advanced-background="pseudo"><section data-class="invert" data-theme="gaia" class="invert" style="" data-marpit-advanced-background="pseudo" data-marpit-advanced-background-split="right"></section></foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section data-class="invert" data-theme="gaia" class="invert" style="--class:invert;--theme:gaia;--marpit-advanced-background-split:40%;" data-marpit-advanced-background="background" data-marpit-advanced-background-split="right"><div data-marpit-advanced-background-container="true" data-marpit-advanced-background-direction="horizontal"><figure style="background-image:url(&quot;./img/js-bytes-unused.png&quot;);background-size:contain;"></figure></div></section></foreignObject><foreignObject width="60%" height="720"><section id="8" data-class="invert" data-theme="gaia" class="invert" style="--class:invert;--theme:gaia;--marpit-advanced-background-split:40%;" data-marpit-advanced-background="content" data-marpit-advanced-background-split="right">
 <h2>But...</h2>
 <p>From <a href="https://almanac.httparchive.org/en/2022/javascript#how-much-javascript-do-we-load">Web Almanac | httparchive.org</a></p>
 <ul>
@@ -74,7 +74,7 @@
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="10" data-class="invert" data-theme="gaia" class="invert" style="--class:invert;--theme:gaia;">
 <h3>Even worse</h3>
-<p>If DOM is rendered dynamically(CSR) <em>for no reason</em>,</p>
+<p>If DOM is rendered dynamically(≒ SPA) <em>for no reason</em>,</p>
 <ul>
 <li>Require more time and resource <strong>after</strong> JS are loaded</li>
 <li>May be less accessible on slow network, low-spec device</li>
@@ -159,8 +159,9 @@ The problem happens when <strong>a simple site has a large amount of JavaScript<
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="16" data-class="invert" data-theme="gaia" class="invert" style="--class:invert;--theme:gaia;">
 <h2>4. Optimize build</h2>
 <ul>
-<li>Refine build target defined in <code>.babelrc</code>, <code>tsconfig.json</code>, <code>vite.config.js</code>, etc...
+<li>Refine build target
 <ul>
+<li>defined in <code>.babelrc</code>, <code>tsconfig.json</code>, <code>vite.config.js</code>, etc...</li>
 <li><s>IE? still alive?</s></li>
 </ul>
 </li>
@@ -184,8 +185,8 @@ The problem happens when <strong>a simple site has a large amount of JavaScript<
 <li>Like <a href="https://svelte.dev/">Svelte</a>(<a href="https://kit.svelte.dev/">Kit</a>), <a href="https://www.solidjs.com/">Solid</a>(<a href="https://start.solidjs.com/">Start</a>)</li>
 <li>Declarative components as usual turn into optimized runtime! <img class="emoji" draggable="false" alt="👻" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f47b.svg" data-marp-twemoji=""/>
 <ul>
-<li>no V-DOM overhead</li>
 <li>(relatively) small and efficient</li>
+<li>no V-DOM overhead</li>
 </ul>
 </li>
 </ul>
@@ -248,7 +249,7 @@ The problem happens when <strong>a simple site has a large amount of JavaScript<
 </li>
 <li>Separete truly static pages
 <ul>
-<li>not to be bundled with</li>
+<li>not to be bundled together</li>
 </ul>
 </li>
 </ul>
@@ -284,12 +285,12 @@ The problem happens when <strong>a simple site has a large amount of JavaScript<
   <span class="hljs-tag">&lt;<span class="hljs-name">Footer</span> /&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">Layout</span>&gt;</span>
 </code></pre>
-<p>Maximum size of JS are always used regardless of its usage.</p>
+<p>Maximum size of JS are always loaded, parsed, and executed regardless of its usage.</p>
 </section>
 </foreignObject><foreignObject width="1280" height="720" data-marpit-advanced-background="pseudo"><section data-class="invert" data-theme="gaia" class="invert" style="" data-marpit-advanced-background="pseudo" data-marpit-advanced-background-split="right"></section></foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section data-class="invert" data-theme="gaia" class="invert" style="--class:invert;--theme:gaia;--marpit-advanced-background-split:40%;" data-marpit-advanced-background="background" data-marpit-advanced-background-split="right"><div data-marpit-advanced-background-container="true" data-marpit-advanced-background-direction="horizontal"><figure style="background-image:url(&quot;./img/partial-hydration.png&quot;);background-size:contain;"></figure></div></section></foreignObject><foreignObject width="60%" height="720"><section id="24" data-class="invert" data-theme="gaia" class="invert" style="--class:invert;--theme:gaia;--marpit-advanced-background-split:40%;" data-marpit-advanced-background="content" data-marpit-advanced-background-split="right">
 <h3>Partial hydration</h3>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-html"><span class="hljs-comment">&lt;!-- Astro component code example.
-     Components w/o `client:*` are statically pre-rendered --&gt;</span>
+     Components w/ `client:*` are islands, otherwize statically pre-rendered --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">Layout</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">Header</span> /&gt;</span>
   <span class="hljs-comment">&lt;!-- JS loaded+hydrated on page load --&gt;</span>

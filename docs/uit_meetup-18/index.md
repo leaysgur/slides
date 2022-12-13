@@ -61,7 +61,7 @@ From [Web Almanac | httparchive.org](https://almanac.httparchive.org/en/2022/jav
 - 30 - 40% are unused 🥺
   - https://web.dev/unused-javascript/
 
-![bg right contain](./img/js-bytes-unused.png)
+![bg right:40% contain](./img/js-bytes-unused.png)
 
 ---
 
@@ -79,7 +79,7 @@ This trend makes the Web slower... 🐌
 
 ### Even worse
 
-If DOM is rendered dynamically(CSR) _for no reason_,
+If DOM is rendered dynamically(≒ SPA) _for no reason_,
 
 - Require more time and resource **after** JS are loaded
 - May be less accessible on slow network, low-spec device
@@ -152,7 +152,8 @@ See also https://developer.mozilla.org/docs/Web/API
 
 ## 4. Optimize build
 
-- Refine build target defined in `.babelrc`, `tsconfig.json`, `vite.config.js`, etc...
+- Refine build target
+  - defined in `.babelrc`, `tsconfig.json`, `vite.config.js`, etc...
   - ~~IE? still alive?~~
 - Do not forget to minify
 - Reconsider, optimize CSS-in-JS solutions
@@ -167,8 +168,8 @@ See also https://developer.mozilla.org/docs/Web/API
 
 - Like [Svelte](https://svelte.dev/)([Kit](https://kit.svelte.dev/)), [Solid](https://www.solidjs.com/)([Start](https://start.solidjs.com/))
 - Declarative components as usual turn into optimized runtime! 👻
-  - no V-DOM overhead
   - (relatively) small and efficient
+  - no V-DOM overhead
 
 From [TodoMVC size comparison](https://dev.to/this-is-learning/javascript-framework-todomvc-size-comparison-504f)
 
@@ -220,7 +221,7 @@ Base line is also 0 JS!
   - e.g. (Login app | Main app), (User app | Admin app)
   - as you do dynamic `import()`, async routes
 - Separete truly static pages
-  - not to be bundled with
+  - not to be bundled together
 
 Separation of concerns! ✂️
 
@@ -258,7 +259,7 @@ See also [The islands architecture recap](https://leader22.github.io/slides/tech
 </Layout>
 ```
 
-Maximum size of JS are always used regardless of its usage.
+Maximum size of JS are always loaded, parsed, and executed regardless of its usage.
 
 ![bg right:40% contain](./img/full-hydration.png)
 
@@ -268,7 +269,7 @@ Maximum size of JS are always used regardless of its usage.
 
 ```html
 <!-- Astro component code example.
-     Components w/o `client:*` are statically pre-rendered -->
+     Components w/ `client:*` are islands, otherwize statically pre-rendered -->
 <Layout>
   <Header />
   <!-- JS loaded+hydrated on page load -->
