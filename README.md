@@ -2,7 +2,7 @@
 
 | タイトル                                                                                                        |  発表日  | イベント名                          |    枠 |
 |:--------------------------------------------------------------------------------------------------------------- |:--------:|:----------------------------------- | -----:|
-| [X ways to reduce your JS](https://leaysgur.github.io/slides/uit_meetup-18/)                                    | 20221214 | UIT Meetup #18                      | 20min |
+| [10 ways to reduce your JS](https://leaysgur.github.io/slides/uit_meetup-18/)                                   | 20221214 | UIT Meetup #18                      | 20min |
 | [The islands architecture recap](https://leaysgur.github.io/slides/techfeed_experts_night-4/)                   | 20220921 | Techfeed Experts Night #4           |  8min |
 | [APIs around the WebRTC](https://leaysgur.github.io/slides/pwa_night-15/)                                       | 20200415 | PWA Night vol.15                    | 20min |
 | [The chrome://webrtc-internals internals](https://leaysgur.github.io/slides/skyway_ug_tokyo-6/)                 | 20200115 | SkyWay UG Tokyo #6                  | 20min |
