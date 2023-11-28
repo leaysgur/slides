@@ -18,7 +18,7 @@ if (isWatch) {
   exec(`open ${target}/index.md`);
 }
 
-exec(`npx @marp-team/marp-cli ${isWatch ? "-s" : "-I"} ${target}`, (err, stdout, stderr) => {
+exec(`npx @marp-team/marp-cli --yes ${isWatch ? "-s" : "-I"} ${target}`, (err, stdout, stderr) => {
   if (err || stderr) {
     console.error(err || stderr);
     process.exit(1);
