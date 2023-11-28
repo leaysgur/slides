@@ -1,7 +1,8 @@
 # slides
 
 | タイトル                                                                                                        |  発表日  | イベント名                          |    枠 |
-|:--------------------------------------------------------------------------------------------------------------- |:--------:|:----------------------------------- | -----:|
+| :-------------------------------------------------------------------------------------------------------------- | :------: | :---------------------------------- | ----: |
+| [Bindings from anywhere](https://leaysgur.github.io/slides/cloudflare_workers_tech_talks-2/)                    | 20231215 | Workers Tech Talks #2               | 15min |
 | [10 ways to reduce your JS](https://leaysgur.github.io/slides/uit_meetup-18/)                                   | 20221214 | UIT Meetup #18                      | 20min |
 | [The islands architecture recap](https://leaysgur.github.io/slides/techfeed_experts_night-4/)                   | 20220921 | Techfeed Experts Night #4           |  8min |
 | [APIs around the WebRTC](https://leaysgur.github.io/slides/pwa_night-15/)                                       | 20200415 | PWA Night vol.15                    | 20min |
