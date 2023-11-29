@@ -113,6 +113,7 @@ Available bindings and features are very limited.
 - `wrangler dev` & `wrangler deploy`
   - Built-in TypeScript, `esbuild` support
   - Bindings are automatically setup
+  - Chrome DevTools integration
 - Fast deployment
 
 ---
@@ -327,6 +328,8 @@ But if you want to use it for limited purposes, at least for me, it just worksâ„
   - But only for local
 - Also created an issue about this, but...
   - https://github.com/cloudflare/workers-sdk/issues/3632
+- Winter CG ðŸ‘€
+  - https://github.com/wintercg
 
 ---
 
