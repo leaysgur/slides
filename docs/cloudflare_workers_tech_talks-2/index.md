@@ -314,8 +314,11 @@ const res = await env[NAME][METHOD](...parse(req.body));
 
 - Supported bindings are limited
   - KV, R2, D1, Queue(Producer), Vectorize, Service
-- Non-bindings are still missing
+  - But covers all inputs 💯
+- Many Cloudflare specific things are still missing
   - `req.cf`, `caches`, `ctx.waitUntil`
+  - `HTMLRewriter`, `crypto.subtle.timingSafeEqual`
+  - etc...
 
 But if you want to use it for limited purposes, at least for me, it just works™ and very useful. 🤤
 
