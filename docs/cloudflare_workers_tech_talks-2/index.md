@@ -17,8 +17,8 @@ class: invert
 ### Yuji Sugiura
 
 - 👨‍👩‍👧
-- works at PixelGrid Inc.
-- +side works
+- Works at PixelGrid Inc.
+- +Side works
 
 ![bg right:45%](../public/img/prof-2.jpg)
 
@@ -55,7 +55,9 @@ class: invert
 - R2: AWS S3 compat, 0 egress fee object storage
 - D1: SQLite database running on the CDN edge
 - Queues, Email, AI, Browser, etc...
-  - 14? bindings are available for now
+- 14? bindings are available for now
+  - Includes beta bindings
+  - `workerd` internal bindings are not counted 🙈
 
 Variety and convenience! 🤩
 You want to use it in different ways, don't you?
@@ -66,7 +68,7 @@ You want to use it in different ways, don't you?
 
 ```js
 export default {
-  // Through the `Env` parameter 👀
+  // Through the handler `Env` parameter 👀
   async fetch(req, env, ctx) {
     const value = await env.MY_KV.get("hello");
 
@@ -78,7 +80,7 @@ export default {
 };
 ```
 
-☝️ Basically only accessible within the worker's handler.
+☝️ Basically only accessible within the worker's handler(`fetch`, `scheduled`, `tail`, etc...).
 
 ---
 
@@ -111,8 +113,8 @@ Available bindings and features are very limited.
 ### Excellent ✨
 
 - `wrangler dev` & `wrangler deploy`
-  - Built-in TypeScript, `esbuild` support
   - Bindings are automatically setup
+  - Built-in TypeScript, `esbuild` support
   - Chrome DevTools integration
 - Fast deployment
 
@@ -122,7 +124,7 @@ Available bindings and features are very limited.
 
 ---
 
-### e.g. SvelteKit
+### e.g. Using SvelteKit
 
 - https://kit.svelte.dev
   - `@sveltejs/adapter-cloudflare`
@@ -138,6 +140,8 @@ Available bindings and features are very limited.
 - `vite dev` is running on Node.js
 - Bindings are not available at all... 😭
   - Cloudflare adapter do nothing on local development
+
+BTW, Cloudflare Pages requires us to setup bindings manually... 🤨
 
 ---
 
@@ -176,10 +180,10 @@ Available bindings and features are very limited.
 
 ### `wrangler xxx` may not be enough 🤧
 
+- I/O is not typed and need to be parsed
+  - Performance is not good
 - Need to spawn and manage child processes
   - Although `zx` can make things a little easier
-- I/O is not typed and need to be parsed
-  - Poor performance...
 - Unfamiliar CLI arguments
   - `kv:bulk` only supports JSON format
 
@@ -204,9 +208,9 @@ How can we make these DX better?
 ### Summary
 
 - For different use cases, we need simple yet but flexible solution
-- JavaScript API for Workers looks good
-- It is nice to be run on especially Node.js and Bun
 - `wrangler dev --remote` is the only way to access all bindings and features
+- JavaScript API for Workers looks good
+- It is nice to be run on especially Node.js, Bun etc...
 
 Workers **Bindings** API running **from anywhere**...?
 
@@ -273,6 +277,20 @@ That's all! 🎉
 
 ---
 
+### Unique points
+
+- 💯 compatible API with Workers Bindings API
+  - Supports non-POJO arguments
+- Remote bindings access from local runtime
+  - Includes AI bindings
+- Remote and local bindings can be mixed
+  - At any kinds
+- Module is universal
+  - Just a `fetch` client
+  - May be portable to language other than JavaScript
+
+---
+
 ### How it works(simplified)
 
 ```js
@@ -293,18 +311,6 @@ const res = await env[NAME][METHOD](...parse(req.body));
 
 ---
 
-### Unique points
-
-- Remote bindings access from local runtime
-  - Includes AI bindings
-- Remote and local bindings can be mixed
-  - At any kinds
-- Module is universal
-  - Just a `fetch` client
-  - May be portable to language other than JavaScript
-
----
-
 ### Demo
 
 - https://github.com/leaysgur/sveltekit-d1-drizzle-template
@@ -316,13 +322,10 @@ const res = await env[NAME][METHOD](...parse(req.body));
 
 - Supported bindings are limited
   - KV, R2, D1, Queue(Producer), Vectorize, Service
-  - But covers all inputs 💯
 - Many Cloudflare specific things are still missing
-  - `req.cf`, `caches`, `ctx.waitUntil`
-  - `HTMLRewriter`, `crypto.subtle.timingSafeEqual`
-  - etc...
+  - `req.cf`, `caches`, `ctx.waitUntil`, `HTMLRewriter`, `crypto.subtle.timingSafeEqual`, etc...
 
-But if you want to use it for limited purposes, at least for me, it just works™ and very useful for now. 🤤
+But for limited purposes, at least for me, it just works™ and makes my life easier. 😎
 
 ---
 
@@ -333,12 +336,18 @@ But if you want to use it for limited purposes, at least for me, it just works�
 - Although no roadmap has been published, it seems that team is WIP to support Vite
   - https://github.com/vitejs/vite/discussions/14288
   - But only for local
-- `startDevWorker()` 🙈
+
+---
+
+### Active development 🚧
+
+- `startDevWorker()`
   - https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/src/api/startDevWorker
 - `getBindingsProxy()`
   - https://github.com/cloudflare/workers-sdk/pull/4523
-- Winter CG
+- Winter CG 👀
   - https://github.com/wintercg
+  - Out of scope...?
 
 ---
 
