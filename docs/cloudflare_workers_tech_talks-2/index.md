@@ -164,20 +164,22 @@ Available bindings and features are very limited.
 
 ---
 
-### Daily operations
+### Daily operation tools
 
-- Like data aggregation for stats, user inquiry, etc...
-- Upload and download assets for debugging
+- Data aggregation for stats, user inquiry, etc...
+- Upload remote data from local GUI
+- Download assets for debugging
 - Batch to update storaged data all at once
 - etc...
 
 ---
 
-### `wrangler xxx` is not enough 🤧
+### `wrangler xxx` may not be enough 🤧
 
 - Need to spawn and manage child processes
   - Although `zx` can make things a little easier
 - I/O is not typed and need to be parsed
+  - Poor performance...
 - Unfamiliar CLI arguments
   - `kv:bulk` only supports JSON format
 
@@ -320,21 +322,24 @@ const res = await env[NAME][METHOD](...parse(req.body));
   - `HTMLRewriter`, `crypto.subtle.timingSafeEqual`
   - etc...
 
-But if you want to use it for limited purposes, at least for me, it just works™ and very useful. 🤤
+But if you want to use it for limited purposes, at least for me, it just works™ and very useful for now. 🤤
 
 ---
 
 ### Bright future?
 
+- Also created an issue about this, but...
+  - https://github.com/cloudflare/workers-sdk/issues/3632
 - Although no roadmap has been published, it seems that team is WIP to support Vite
   - https://github.com/vitejs/vite/discussions/14288
   - But only for local
-- Also created an issue about this, but...
-  - https://github.com/cloudflare/workers-sdk/issues/3632
-- Winter CG 👀
+- `startDevWorker()` 🙈
+  - https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/src/api/startDevWorker
+- `getBindingsProxy()`
+  - https://github.com/cloudflare/workers-sdk/pull/4523
+- Winter CG
   - https://github.com/wintercg
 
 ---
 
 ## Thank you! 👋
-
