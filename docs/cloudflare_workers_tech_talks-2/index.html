@@ -173,6 +173,7 @@ You want to use it in different ways, don't you?</p>
 <li>Currently a few of bindings are not supported
 <ul>
 <li><a href="https://github.com/cloudflare/workers-sdk/issues/4360">https://github.com/cloudflare/workers-sdk/issues/4360</a></li>
+<li><a href="https://github.com/cloudflare/workers-sdk/pull/4522">https://github.com/cloudflare/workers-sdk/pull/4522</a></li>
 </ul>
 </li>
 <li>No idea to debug with remote data effectively
@@ -189,7 +190,7 @@ You want to use it in different ways, don't you?</p>
 <h3 id="daily-operation-tools">Daily operation tools</h3>
 <ul>
 <li>Data aggregation for stats, user inquiry, etc...</li>
-<li>Upload remote data from local GUI</li>
+<li>Update remote data from local GUI</li>
 <li>Download assets for debugging</li>
 <li>Batch to update storaged data all at once</li>
 <li>etc...</li>
@@ -235,12 +236,12 @@ You want to use it in different ways, don't you?</p>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="25" data-class="invert" data-theme="uncover" lang="en-US" class="invert" style="--class:invert;--theme:uncover;">
 <h3 id="summary">Summary</h3>
 <ul>
-<li>For different use cases, we need simple yet but flexible solution</li>
 <li><code>wrangler dev --remote</code> is the only way to access all bindings and features</li>
+<li>We want unified way to access local+remote bindings</li>
 <li>JavaScript API for Workers looks good</li>
 <li>It is nice to be run on especially Node.js, Bun etc...</li>
 </ul>
-<p>Workers <strong>Bindings</strong> API running <strong>from anywhere</strong>...?</p>
+<p>What if Workers <strong>Bindings</strong> API running <strong>from anywhere</strong>...?</p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="26" data-class="invert" data-theme="uncover" lang="en-US" class="invert" style="--class:invert;--theme:uncover;">
 <h2 id="cfw-bindings-wrangler-bridge-%F0%9F%8C%89">cfw-bindings-wrangler-bridge <img class="emoji" draggable="false" alt="🌉" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@14.1.2/assets/svg/1f309.svg" data-marp-twemoji=""/></h2>
@@ -357,7 +358,7 @@ You want to use it in different ways, don't you?</p>
 </li>
 <li>Many Cloudflare specific things are still missing
 <ul>
-<li><code>req.cf</code>, <code>caches</code>, <code>ctx.waitUntil</code>, <code>HTMLRewriter</code>, <code>crypto.subtle.timingSafeEqual</code>, etc...</li>
+<li><code>req.cf</code>, <code>caches</code>, <code>ctx.waitUntil</code>, <code>crypto.subtle.timingSafeEqual</code>, <code>HTMLRewriter</code>, etc...</li>
 </ul>
 </li>
 </ul>
@@ -374,7 +375,7 @@ You want to use it in different ways, don't you?</p>
 <li>Although no roadmap has been published, it seems that team is WIP to support Vite
 <ul>
 <li><a href="https://github.com/vitejs/vite/discussions/14288">https://github.com/vitejs/vite/discussions/14288</a></li>
-<li>But only for local</li>
+<li>But remote access will be still missing</li>
 </ul>
 </li>
 </ul>

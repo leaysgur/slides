@@ -159,6 +159,7 @@ BTW, Cloudflare Pages requires us to setup bindings manually... 🤨
 
 - Currently a few of bindings are not supported
   - https://github.com/cloudflare/workers-sdk/issues/4360
+  - https://github.com/cloudflare/workers-sdk/pull/4522
 - No idea to debug with remote data effectively
   - `wragnler pages dev && vite build --watch` takes tooooooooo much to reload
 
@@ -171,7 +172,7 @@ BTW, Cloudflare Pages requires us to setup bindings manually... 🤨
 ### Daily operation tools
 
 - Data aggregation for stats, user inquiry, etc...
-- Upload remote data from local GUI
+- Update remote data from local GUI
 - Download assets for debugging
 - Batch to update storaged data all at once
 - etc...
@@ -207,12 +208,12 @@ How can we make these DX better?
 
 ### Summary
 
-- For different use cases, we need simple yet but flexible solution
 - `wrangler dev --remote` is the only way to access all bindings and features
+- We want unified way to access local+remote bindings
 - JavaScript API for Workers looks good
 - It is nice to be run on especially Node.js, Bun etc...
 
-Workers **Bindings** API running **from anywhere**...?
+What if Workers **Bindings** API running **from anywhere**...?
 
 ---
 
@@ -323,7 +324,7 @@ const res = await env[NAME][METHOD](...parse(req.body));
 - Supported bindings are limited
   - KV, R2, D1, Queue(Producer), Vectorize, Service
 - Many Cloudflare specific things are still missing
-  - `req.cf`, `caches`, `ctx.waitUntil`, `HTMLRewriter`, `crypto.subtle.timingSafeEqual`, etc...
+  - `req.cf`, `caches`, `ctx.waitUntil`, `crypto.subtle.timingSafeEqual`, `HTMLRewriter`, etc...
 
 But for limited purposes, at least for me, it just works™ and makes my life easier. 😎
 
@@ -335,7 +336,7 @@ But for limited purposes, at least for me, it just works™ and makes my life ea
   - https://github.com/cloudflare/workers-sdk/issues/3632
 - Although no roadmap has been published, it seems that team is WIP to support Vite
   - https://github.com/vitejs/vite/discussions/14288
-  - But only for local
+  - But remote access will be still missing
 
 ---
 
