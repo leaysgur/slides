@@ -64,7 +64,7 @@ You want to use it in different ways, don't you?</p>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="9" data-class="invert" data-theme="uncover" lang="en-US" class="invert" style="--class:invert;--theme:uncover;">
 <h3 id="basic-usage">Basic usage</h3>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
-  <span class="hljs-comment">// Through the handler `Env` parameter <img class="emoji" draggable="false" alt="👀" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@14.1.2/assets/svg/1f440.svg" data-marp-twemoji=""/></span>
+  <span class="hljs-comment">// Through the handler `Env` parameter</span>
   <span class="hljs-keyword">async</span> <span class="hljs-title function_">fetch</span>(<span class="hljs-params">req, env, ctx</span>) {
     <span class="hljs-keyword">const</span> value = <span class="hljs-keyword">await</span> env.<span class="hljs-property">MY_KV</span>.<span class="hljs-title function_">get</span>(<span class="hljs-string">&quot;hello&quot;</span>);
 
@@ -75,7 +75,7 @@ You want to use it in different ways, don't you?</p>
   },
 };
 </code></pre>
-<p><img class="emoji" draggable="false" alt="☝️" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@14.1.2/assets/svg/261d.svg" data-marp-twemoji=""/> Basically only accessible within the worker's handler(<code>fetch</code>, <code>scheduled</code>, <code>tail</code>, etc...).</p>
+<p><img class="emoji" draggable="false" alt="☝️" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@14.1.2/assets/svg/261d.svg" data-marp-twemoji=""/> Basically worker and its handler(<code>fetch</code>, <code>scheduled</code>, <code>tail</code>, etc...) is needed.</p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="10" data-class="invert" data-theme="uncover" lang="en-US" class="invert" style="--class:invert;--theme:uncover;">
 <h3 id="other-optionsprogrammable">Other options(programmable)</h3>
@@ -125,15 +125,15 @@ You want to use it in different ways, don't you?</p>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="16" data-class="invert" data-theme="uncover" lang="en-US" class="invert" style="--class:invert;--theme:uncover;">
 <h3 id="eg-using-sveltekit">e.g. Using SvelteKit</h3>
 <ul>
-<li><a href="https://kit.svelte.dev">https://kit.svelte.dev</a>
-<ul>
-<li><code>@sveltejs/adapter-cloudflare</code></li>
-</ul>
-</li>
 <li><a href="https://vitejs.dev">https://vitejs.dev</a>
 <ul>
 <li>Core infrastructure for modern front-end frameworks™</li>
 <li>Astro, Nuxt, SvelteKit, SolidStart, QwikCity, etc...</li>
+</ul>
+</li>
+<li><a href="https://kit.svelte.dev">https://kit.svelte.dev</a>
+<ul>
+<li><code>@sveltejs/adapter-cloudflare</code></li>
 </ul>
 </li>
 <li>Not just a SPA, using SSR altogether</li>
@@ -149,22 +149,22 @@ You want to use it in different ways, don't you?</p>
 </ul>
 </li>
 </ul>
-<p>BTW, Cloudflare Pages requires us to setup bindings manually... <img class="emoji" draggable="false" alt="🤨" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@14.1.2/assets/svg/1f928.svg" data-marp-twemoji=""/></p>
+<p>(BTW, Cloudflare Pages requires us to setup bindings manually... <img class="emoji" draggable="false" alt="🤨" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@14.1.2/assets/svg/1f928.svg" data-marp-twemoji=""/>)</p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="18" data-class="invert" data-theme="uncover" lang="en-US" class="invert" style="--class:invert;--theme:uncover;">
 <h3 id="workaround-for-local-development">Workaround for local development</h3>
 <ul>
-<li>Some frameworks have Vite plugin within its adapter
+<li>A. Some frameworks have their own Vite plugin
 <ul>
-<li>But <a href="https://github.com/withastro/adapters/blob/main/packages/cloudflare/src/index.ts">e</a>-<a href="https://github.com/solidjs/solid-start/blob/main/packages/start-cloudflare-pages/dev-server.js">a</a>-<a href="https://github.com/cloudflare/next-on-pages/tree/main/internal-packages/next-dev">c</a>-<a href="https://github.com/honojs/vite-plugins/blob/main/packages/dev-server/src/dev-server.ts">h</a> of them has its own, different implementation for the same goal... <img class="emoji" draggable="false" alt="🙃" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@14.1.2/assets/svg/1f643.svg" data-marp-twemoji=""/></li>
+<li>But <a href="https://github.com/withastro/adapters/blob/main/packages/cloudflare/src/index.ts">e</a>-<a href="https://github.com/solidjs/solid-start/blob/main/packages/start-cloudflare-pages/dev-server.js">a</a>-<a href="https://github.com/cloudflare/next-on-pages/tree/main/internal-packages/next-dev">c</a>-<a href="https://github.com/honojs/vite-plugins/blob/main/packages/dev-server/src/dev-server.ts">h</a> of them has its own, different implementation+behavior for the same goal... <img class="emoji" draggable="false" alt="🙃" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@14.1.2/assets/svg/1f643.svg" data-marp-twemoji=""/></li>
 </ul>
 </li>
-<li>Mock runtime <code>env</code> by yourself
+<li>B. Mock specific runtime <code>env</code> by yourself
 <ul>
-<li>Intutive, but <code>miniflare</code> requires <code>await</code> to setup and <code>dispose()</code> to shutdown, <code>env.XXX</code> itself is a sync API though...</li>
+<li>Intutive</li>
+<li>But <code>miniflare</code> requires <code>await</code> to setup and <code>dispose()</code> to shutdown<code>env.XXX</code> itself is a sync API though...</li>
 </ul>
 </li>
-<li>Some frameworks may work with <code>wragnler pages dev &amp;&amp; vite</code>?</li>
 </ul>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="19" data-class="invert" data-theme="uncover" lang="en-US" class="invert" style="--class:invert;--theme:uncover;">
@@ -178,7 +178,7 @@ You want to use it in different ways, don't you?</p>
 </li>
 <li>No idea to debug with remote data effectively
 <ul>
-<li><code>wragnler pages dev &amp;&amp; vite build --watch</code> takes tooooooooo much to reload</li>
+<li><code>wragnler pages dev -- vite build --watch</code> takes tooooooooo much to reload</li>
 </ul>
 </li>
 </ul>
@@ -192,7 +192,7 @@ You want to use it in different ways, don't you?</p>
 <li>Data aggregation for stats, user inquiry, etc...</li>
 <li>Update remote data from local GUI</li>
 <li>Download assets for debugging</li>
-<li>Batch to update storaged data all at once</li>
+<li>Batch updates for storaged data all at once</li>
 <li>etc...</li>
 </ul>
 </section>
@@ -244,11 +244,11 @@ You want to use it in different ways, don't you?</p>
 <p>What if Workers <strong>Bindings</strong> API running <strong>from anywhere</strong>...?</p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="26" data-class="invert" data-theme="uncover" lang="en-US" class="invert" style="--class:invert;--theme:uncover;">
-<h2 id="cfw-bindings-wrangler-bridge-%F0%9F%8C%89">cfw-bindings-wrangler-bridge <img class="emoji" draggable="false" alt="🌉" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@14.1.2/assets/svg/1f309.svg" data-marp-twemoji=""/></h2>
+<h2 id="cfw-bindings-wrangler-bridge">cfw-bindings-wrangler-bridge</h2>
 <p><a href="https://github.com/leaysgur/cfw-bindings-wrangler-bridge">https://github.com/leaysgur/cfw-bindings-wrangler-bridge</a></p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="27" data-class="invert" data-theme="uncover" lang="en-US" class="invert" style="--class:invert;--theme:uncover;">
-<h3 id="bridge--module--worker">Bridge = Module + Worker</h3>
+<h3 id="%F0%9F%8C%89-bridge--module--worker"><img class="emoji" draggable="false" alt="🌉" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@14.1.2/assets/svg/1f309.svg" data-marp-twemoji=""/> Bridge = Module + Worker</h3>
 <ul>
 <li>Module
 <ul>
@@ -289,7 +289,6 @@ You want to use it in different ways, don't you?</p>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-js"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">KVNamespace</span>$ } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;cfw-bindings-wrangler-bridge&quot;</span>;
 
 <span class="hljs-keyword">const</span> <span class="hljs-variable constant_">MY_KV</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">KVNamespace</span><span class="hljs-title function_">$</span>(<span class="hljs-string">&quot;MY_KV&quot;</span>, {
-  <span class="hljs-comment">// or</span>
   <span class="hljs-comment">// bridgeWorkerOrigin: `http://${worker.address}:${worker.port}`,</span>
 });
 
@@ -299,6 +298,24 @@ You want to use it in different ways, don't you?</p>
 <p>That's all! <img class="emoji" draggable="false" alt="🎉" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@14.1.2/assets/svg/1f389.svg" data-marp-twemoji=""/></p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="30" data-class="invert" data-theme="uncover" lang="en-US" class="invert" style="--class:invert;--theme:uncover;">
+<h3 id="how-it-workssimplified">How it works(simplified)</h3>
+<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-js"><span class="hljs-comment">// App</span>
+<span class="hljs-variable constant_">MY_KV</span>.<span class="hljs-title function_">put</span>(<span class="hljs-string">&quot;key&quot;</span>, <span class="hljs-string">&quot;value&quot;</span>);
+
+<span class="hljs-comment">// ≒ Module</span>
+<span class="hljs-title function_">fetch</span>(bridgeWorkerOrigin, {
+  <span class="hljs-attr">headers</span>: { <span class="hljs-attr">CMD</span>: <span class="hljs-string">&quot;MY_KV.put&quot;</span> },
+  <span class="hljs-attr">body</span>: <span class="hljs-title function_">stringify</span>([<span class="hljs-string">&quot;key&quot;</span>, <span class="hljs-string">&quot;value&quot;</span>]),
+});
+
+<span class="hljs-comment">// ↓ HTTP Request ↑ Response</span>
+
+<span class="hljs-comment">// Worker</span>
+<span class="hljs-keyword">const</span> [<span class="hljs-variable constant_">NAME</span>, <span class="hljs-variable constant_">METHOD</span>] = req.<span class="hljs-property">headers</span>.<span class="hljs-title function_">get</span>(<span class="hljs-string">&quot;CMD&quot;</span>).<span class="hljs-title function_">split</span>(<span class="hljs-string">&quot;.&quot;</span>);
+<span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> env[<span class="hljs-variable constant_">NAME</span>][<span class="hljs-variable constant_">METHOD</span>](...<span class="hljs-title function_">parse</span>(req.<span class="hljs-property">body</span>));
+</code></pre>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="31" data-class="invert" data-theme="uncover" lang="en-US" class="invert" style="--class:invert;--theme:uncover;">
 <h3 id="unique-points">Unique points</h3>
 <ul>
 <li><img class="emoji" draggable="false" alt="💯" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@14.1.2/assets/svg/1f4af.svg" data-marp-twemoji=""/> compatible API with Workers Bindings API
@@ -324,36 +341,12 @@ You want to use it in different ways, don't you?</p>
 </li>
 </ul>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="31" data-class="invert" data-theme="uncover" lang="en-US" class="invert" style="--class:invert;--theme:uncover;">
-<h3 id="how-it-workssimplified">How it works(simplified)</h3>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-js"><span class="hljs-comment">// App</span>
-<span class="hljs-variable constant_">MY_KV</span>.<span class="hljs-title function_">put</span>(<span class="hljs-string">&quot;key&quot;</span>, <span class="hljs-string">&quot;value&quot;</span>);
-<span class="hljs-comment">// ≒ Module</span>
-<span class="hljs-title function_">fetch</span>(bridgeWorkerOrigin, {
-  <span class="hljs-attr">headers</span>: { <span class="hljs-attr">METHOD</span>: <span class="hljs-string">&quot;MY_KV.put&quot;</span> },
-  <span class="hljs-attr">body</span>: <span class="hljs-title function_">stringify</span>([<span class="hljs-string">&quot;key&quot;</span>, <span class="hljs-string">&quot;value&quot;</span>]),
-});
-
-<span class="hljs-comment">// ↓ HTTP Request ↑ Response</span>
-
-<span class="hljs-comment">// Worker</span>
-<span class="hljs-keyword">const</span> [<span class="hljs-variable constant_">NAME</span>, <span class="hljs-variable constant_">METHOD</span>] = req.<span class="hljs-property">headers</span>.<span class="hljs-title function_">get</span>(<span class="hljs-string">&quot;METHOD&quot;</span>).<span class="hljs-title function_">split</span>(<span class="hljs-string">&quot;.&quot;</span>);
-<span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> env[<span class="hljs-variable constant_">NAME</span>][<span class="hljs-variable constant_">METHOD</span>](...<span class="hljs-title function_">parse</span>(req.<span class="hljs-property">body</span>));
-</code></pre>
-</section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="32" data-class="invert" data-theme="uncover" lang="en-US" class="invert" style="--class:invert;--theme:uncover;">
-<h3 id="demo">Demo</h3>
-<ul>
-<li><a href="https://github.com/leaysgur/sveltekit-d1-drizzle-template">https://github.com/leaysgur/sveltekit-d1-drizzle-template</a></li>
-<li><a href="https://github.com/leaysgur/cfw-storage-bindings-studio">https://github.com/leaysgur/cfw-storage-bindings-studio</a></li>
-</ul>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="33" data-class="invert" data-theme="uncover" lang="en-US" class="invert" style="--class:invert;--theme:uncover;">
 <h3 id="not-perfect-but-may-be-reasonable">Not perfect, but may be reasonable</h3>
 <ul>
 <li>Supported bindings are limited
 <ul>
-<li>KV, R2, D1, Queue(Producer), Vectorize, Service</li>
+<li>KV, R2, D1, Queue(producer), Vectorize, Service</li>
 </ul>
 </li>
 <li>Many Cloudflare specific things are still missing
@@ -363,6 +356,13 @@ You want to use it in different ways, don't you?</p>
 </li>
 </ul>
 <p>But for limited purposes, at least for me, it just works™ and makes my life easier. <img class="emoji" draggable="false" alt="😎" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@14.1.2/assets/svg/1f60e.svg" data-marp-twemoji=""/></p>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="33" data-class="invert" data-theme="uncover" lang="en-US" class="invert" style="--class:invert;--theme:uncover;">
+<h3 id="demo">Demo</h3>
+<ul>
+<li><a href="https://github.com/leaysgur/sveltekit-d1-drizzle-template">https://github.com/leaysgur/sveltekit-d1-drizzle-template</a></li>
+<li><a href="https://github.com/leaysgur/cfw-storage-bindings-studio">https://github.com/leaysgur/cfw-storage-bindings-studio</a></li>
+</ul>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="34" data-class="invert" data-theme="uncover" lang="en-US" class="invert" style="--class:invert;--theme:uncover;">
 <h3 id="bright-future">Bright future?</h3>

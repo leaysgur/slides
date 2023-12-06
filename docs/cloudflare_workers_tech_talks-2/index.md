@@ -68,7 +68,7 @@ You want to use it in different ways, don't you?
 
 ```js
 export default {
-  // Through the handler `Env` parameter 👀
+  // Through the handler `Env` parameter
   async fetch(req, env, ctx) {
     const value = await env.MY_KV.get("hello");
 
@@ -80,7 +80,7 @@ export default {
 };
 ```
 
-☝️ Basically only accessible within the worker's handler(`fetch`, `scheduled`, `tail`, etc...).
+☝️ Basically worker and its handler(`fetch`, `scheduled`, `tail`, etc...) is needed.
 
 ---
 
@@ -126,11 +126,11 @@ Available bindings and features are very limited.
 
 ### e.g. Using SvelteKit
 
-- https://kit.svelte.dev
-  - `@sveltejs/adapter-cloudflare`
 - https://vitejs.dev
   - Core infrastructure for modern front-end frameworks™
   - Astro, Nuxt, SvelteKit, SolidStart, QwikCity, etc...
+- https://kit.svelte.dev
+  - `@sveltejs/adapter-cloudflare`
 - Not just a SPA, using SSR altogether
 
 ---
@@ -141,17 +141,17 @@ Available bindings and features are very limited.
 - Bindings are not available at all... 😭
   - Cloudflare adapter do nothing on local development
 
-BTW, Cloudflare Pages requires us to setup bindings manually... 🤨
+(BTW, Cloudflare Pages requires us to setup bindings manually... 🤨)
 
 ---
 
 ### Workaround for local development
 
-- Some frameworks have Vite plugin within its adapter
-  - But [e](https://github.com/withastro/adapters/blob/main/packages/cloudflare/src/index.ts)-[a](https://github.com/solidjs/solid-start/blob/main/packages/start-cloudflare-pages/dev-server.js)-[c](https://github.com/cloudflare/next-on-pages/tree/main/internal-packages/next-dev)-[h](https://github.com/honojs/vite-plugins/blob/main/packages/dev-server/src/dev-server.ts) of them has its own, different implementation for the same goal... 🙃
-- Mock runtime `env` by yourself
-  - Intutive, but `miniflare` requires `await` to setup and `dispose()` to shutdown, `env.XXX` itself is a sync API though...
-- Some frameworks may work with `wragnler pages dev && vite`?
+- A. Some frameworks have their own Vite plugin
+  - But [e](https://github.com/withastro/adapters/blob/main/packages/cloudflare/src/index.ts)-[a](https://github.com/solidjs/solid-start/blob/main/packages/start-cloudflare-pages/dev-server.js)-[c](https://github.com/cloudflare/next-on-pages/tree/main/internal-packages/next-dev)-[h](https://github.com/honojs/vite-plugins/blob/main/packages/dev-server/src/dev-server.ts) of them has its own, different implementation+behavior for the same goal... 🙃
+- B. Mock specific runtime `env` by yourself
+  - Intutive
+  - But `miniflare` requires `await` to setup and `dispose()` to shutdown`env.XXX` itself is a sync API though...
 
 ---
 
@@ -161,7 +161,7 @@ BTW, Cloudflare Pages requires us to setup bindings manually... 🤨
   - https://github.com/cloudflare/workers-sdk/issues/4360
   - https://github.com/cloudflare/workers-sdk/pull/4522
 - No idea to debug with remote data effectively
-  - `wragnler pages dev && vite build --watch` takes tooooooooo much to reload
+  - `wragnler pages dev -- vite build --watch` takes tooooooooo much to reload
 
 ---
 
@@ -174,7 +174,7 @@ BTW, Cloudflare Pages requires us to setup bindings manually... 🤨
 - Data aggregation for stats, user inquiry, etc...
 - Update remote data from local GUI
 - Download assets for debugging
-- Batch to update storaged data all at once
+- Batch updates for storaged data all at once
 - etc...
 
 ---
@@ -217,13 +217,13 @@ What if Workers **Bindings** API running **from anywhere**...?
 
 ---
 
-## cfw-bindings-wrangler-bridge 🌉
+## cfw-bindings-wrangler-bridge
 
 https://github.com/leaysgur/cfw-bindings-wrangler-bridge
 
 ---
 
-### Bridge = Module + Worker
+### 🌉 Bridge = Module + Worker
 
 - Module
   - Workers Bindings API compatible
@@ -266,7 +266,6 @@ const worker = await unstable_dev(
 import { KVNamespace$ } from "cfw-bindings-wrangler-bridge";
 
 const MY_KV = new KVNamespace$("MY_KV", {
-  // or
   // bridgeWorkerOrigin: `http://${worker.address}:${worker.port}`,
 });
 
@@ -275,6 +274,27 @@ await MY_KV.get("foo"); // "bar"
 ```
 
 That's all! 🎉
+
+---
+
+### How it works(simplified)
+
+```js
+// App
+MY_KV.put("key", "value");
+
+// ≒ Module
+fetch(bridgeWorkerOrigin, {
+  headers: { CMD: "MY_KV.put" },
+  body: stringify(["key", "value"]),
+});
+
+// ↓ HTTP Request ↑ Response
+
+// Worker
+const [NAME, METHOD] = req.headers.get("CMD").split(".");
+const res = await env[NAME][METHOD](...parse(req.body));
+```
 
 ---
 
@@ -292,23 +312,14 @@ That's all! 🎉
 
 ---
 
-### How it works(simplified)
+### Not perfect, but may be reasonable
 
-```js
-// App
-MY_KV.put("key", "value");
-// ≒ Module
-fetch(bridgeWorkerOrigin, {
-  headers: { METHOD: "MY_KV.put" },
-  body: stringify(["key", "value"]),
-});
+- Supported bindings are limited
+  - KV, R2, D1, Queue(producer), Vectorize, Service
+- Many Cloudflare specific things are still missing
+  - `req.cf`, `caches`, `ctx.waitUntil`, `crypto.subtle.timingSafeEqual`, `HTMLRewriter`, etc...
 
-// ↓ HTTP Request ↑ Response
-
-// Worker
-const [NAME, METHOD] = req.headers.get("METHOD").split(".");
-const res = await env[NAME][METHOD](...parse(req.body));
-```
+But for limited purposes, at least for me, it just works™ and makes my life easier. 😎
 
 ---
 
@@ -316,17 +327,6 @@ const res = await env[NAME][METHOD](...parse(req.body));
 
 - https://github.com/leaysgur/sveltekit-d1-drizzle-template
 - https://github.com/leaysgur/cfw-storage-bindings-studio
-
----
-
-### Not perfect, but may be reasonable
-
-- Supported bindings are limited
-  - KV, R2, D1, Queue(Producer), Vectorize, Service
-- Many Cloudflare specific things are still missing
-  - `req.cf`, `caches`, `ctx.waitUntil`, `crypto.subtle.timingSafeEqual`, `HTMLRewriter`, etc...
-
-But for limited purposes, at least for me, it just works™ and makes my life easier. 😎
 
 ---
 
