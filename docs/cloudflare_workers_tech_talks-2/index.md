@@ -54,17 +54,17 @@ class: invert
 - KV: Global, low-latency, key-value data storage
 - R2: AWS S3 compat, 0 egress fee object storage
 - D1: SQLite database running on the CDN edge
-- Queues, Email, AI, Browser, etc...
+- Queues, Email, AI, Browser, Hyperdrive, etc...
 - 14? bindings are available for now
   - Includes beta bindings
-  - `workerd` internal bindings are not counted 🙈
+  - Excludes `workerd` internal bindings 🙈
 
 Variety and convenience! 🤩
 You want to use it in different ways, don't you?
 
 ---
 
-### Basic usage
+### How to use?
 
 ```js
 export default {
@@ -132,6 +132,7 @@ Available bindings and features are very limited.
 - https://kit.svelte.dev
   - `@sveltejs/adapter-cloudflare`
 - Not just a SPA, using SSR altogether
+  - Like `platform.env.MY_DB` inside `load` functions
 
 ---
 
@@ -147,9 +148,9 @@ Available bindings and features are very limited.
 
 ### Workaround for local development
 
-- A. Some frameworks have their own Vite plugin
+- 🅰️ Some frameworks have their own Vite plugin
   - But [e](https://github.com/withastro/adapters/blob/main/packages/cloudflare/src/index.ts)-[a](https://github.com/solidjs/solid-start/blob/main/packages/start-cloudflare-pages/dev-server.js)-[c](https://github.com/cloudflare/next-on-pages/tree/main/internal-packages/next-dev)-[h](https://github.com/honojs/vite-plugins/blob/main/packages/dev-server/src/dev-server.ts) of them has its own, different implementation+behavior for the same goal... 🙃
-- B. Mock specific runtime `env` by yourself
+- 🅱️ Mock specific runtime `env` by yourself
   - Intutive
   - But `miniflare` requires `await` to setup and `dispose()` to shutdown`env.XXX` itself is a sync API though...
 
@@ -160,7 +161,7 @@ Available bindings and features are very limited.
 - Currently a few of bindings are not supported
   - https://github.com/cloudflare/workers-sdk/issues/4360
   - https://github.com/cloudflare/workers-sdk/pull/4522
-- No idea to debug with remote data effectively
+- No way to debug with remote data effectively
   - `wragnler pages dev -- vite build --watch` takes tooooooooo much to reload
 
 ---
@@ -172,7 +173,7 @@ Available bindings and features are very limited.
 ### Daily operation tools
 
 - Data aggregation for stats, user inquiry, etc...
-- Update remote data from local GUI
+- Update remote DB data from local GUI
 - Download assets for debugging
 - Batch updates for storaged data all at once
 - etc...
@@ -198,20 +199,20 @@ Available bindings and features are very limited.
 
 - Set up local environment to develop with large amount of binary data in KV?
 - Use D1 as source for Static Sites Generator?
-- Test AI bindings before acutual deployment?
+- Try AI bindings before acutual deployment?
 - Mix service bindings provided by other team?
   - https://github.com/cloudflare/workers-sdk/issues/1182
 
-How can we make these DX better?
+These DXs can be better?
 
 ---
 
 ### Summary
 
-- `wrangler dev --remote` is the only way to access all bindings and features
 - We want unified way to access local+remote bindings
 - JavaScript API for Workers looks good
 - It is nice to be run on especially Node.js, Bun etc...
+- `wrangler dev --remote` is the only way to access all bindings and features
 
 What if Workers **Bindings** API running **from anywhere**...?
 
@@ -235,6 +236,27 @@ https://github.com/leaysgur/cfw-bindings-wrangler-bridge
 
 ---
 
+### How it works(simplified)
+
+```js
+// App
+MY_KV.put("key", "value");
+
+// Module
+fetch(bridgeWorkerOrigin, {
+  headers: { CMD: "MY_KV.put" },
+  body: stringify(["key", "value"]),
+});
+
+// =========== ↓ HTTP Request ↑ Response ===========
+
+// Worker
+const [NAME, METHOD] = req.headers.get("CMD").split(".");
+const res = await env[NAME][METHOD](...parse(req.body));
+```
+
+---
+
 ### 1. Worker usage
 
 ```sh
@@ -242,7 +264,7 @@ wrangler dev ./path/to/node_modules/cfw-bindings-wrangler-bridge/worker/index.js
 # Worker will be running on `http://127.0.0.1:8787` by default
 ```
 
-or
+OR
 
 ```js
 import { unstable_dev } from "wrangler";
@@ -251,7 +273,6 @@ const worker = await unstable_dev(
   "./path/to/node_modules/cfw-bindings-wrangler-bridge/worker/index.js",
   {
     local: false,
-    config: "./path/to/your/wrangler.toml",
     experimental: { disableExperimentalWarning: true },
   },
 );
@@ -277,31 +298,8 @@ That's all! 🎉
 
 ---
 
-### How it works(simplified)
-
-```js
-// App
-MY_KV.put("key", "value");
-
-// ≒ Module
-fetch(bridgeWorkerOrigin, {
-  headers: { CMD: "MY_KV.put" },
-  body: stringify(["key", "value"]),
-});
-
-// ↓ HTTP Request ↑ Response
-
-// Worker
-const [NAME, METHOD] = req.headers.get("CMD").split(".");
-const res = await env[NAME][METHOD](...parse(req.body));
-```
-
----
-
 ### Unique points
 
-- 💯 compatible API with Workers Bindings API
-  - Supports non-POJO arguments
 - Remote bindings access from local runtime
   - Includes AI bindings
 - Remote and local bindings can be mixed
@@ -309,13 +307,15 @@ const res = await env[NAME][METHOD](...parse(req.body));
 - Module is universal
   - Just a `fetch` client
   - May be portable to language other than JavaScript
+- 💯 compatible API with Workers Bindings API
+  - Supports non-POJO arguments
 
 ---
 
 ### Not perfect, but may be reasonable
 
 - Supported bindings are limited
-  - KV, R2, D1, Queue(producer), Vectorize, Service
+  - KV, R2, D1, Queue(producer), Service, Vectorize
 - Many Cloudflare specific things are still missing
   - `req.cf`, `caches`, `ctx.waitUntil`, `crypto.subtle.timingSafeEqual`, `HTMLRewriter`, etc...
 
