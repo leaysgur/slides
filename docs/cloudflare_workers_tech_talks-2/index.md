@@ -38,10 +38,6 @@ class: invert
 
 ---
 
-## **Bindings** from anywhere 🧙
-
----
-
 ### Workers Bindings
 
 > Bindings allow your Workers to interact with **resources on the Cloudflare Developer Platform**.
@@ -56,8 +52,7 @@ class: invert
 - D1: SQLite database running on the CDN edge
 - Queues, Email, AI, Browser, Hyperdrive, etc...
 - 14? bindings are available for now
-  - Includes beta bindings
-  - Excludes `workerd` internal bindings 🙈
+  - Includes beta, excludes `workerd` internals 🙈
 
 Variety and convenience! 🤩
 You want to use it in different ways, don't you?
@@ -80,7 +75,7 @@ export default {
 };
 ```
 
-☝️ Basically worker and its handler(`fetch`, `scheduled`, `tail`, etc...) is needed.
+Create worker and invoke from handler(`fetch`, `scheduled`, `tail`, etc...).
 
 ---
 
@@ -103,9 +98,9 @@ Available bindings and features are very limited.
 
 ---
 
-### Simple web APIs w/ bindings
+### Web APIs w/ bindings
 
-- Like REST API
+- Like REST API, tRPC endpoint
 - No front-end assets(HTML, CSS, JS, etc...)
 
 ---
@@ -116,7 +111,8 @@ Available bindings and features are very limited.
   - Bindings are automatically setup
   - Built-in TypeScript, `esbuild` support
   - Chrome DevTools integration
-- Fast deployment
+- Fast deployment cycle
+- `--remote` is supported
 
 ---
 
@@ -124,39 +120,40 @@ Available bindings and features are very limited.
 
 ---
 
-### e.g. Using SvelteKit
+### e.g. Using SvelteKit + Cloudflare Pages
 
 - https://vitejs.dev
   - Core infrastructure for modern front-end frameworks™
   - Astro, Nuxt, SvelteKit, SolidStart, QwikCity, etc...
 - https://kit.svelte.dev
-  - `@sveltejs/adapter-cloudflare`
+  - `@sveltejs/adapter-cloudflare` 👀
 - Not just a SPA, using SSR altogether
-  - Like `platform.env.MY_DB` inside `load` functions
+
+Let's use `platform.env.MY_DB` inside `load` functions!
 
 ---
 
 ### 💥 TypeError: Cannot read properties of undefined (reading 'env')
 
 - `vite dev` is running on Node.js
-- Bindings are not available at all... 😭
-  - Cloudflare adapter do nothing on local development
+- Bindings are not available at all...
+  - Cloudflare adapter do nothing on development
 
-(BTW, Cloudflare Pages requires us to setup bindings manually... 🤨)
+(BTW, Cloudflare Pages requires us to setup bindings manually. 🤨)
 
 ---
 
 ### Workaround for local development
 
-- 🅰️ Some frameworks have their own Vite plugin
+- 🅰️ Some of frameworks have their own Vite plugin
   - But [e](https://github.com/withastro/adapters/blob/main/packages/cloudflare/src/index.ts)-[a](https://github.com/solidjs/solid-start/blob/main/packages/start-cloudflare-pages/dev-server.js)-[c](https://github.com/cloudflare/next-on-pages/tree/main/internal-packages/next-dev)-[h](https://github.com/honojs/vite-plugins/blob/main/packages/dev-server/src/dev-server.ts) of them has its own, different implementation+behavior for the same goal... 🙃
-- 🅱️ Mock specific runtime `env` by yourself
-  - Intutive
-  - But `miniflare` requires `await` to setup and `dispose()` to shutdown`env.XXX` itself is a sync API though...
+- 🅱️ Mock `env` by yourself at runtime w/ `miniflare`
+  - Intutive, less LoC
+  - But `miniflare` requires `await` to setup and `dispose()` to shutdown, `env.XXX` itself is a sync API though
 
 ---
 
-### Thanks `miniflare`+`workerd` but,
+### Thanks `miniflare`(+`workerd`) but,
 
 - Currently a few of bindings are not supported
   - https://github.com/cloudflare/workers-sdk/issues/4360
@@ -164,34 +161,38 @@ Available bindings and features are very limited.
 - No way to debug with remote data effectively
   - `wragnler pages dev -- vite build --watch` takes tooooooooo much to reload
 
----
-
-## 3️⃣ Scripts for daily operations
+How to fight bugs only occur in production? 🫠
 
 ---
 
-### Daily operation tools
+## 3️⃣ Interact with remote data
 
-- Data aggregation for stats, user inquiry, etc...
-- Update remote DB data from local GUI
-- Download assets for debugging
+---
+
+### Misc daily operations
+
+- D1 data aggregation for stats, by user inquiry, etc...
+- Update remote D1 data from GUI
+- Download KV, R2 assets for debugging
 - Batch updates for storaged data all at once
 - etc...
 
 ---
 
-### `wrangler xxx` may not be enough 🤧
+### `wrangler xxx` is the only way but,
 
-- I/O is not typed and need to be parsed
-  - Performance is not good
+- I/O is not typed and need to be parsed by scripts
 - Need to spawn and manage child processes
   - Although `zx` can make things a little easier
 - Unfamiliar CLI arguments
   - `kv:bulk` only supports JSON format
+  - etc...
+
+Or https://dash.cloudflare.com ...? 🙈
 
 ---
 
-## \*️⃣ And more
+## \*️⃣ More and more
 
 ---
 
@@ -209,7 +210,7 @@ These DXs can be better?
 
 ### Summary
 
-- We want unified way to access local+remote bindings
+- Want unified(local+remote) way to access bindings
 - JavaScript API for Workers looks good
 - It is nice to be run on especially Node.js, Bun etc...
 - `wrangler dev --remote` is the only way to access all bindings and features
@@ -218,42 +219,21 @@ What if Workers **Bindings** API running **from anywhere**...?
 
 ---
 
-## cfw-bindings-wrangler-bridge
+## [cfw-bindings-wrangler-bridge](https://github.com/leaysgur/cfw-bindings-wrangler-bridge)
 
-https://github.com/leaysgur/cfw-bindings-wrangler-bridge
+`npm install -D cfw-bindings-wrangler-bridge`
 
 ---
 
 ### 🌉 Bridge = Module + Worker
 
 - Module
-  - Workers Bindings API compatible
   - To be `import`ed into your application
   - Written as pure ESM, run on any environment
+  - Workers Bindings API compatible
 - Worker
   - Proxy worker to be invoked by the bridge module
   - Hosted by `wrangler dev` or `unstable_dev()` in advance
-
----
-
-### How it works(simplified)
-
-```js
-// App
-MY_KV.put("key", "value");
-
-// Module
-fetch(bridgeWorkerOrigin, {
-  headers: { CMD: "MY_KV.put" },
-  body: stringify(["key", "value"]),
-});
-
-// =========== ↓ HTTP Request ↑ Response ===========
-
-// Worker
-const [NAME, METHOD] = req.headers.get("CMD").split(".");
-const res = await env[NAME][METHOD](...parse(req.body));
-```
 
 ---
 
@@ -264,7 +244,7 @@ wrangler dev ./path/to/node_modules/cfw-bindings-wrangler-bridge/worker/index.js
 # Worker will be running on `http://127.0.0.1:8787` by default
 ```
 
-OR
+👆 Universal or Node.js only 👇
 
 ```js
 import { unstable_dev } from "wrangler";
@@ -298,15 +278,36 @@ That's all! 🎉
 
 ---
 
+### How it works(simplified)
+
+```js
+// App
+MY_KV.list({ prefix: "xyz" });
+
+// Module
+fetch(bridgeWorkerOrigin, {
+  headers: { CMD: "MY_KV.list" },
+  body: stringify([{ prefix: "xyz" }]),
+});
+
+// =========== ↓ HTTP Request ↑ Response ===========
+
+// Worker
+const [NAME, METHOD] = req.headers.get("CMD").split(".");
+const res = await env[NAME][METHOD](...parse(req.body));
+```
+
+---
+
 ### Unique points
 
 - Remote bindings access from local runtime
-  - Includes AI bindings
+  - Includes AI bindings ✌️
 - Remote and local bindings can be mixed
   - At any kinds
 - Module is universal
   - Just a `fetch` client
-  - May be portable to language other than JavaScript
+  - May be portable to language other than JavaScript 🙄
 - 💯 compatible API with Workers Bindings API
   - Supports non-POJO arguments
 
@@ -317,7 +318,7 @@ That's all! 🎉
 - Supported bindings are limited
   - KV, R2, D1, Queue(producer), Service, Vectorize
 - Many Cloudflare specific things are still missing
-  - `req.cf`, `caches`, `ctx.waitUntil`, `crypto.subtle.timingSafeEqual`, `HTMLRewriter`, etc...
+  - `req.cf`, `ctx.waitUntil`, `caches`, `crypto.subtle.timingSafeEqual`, `HTMLRewriter`, etc...
 
 But for limited purposes, at least for me, it just works™ and makes my life easier. 😎
 
@@ -348,7 +349,7 @@ But for limited purposes, at least for me, it just works™ and makes my life ea
   - https://github.com/cloudflare/workers-sdk/pull/4523
 - Winter CG 👀
   - https://github.com/wintercg
-  - Out of scope...?
+  - Maybe out of scope...?
 
 ---
 
