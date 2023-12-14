@@ -54,8 +54,7 @@ class: invert
 - 14? bindings are available for now
   - Includes beta, excludes `workerd` internals 🙈
 
-Variety and convenience! 🤩
-You want to use it in different ways, don't you?
+You wanna try a variety of bindings, don't you?
 
 ---
 
@@ -86,7 +85,7 @@ Create worker and invoke from handler(`fetch`, `scheduled`, `tail`, etc...).
 - `wrangler xxx` CLI commands
   - https://developers.cloudflare.com/workers/wrangler/commands
 
-Available bindings and features are very limited.
+Simple but available bindings and features are limited.
 
 ---
 
@@ -94,39 +93,17 @@ Available bindings and features are very limited.
 
 ---
 
-## 1️⃣ Building a simple web APIs
+## 1️⃣  Vite based frameworks <br>+ Cloudflare Pages
 
 ---
 
-### Web APIs w/ bindings
-
-- Like REST API, tRPC endpoint
-- No front-end assets(HTML, CSS, JS, etc...)
-
----
-
-### Excellent ✨
-
-- `wrangler dev` & `wrangler deploy`
-  - Bindings are automatically setup
-  - Built-in TypeScript, `esbuild` support
-  - Chrome DevTools integration
-- Fast deployment cycle
-- `--remote` is supported
-
----
-
-## 2️⃣ Using Vite based front-end frameworks
-
----
-
-### e.g. Using SvelteKit + Cloudflare Pages
+### e.g. Using SvelteKit
 
 - https://vitejs.dev
-  - Core infrastructure for modern front-end frameworks™
+  - Core infra for modern front-end frameworks™
   - Astro, Nuxt, SvelteKit, SolidStart, QwikCity, etc...
 - https://kit.svelte.dev
-  - `@sveltejs/adapter-cloudflare` 👀
+  - With `@sveltejs/adapter-cloudflare` 👀
 - Not just a SPA, using SSR altogether
 
 Let's use `platform.env.MY_DB` inside `load` functions!
@@ -139,81 +116,89 @@ Let's use `platform.env.MY_DB` inside `load` functions!
 - Bindings are not available at all...
   - Cloudflare adapter do nothing on development
 
-(BTW, Cloudflare Pages requires us to setup bindings manually. 🤨)
+(BTW, Cloudflare Pages deployment requires us to setup bindings manually. 🤨)
 
 ---
 
-### Workaround for local development
+### Workaround for `vite dev`
 
 - 🅰️ Some of frameworks have their own Vite plugin
   - But [e](https://github.com/withastro/adapters/blob/main/packages/cloudflare/src/index.ts)-[a](https://github.com/solidjs/solid-start/blob/main/packages/start-cloudflare-pages/dev-server.js)-[c](https://github.com/cloudflare/next-on-pages/tree/main/internal-packages/next-dev)-[h](https://github.com/honojs/vite-plugins/blob/main/packages/dev-server/src/dev-server.ts) of them has its own, different implementation+behavior for the same goal... 🙃
-- 🅱️ Mock `env` by yourself at runtime w/ `miniflare`
+- 🅱️ Mock specific `env` by yourself at runtime
   - Intutive, less LoC
-  - But `miniflare` requires `await` to setup and `dispose()` to shutdown, `env.XXX` itself is a sync API though
+
+Be careful that `miniflare` requires `await` to setup and `dispose()` to shutdown. 
+`env.XXX` itself is a sync API though.
 
 ---
 
 ### Thanks `miniflare`(+`workerd`) but,
 
-- Currently a few of bindings are not supported
+- Not all bindings are supported
   - https://github.com/cloudflare/workers-sdk/issues/4360
+- Some bindings require network even in local mode 🤔
   - https://github.com/cloudflare/workers-sdk/pull/4522
 - No way to debug with remote data effectively
-  - `wragnler pages dev -- vite build --watch` takes tooooooooo much to reload
+  - `wragnler pages dev -- vite build --watch` takes too much time to reload
 
 How to fight bugs only occur in production? 🫠
 
 ---
 
-## 3️⃣ Interact with remote data
+## 2️⃣ In daily operations
 
 ---
 
-### Misc daily operations
+### Remote data is critical
 
-- D1 data aggregation for stats, by user inquiry, etc...
-- Update remote D1 data from GUI
-- Download KV, R2 assets for debugging
-- Batch updates for storaged data all at once
+- Aggregate data for stats, by user inquiry, etc...
+  - Also want to update remote data from nice GUI
+- Download large amount of assets for local development
+- Use as source for Static Sites Generator?
 - etc...
 
+How to cope with these?
+
 ---
 
-### `wrangler xxx` is the only way but,
+### CLI, API or Dashboard...?
 
 - I/O is not typed and need to be parsed by scripts
+  - Performance is also not good
 - Need to spawn and manage child processes
   - Although `zx` can make things a little easier
-- Unfamiliar CLI arguments
+- Unfamiliar, insuficient arguments
+  - `r2 object` does not have `list`
   - `kv:bulk` only supports JSON format
   - etc...
 
-Or https://dash.cloudflare.com ...? 🙈
+Remote feels far away. 🍃
 
 ---
 
-## \*️⃣ More and more
+## 3️⃣ Advanced usage
 
 ---
 
-### How to...
+## No way to mix remote + local
 
-- Set up local environment to develop with large amount of binary data in KV?
-- Use D1 as source for Static Sites Generator?
-- Try AI bindings before acutual deployment?
-- Mix service bindings provided by other team?
+- `wrangler dev --remote` forces all bindings to be in remote mode
+  - Vice versa for `--local`
+- Some bindings only work with `--remote`
+- How to test service bindings provided by other team?
   - https://github.com/cloudflare/workers-sdk/issues/1182
 
-These DXs can be better?
+Couldn't we select remote or local for each binding?
 
 ---
 
-### Summary
+### IMO: Summary
 
-- Want unified(local+remote) way to access bindings
+- `wrangler dev --remote` is the only way to access all bindings and features
+- Need unified way to access bindings
+  - Remote and/or local
 - JavaScript API for Workers looks good
 - It is nice to be run on especially Node.js, Bun etc...
-- `wrangler dev --remote` is the only way to access all bindings and features
 
 What if Workers **Bindings** API running **from anywhere**...?
 
@@ -302,14 +287,14 @@ const res = await env[NAME][METHOD](...parse(req.body));
 ### Unique points
 
 - Remote bindings access from local runtime
-  - Includes AI bindings ✌️
+  - Includes Vectorize bindings ✌️
 - Remote and local bindings can be mixed
-  - At any kinds
-- Module is universal
-  - Just a `fetch` client
-  - May be portable to language other than JavaScript 🙄
+  - At any kinds, any combination
 - 💯 compatible API with Workers Bindings API
   - Supports non-POJO arguments
+
+Module is universal, just a `fetch` client.
+May be portable to language other than JavaScript. 🙈
 
 ---
 
@@ -331,13 +316,17 @@ But for limited purposes, at least for me, it just works™ and makes my life ea
 
 ---
 
+## Appendix 🍬
+
+---
+
 ### Bright future?
 
 - Also created an issue about this, but...
   - https://github.com/cloudflare/workers-sdk/issues/3632
 - Although no roadmap has been published, it seems that team is WIP to support Vite
   - https://github.com/vitejs/vite/discussions/14288
-  - But remote access will be still missing
+  - But remote access, mixing will be still missing
 
 ---
 
@@ -347,6 +336,8 @@ But for limited purposes, at least for me, it just works™ and makes my life ea
   - https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/src/api/startDevWorker
 - `getBindingsProxy()`
   - https://github.com/cloudflare/workers-sdk/pull/4523
+- `getRequestExecutionContext()`
+  - https://github.com/cloudflare/workerd/pull/1213
 - Winter CG 👀
   - https://github.com/wintercg
   - Maybe out of scope...?
