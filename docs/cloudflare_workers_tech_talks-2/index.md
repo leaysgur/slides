@@ -38,10 +38,9 @@ class: invert
 
 ---
 
-### Workers Bindings
+### Workers [Bindings](https://developers.cloudflare.com/workers/configuration/bindings)
 
 > Bindings allow your Workers to interact with **resources on the Cloudflare Developer Platform**.
-> https://developers.cloudflare.com/workers/configuration/bindings/
 
 ---
 
@@ -51,14 +50,13 @@ class: invert
 - R2: AWS S3 compat, 0 egress fee object storage
 - D1: SQLite database running on the CDN edge
 - Queues, Email, AI, Browser, Hyperdrive, etc...
-- 14? bindings are available for now
-  - Includes beta, excludes `workerd` internals 🙈
 
-You wanna try a variety of bindings, don't you?
+14? bindings are available for now! 🤩
+(Includes beta, excludes `workerd` internals)
 
 ---
 
-### How to use?
+### Basic usage
 
 ```js
 export default {
@@ -74,7 +72,7 @@ export default {
 };
 ```
 
-Create worker and invoke from handler(`fetch`, `scheduled`, `tail`, etc...).
+Create worker and invoke from its handler(`fetch`, `scheduled`, `tail`, etc...).
 
 ---
 
@@ -89,15 +87,15 @@ Simple but available bindings and features are limited.
 
 ---
 
-## DX and Challenges 💪
+## Bindings and challenges ⚔️
 
 ---
 
-## 1️⃣  Vite based frameworks <br>+ Cloudflare Pages
+## 1️⃣  Using Vite based frameworks
 
 ---
 
-### e.g. Using SvelteKit
+### e.g. SvelteKit + Cloudflare Pages
 
 - https://vitejs.dev
   - Core infra for modern front-end frameworks™
@@ -116,7 +114,7 @@ Let's use `platform.env.MY_DB` inside `load` functions!
 - Bindings are not available at all...
   - Cloudflare adapter do nothing on development
 
-(BTW, Cloudflare Pages deployment requires us to setup bindings manually. 🤨)
+(BTW, Cloudflare Pages deployment requires us to setup bindings manually via Dashboard... Consider [Workers Sites](https://developers.cloudflare.com/workers/configuration/sites/) again? 🤪)
 
 ---
 
@@ -127,16 +125,15 @@ Let's use `platform.env.MY_DB` inside `load` functions!
 - 🅱️ Mock specific `env` by yourself at runtime
   - Intutive, less LoC
 
-Be careful that `miniflare` requires `await` to setup and `dispose()` to shutdown. 
-`env.XXX` itself is a sync API though.
+Be careful that `miniflare` requires `await` to setup and `dispose()` to shutdown. `env.XXX` itself is a sync API though.
 
 ---
 
 ### Thanks `miniflare`(+`workerd`) but,
 
-- Not all bindings are supported
+- Not all bindings support local mode
   - https://github.com/cloudflare/workers-sdk/issues/4360
-- Some bindings require network even in local mode 🤔
+- Some bindings use remote API even in local mode(!)
   - https://github.com/cloudflare/workers-sdk/pull/4522
 - No way to debug with remote data effectively
   - `wragnler pages dev -- vite build --watch` takes too much time to reload
@@ -145,60 +142,70 @@ How to fight bugs only occur in production? 🫠
 
 ---
 
-## 2️⃣ In daily operations
+## 2️⃣ Develop environment setup
+
+---
+
+## Hard to clone environment
+
+- You cannot use remote bindings with `miniflare`
+- Need to (up|down)load large amount of assets
+  - Share `.wrangler/state`...?
+
+Just for simple API development, `wrangler dev --remote` will save you. 🤤
+
+---
+
+## No way to mix remote + local
+
+- `wrangler dev --remote` forces all bindings to run in remote mode too
+  - Vice versa for `--local`
+- Some bindings only work with `--remote`
+- How to use service bindings provided by other team?
+  - https://github.com/cloudflare/workers-sdk/issues/1182
+
+No way to use local for write, remote for read, etc...
+
+---
+
+## 3️⃣ In daily operations
 
 ---
 
 ### Remote data is critical
 
 - Aggregate data for stats, by user inquiry, etc...
-  - Also want to update remote data from nice GUI
-- Download large amount of assets for local development
-- Use as source for Static Sites Generator?
+- Want to update remote data from nice GUI
+- Use as source for Static site generation?
 - etc...
 
 How to cope with these?
 
 ---
 
-### CLI, API or Dashboard...?
+### CLI, API or Dashboard...
 
+- Limited, unfamiliar
+  - `r2 object` does not have `list`
+  - `kv:bulk` only supports JSON format
+  - etc...
 - I/O is not typed and need to be parsed by scripts
   - Performance is also not good
 - Need to spawn and manage child processes
   - Although `zx` can make things a little easier
-- Unfamiliar, insuficient arguments
-  - `r2 object` does not have `list`
-  - `kv:bulk` only supports JSON format
-  - etc...
+- You may use `unstable_dev()` for 1-shot script
 
-Remote feels far away. 🍃
-
----
-
-## 3️⃣ Advanced usage
-
----
-
-## No way to mix remote + local
-
-- `wrangler dev --remote` forces all bindings to be in remote mode
-  - Vice versa for `--local`
-- Some bindings only work with `--remote`
-- How to test service bindings provided by other team?
-  - https://github.com/cloudflare/workers-sdk/issues/1182
-
-Couldn't we select remote or local for each binding?
+Remote data feels far away. 🍃
 
 ---
 
 ### IMO: Summary
 
 - `wrangler dev --remote` is the only way to access all bindings and features
-- Need unified way to access bindings
-  - Remote and/or local
-- JavaScript API for Workers looks good
-- It is nice to be run on especially Node.js, Bun etc...
+- Need unified API to access bindings
+- I want to
+  - select remote and/or local in bindings level
+  - be run on especially Node.js, Bun
 
 What if Workers **Bindings** API running **from anywhere**...?
 
@@ -252,6 +259,7 @@ const worker = await unstable_dev(
 import { KVNamespace$ } from "cfw-bindings-wrangler-bridge";
 
 const MY_KV = new KVNamespace$("MY_KV", {
+  // This origin determines remote or local
   // bridgeWorkerOrigin: `http://${worker.address}:${worker.port}`,
 });
 
@@ -286,15 +294,15 @@ const res = await env[NAME][METHOD](...parse(req.body));
 
 ### Unique points
 
-- Remote bindings access from local runtime
+- All remote bindings are available from local runtime
   - Includes Vectorize bindings ✌️
 - Remote and local bindings can be mixed
   - At any kinds, any combination
 - 💯 compatible API with Workers Bindings API
   - Supports non-POJO arguments
+- Module is universal, just a `fetch` client
 
-Module is universal, just a `fetch` client.
-May be portable to language other than JavaScript. 🙈
+May be portable to language other than JavaScript. 😆
 
 ---
 
@@ -338,9 +346,8 @@ But for limited purposes, at least for me, it just works™ and makes my life ea
   - https://github.com/cloudflare/workers-sdk/pull/4523
 - `getRequestExecutionContext()`
   - https://github.com/cloudflare/workerd/pull/1213
-- Winter CG 👀
-  - https://github.com/wintercg
-  - Maybe out of scope...?
+- `wrangler cloudchamber`
+  - https://github.com/cloudflare/workers-sdk/pull/4310
 
 ---
 
