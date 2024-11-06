@@ -58,7 +58,9 @@ class: invert
 
 ## `RegExp`
 
-![bg](./img/TODO.jpg)
+(Illus. GPT 4o)
+
+![bg right:50%](./img/regexp.webp)
 
 ---
 
@@ -66,12 +68,6 @@ class: invert
 
 > Regular expressions are patterns used to match character combinations in strings.
 > https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions
-
----
-
-## Syntax
-
-![bg](./img/TODO.jpg)
 
 ---
 
@@ -90,7 +86,7 @@ function main() {
   // ...
 
   const re = /     /v;
-  //         ^^^^^^^^ HERE!
+  //         ^^^^^^^^ HERE! 👀
 
   // ...
 }
@@ -116,7 +112,7 @@ How to parse it?
 
 ```js
 const re = /     /v;
-//          ^^^^^ HERE!!
+//          ^^^^^ HERE!! 👀
 ```
 
 Also defined?
@@ -136,9 +132,8 @@ Also defined?
 ## ✋
 
 - Q1. Has anyone here ever used regular expressions in JavaScript?
-- Q2. && How many can say they fully understand the meaning of what they wrote?
-- Q3. && Who knows all the available syntax for regular expressions?
-
+- Q2. `&&` How many can say they fully understand the meaning of what they wrote?
+- Q3. `&&` Who knows all the available syntax for regular expressions?
 
 ---
 
@@ -167,7 +162,7 @@ I'm an author! 😎
 
 ---
 
-## 🍀 Lesson 1 / Pattern and flags
+## ⛳️ Chapter 1 / Flags
 
 ---
 
@@ -226,7 +221,6 @@ let re = /pattern/dgimsvy;
 Always use `v` flag!
 The syntax has become more sophisticated, and ambiguous expressions can no longer be used.
 
-
 ---
 
 ### FYI: `v` flag
@@ -262,13 +256,12 @@ const re3 = /こんにちは/v;
 ```
 
 - Enclose with `/` and `/`, followed immediately by the flags
-- It cannot be empty 
+- It cannot be empty
   - It would become a line comment!
 - The first character cannot be `*`
   - It would become a block comment!
 
 Invalid syntax will result in a `SyntaxError` and cannot be executed!
-
 
 ---
 
@@ -294,10 +287,9 @@ const re3 = new RegExp(こんにちは, "v");
 Can be dynamic, but invalid syntax are only detected at runtime.
 Prefer literals if possible!
 
-
 ---
 
-## 🔠 Lesson 2 / `Pattern` syntax
+## 🔠 Chapter 2 / Pattern
 
 ---
 
@@ -309,7 +301,6 @@ Prefer literals if possible!
 - etc..
 
 Alright, let’s learn the syntax!
-
 
 ---
 
@@ -334,16 +325,16 @@ Prefer the `v` flag to use the latest syntax!
 
 ### Role of characters in `RegExp` pattern
 
-You can think of them by its role.
-
 - 1: Match single character unit
 - 2: Match set of character units
 - 3: Help matching
 - 4: Memoize and reuse
 
+You can think of them by its role.
+
 ---
 
-## Lesson 2 / Indexes
+## Chapter 2 / Indexes
 
 - 👉🏻 1: Match single character unit
 - 2: Match set of character units
@@ -381,7 +372,7 @@ let re = new RegExp("\\./routes/concerts\\.\\$city\\.tsx", "v");
 //                   ^^                 ^^ ^^     ^^
 ```
 
-⚠️ Literal `\` itself requires escape `\` in string literal.
+⚠️ For string literal, literal `\` itself needs `\` escape.
 
 FYI: Stage 3 proposal-regex-escaping
 
@@ -430,7 +421,7 @@ For those who want to interact with binary strings...?
 
 ---
 
-## Lesson 2 / Indexes
+## Chapter 2 / Indexes
 
 - ✅ 1: Match single character unit
 - 👉🏻 2: Match set of character units
@@ -445,6 +436,7 @@ Dot(`.`) is wildcard match, expect line terminators.
 
 ```js
 let re = /Hello. world./v;
+//             ^      ^
 
 re.test("Hello, world!"); // true
 re.test("Hello! world."); // true
@@ -463,7 +455,7 @@ You should use `\.` to match literal `.`.
 With `s`(`dotAll`) flag, `.` can match line terminators!
 
 ```js
-let re = /Hello. world./vs;
+let re = /Hello. world./sv;
 
 re.test(`
 Hello, world
@@ -486,12 +478,16 @@ Preset that matches set of characters.
 
 `\D`, `\S` and `\W` match any character that is NOT matched by the lowercase form.
 
+---
+
+### 2b: Character class escape
+
 With `i` flag, `\w` also supports Unicode Default Case Conversion.
 
 ```js
 // ſ (U+017F LATIN SMALL LETTER LONG S) => s (U+0073 LATIN SMALL LETTER S)
 /\w/i.test("ſ"); // false
-/\w/vi.test("ſ"); // true
+/\w/iv.test("ſ"); // true
 ```
 
 > https://unicode.org/Public/UCD/latest/ucd/CaseFolding.txt
@@ -523,9 +519,7 @@ str.length; // 4
 str.split("").length; // 4
 ```
 
-UTF-16 = 16 bits / code unit.
-
-Only 65,536 kinds of characters can be used...? 🙄
+16 bits/code unit = only 65,536 kinds of characters can be used...? 🙄
 
 ---
 
@@ -660,7 +654,7 @@ Dash(`-`) is a special and used to specify range, inclusive.
 
 ```js
 let re = /ES202[012345]/v;
-// is equivalent to
+// equivalent to
 let re = /ES202[0-5]/v; // Matches ES2020, ES2021, ..., ES2025
 ```
 
@@ -697,13 +691,15 @@ With `v` flag, substrings `\q{`...`}` can be used.
 ```js
 // Line terminators + CRLF!
 let re = /[\r\n\u2028\u2029\q{\r\n}]/v;
+```
 
+`|` works as OR inside of `\q{`...`}`.
+
+```js
 // Chance to run JSConf XX
 let re =
   /[\p{RGI_Emoji_Flag_Sequence}--\q{🇨🇱|🇮🇳|🇲🇽|🇺🇸|🇭🇺|🇺🇸|🇰🇷|🇯🇵|🇩🇪|🇦🇺|🇦🇷|🇧🇷|🇨🇴|🇸🇬|🇮🇸|🇺🇾|🇧🇪|🇨🇳}]/v;
 ```
-
-`|` works as OR inside of `\q{`...`}`.
 
 ---
 
@@ -724,11 +720,11 @@ Greedy by default. Add post-`?` to make it non-greedy.
 
 ```js
 // Greedy
-"INPUT: <p><em>lorem</em> <i>ipsum</i></p>".replaceAll(/<.+>/vg, ""); // "INPUT: "
+"INPUT: <p><em>lorem</em> <i>ipsum</i></p>".replaceAll(/<.+>/gv, ""); // "INPUT: "
 //       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 // Non-greedy
-"INPUT: <p><em>lorem</em> <i>ipsum</i></p>".replaceAll(/<.+?>/vg, ""); // "INPUT: lorem ipsum"
+"INPUT: <p><em>lorem</em> <i>ipsum</i></p>".replaceAll(/<.+?>/gv, ""); // "INPUT: lorem ipsum"
 //       ^  ^^       ^^^   ^       ^^  ^^
 ```
 
@@ -749,7 +745,7 @@ Variation of quantifiers.
 
 ---
 
-## Lesson 2 / Indexes
+## Chapter 2 / Indexes
 
 - ✅ 1: Match single character unit
 - ✅ 2: Match set of character units
@@ -799,7 +795,7 @@ let re = /\.(?:jsx|vue|svelte)/v;
 
 ```js
 // HTTP(S) scheme?
-let re = /^https?:\/\//
+let re = /^https?:\/\//;
 
 // Trailing slash?
 let re = /.+\/$/v;
@@ -848,7 +844,7 @@ let re =
 
 ---
 
-## Lesson 2 / Indexes
+## Chapter 2 / Indexes
 
 - ✅ 1: Match single character unit
 - ✅ 2: Match set of character units
@@ -859,7 +855,7 @@ let re =
 
 ### 4a: Capturing group
 
-Simply wrap with `(`...`)` create capturing group.
+Simply wrap with `(`...`)` to create capturing group.
 
 ```js
 let match = /(js|ts)x/v.exec("tsx");
@@ -868,7 +864,7 @@ if (match) {
 }
 ```
 
-Use non-capturing group `(?:`...`)` for perf.
+Prefer non-capturing group `(?:`...`)` if not intended to capture.
 
 ---
 
@@ -902,7 +898,7 @@ Refer capturing groups.
 - By name: `\k<`name`>`
 
 ```js
-// Extract `title` attribute value 
+// Extract `title` attribute value
 // e.g. `title="HERE"`, `title='"HERE"'`, `title="HERE'WE'GO!"`, etc...
 let re = /title=(?<quote>["'])(?<contents>.*?)\k<quote>/v;
 ```
@@ -919,7 +915,7 @@ let re = /\k<later>..(?<later>...)/v;
 
 ---
 
-### Lesson 2 / Indexes
+### Chapter 2 / Indexes
 
 - ✅ 1: Match single character unit
   - a: Literal character / b: Character escape
@@ -970,7 +966,7 @@ If syntactically correct but semantically incorrect, throw `SyntaxError`.
 
 ---
 
-## 📜 Lesson 3 / Summary
+## 📝 Comprehension test
 
 ---
 
@@ -979,6 +975,8 @@ If syntactically correct but semantically incorrect, throw `SyntaxError`.
 Let's walk through the "simplified" spec!
 
 Thank you `v` flag. 😉
+
+> https://tc39.es/ecma262/2024/multipage/text-processing.html#sec-patterns
 
 ![bg right:40% contain](./img/pattern-syntax.png)
 
@@ -1146,6 +1144,9 @@ ClassIntersection ::
 ClassSubtraction ::
   ClassSetOperand -- ClassSetOperand
   ClassSubtraction -- ClassSetOperand
+
+ClassSetRange ::
+  ClassSetCharacter - ClassSetCharacter
 ```
 
 ---
@@ -1153,9 +1154,6 @@ ClassSubtraction ::
 ### 7/7
 
 ```
-ClassSetRange ::
-  ClassSetCharacter - ClassSetCharacter
-
 ClassSetOperand ::
   NestedClass
   ClassStringDisjunction
@@ -1206,51 +1204,11 @@ Easier than you expected?
 
 ---
 
-<!-- _backgroundColor: #eceff4 -->
-<!-- _color: #4c566a -->
-
-## 🍹 Break 4 / Annex B
+## 🔮 Appendix / ES2025+
 
 ---
 
-<!-- _backgroundColor: #eceff4 -->
-<!-- _color: #4c566a -->
-
-### Additional syntax
-
-> This annex describes various legacy features and other characteristics of web browser ECMAScript hosts. 
-> These features are not considered part of the core ECMAScript language.
-
-> Programmers should not use or assume the existence of these features and behaviours when writing new ECMAScript code.
-
-🙄
-
-> https://tc39.es/ecma262/2024/multipage/additional-ecmascript-features-for-web-browsers.html#sec-regular-expressions-patterns
-
-Some syntax are ammended...
-
----
-
-<!-- _backgroundColor: #eceff4 -->
-<!-- _color: #4c566a -->
-
-### 
-
-> ECMAScript implementations are discouraged from implementing these features unless the implementation is part of a web browser or is required to run the same legacy ECMAScript code that web browsers encounter.
-
-😲
-
-> However, the usage of these features by large numbers of existing web pages means that web browsers must continue to support them. 
-
-🥲
-
----
-
-## 🔮 Lesson 4 / ES2025+
-
----
-
-### [Finished] Duplicated named capture groups
+### Finished: Duplicated named capture groups
 
 ```js
 // ES2024: Can not be duplicated!
@@ -1268,7 +1226,7 @@ let re = /(?<year>[0-9]{4})-[0-9]{2}|[0-9]{2}-(?<year>[0-9]{4})/v;
 
 ---
 
-### [Stage 4] Modifier
+### Stage 4: Modifier
 
 Extensiton for non-capturing group.
 
@@ -1287,17 +1245,58 @@ Locally modifies global flags `i`, `m` and `s`.
 
 ### Upcoming...
 
-- [Stage 2] Buffer boundaries
+- Stage 2: Buffer boundaries (`\A`, `\z`)
   - https://github.com/tc39/proposal-regexp-buffer-boundaries
-- [Stage 1] Extended Mode and Comments
+- Stage 1: Extended Mode and Comments (`x` flag)
   - https://github.com/tc39/proposal-regexp-x-mode
-- [Stage 1] `\R` escape
+- Stage 1: `\R` escape
   - https://github.com/tc39/proposal-regexp-r-escape
-- [Stage 1] Atomic operators
+- Stage 1: Atomic operators
   - https://github.com/tc39/proposal-regexp-atomic-operators
 
 All of proposals are maintained by [@rbuckton](https://github.com/rbuckton). 😲
 
 ---
 
+<!-- _backgroundColor: #eceff4 -->
+<!-- _color: #4c566a -->
+
+## 🍹 Break 4 / Annex B
+
+---
+
+<!-- _backgroundColor: #eceff4 -->
+<!-- _color: #4c566a -->
+
+### Annex B: additional syntax
+
+> This annex describes various legacy features and other characteristics of web browser ECMAScript hosts.
+> These features are not considered part of the core ECMAScript language.
+
+> Programmers should not use or assume the existence of these features and behaviours when writing new ECMAScript code.
+
+🙄
+
+> https://tc39.es/ecma262/2024/multipage/additional-ecmascript-features-for-web-browsers.html#sec-regular-expressions-patterns
+
+Some syntax are ammended...
+
+---
+
+<!-- _backgroundColor: #eceff4 -->
+<!-- _color: #4c566a -->
+
+### Annex B: additional syntax
+
+> ECMAScript implementations are discouraged from implementing these features unless the implementation is part of a web browser or is required to run the same legacy ECMAScript code that web browsers encounter.
+
+😲
+
+> However, the usage of these features by large numbers of existing web pages means that web browsers must continue to support them.
+
+🥲
+
+---
+
 # Thank you!
+
