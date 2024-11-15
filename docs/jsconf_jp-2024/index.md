@@ -16,6 +16,10 @@ class: invert
   --borderColor-default: #5e81ac;
   --bgColor-muted: #2e3440;
   --fgColor-muted: var(--color, --fgColor-default);
+  /* Misc. */
+  ::selection {
+    background-color: #b48ead;
+  }
 }
 </style>
 
@@ -31,9 +35,9 @@ class: invert
 
 ### Yuji Sugiura
 
-- Frontend engineer
-  - Works at PixelGrid Inc.
-  - Self-employed
+- Web(frontend) engineer
+  - at PixelGrid Inc.
+  - \+ Self-employed
 - OSS Contributor
   - ⚓️ https://oxc.rs
   - etc...
@@ -58,7 +62,7 @@ class: invert
 
 ## `RegExp`
 
-(Illus. GPT 4o)
+(Illustration by GPT 4o)
 
 ![bg right:50%](./img/regexp.webp)
 
@@ -85,8 +89,8 @@ class: invert
 function main() {
   // ...
 
-  const re = /     /v;
-  //         ^^^^^^^^ HERE! 👀
+  const re = /^jsconf \d{4}$/v;
+  //         ^^^^^^^^^^^^^^^^^ HERE! 👀
 
   // ...
 }
@@ -111,8 +115,8 @@ How to parse it?
 ### Detail of `RegularExpressionBody`?
 
 ```js
-const re = /     /v;
-//          ^^^^^ HERE!! 👀
+const re = /^jsconf \d{4}$/v;
+//          ^^^^^^^^^^^^^^ HERE!! 👀
 ```
 
 Also defined?
@@ -145,7 +149,7 @@ Also defined?
 
 ### Don’t worry!
 
-You can learn it today! 👌
+Let's learn it today! 👌
 
 Once you understand the syntax, even the guides will be easier to follow.
 When you look at it step by step, it’s actually not that difficult.
@@ -179,7 +183,7 @@ let re = new RegExp("pattern", "flags");
 
 ### Pattern syntax
 
-TODO: Check it later!
+Check it later! 🔜
 
 ---
 
@@ -189,12 +193,12 @@ TODO: Check it later!
 let re = /pattern/dgimsvy;
 ```
 
-- Specify in lowercase
+- Lowercase characters
 - Order does not matter
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Bad_regexp_flag
-  - Any character not in the list will cause an error
-  - Even characters in the list will cause an error if duplicated
-  - The `u` and `v` flags are mutually exclusive
+  - Error if any character not in the list
+  - Error if duplicated characters found
+  - Error if both `u` and `v` flags are found
 
 ---
 
@@ -207,7 +211,7 @@ let re = /pattern/dgimsvy;
 5. `s`ingle line: `dotAll`
 6. `u`nicode: `unicode`
 7. `v`nicode: `unicodeSets` added in ES2024 🆕
-8. styick`y`: `sticky`
+8. stick`y`: `sticky`
 
 ---
 
@@ -218,7 +222,7 @@ let re = /pattern/dgimsvy;
 - `v`: Enable unicode-aware mode & upgrade 💪
   - a.k.a. UnicodeSetsMode
 
-Always use `v` flag!
+Always use `v` flag!(if possible)
 The syntax has become more sophisticated, and ambiguous expressions can no longer be used.
 
 ---
@@ -255,13 +259,13 @@ const re2 = /Hello, "JSConf (\d+)"!/u;
 const re3 = /こんにちは/v;
 ```
 
-- Enclose with `/` and `/`, followed immediately by the flags
+- Enclose with `/`...`/`, followed immediately by the flags
 - It cannot be empty
   - It would become a line comment!
 - The first character cannot be `*`
   - It would become a block comment!
 
-Invalid syntax will result in a `SyntaxError` and cannot be executed!
+Invalid syntax will result in a `SyntaxError` and cannot be executed! 💥
 
 ---
 
@@ -280,27 +284,15 @@ const re3 = new RegExp(こんにちは, "v");
 
 - Pass either a string literal or a template literal
   - Arguments can be empty, in which case a placeholder will be used
-- Since it's a string literal:
-  - Special characters must be escaped using `\`
-  - Escape sequences can also be used, but... 😵‍💫
+- Since it is a string literal:
+  - Special characters must be escaped by `\`
+  - Escape sequences can also be used, but...
 
-Can be dynamic, but invalid syntax are only detected at runtime.
-Prefer literals if possible!
+Can be dynamic, but invalid syntax are only detected at runtime. 💣
 
 ---
 
 ## 🔠 Chapter 2 / Pattern
-
----
-
-### Hard part of `RegExp` pattern syntax?
-
-- There are so many rules... it's hard to know what to write
-- It's unclear where escaping is necessary?
-- There are multiple ways to write the same thing, which can be confusing
-- etc..
-
-Alright, let’s learn the syntax!
 
 ---
 
@@ -310,13 +302,14 @@ Alright, let’s learn the syntax!
 
 ---
 
-### You don't need them all!
+### You don't need to know all of them!
 
-The spec is a product of historical layers, and some of them are:
+The spec is a product of historical layers. 📜
 
-- Too verbose
-  - A nature of the spec to avoid ambiguity
-- Rarely or never used syntax
+Some of them are:
+
+- Too verbose, nature of the spec to avoid ambiguity
+- Rarely or never used syntax to you
 - Obsoleted by new flags
 
 Prefer the `v` flag to use the latest syntax!
@@ -352,7 +345,7 @@ let re = /ecma262/v;
 let re = /Hello! 😄/v;
 ```
 
-You should not use `RegExp` in this case, though.
+You don't need `RegExp` in this case, though. 🙄
 
 FYI: `String.prototype` `.includes()`, `.startsWith()`, and `.endsWith()`
 
@@ -362,7 +355,7 @@ FYI: `String.prototype` `.includes()`, `.startsWith()`, and `.endsWith()`
 
 ### 1a: Literal character
 
-Need `\` escape for `SyntaxCharacter`(one of `^$\.*+?()[]{}|`) and `/` in literal usage.
+Need `\` escape for `SyntaxCharacter`(one of `^$\.*+?()[]{}|`) and `/` in literal.
 
 ```js
 // ./routes/concerts/$city.tsx
@@ -372,7 +365,7 @@ let re = new RegExp("\\./routes/concerts\\.\\$city\\.tsx", "v");
 //                   ^^                 ^^ ^^     ^^
 ```
 
-⚠️ For string literal, literal `\` itself needs `\` escape.
+⚠️ In string literal, literal `\` itself needs `\` escape.
 
 FYI: Stage 3 proposal-regex-escaping
 
@@ -455,12 +448,14 @@ You should use `\.` to match literal `.`.
 With `s`(`dotAll`) flag, `.` can match line terminators!
 
 ```js
-let re = /Hello. world./sv;
+let re = /Hello. world./vs;
 
 re.test(`
 Hello, world
 `); // true
 ```
+
+> https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/dotAll
 
 ---
 
@@ -485,9 +480,10 @@ Preset that matches set of characters.
 With `i` flag, `\w` also supports Unicode Default Case Conversion.
 
 ```js
-// ſ (U+017F LATIN SMALL LETTER LONG S) => s (U+0073 LATIN SMALL LETTER S)
-/\w/i.test("ſ"); // false
-/\w/iv.test("ſ"); // true
+//    ſ (U+017F LATIN SMALL LETTER LONG S)
+// => s (U+0073 LATIN SMALL LETTER S)
+/\w/v.test("ſ"); // false
+/\w/vi.test("ſ"); // true
 ```
 
 > https://unicode.org/Public/UCD/latest/ucd/CaseFolding.txt
@@ -537,10 +533,10 @@ let str = "🤗";
 // For JS
 [55358, 56599];
 
-str.length; // 2
-str.split("").length; // 2
+str.length; // 2(?!)
+str.split("").length; // 2(?!)
 
-// [35, (55358, 56697), 35] UTF-16 code unit surrogate pair
+// [35, 55358, 56697, 35] UTF-16 code unit surrogate pair
 /#.#/.test("#🥹#"); // false
 ```
 
@@ -560,7 +556,7 @@ str.split("").length; // 2
 /#.#/v.test("#🥹#"); // true
 ```
 
-Unicode 16.0.0 contains 154,998 characters!
+Unicode 16.0.0 contains 154,998 characters.
 
 ---
 
@@ -572,14 +568,14 @@ Unicode 16.0.0 contains 154,998 characters!
 `String.prototype[Symbol.iterator]()` can split strings by Unicode code points.
 
 ```js
-/#.#/v.test("#🥹#"); // true
 [..."🥹"]; // ["🥹"]
+"🥹".split("") // ["\ud83e", "\udd79"]
 ```
 
 But some emojis are joined form of Unicode, grapheme clusters are not kept.
 
 ```js
-/#.#/v.test("#🇯🇵#"); // false
+/#.#/v.test("#🇯🇵#"); // false(!!)
 [..."🇯🇵"]; // ["🇯", "🇵"]
 
 [..."👈🏻"]; // ["👈", "🏻" ]
@@ -595,8 +591,6 @@ You may need implementation like `Intl.Segmenter`.
 
 `\p{`name`=`value`}`, `\p{`name_or_value`}` perform matches based on unicode properties.
 
-`\P{`...`}` matches any character that is NOT matched by the lowercase form.
-
 ```js
 // May be better `\w` alternative for non-latin users
 let re = /\p{General_Category=Letter}/v; // or `\p{Letter}` or `\p{L}`
@@ -605,6 +599,8 @@ let re = /\p{Currency_Symbol}\d/v; // Matches "$1", "€2", "¥3", etc...
 // Script based match
 let re = /\p{sc=Hiragana}/v;
 ```
+
+`\P{`...`}` matches any character that is NOT matched by the lowercase form.
 
 Check properties and characters relationship before use.
 
@@ -622,9 +618,10 @@ Binary Unicode properties of strings can match joined form of emojis!
 /#\p{RGI_Emoji_Flag_Sequence}#/v.test("#🇯🇵#"); // true
 ```
 
-Matched unit may contain strings, not only a single unicode character.
-
 > https://tc39.es/ecma262/2024/multipage/text-processing.html#table-binary-unicode-properties-of-strings
+
+Note that matched unit may contain strings, not only a single unicode character now.
+
 
 ---
 
@@ -642,7 +639,7 @@ re.test(".vs"); // false
 
 Listed characters are specified as `ClassUnion`.
 
-`[jt]` means `j` OR `t`, `[jjjtttjtjtjtjt]` is also valid and the same. 😅
+`[jjjtttjtjtjtjt]` is also valid and the same as `[jt]`. 😅
 
 FYI: `\d` and `[0123456789]` is the same!
 
@@ -658,11 +655,11 @@ let re = /ES202[012345]/v;
 let re = /ES202[0-5]/v; // Matches ES2020, ES2021, ..., ES2025
 ```
 
-Range should be ordered by unicode point ASC.
+Range should be ordered by Unicode code point, ASC.
 
-`[a-a]` is also valid and equivalent to `[a]`, literal `a`.
+`[a-a]` is also valid and equivalent to `[a]`, just literal `a`.
 
-FYI: `\d` and `[0-9]` is the same!
+FYI: `\d`, `[0123456789]`, and `[0-9]` are the same!
 
 ---
 
@@ -801,9 +798,9 @@ let re = /^https?:\/\//;
 let re = /.+\/$/v;
 ```
 
-`\A` and `\z` do not exist in JavaScript `RegExp`. Use `m` flag to enable `multiline` mode.
-
 `/^$^$^$^$^$^$^/` is also valid syntax. 😅
+
+FYI: `\A` and `\z` do not exist in JavaScript `RegExp`. Use `m` flag to enable `multiline` mode.
 
 ---
 
@@ -820,7 +817,8 @@ re.test("hellooooooo"); // false
 ```
 
 Simply, it checks next to `\w` match or NOT.
-May not useful for non-latin users.
+
+May not useful for non-latin users. 😕
 
 ---
 
@@ -903,7 +901,7 @@ Refer capturing groups.
 let re = /title=(?<quote>["'])(?<contents>.*?)\k<quote>/v;
 ```
 
-It will be error if group name does not exists.
+It will be `SyntaxError` if group name does not exists.
 
 ```js
 // SyntaxError
@@ -924,7 +922,8 @@ let re = /\k<later>..(?<later>...)/v;
   - d: Character class / e: Quantifier
 - ✅ 3: Help matching
   - a: Disjunction / b: Non-capturing group
-  - c: Input boundary assertion / d: Word boundary assertion / e: Lookaround assertion
+  - c: Input boundary assertion / d: Word boundary assertion
+  - e: Lookaround assertion
 - ✅ 4: Memoize and reuse
   - a: Capturing group / b: Backreference
 
@@ -962,7 +961,7 @@ If syntactically correct but semantically incorrect, throw `SyntaxError`.
   - `MayContainStrings`: `\p{RGI_EMOJI}`, `[\q{abc}]`, etc...
 - etc...
 
-> https://github.com/search?q=repo%3Aoxc-project%2Foxc+%22%5BSS%3AEE%5D%22+path%3A%2F%5Ecrates%5C%2Foxc_regular_expression%5C%2Fsrc%5C%2Fparser%5C%2Fpattern_parser%5C%2F%2F&type=code
+> https://tc39.es/ecma262/2024/multipage/text-processing.html#sec-patterns-static-semantics-early-errors
 
 ---
 
@@ -973,10 +972,8 @@ If syntactically correct but semantically incorrect, throw `SyntaxError`.
 ### Syntax overview
 
 Let's walk through the "simplified" spec!
-
 Thank you `v` flag. 😉
 
-> https://tc39.es/ecma262/2024/multipage/text-processing.html#sec-patterns
 
 ![bg right:40% contain](./img/pattern-syntax.png)
 
@@ -997,7 +994,7 @@ Alternative ::
   Alternative Term
 ```
 
-(FYI: This format is called "Extended Backus-Naur Form".)
+FYI: This format is called "Extended Backus-Naur Form".
 
 ---
 
@@ -1228,7 +1225,7 @@ let re = /(?<year>[0-9]{4})-[0-9]{2}|[0-9]{2}-(?<year>[0-9]{4})/v;
 
 ### Stage 4: Modifier
 
-Extensiton for non-capturing group.
+Extensiton for non-capturing `(?:...)` group.
 
 ```js
 let re = /^[a-z](?-i:[a-z])$/i;
@@ -1243,7 +1240,7 @@ Locally modifies global flags `i`, `m` and `s`.
 
 ---
 
-### Upcoming...
+### Upcoming proposals...
 
 - Stage 2: Buffer boundaries (`\A`, `\z`)
   - https://github.com/tc39/proposal-regexp-buffer-boundaries
@@ -1299,4 +1296,3 @@ Some syntax are ammended...
 ---
 
 # Thank you!
-
