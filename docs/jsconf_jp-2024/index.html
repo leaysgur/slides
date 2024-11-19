@@ -31,6 +31,7 @@
 </ul>
 </li>
 </ul>
+<p>Live in Shiga pref.</p>
 </section>
 </foreignObject><foreignObject width="1280" height="720" data-marpit-advanced-background="pseudo"><section data-class="invert" lang="en-US" class="invert" style="" data-marpit-advanced-background="pseudo" data-marpit-advanced-background-split="right"></section></foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section data-class="invert" lang="en-US" class="invert" style="--class:invert;--marpit-advanced-background-split:45%;" data-marpit-advanced-background="background" data-marpit-advanced-background-split="right"><div data-marpit-advanced-background-container="true" data-marpit-advanced-background-direction="horizontal"><figure style="background-image:url(&quot;../public/img/doseisan-2.jpg&quot;);"></figure></div></section></foreignObject><foreignObject width="55%" height="720"><section id="4" data-class="invert" lang="en-US" class="invert" style="--class:invert;--marpit-advanced-background-split:45%;" data-marpit-advanced-background="content" data-marpit-advanced-background-split="right">
 <h3 id="leaysgur">@leaysgur</h3>
@@ -44,11 +45,11 @@
 <h2 id="todays-theme">Today's theme...</h2>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section data-class="invert" lang="en-US" class="invert" style="--class:invert;--marpit-advanced-background-split:50%;" data-marpit-advanced-background="background" data-marpit-advanced-background-split="right"><div data-marpit-advanced-background-container="true" data-marpit-advanced-background-direction="horizontal"><figure style="background-image:url(&quot;./img/regexp.webp&quot;);"></figure></div></section></foreignObject><foreignObject width="50%" height="720"><section id="6" data-class="invert" lang="en-US" class="invert" style="--class:invert;--marpit-advanced-background-split:50%;" data-marpit-advanced-background="content" data-marpit-advanced-background-split="right">
-<h2 id="regexp"><code>RegExp</code></h2>
+<h2 id="regexp-syntax"><code>RegExp</code> Syntax</h2>
 <p>(Illustration by GPT 4o)</p>
 </section>
 </foreignObject><foreignObject width="1280" height="720" data-marpit-advanced-background="pseudo"><section data-class="invert" lang="en-US" class="invert" style="" data-marpit-advanced-background="pseudo" data-marpit-advanced-background-split="right"></section></foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="7" data-class="invert" lang="en-US" class="invert" style="--class:invert;">
-<h3 id="what">What?</h3>
+<h3 id="regular-expression">Regular expression?</h3>
 <blockquote>
 <p>Regular expressions are patterns used to match character combinations in strings.<br />
 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions</a></p>
@@ -131,6 +132,7 @@ When you look at it step by step, it’s actually not that difficult.</p>
 <h3 id="regexp--pattern--flags">RegExp = Pattern + Flags</h3>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-js"><span class="hljs-comment">// Literal</span>
 <span class="hljs-keyword">let</span> re = <span class="hljs-regexp">/pattern/</span>flags;
+
 <span class="hljs-comment">// Constructor</span>
 <span class="hljs-keyword">let</span> re = <span class="hljs-keyword">new</span> <span class="hljs-title class_">RegExp</span>(<span class="hljs-string">&quot;pattern&quot;</span>, <span class="hljs-string">&quot;flags&quot;</span>);
 </code></pre>
@@ -189,7 +191,13 @@ The syntax has become more sophisticated, and ambiguous expressions can no longe
 <h3 id="fyi-v-flag">FYI: <code>v</code> flag</h3>
 <p>Works as the same as <code>pattern</code> attribute in HTML.</p>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;pin&quot;</span>&gt;</span>PIN: (4 digits)<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;pin&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;pin&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;password&quot;</span> <span class="hljs-attr">pattern</span>=<span class="hljs-string">&quot;\d{4}&quot;</span> <span class="hljs-attr">required</span> /&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">input</span>
+  <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;pin&quot;</span>
+  <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;pin&quot;</span>
+  <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;password&quot;</span>
+  <span class="hljs-attr">required</span>
+  <span class="hljs-attr">pattern</span>=<span class="hljs-string">&quot;\d{4}&quot;</span>
+/&gt;</span>
 </code></pre>
 <blockquote>
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern">https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern</a></p>
@@ -387,9 +395,10 @@ Hello, world
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="40" data-class="invert" lang="en-US" class="invert" style="--class:invert;">
 <h3 id="2b-character-class-escape-1">2b: Character class escape</h3>
 <p>With <code>i</code> flag, <code>\w</code> also supports Unicode Default Case Conversion.</p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-js"><span class="hljs-comment">//    ſ (U+017F LATIN SMALL LETTER LONG S)</span>
+<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-js">/\w/v.<span class="hljs-title function_">test</span>(<span class="hljs-string">&quot;ſ&quot;</span>); <span class="hljs-comment">// false</span>
+
+<span class="hljs-comment">//    ſ (U+017F LATIN SMALL LETTER LONG S)</span>
 <span class="hljs-comment">// =&gt; s (U+0073 LATIN SMALL LETTER S)</span>
-/\w/v.<span class="hljs-title function_">test</span>(<span class="hljs-string">&quot;ſ&quot;</span>); <span class="hljs-comment">// false</span>
 <span class="hljs-regexp">/\w/</span>vi.<span class="hljs-title function_">test</span>(<span class="hljs-string">&quot;ſ&quot;</span>); <span class="hljs-comment">// true</span>
 </code></pre>
 <blockquote>
@@ -542,12 +551,11 @@ re.<span class="hljs-title function_">test</span>(<span class="hljs-string">&quo
 <span class="hljs-keyword">let</span> re = <span class="hljs-regexp">/\d{3}/</span>v;
 </code></pre>
 <p>Greedy by default. Add post-<code>?</code> to make it non-greedy.</p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-js"><span class="hljs-comment">// Greedy</span>
-<span class="hljs-string">&quot;INPUT: &lt;p&gt;&lt;em&gt;lorem&lt;/em&gt; &lt;i&gt;ipsum&lt;/i&gt;&lt;/p&gt;&quot;</span>.<span class="hljs-title function_">replaceAll</span>(<span class="hljs-regexp">/&lt;.+&gt;/g</span>v, <span class="hljs-string">&quot;&quot;</span>); <span class="hljs-comment">// &quot;INPUT: &quot;</span>
+<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-js"><span class="hljs-comment">// Greedy: &quot;INPUT: &quot;</span>
+<span class="hljs-string">&quot;INPUT: &lt;p&gt;&lt;em&gt;lorem&lt;/em&gt; &lt;i&gt;ipsum&lt;/i&gt;&lt;/p&gt;&quot;</span>.<span class="hljs-title function_">replaceAll</span>(<span class="hljs-regexp">/&lt;.+&gt;/g</span>v, <span class="hljs-string">&quot;&quot;</span>);
 <span class="hljs-comment">//       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
-
-<span class="hljs-comment">// Non-greedy</span>
-<span class="hljs-string">&quot;INPUT: &lt;p&gt;&lt;em&gt;lorem&lt;/em&gt; &lt;i&gt;ipsum&lt;/i&gt;&lt;/p&gt;&quot;</span>.<span class="hljs-title function_">replaceAll</span>(<span class="hljs-regexp">/&lt;.+?&gt;/g</span>v, <span class="hljs-string">&quot;&quot;</span>); <span class="hljs-comment">// &quot;INPUT: lorem ipsum&quot;</span>
+<span class="hljs-comment">// Non-greedy: &quot;INPUT: lorem ipsum&quot;</span>
+<span class="hljs-string">&quot;INPUT: &lt;p&gt;&lt;em&gt;lorem&lt;/em&gt; &lt;i&gt;ipsum&lt;/i&gt;&lt;/p&gt;&quot;</span>.<span class="hljs-title function_">replaceAll</span>(<span class="hljs-regexp">/&lt;.+?&gt;/g</span>v, <span class="hljs-string">&quot;&quot;</span>);
 <span class="hljs-comment">//       ^  ^^       ^^^   ^       ^^  ^^</span>
 </code></pre>
 </section>
@@ -611,12 +619,12 @@ re.<span class="hljs-title function_">test</span>(<span class="hljs-string">&quo
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-js"><span class="hljs-keyword">let</span> re = <span class="hljs-regexp">/jsx|tsx|vue|svelte/</span>v;
 
 <span class="hljs-comment">// Can be empty but useless</span>
-<span class="hljs-keyword">let</span> re = <span class="hljs-regexp">/||||/</span>v;
+<span class="hljs-keyword">let</span> re = <span class="hljs-regexp">/||||||||||||/</span>v;
 </code></pre>
 <p>In <code>CharacterClass</code>, <code>|</code> is just literal <code>|</code> and need <code>\</code> escape.</p>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-js"><span class="hljs-comment">// SyntaxError</span>
 <span class="hljs-comment">// let re = /[j|t]s/v;</span>
-<span class="hljs-keyword">let</span> re = <span class="hljs-regexp">/[j\|t]s/</span>v;
+<span class="hljs-keyword">let</span> re = <span class="hljs-regexp">/[j\|t]s/</span>v; <span class="hljs-comment">// j OR | OR t</span>
 </code></pre>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="56" data-class="invert" lang="en-US" class="invert" style="--class:invert;">

@@ -42,6 +42,8 @@ class: invert
   - ⚓️ https://oxc.rs
   - etc...
 
+Live in Shiga pref.
+
 ![bg right:45%](../public/img/prof-2.jpg)
 
 ---
@@ -60,7 +62,7 @@ class: invert
 
 ---
 
-## `RegExp`
+## `RegExp` Syntax
 
 (Illustration by GPT 4o)
 
@@ -68,7 +70,7 @@ class: invert
 
 ---
 
-### What?
+### Regular expression?
 
 > Regular expressions are patterns used to match character combinations in strings.
 > https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions
@@ -175,6 +177,7 @@ I'm an author! 😎
 ```js
 // Literal
 let re = /pattern/flags;
+
 // Constructor
 let re = new RegExp("pattern", "flags");
 ```
@@ -233,7 +236,13 @@ Works as the same as `pattern` attribute in HTML.
 
 ```html
 <label for="pin">PIN: (4 digits)</label>
-<input id="pin" name="pin" type="password" pattern="\d{4}" required />
+<input
+  id="pin"
+  name="pin"
+  type="password"
+  required
+  pattern="\d{4}"
+/>
 ```
 
 > https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern
@@ -480,9 +489,10 @@ Preset that matches set of characters.
 With `i` flag, `\w` also supports Unicode Default Case Conversion.
 
 ```js
+/\w/v.test("ſ"); // false
+
 //    ſ (U+017F LATIN SMALL LETTER LONG S)
 // => s (U+0073 LATIN SMALL LETTER S)
-/\w/v.test("ſ"); // false
 /\w/vi.test("ſ"); // true
 ```
 
@@ -716,12 +726,11 @@ let re = /\d{3}/v;
 Greedy by default. Add post-`?` to make it non-greedy.
 
 ```js
-// Greedy
-"INPUT: <p><em>lorem</em> <i>ipsum</i></p>".replaceAll(/<.+>/gv, ""); // "INPUT: "
+// Greedy: "INPUT: "
+"INPUT: <p><em>lorem</em> <i>ipsum</i></p>".replaceAll(/<.+>/gv, "");
 //       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-// Non-greedy
-"INPUT: <p><em>lorem</em> <i>ipsum</i></p>".replaceAll(/<.+?>/gv, ""); // "INPUT: lorem ipsum"
+// Non-greedy: "INPUT: lorem ipsum"
+"INPUT: <p><em>lorem</em> <i>ipsum</i></p>".replaceAll(/<.+?>/gv, "");
 //       ^  ^^       ^^^   ^       ^^  ^^
 ```
 
@@ -759,7 +768,7 @@ Use `|` to create `Alternative` matching branch.
 let re = /jsx|tsx|vue|svelte/v;
 
 // Can be empty but useless
-let re = /||||/v;
+let re = /||||||||||||/v;
 ```
 
 In `CharacterClass`, `|` is just literal `|` and need `\` escape.
@@ -767,7 +776,7 @@ In `CharacterClass`, `|` is just literal `|` and need `\` escape.
 ```js
 // SyntaxError
 // let re = /[j|t]s/v;
-let re = /[j\|t]s/v;
+let re = /[j\|t]s/v; // j OR | OR t
 ```
 
 ---
