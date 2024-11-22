@@ -40,7 +40,7 @@ class: invert
   - \+ Self-employed
 - OSS Contributor
   - ⚓️ https://oxc.rs
-  - etc...
+  - etc.
 
 Live in Shiga pref.
 
@@ -87,6 +87,8 @@ Live in Shiga pref.
 ### `RegularExpressionLiteral` in JavaScript
 
 ```js
+// ...
+
 /** Main function! */
 function main() {
   // ...
@@ -100,7 +102,7 @@ function main() {
 // ...
 ```
 
-How to parse it?
+How to parse it from source code string?
 
 ---
 
@@ -137,9 +139,10 @@ Also defined?
 
 ## ✋
 
-- Q1. Has anyone here ever used regular expressions in JavaScript?
-- Q2. `&&` How many can say they fully understand the meaning of what they wrote?
-- Q3. `&&` Who knows all the available syntax for regular expressions?
+- Q1. Have you ever used regular expressions in JavaScript?
+- Q2. & Can you say you fully understand the meaning of what you wrote?
+- Q3. && Who knows all the available syntax for regular expressions?
+
 
 ---
 
@@ -186,7 +189,7 @@ let re = new RegExp("pattern", "flags");
 
 ### Pattern syntax
 
-Check it later! 🔜
+Check it later! 👋
 
 ---
 
@@ -230,7 +233,7 @@ The syntax has become more sophisticated, and ambiguous expressions can no longe
 
 ---
 
-### FYI: `v` flag
+### `v` flag is already around you
 
 Works as the same as `pattern` attribute in HTML.
 
@@ -297,7 +300,7 @@ const re3 = new RegExp(こんにちは, "v");
   - Special characters must be escaped by `\`
   - Escape sequences can also be used, but...
 
-Can be dynamic, but invalid syntax are only detected at runtime. 💣
+Can be dynamic, invalid syntax will be detected at runtime only. 💣
 
 ---
 
@@ -311,7 +314,7 @@ Can be dynamic, but invalid syntax are only detected at runtime. 💣
 
 ---
 
-### You don't need to know all of them!
+### You don't need to understand all of them!
 
 The spec is a product of historical layers. 📜
 
@@ -319,7 +322,7 @@ Some of them are:
 
 - Too verbose, nature of the spec to avoid ambiguity
 - Rarely or never used syntax to you
-- Obsoleted by new flags
+- Obsoleted stuff by new flags
 
 Prefer the `v` flag to use the latest syntax!
 
@@ -354,7 +357,7 @@ let re = /ecma262/v;
 let re = /Hello! 😄/v;
 ```
 
-You don't need `RegExp` in this case, though. 🙄
+You don't need `RegExp` in this case, though.
 
 FYI: `String.prototype` `.includes()`, `.startsWith()`, and `.endsWith()`
 
@@ -412,6 +415,7 @@ Full list:
 
   /\cA/v, // Control character
   /\0/v, // NUL character
+
   /\x1A/v, // Unicode code point by 2 digits HEX
   /\u0007/v, // Unicode code point by 4 digits HEX
   /\uD83D\uDE03/v, // Surrogate pair for 😃
@@ -448,13 +452,13 @@ Hello, world
 `); // false
 ```
 
-You should use `\.` to match literal `.`.
+You need to use `\.` to match literal `.`.
 
 ---
 
 ### 2a: Wildcard
 
-With `s`(`dotAll`) flag, `.` can match line terminators!
+With `s`(`dotAll`) flag, `.` can match line terminators.
 
 ```js
 let re = /Hello. world./vs;
@@ -470,7 +474,7 @@ Hello, world
 
 ### 2b: Character class escape
 
-Preset that matches set of characters.
+Defined presets that match set of characters.
 
 ```js
 [
@@ -546,8 +550,9 @@ let str = "🤗";
 str.length; // 2(?!)
 str.split("").length; // 2(?!)
 
-// [35, 55358, 56697, 35] UTF-16 code unit surrogate pair
-/#.#/.test("#🥹#"); // false
+// UTF-16 code unit surrogate pair:
+// [35, 55358, 56697, 35]
+/#.#/.test("#🥹#"); // false(?!)
 ```
 
 2(High surrogate + Low surrogate) units as 1 character.
@@ -562,7 +567,8 @@ str.split("").length; // 2(?!)
 `u` or `v` flag to the rescue!
 
 ```js
-// [35, 129401, 35] Unicode code point!
+// Unicode code point:
+// [35, 129401, 35]
 /#.#/v.test("#🥹#"); // true
 ```
 
@@ -578,14 +584,14 @@ Unicode 16.0.0 contains 154,998 characters.
 `String.prototype[Symbol.iterator]()` can split strings by Unicode code points.
 
 ```js
-[..."🥹"]; // ["🥹"]
 "🥹".split("") // ["\ud83e", "\udd79"]
+[..."🥹"]; // ["🥹"]
 ```
 
 But some emojis are joined form of Unicode, grapheme clusters are not kept.
 
 ```js
-/#.#/v.test("#🇯🇵#"); // false(!!)
+/#.#/v.test("#🇯🇵#"); // false(?!)
 [..."🇯🇵"]; // ["🇯", "🇵"]
 
 [..."👈🏻"]; // ["👈", "🏻" ]
@@ -624,6 +630,7 @@ Binary Unicode properties of strings can match joined form of emojis!
 
 ```js
 /#\p{RGI_Emoji}#/v.test("#🇯🇵#"); // true
+
 // More specific
 /#\p{RGI_Emoji_Flag_Sequence}#/v.test("#🇯🇵#"); // true
 ```
@@ -631,7 +638,6 @@ Binary Unicode properties of strings can match joined form of emojis!
 > https://tc39.es/ecma262/2024/multipage/text-processing.html#table-binary-unicode-properties-of-strings
 
 Note that matched unit may contain strings, not only a single unicode character now.
-
 
 ---
 
@@ -689,6 +695,8 @@ let re = /[\p{Decimal_Number}--[0-9]]/v;
 
 Can not mix operations on the same nest level.
 
+`CharacterClass` can be nested as `NestedClass`.
+
 ---
 
 ### 2d: Character class
@@ -727,10 +735,10 @@ Greedy by default. Add post-`?` to make it non-greedy.
 
 ```js
 // Greedy: "INPUT: "
-"INPUT: <p><em>lorem</em> <i>ipsum</i></p>".replaceAll(/<.+>/gv, "");
+"INPUT: <p><em>lorem</em> <i>ipsum</i></p>".replaceAll(/<.+>/vg, "");
 //       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 // Non-greedy: "INPUT: lorem ipsum"
-"INPUT: <p><em>lorem</em> <i>ipsum</i></p>".replaceAll(/<.+?>/gv, "");
+"INPUT: <p><em>lorem</em> <i>ipsum</i></p>".replaceAll(/<.+?>/vg, "");
 //       ^  ^^       ^^^   ^       ^^  ^^
 ```
 
@@ -762,21 +770,15 @@ Variation of quantifiers.
 
 ### 3a: Disjunction
 
-Use `|` to create `Alternative` matching branch.
+Use `|` to create other `Alternative` matching branch.
 
 ```js
 let re = /jsx|tsx|vue|svelte/v;
+//       |A#1|A#2|A#3|Alt.#4|
+//       |    Disjunction   |
 
 // Can be empty but useless
 let re = /||||||||||||/v;
-```
-
-In `CharacterClass`, `|` is just literal `|` and need `\` escape.
-
-```js
-// SyntaxError
-// let re = /[j|t]s/v;
-let re = /[j\|t]s/v; // j OR | OR t
 ```
 
 ---
@@ -791,6 +793,10 @@ let re = /\.jsx|vue|svelte/v;
 
 // Matches ".jsx", ".vue" or ".svelte"
 let re = /\.(?:jsx|vue|svelte)/v;
+//       |    Disjunction     |
+//       |   Alternative#1    |
+//            | Disjunction  |
+//            |A#1|A#2|Alt.#3|
 ```
 
 ---
@@ -881,6 +887,7 @@ You can add unique `?<`name`>`, `GroupSpecifier` to refer it later.
 
 ```js
 let match = /(?<lang>js|ts)x/v.exec("jsx");
+//            ^^^^^^^
 if (match) {
   match.groups.lang; // "js"
   match[1]; // "js"
@@ -938,39 +945,11 @@ let re = /\k<later>..(?<later>...)/v;
 
 ---
 
-<!-- _backgroundColor: #eceff4 -->
-<!-- _color: #4c566a -->
+### Finish!
 
-## 🫖 Break 3 / Static Semantics: Early Errors
+Now you understand all of ES2024 **RegExp Syntax**! 👏
 
----
-
-<!-- _backgroundColor: #eceff4 -->
-<!-- _color: #4c566a -->
-
-### SS: Early Errors
-
-If syntactically correct but semantically incorrect, throw `SyntaxError`.
-
-> https://tc39.es/ecma262/2024/multipage/text-processing.html#sec-patterns-static-semantics-early-errors
-
----
-
-<!-- _backgroundColor: #eceff4 -->
-<!-- _color: #4c566a -->
-
-### SS: Early Errors
-
-- If the number of capturing group open parens `(` > 2^32
-- If `Quantifier` `a{N,M}` digits are NOT N <= M
-- If `CharacterClass` range of character value `[N-M]` are NOT N <= M
-- If `\k<name>` refered but `(?<name>)` not captured
-- If unknown property name or value are used in Unicode character class escape
-- If `[^`...`]` contain units that match strings(= `MayContainStrings`)
-  - `MayContainStrings`: `\p{RGI_EMOJI}`, `[\q{abc}]`, etc...
-- etc...
-
-> https://tc39.es/ecma262/2024/multipage/text-processing.html#sec-patterns-static-semantics-early-errors
+Easier than you expected?
 
 ---
 
@@ -1202,11 +1181,39 @@ ClassSetReservedPunctuator :: one of
 
 ---
 
-### Finish!
+<!-- _backgroundColor: #eceff4 -->
+<!-- _color: #4c566a -->
 
-Now you understand all of **RegExp Syntax**! 👏
+## 🫖 Break 3 / Static Semantics: Early Errors
 
-Easier than you expected?
+---
+
+<!-- _backgroundColor: #eceff4 -->
+<!-- _color: #4c566a -->
+
+### SS: Early Errors
+
+If syntactically correct but semantically incorrect, throw `SyntaxError`.
+
+> https://tc39.es/ecma262/2024/multipage/text-processing.html#sec-patterns-static-semantics-early-errors
+
+---
+
+<!-- _backgroundColor: #eceff4 -->
+<!-- _color: #4c566a -->
+
+### SS: Early Errors
+
+- If the number of capturing group open parens `(` > 2^32
+- If `Quantifier` `a{N,M}` digits are NOT N <= M
+- If `CharacterClass` range of character value `[N-M]` are NOT N <= M
+- If `\k<name>` refered but `(?<name>)` not captured
+- If unknown property name or value are used in Unicode character class escape
+- If `[^`...`]` contain units that match strings(= `MayContainStrings`)
+  - `MayContainStrings`: `\p{RGI_EMOJI}`, `[\q{abc}]`, etc...
+- etc...
+
+> https://tc39.es/ecma262/2024/multipage/text-processing.html#sec-patterns-static-semantics-early-errors
 
 ---
 
@@ -1239,6 +1246,7 @@ Extensiton for non-capturing `(?:...)` group.
 ```js
 let re = /^[a-z](?-i:[a-z])$/i;
 //                ^^ OFF
+
 let re = /^(?i:[a-z])[a-z]$/;
 //           ^ ON
 ```
