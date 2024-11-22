@@ -490,7 +490,7 @@ Defined presets that match set of characters.
 
 ### 2b: Character class escape
 
-With `i` flag, `\w` also supports Unicode Default Case Conversion.
+With `i`(`ignoreCase`) flag, `\w` also supports Unicode Default Case Conversion.
 
 ```js
 /\w/v.test("ſ"); // false
@@ -1178,6 +1178,17 @@ ClassSetSyntaxCharacter :: one of
 ClassSetReservedPunctuator :: one of
   & - ! # % , : ; < = > @ ` ~
 ```
+
+---
+
+### FYI
+
+- ECMAScript `RegExp`パーサー実装の手引き Part 1 | Memory ice cubes
+  - https://leaysgur.github.io/posts/2024/08/27/092541/
+- ECMAScript `RegExp`パーサー実装の手引き Part 2 | Memory ice cubes
+  - https://leaysgur.github.io/posts/2024/08/27/093543/
+- ECMAScript `RegExp`パーサー実装の手引き Part 3 | Memory ice cubes
+  - https://leaysgur.github.io/posts/2024/08/27/095042/
 
 ---
 
