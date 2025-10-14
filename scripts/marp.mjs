@@ -20,7 +20,7 @@ args.push("--input-dir", target);
 if (isWatch) {
   console.log('watching changes...');
   console.log(`Open http://localhost:8080`);
-  exec(`open ${target}/index.md`);
+  // exec(`open ${target}/index.md`);
   args.push("--server");
 }
 
@@ -29,7 +29,7 @@ if (isConfig) {
   args.push("--config", `${target}/.marprc`);
 }
 
-exec(`npx @marp-team/marp-cli --yes ${args.join(" ")}`, (err, stdout, stderr) => {
+exec(`npx @marp-team/marp-cli@latest --yes ${args.join(" ")}`, (err, stdout, stderr) => {
   if (err || stderr) {
     console.error(err || stderr);
     process.exit(1);

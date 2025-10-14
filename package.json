@@ -4,6 +4,9 @@
   "description": "My presentations!",
   "author": "leader22",
   "license": "MIT",
+  "scripts": {
+    "fmt": "npx oxfmt@latest -c ./scripts/*.mjs"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/leader22/slides.git"
