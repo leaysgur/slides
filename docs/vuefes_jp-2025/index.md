@@ -88,7 +88,7 @@ It's also used internally by [Rolldown](https://github.com/rolldown/rolldown), w
 
 ---
 
-## Before and after my 1st PR 🌅
+## Before and after my first PR 🌅
 
 ---
 
@@ -96,50 +96,51 @@ It's also used internally by [Rolldown](https://github.com/rolldown/rolldown), w
 
 - As a front-end engineer, I never use Rust at work
   - I had expectations (~~or hopes~~) that I might use it with WASM
-- The language only used for [LeetCode](https://leetcode.com) in my free time and [Advent of Code](https://adventofcode.com) at the end of each year
+- Only used for [LeetCode](https://leetcode.com) in my free time and [Advent of Code](https://adventofcode.com) at the end of each year
   - Repeating the cycle of learning <-> forgetting for 3 years. 🤯
 
-In the fall of 2023, I realized that contributing to OSS might be the best way to learn it.
+In the fall of 2023, I realized that contributing to OSS might be the best way to learn it!
 
 ---
 
 ### Me and OSS
 
-- I'm not a total newbie 😇
+- I'm not a total newbie 😀
 - Occasionally submit PRs, participate in discussions on issues
 - I also publish and maintain my own OSS projects
 
-I've been following the trends of well-known OSS projects that I use at work for a long time, but I've never had the experience of being deeply involved in a specific OSS project.
+I've been following the trends of well-known OSS projects that I use at work for a long time.
+But I've never had the experience of being deeply involved in a specific OSS project.
 
 ---
 
 ### a.k.a. "半年ROMれ"
 
-- OXCというプロジェクトの盛り上がりは知ってて、興味はあった
-  - しかし、何から始めたらいいのか
-  - どこに貢献の余地があるのかわからない
-  - Rustが得意というわけでもない
-- なので、すべてのIssue/PRをwatchして、ひたすら観察していた
-- PRはせずにコードを書いてみて、他の人のマージされたPRと答え合わせしたり
+- I knew about OXC's momentum and was interested
+  - But didn't know where to start
+  - And also not particularly skilled in Rust
+- So I watched ALL Commits/Issues/PRs, just observing
+- Wrote code without submitting PRs, comparing with others' merged PRs
 
 > Lurk Moar | Know Your Meme
 > https://knowyourmeme.com/memes/lurk-moar
 
 ---
 
-### メンテナの人たちに迷惑をかけたくない
+### Don't want to bother maintainers
 
-- 郷に入っては郷に従う・・・ためにも、まずは知るところから
-  - どういうIssueの優先度が高いのか
-  - 過去にcloseされるIssue/PRの経緯や理由、作法など
-  - どういう人が活動してるか（担当領域や生活タイムゾーンとか）
-  - どこなら他の人の作業と競合しなさそうか
-- コードに対する作法も、それ以外のことも学べる
-  - `Good first issue`や`Help wanted`ラベルがあることとか
-  - PRごとにベンチマークが走るほど、パフォーマンスを意識してるとか
-  - たとえばTSの型情報は使えないので、対応できない場合もあるとか
+- To follow the norms, start by understanding first
+  - Context and reasons for closed Issues/PRs, conventions
+  - Which issues have higher priority
+  - Who's active (their areas, timezones, etc.)
+  - Where I could work without conflicting with others
+  - etc...
+- Learn conventions for code and beyond
+  - Labels like `Good first issue` and `Help wanted`
+  - Performance-focused (benchmarks run per PR)
+  - Some limitations (e.g., no TS type info available)
 
-㊗️ 2023/12: `oxlint`の[GA](https://oxc.rs/blog/2023-12-12-announcing-oxlint.html)がアナウンス
+㊗️ 2023/12: `oxlint` [GA](https://oxc.rs/blog/2023-12-12-announcing-oxlint.html) announced
 
 ---
 
@@ -148,31 +149,31 @@ I've been following the trends of well-known OSS projects that I use at work for
 > feat(tasks): Add eslint-plugin-jsdoc rulegen by leaysgur · Pull Request #1965 · oxc-project/oxc
 > https://github.com/oxc-project/oxc/pull/1965
 
-Linterのルール実装・・・の、テンプレート生成コマンドを追加しただけ。
+Just added a template generation command for linter rule implementation.
 
-ちなみにこの時、`eslint-plugin-jsdoc`のルール実装に挫折したと書いてあった 🥹
+(I found that I'd given up on implementing `eslint-plugin-jsdoc` rules at this time. 🥹)
 
 ---
 
 ### `tasks/lint_rules` CI
 
-- プラグインごとのルール実装の進捗を[可視化](https://github.com/oxc-project/oxc/issues/684)するCIタスク
-  - ESLintプラグインをローカルインストールし、Rustのコードを文字列パースした結果と比較するGitHub Actions
-- このタスクはRustではなくJSで書いた
-  - 某プラグインがルール一覧をJSで動的に定義してて、Rustではパースできなかったので
+- CI task to [visualize](https://github.com/oxc-project/oxc/issues/684) rule implementation progress per plugin
+  - GHA that installs ESLint plugins locally and compares with Rust code string parsing results
+- Written in JS, not Rust
+  - A certain plugin dynamically defined rule lists in JS, which Rust couldn't parse
 
-![bg right contain](./img/lint_rules.webp)
+![bg right:45% contain](./img/lint_rules.webp)
 
 ---
 
-### コードを書くだけがOSS貢献ではない
+### OSS contribution isn't just about code
 
-- Rustを書かなくても、Rustのプロジェクトに貢献できることもある
-- 実は、他にもそういう機会は転がってる
+- You can contribute to Rust projects without writing Rust
+- Actually, such opportunities are everywhere
   - Playground: https://github.com/oxc-project/playground
   - Docs: https://github.com/oxc-project/oxc-project.github.io
 
-というか、Issueにコメントするだけでも、[Discord](https://discord.com/invite/9uXCAwqQZW)で会話するだけでも、使用感や調査結果をポストするだけでも、それは立派なOSS contributionになる！
+In fact, just commenting on Issues, chatting on [Discord](https://discord.com/invite/9uXCAwqQZW), or sharing usage insights and research results - all are OSS contributions!
 
 ---
 
@@ -185,14 +186,14 @@ Linterのルール実装・・・の、テンプレート生成コマンドを�
 > feat(ast,parser): parse jsdoc · Issue #168 · oxc-project/oxc
 > https://github.com/oxc-project/oxc/issues/168
 
-- 2023年末からずっと放置されてたIssue
-  - Issueページの最後尾に長らく埋まっていた
-- 当初は軽い気持ちで開けた
-  - 誰もやらない = じっくりRustが学べるのでは？
-  - 挫折した`eslint-plugin-jsdoc`のリベンジ
-  - 仕事でJSDoc TSもよく使ってたし、なんとなくできる気がした
+- Issue left untouched since end of 2023
+  - Buried at the bottom of the issue list for a long time!
+- Initially opened it light-heartedly
+  - Nobody doing it = good chance to learn Rust thoroughly?
+  - Revenge for the `eslint-plugin-jsdoc` I gave up on
+  - Used JSDoc TS often at work, felt somehow doable
 
-誰も触らない理由をすぐに知ることになる・・・ 😇
+Soon learned why nobody touched it... 😇
 
 ---
 
@@ -208,15 +209,15 @@ Linterのルール実装・・・の、テンプレート生成コマンドを�
    @omg */
 ```
 
-- `*`からはじまる複数行コメントに
-- `@tag`を書いて自由に意味を持たせられる
-- 仕様は決まってない
+- Multi-line comments starting with `*`
+- Can write `@tag` to freely assign meaning
+- No spec defined
 
-仕様は決まってない！（大事なことなので2回）
+NO SPEC DEFINED!
 
 ---
 
-### コメントは誰のもの？
+### Who owns comments?
 
 ```js
 /** `const`, `x` or arrow function? */
@@ -228,8 +229,9 @@ function method(param /*: string */) /*: number */ {
 }
 ```
 
-コメントとASTの対応は、ESTreeでも定義されてない微妙な扱いのトピック。
-どこにでも書けるし、改行やスペースの考慮も必要になる。
+Comment-to-AST mapping is a tricky topic not defined even in ESTree.
+
+They can be written anywhere, requires considering newlines and also spaces.
 
 > Standardize Comment Types · Issue #201 · estree/estree
 > https://github.com/estree/estree/issues/201
@@ -247,32 +249,33 @@ function method(param /*: string */) /*: number */ {
 }
 ```
 
-- 任意の名前で、タグをエイリアスできる[オプション](https://github.com/gajus/eslint-plugin-jsdoc/blob/main/docs/settings.md#alias-preference)がある
-- つまり、ESLintの設定がわからないと、パーサーで静的にパースできない
+- Has an [option](https://github.com/gajus/eslint-plugin-jsdoc/blob/main/docs/settings.md#alias-preference) to alias tags with arbitrary names
+- Means parser can't statically parse without knowing ESLint config
 
-こうなると、全て汎用的に処理するしかない・・・。
+In this case, must handle everything dynamically at runtime...
 
 ---
 
-### とりあえず、なんとかした
+### Managed it somehow
 
-- ひとまず`eslint-plugin-jsdoc`に特化した実装として着地させた
-- しかし、18ルールほどを実装したところで燃え尽きた 😶‍🌫️
+- Landed as an implementation specialized for `eslint-plugin-jsdoc`
+  - Provide a few kinds of runtime methods for each usecase
+- But burned out after implementing 18 rules 😶‍🌫️
   - [☂️ eslint-plugin-jsdoc · Issue #1170 · oxc-project/oxc](https://github.com/oxc-project/oxc/issues/1170)
 
-IMPORTANT: その後、JSDoc TSを選択する頻度は激減した・・・。
+IMPORTANT: After that, my use of JSDoc TS drastically decreased. 🙊
 
 ---
 
-### 歴史の分だけ事情がある
+### As much history, as many circumstances
 
-- JSDocの場合、すべてがユースケース次第
-  - 誰がコメントを所有するか
-  - どんなフォーマットを期待するか
-- = みんながみんな、個別の実装を持ってる
-  - 元祖[JSDoc](https://jsdoc.app), [TypeDoc](https://typedoc.org), [JSDoc TS](https://www.typescriptlang.org/docs/handbook/jsdoc-supported-types.html), [eslint-plugin-jsdoc](https://github.com/gajus/eslint-plugin-jsdoc), etc...
+- For JSDoc, everything depends on use case
+  - Who owns the comments
+  - What format is expected
+- = Everyone has their own implementation
+  - Original [JSDoc](https://jsdoc.app), [TypeDoc](https://typedoc.org), [JSDoc TS](https://www.typescriptlang.org/docs/handbook/jsdoc-supported-types.html), [eslint-plugin-jsdoc](https://github.com/gajus/eslint-plugin-jsdoc), etc...
 
-コメントは、JS toolingにおける鬼門・・・。
+Comments are a constant headache in JS tooling...
 
 ---
 
@@ -295,78 +298,77 @@ IMPORTANT: その後、JSDoc TSを選択する頻度は激減した・・・。
 
 ### `/Hello,? [rR]egular(_|-)expression/v`
 
-JSでは、不正な正規表現"リテラル"は構文エラーになる。
+In JS, invalid regexp "literals" cause syntax errors.
 ![Lone "{" is invalid regexp with "v" flag](./img/regexp.webp)
 
-- パーサーとして、それを検知したい
+- Want to detect this as a parser
   - [feat(linter): regex parser · Issue #1164 · oxc-project/oxc](https://github.com/oxc-project/oxc/issues/1164)
-- 正規表現関連のESLintルールも実装したい
+- Also want to implement regexp-related ESLint rules
   - [no-invalid-regexp - ESLint - Pluggable JavaScript Linter](https://eslint.org/docs/latest/rules/no-invalid-regexp)
 
-過去に何人かが取り組んでたけど、道半ばで止まってたシリーズ。
+Several brave souls tried, but the path remained unfinished.
 
 ---
 
-### 千里の道も一歩から
+### A journey of a thousand miles
 
-- （~~JSDocと違って~~）正規表現には[構文仕様書](https://tc39.es/ecma262/2025/multipage/text-processing.html#sec-regexp-regular-expression-objects)がある！
-  - WebRTCをやってた頃、パケットをパースする実装は少しだけ
-  - しかし、BNF記法の読み方は知らなかった
-- 先行実装の研究からはじめた
-  - `oxc_parser`自体
+- (~~Unlike JSDoc~~) RegExp has a [spec](https://tc39.es/ecma262/2025/multipage/text-processing.html#sec-regexp-regular-expression-objects)!
+  - Did a bit of packet parsing when working on WebRTC
+  - But didn't know how to read BNF notation
+- Started by studying existing implementations
+  - `oxc_parser` itself
   - https://github.com/jviereck/regjsparser
   - https://github.com/eslint-community/regexpp
 
-![bg right:40% contain](./img/bnf.webp)
+![bg right:35% contain](./img/bnf.webp)
 
 ---
 
-### わからないなりの、進め方
+### How to proceed when you don't know
 
-- タスクは[可視化](https://github.com/oxc-project/oxc/pull/3824)
-  - わからないことを調査する予定すらも、タスクとして明記
-- 進捗も懸念もこまめに共有
-- 悩んだらすぐに確認
+- [Visualize](https://github.com/oxc-project/oxc/pull/3824) tasks
+  - Even plans to research unknowns, list as tasks
+- Share progress and concerns frequently
+- Ask immediately when stuck
 
-報連相が大事なのは、仕事でもOSSでも同じかも。
+Communication matters in both work and OSS.
 
-![bg right contain](./img/regex_progress.webp)
-
----
-
-### やってみたらできた ✌🏼
-
-- 初版の実装は、だいたい1ヶ月半くらいかかった
-  - 途中で何度か書き直したりしたせいもある
-- 初期は本当に成果が出なかった
-  - けど、続けることで、日に日に理解が深まっていく
-- その後は、バグ対応やエッジケースの対応が待ってた
-- 当時はまだStage3だったproposalも実装した
-
-ぜんぶ落ち着いたのは、3ヶ月くらい経った頃だったはず。
+![bg right:40% contain](./img/regex_progress.webp)
 
 ---
 
-### Parse `RegExp`
+### Did it! ✌🏼
+
+- First implementation took ~1.5 months
+  - Rewrote several times along the way
+- No results at first
+  - But kept going, understanding deepened daily
+- Also implemented proposals that were still Stage 3
+
+Handling bug fixes and edge cases, everything settled after ~3 months.
+
+---
+
+### About parsing `RegExp`
 
 - [30 Minutes to Understand All of `RegExp` Syntax](https://leaysgur.github.io/slides/jsconf_jp-2024/)(en)
   - My talk slide at JSConf JP 2024
-- `/a'b"c/`だけでなく、`new RegExp("a'b\"c")`に対応するのが大変だった
-  - 元コード上で位置を報告する際に、エスケープを考慮しないといけない
-  - JSとは違って、Rustではエスケープは自動で処理されないので
-  - `<CRLF>`のことも許さない
+- Supporting not just `/a'b"c/` but also `new RegExp("a'b\"c")` in non-JS is hard
+  - Must consider escapes when reporting positions in source
+  - In JS, escapes are automatically resolved
+  - Also can't allow `<CRLF>` 😤
 
 ---
 
-### Parse ECMAScript
+### About parsing ECMAScript
 
-- 必ずしも仕様書に書かれた順にパースしていく必要はない
-  - 結果的にパースできていればOK
-  - `oxc_parser`なんかその最たる例で、カリカリにチューニングされてる
-  - ただ、新しい構文が追加されたときは少し大変かも
-- AnnexBという遺産が存在する
-  - Webの後方互換性のために残されてるlooseな構文
-  - これのせいで書き直したし、実質のコード量が+30%くらいになった
+- Don't necessarily need to parse in spec order
+  - OK as long as it parses correctly
+  - `oxc_parser` is prime example, heavily tuned 🏎️
+  - Though new syntax additions can be tricky
+- There's a legacy called Annex B
+  - Loose syntax kept for web backwards compatibility
+  - Had to rewrite because of this, code increased ~30%
 
 ---
 
@@ -382,55 +384,55 @@ JSでは、不正な正規表現"リテラル"は構文エラーになる。
 
 ---
 
-## 前半のまとめ ☕️
+## First Half Summary ☕️
 
 ---
 
 ### JUST DO IT.
 
-- やったことなくても、やってみたら、意外とやれることは多い
-  - 時間はかかるけど、コツコツとやり続けるのが大事
-- コミュニケーション力はどこでも必要
-  - OSSで学んで仕事に活かすこともできる
-- AI時代なので、あまりコードが書けない人でもできるはず
-  - ただ、レビューする人のことも忘れないで・・・
+- Even without experience, you can do more than you think
+  - Takes time, but consistency is key
+- Communication skills needed everywhere
+  - Can learn in OSS and apply to work
+- In the AI era, even those less skilled at coding can contribute
+  - But don't forget about reviewers...
 
 ---
 
-### 当時のモチベーション
+### My motivation back then
 
 > https://x.com/lukeed05/status/1829527267162345651
 
-OSSの継続は大変だと知ってるので、微力ながらも、助力になればいいなと思ってた。
+Knowing OSS maintenance is hard, hoped my small contribution could help.
 
 ![bg right contain](./img/boshen2.webp)
 ![bg right contain](./img/boshen1.webp)
 
 ---
 
-### 2024/10: void(0)社のアナウンス
+### 2024/10: void(0) announcement
 
 > Announcing VoidZero - Next Generation Toolchain for JavaScript | VoidZero
 > https://voidzero.dev/posts/announcing-voidzero-inc
 
-ひとまずは安心。 ☺️
+Relief. ☺️
 
-「OSSが仕事になる例がもっと増えたらいいな〜」と、他人事のように思ってた。
+Thought casually "hope more OSS becomes actual work"?
 
 ---
 
-### 実績を解除 🔓
+### Achievements unlocked 🔓
 
-- OSSのコアメンバーになる
+- Became OSS core member
   - [Meet the Team | The JavaScript Oxidation Compiler](https://oxc.rs/team)
-- OSSで報酬をもらう
+- Got paid for OSS work
   - [[$50 Opire Bounty] feat(linter): eslint/no-invalid-regexp · Issue #611 · oxc-project/oxc](https://github.com/oxc-project/oxc/issues/611)
-- GitHubでスポンサーがつく
-  - Thank you all!
+- Got GitHub sponsors
+  - Thank you very much for the past and current sponsors 💖
 
 ---
 
-## 後半へ 🚀
+## To the second half 🚀
 
 ---
 
@@ -443,85 +445,85 @@ OSSの継続は大変だと知ってるので、微力ながらも、助力に�
 > Rework `oxc_prettier` · Issue #5068 · oxc-project/oxc
 > https://github.com/oxc-project/oxc/issues/5068
 
-`oxlint`でESLintをポートしたように、Prettierもポートしようというもの。
+Port Prettier like we did with ESLint -> `oxlint`.
 
-今回は、40%くらいまではもう実装済のところからスタート。
-ただひたすらカバレッジを改善していけばいいはずだった。
+This time, started with ~40% already implemented.
+Should've just needed to improve coverage endlessly.
 
 ---
 
-### またも地道にやってた
+### Steady work again
 
-- Prettierのコードを読んでまとめたり
+- Read and summarized Prettier code
   - [Prettier のコードを読む Part 1 | Memory ice cubes](https://leaysgur.github.io/posts/2024/09/02/103846/)
-  - ...（中略）
+  - ...(omitted)
   - [Prettier のコードを読む Part 10 | Memory ice cubes](https://leaysgur.github.io/posts/2024/10/08/132257/)
-- [現状の進捗を可視化しTODOを整理](https://github.com/oxc-project/oxc/issues/5068#issuecomment-2507272735)したり
+- [Visualized progress and organized TODOs](https://github.com/oxc-project/oxc/issues/5068#issuecomment-2507272735)
 
-全部一人でやる必要はないし、誰でも参入できるようにしたかった。
-Prettierのことを知れば知るほど、一人でやれる気もしなかったので。
+The more I learned about Prettier, the less I felt I could do it solo.
+Didn't need to do it all alone, wanted anyone to join.
 
 ---
 
-### しかし
+### However...
 
-数ヶ月を費やし、30PRくらいやっても、進捗はいまいちだった 😵‍💫
+Months spent, ~30 PRs done, but progress was meh 😵‍💫
 
-- あまり人手も集まらなかった
-  - 自分の稼働も細切れだった
-- 動的なJSのコードを追うのは大変
-  - DevToolsで`debugger`できるのだけは最高
-- ASTの構造も違うし、あらゆる懸念がいろんなところにあった
-  - 特にコメントは本当に複雑で、場所ごとノードごとユースケースごとに個別の対応がある
+- Not many people joined
+  - My availability was also fragmented
+- Tracing dynamic JS code is hard
+  - BTW, `debugger` in DevTools is really great
+- Different AST structure, concerns everywhere
+  - Comments headache again
+  - Especially complex, requiring per-location, per-node, per-use-case handling
 
-検討の末、Prettierをそのまま移植する方針はやめることになった。
+After consideration, decided to abandon direct Prettier port approach.
 
 ---
 
 ### Fork `biome_formatter`
 
-代わりに、BiomeのFormatterのインフラ部分だけをforkすることにした。
+Instead, decided to fork only Biome's Formatter infrastructure.
 
 - [`biome_formatter`](https://github.com/biomejs/biome/tree/main/crates/biome_formatter)
-  - これの上に、`biome_js_formatter`や`biome_html_formatter`が実装されてる
-- BiomeのCSTではなく、OXCのASTでも使えるように改修は必要
-  - それでも既に動いてるRustのコードが使えるのは大きい
+  - On top of this, `biome_js_formatter` and `biome_xxx_formatter` are built
+- Needs modification to work with OXC's AST, not Biome's CST
+  - Still, using working Rust code is huge
 
-・・・という作業をしばらくやってた。
-
----
-
-### しかし
-
-結果的にはギブアップ宣言して、引き継いでもらうことにした 😢
-
-- OXCのパフォーマンスは、厳密なメモリの扱いとライフタイム指定によるもの
-- Biomeのコードは洗練されていて、traitやmacroがふんだんに活用されてる
-
-これらが合わさった時、何もわからないになった。
-まとまった時間も取れず、もどかしさでいっぱいの日々だった。
-
-完全に自分のRust力不足によるもので、めちゃめちゃ悔しかった・・・。
+...was working on this for a while.
 
 ---
 
-### そして時は過ぎ...
+### However...
 
-- あれよあれよという間に実装が進み、今やカバレッジは90%↑
-  - これがVoidZero・・・格が違うぜ・・・ってなってた
-- そのうちに`oxfmt`として利用できるようになる予定
+Eventually gave up and handed it off 😢
+
+- OXC's performance relies on strict memory handling and lifetime annotations
+- Biome's code is polished, heavily uses traits and macros
+
+When combined, got completely lost.
+
+Entirely due to my Rust skills lacking, so frustrating...
+
+---
+
+### And time passed...
+
+- Implementation progressed rapidly, now 90%+ coverage
+  - This is VoidZero... different league... 😂
+- Will be available as `oxfmt` eventually
   - [RFC: Formatter · oxc-project/oxc · Discussion #13608](https://github.com/oxc-project/oxc/discussions/13608)
 
 ---
 
-### 己の無力さを知る
+### Learned my limits
 
-- Rustのハードな部分が身に染みた 😇
-- やる気があっても無理なものは無理
-  - 時間も無限ではないし、ビジネス都合もあるだろう
-- しかし、調査結果や感触をフィードバックすることには意味がある
-  - できる人が上手く使ってなんとかしてくれる
-- PrettierもBiome formatterも偉大だった
+- Felt Rust's hard parts deeply
+- Even with motivation, impossible is impossible
+  - Time isn't infinite, business constraints exist
+- But feedback from research and insights has value
+  - Capable people make good use of it
+- Both Prettier and Biome formatter are great
 
 🎂 [Vjeux » Birth of Prettier](https://blog.vjeux.com/2025/javascript/birth-of-prettier.html)
 
@@ -531,56 +533,56 @@ Prettierのことを知れば知るほど、一人でやれる気もしなかっ
 
 ---
 
-### `oxc_parser`のESTree対応
+### ESTree support for `oxc_parser`
 
-- Rustのcrateとしての`oxc_parser`は、独自のAST構造を持つ
-  - Babel ASTにも少し似てるけど、また異なる
-- しかし世間では、[ESTree](https://github.com/estree/estree)というAST構造がデファクトスタンダード
-  - 既存エコシステムを活用するには、対応が必須
-- どうにか構造をマッピングして変換するタスク
+- `oxc_parser` as a Rust crate has its own AST structure
+  - Somewhat similar to Babel AST, but different
+- However, [ESTree](https://github.com/estree/estree) is the de facto standard AST structure
+  - Essential to support for existing ecosystem
+- Task: somehow map and convert structures
 
-JSは既に完了してたけど、JSXとTSがWIPだった。
+JS was done, but JSX and TS were WIP.
 
 > [Align JS-side AST with standard for JSX · Issue #9703 · oxc-project/oxc](https://github.com/oxc-project/oxc/issues/9703)
 > [Align JS-side AST with standard for TypeScript · Issue #9705 · oxc-project/oxc](https://github.com/oxc-project/oxc/issues/9705)
 
 ---
 
-### デファクトとは言っても
+### Though it's de facto
 
-ESTreeは、純JSパートのみを規定していて、JSXはもちろん、TSも管轄外になってる。
+ESTree only specifies pure JS parts, JSX and TS are out of scope.
 
-なので、先行実装として有名なパーサーに準ずることに。
+So, follow well-known parsers as prior implementations.
 
 - JSX: [`acorn`](https://github.com/acornjs/acorn) + [`acorn-jsx`](https://github.com/acornjs/acorn-jsx)
 - TSX: [`@typescript-eslint/typescript-estree`](https://github.com/typescript-eslint/typescript-eslint/tree/main/packages/typescript-estree)
 
 ---
 
-### 作業としては単純
+### Simple as a task
 
-1. サンプルコードを用意
-1. 先行実装でASTを出力
-1. OXCでもASTを出力
-1. それぞれのASTを比較
-1. 差分があったら、変換コードを書く
+1. Prepare sample code
+1. Output AST with prior implementation
+1. Output AST with OXC too
+1. Compare both ASTs
+1. If there's a diff, write conversion code
 
-ね？簡単でしょ？ 🫣
+Easy, right? 🫣
 
 ---
 
 ### Difficulty: Easy
 
-- リネームするだけ
+- Just rename
   - `(String|Boolean|...)Literal` > `Literal`
   - `XxxExpression.(expression|field)` > `.property`
-- 不要なフィールドなのでスキップするだけ
-- ネストを浅くspread, append, prepend
-- 固定値のフィールドを足すだけ
-- `None`を`[]`や`false`に
+- Just skip unnecessary fields
+- Flatten nesting: spread, append, prepend
+- Just add fixed value fields
+- `None` to `[]` or `false`
 - etc...
 
-`struct`に独自のAttribute macro `#[estree(...)]`をつけるだけで、あとは[ビルド](https://github.com/oxc-project/oxc/blob/main/tasks/ast_tools/src/derives/estree.rs)時に実装が自動生成されてBeautiful！
+Just add custom attribute macro `#[estree(...)]` to `struct`, then implementation auto-generated at [build](https://github.com/oxc-project/oxc/blob/main/tasks/ast_tools/src/derives/estree.rs) time. Beautiful!
 
 ---
 
@@ -597,7 +599,7 @@ class X {
 }
 ```
 
-目的の構造になるように、ASTを変換するロジックを手作業で追加する必要がある。
+Need to manually add logic to convert AST to desired structure.
 
 
 ```js
@@ -620,22 +622,25 @@ module X.Y.Z {}
 - OXC AST: Nested `TSModuleDeclaration` x3
 - TS-ESTree: Single `TSModuleDeclaration` and nested `TSQualifiedName` x3
 
-ASTの構造がまるで異なることも！
+AST structures can be completely different!
 
 ---
 
-### For JS diffs...
+### Even for JS diffs...
 
 - 👈🏻 JS: `acorn`
 - 👉🏻 TS: `@typescript-eslint/typescript-estree`
 
-TSのJSとJSのJSでも、細かい差異が実はいろいろある。
+Even between TS's JS and JS's JS, there are actually many subtle differences.
+
+> JS Multi AST Viewer
+> https://leaysgur.github.io/js-multi-ast-viewer/
 
 ![bg right:50% contain](./img/estree.webp)
 
 ---
 
-### ここでもJSを書いてた
+### Wrote JS here too
 
 [![](./img/estree_diff.avif)](https://github.com/leaysgur/oxc_estree_ts-ast-diff-viewer)
 
@@ -643,31 +648,30 @@ TSのJSとJSのJSでも、細かい差異が実はいろいろある。
 
 ### Finally...
 
-- JS, JSX, and TSX、それぞれ100%の互換性に到達！
-- 厳密には、まだ少し差異が残ってる
-  - [`loc`](https://github.com/oxc-project/oxc/issues/10307)がなかったり
-  - JSXの[HTML Entities](https://github.com/oxc-project/oxc/issues/9667)の差分など
+- Reached 100% compatibility for JS, JSX, and TSX! 🎉
+- Strictly speaking, some differences still remain
+  - Missing [`loc`](https://github.com/oxc-project/oxc/issues/10307), JSX [HTML Entities](https://github.com/oxc-project/oxc/issues/9667) differences, etc.
 
-互換性を確保できた結果・・・
+As a result of compatibility:
 
-- Prettierでoxcパーサーを使えるようにもなった
+- Prettier can now use oxc parser
   - [`@prettier/plugin-oxc`](https://github.com/prettier/prettier/tree/main/packages/plugin-oxc)
-- `oxlint`のJS pluginsにもつながる一歩だった
+- Was a step toward `oxlint` JS plugins
 
 ---
 
-### ESTreeにもいろいろある
+### ESTree Tips
 
-- 仕様 -> 実装ではなく、この界隈の紆余曲折あった"結果"でしかない
-  - Specに載ってないけど一般的な`raw`みたいなプロパティもある
+- Not spec -> implementation, just a "result" of this area's twists and turns
+  - Properties like `raw` are common but not in spec
     - [ESTreeの`Literal`ノードの`raw`プロパティ | Memory ice cubes](https://leaysgur.github.io/posts/2025/03/11/124250/)
-- `(`...`)`を表現するASTノードがない
-  - `/** @type */(foo)`で必ず必要なやつ
-  - コードとして意味が変わることも稀にある
+- No AST node representing `(`...`)`
+  - Essential for `/** @type */(foo)`
+  - Rarely changes code meaning
     - `fn.name`: `(fn) = function () {}` vs `fn = function () {}`
-  - パーサーによっては、preserveするオプションがあったりする
-- `@sveltejs/acorn-typescript`も、TS-ESTreeと呼ばれている
-  - しかし`@typescript-eslint/typescript-estree`とはまたAST構造が違う 🥺
+  - Some parsers have option to preserve it
+- `@sveltejs/acorn-typescript` also called TS-ESTree
+  - But different AST structure from `@typescript-eslint/typescript-estree` 😦
 
 ---
 
@@ -680,45 +684,43 @@ TSのJSとJSのJSでも、細かい差異が実はいろいろある。
 > parser: Improve TS error story · Issue #11582 · oxc-project/oxc
 > https://github.com/oxc-project/oxc/issues/11582
 
-- TSの構文をサポートできてるかを検証するcoverageがある
-  - パースできること（構文エラーがない）
-  - パースできないこと（構文エラーがある）
-- 現状、前者は高い(99%)が後者が低い(40%)
-- 型情報が必要なエラーが検知できないので、それが足を引っ張ってる
-  - これを除外したいというタスク
+- Coverage to verify TS syntax support
+  - Can parse (no syntax errors)
+  - Can't parse (has syntax errors)
+- Currently, former is high (99%) but latter is low (40%)
+- Can't detect errors requiring type info, dragging it down
+  - Task is to exclude these
 
-誤検知のログが多過ぎて、本来は検知できるものも見落としてる可能性もある。
+Too many false positive logs, might be missing things we should catch.
 
 ---
 
-### TSCのベースラインテスト
+### TSC baseline tests
 
 > https://github.com/microsoft/TypeScript/tree/main/tests
 
-- ただこれは、parser/checker/bundler/etcなTSCのためのsnapshot集
-  - 型エラー、設定エラー、旧ESバージョンでだけエラー, etc...
-  - .cssとか.js.mapとかもある.mdもある
-  - メッセージだけ書かれたinvalidなTSファイルもある
-  - そもそも1snapshotで複数のテストケースを検証してたりもする
+- But this is snapshot collection for TSC: parser/checker/bundler/etc
+  - Type errors, config errors, errors only in old ES versions, etc...
+  - Contains `.css`, `.map`, `.md`, even invalid `.ts` file
 
-`oxc_parser`として、興味がないものを選別する必要がある。
+Need to filter out what `oxc_parser` doesn't care about.
 
-![bg right:40% contain](./img/ts_snap.webp)
+![bg right:45% contain](./img/ts_snap.webp)
 
 ---
 
-### TSCのエラー
+### TSC errors
 
 > error TS2322: Type 'number' is not assignable to type 'string'.
 > error TS18033: Type 'string' is not assignable to type 'number' as required for computed enum member values
 
-- エラーコードは分かれてはいるけど、機械的には判断できないらしい
-- APIも分かれてはいるが・・・
+- Error codes are separated, but can't judge mechanically
+- APIs are separate too, but...
   - `tsProgram.getSyntacticDiagnostics()`
   - `tsProgram.getSemanticDiagnostics()`
-    - それは構文エラーでは？というのも混じってる
+    - Some mixed in that seem like syntax errors
 
-AIにぜんぶ判断させたい気持ちになるが、レビューする手間と自分でやる手間を比べると・・・。
+Want to let AI judge everything, but effort to review 🆚 do it myself...
 
 ---
 
@@ -728,12 +730,12 @@ AIにぜんぶ判断させたい気持ちになるが、レビューする手間
 
 ---
 
-### TSCは読めない
+### Can't read TSC
 
-- TSでも読めない
-- Goになっても読めない
+- Can't read even in TS
+- Can't read even in Go
 
-はやくAIがRustで書き直してほしいと願うばかり。
+Just wish AI would rewrite it in Rust soon.
 
 ---
 
@@ -746,45 +748,48 @@ AIにぜんぶ判断させたい気持ちになるが、レビューする手間
 
 ---
 
-## まとめ 🍵
+## Summary 🍵
 
 ---
 
-### OSSのすすめ
+### Why OSS?
 
-- 定型化しがちな普段の業務とは対照的なことができる
-  - 職場ではシニアエンジニアでも、末席から学び直せる
-- いろんな人に出会える
-  - 普通にしてたら関わりのない雲の上の人たちにも
-  - この人たちはいつ寝てるのだろうか休まないのだろうか
-- ある種の社会貢献にもなる
-  - そしてそこから報酬を得たり、仕事になったりも
-- ブログもいっぱい書ける
-  - AIも技術文書はかけるけど、文章は書けない
+- Fun, can do things contrasting with routine work
+  - Senior at work, junior in OSS
+- Meet various people
+  - Even unreachable people in the clouds
+  - (When do these people sleep or rest? 🤔)
+- Also a form of social contribution
+  - Can get paid or turn into work
+- Can write lots of blog posts
+  - AI can write technical docs, but not personal writing
 
 ---
 
-### やれることは必ずある
+### There's always something to do
 
-- ただ表面化してないだけ
-- みんながTODOリスト好きではないので、問題の整理だけでも
-- 重複issueをさばいたり、Discussionにコメントしたり、reproを手伝ってみたり
-- 自分で試してドキュメントを追記したり、typoをなおすだけでも
-- CIのログを見やすくするとか
-- もちろん空気感を読だんり、作法は必要になる
-  - 厳しいOSSもたまにある
+- Just not visible yet
+- Not everyone likes TODO lists, so organizing issues helps
+- Handle duplicate issues, comment on Discussions, help with repros
+  - Try yourself and add docs, or just fix typos
+  - Make CI logs more readable
+  - etc...
+
+I recommend to understand the project culture before jumping in.
+Some are welcoming, others have high standards.
 
 ---
 
 ### With AI era
 
-- やれることは少なくなるけど、まだなくならない
-  - 簡単で、すぐできるものはなくなる
-  - 簡単で、ただ面倒な作業もなくなる
-- けど、できないこともまだまだある
-  - 人が最終的にチェックする責任があるものとか
-- 逆に、不慣れな分野にも挑戦できる
-  - ただAI slopには気をつけて・・・
+- Less to do, but not gone
+  - Easy, quick tasks will disappear
+  - Easy but tedious work will disappear
+- But still much AI can't do(yet!)
+  - Things requiring human final check
+
+On the flip side, AI lets you explore new domains!
+Just be careful for AI slop... 🤖
 
 ---
 
@@ -820,7 +825,9 @@ Working from Shiga pref.
 - GitHub: https://github.com/oxc-project/oxc
 - Discord: https://discord.com/invite/9uXCAwqQZW
 
-私にはもちろん日本語でいいので、交流しましょう！
+私にはもちろん日本語で大丈夫です！
+
+![bg right:40% contain](./img/oxc.webp)
 
 ---
 
