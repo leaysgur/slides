@@ -140,7 +140,7 @@ But I've never had the experience of being deeply involved in a specific OSS pro
   - Performance-focused (benchmarks run per PR)
   - Some limitations (e.g., no TS type info available)
 
-㊗️ 2023/12: `oxlint` [GA](https://oxc.rs/blog/2023-12-12-announcing-oxlint.html) announced
+㊗️ 2023/12: `oxlint` GA [announced](https://oxc.rs/blog/2023-12-12-announcing-oxlint.html)
 
 ---
 
@@ -186,7 +186,7 @@ In fact, just commenting on Issues, chatting on [Discord](https://discord.com/in
 > feat(ast,parser): parse jsdoc · Issue #168 · oxc-project/oxc
 > https://github.com/oxc-project/oxc/issues/168
 
-- Issue left untouched since end of 2023
+- Issue left untouched since 2023/03
   - Buried at the bottom of the issue list for a long time!
 - Initially opened it light-heartedly
   - Nobody doing it = good chance to learn Rust thoroughly?
@@ -260,7 +260,7 @@ In this case, must handle everything dynamically at runtime...
 
 - Landed as an implementation specialized for `eslint-plugin-jsdoc`
   - Provide a few kinds of runtime methods for each usecase
-- But burned out after implementing 18 rules 😶‍🌫️
+- But burned out after implementing 18 rules... 😶‍🌫️
   - [☂️ eslint-plugin-jsdoc · Issue #1170 · oxc-project/oxc](https://github.com/oxc-project/oxc/issues/1170)
 
 IMPORTANT: After that, my use of JSDoc TS drastically decreased. 🙊
@@ -303,7 +303,7 @@ In JS, invalid regexp "literals" cause syntax errors.
 
 - Want to detect this as a parser
   - [feat(linter): regex parser · Issue #1164 · oxc-project/oxc](https://github.com/oxc-project/oxc/issues/1164)
-- Also want to implement regexp-related ESLint rules
+- Also want to implement regexp-related ESLint rules with parsed results
   - [no-invalid-regexp - ESLint - Pluggable JavaScript Linter](https://eslint.org/docs/latest/rules/no-invalid-regexp)
 
 Several brave souls tried, but the path remained unfinished.
@@ -313,8 +313,8 @@ Several brave souls tried, but the path remained unfinished.
 ### A journey of a thousand miles
 
 - (~~Unlike JSDoc~~) RegExp has a [spec](https://tc39.es/ecma262/2025/multipage/text-processing.html#sec-regexp-regular-expression-objects)!
+- However, didn't know how to read BNF notation
   - Did a bit of packet parsing when working on WebRTC
-  - But didn't know how to read BNF notation
 - Started by studying existing implementations
   - `oxc_parser` itself
   - https://github.com/jviereck/regjsparser
@@ -355,7 +355,7 @@ Handling bug fixes and edge cases, everything settled after ~3 months.
   - My talk slide at JSConf JP 2024
 - Supporting not just `/a'b"c/` but also `new RegExp("a'b\"c")` in non-JS is hard
   - Must consider escapes when reporting positions in source
-  - In JS, escapes are automatically resolved
+  - In JS, escapes are automatically resolved: `"\"".length === 1`
   - Also can't allow `<CRLF>` 😤
 
 ---
@@ -403,7 +403,7 @@ Handling bug fixes and edge cases, everything settled after ~3 months.
 
 > https://x.com/lukeed05/status/1829527267162345651
 
-Knowing OSS maintenance is hard, hoped my small contribution could help.
+Knowing OSS maintenance is hard, hoped my small contribution could help. 🙏
 
 ![bg right contain](./img/boshen2.webp)
 ![bg right contain](./img/boshen1.webp)
@@ -511,7 +511,7 @@ Entirely due to my Rust skills lacking, so frustrating...
 
 - Implementation progressed rapidly, now 90%+ coverage
   - This is VoidZero... different league... 😂
-- Will be available as `oxfmt` eventually
+- Will be available as `oxfmt` soon
   - [RFC: Formatter · oxc-project/oxc · Discussion #13608](https://github.com/oxc-project/oxc/discussions/13608)
 
 ---
@@ -535,10 +535,10 @@ Entirely due to my Rust skills lacking, so frustrating...
 
 ### ESTree support for `oxc_parser`
 
+- [ESTree](https://github.com/estree/estree) is the de facto standard AST structure
+  - Essential to support for existing ecosystem
 - `oxc_parser` as a Rust crate has its own AST structure
   - Somewhat similar to Babel AST, but different
-- However, [ESTree](https://github.com/estree/estree) is the de facto standard AST structure
-  - Essential to support for existing ecosystem
 - Task: somehow map and convert structures
 
 JS was done, but JSX and TS were WIP.
@@ -561,11 +561,22 @@ So, follow well-known parsers as prior implementations.
 
 ### Simple as a task
 
-1. Prepare sample code
-1. Output AST with prior implementation
-1. Output AST with OXC too
-1. Compare both ASTs
-1. If there's a diff, write conversion code
+```js
+// 1. Prepare sample code
+const INPUT = `class X {}`;
+
+// 2. Output AST with prior implementation
+// 3. Output AST with OXC too
+const [theirsAst, oursAst] = [parseTheirs(INPUT), parseOurs(INPUT)];
+
+// 4. Compare both ASTs
+const diff = diffAst(therisAst, oursAst);
+
+// 5. If there's a diff, write conversion code
+if (diff) {
+  console.log("TODO: Mismatch!");
+}
+```
 
 Easy, right? 🫣
 
@@ -601,7 +612,6 @@ class X {
 
 Need to manually add logic to convert AST to desired structure.
 
-
 ```js
 // Simplified ver.
 if param.has_modifier() {
@@ -628,13 +638,13 @@ AST structures can be completely different!
 
 ### Even for JS diffs...
 
+> JS Multi AST Viewer
+> https://leaysgur.github.io/js-multi-ast-viewer/
+
 - 👈🏻 JS: `acorn`
 - 👉🏻 TS: `@typescript-eslint/typescript-estree`
 
 Even between TS's JS and JS's JS, there are actually many subtle differences.
-
-> JS Multi AST Viewer
-> https://leaysgur.github.io/js-multi-ast-viewer/
 
 ![bg right:50% contain](./img/estree.webp)
 
@@ -695,11 +705,11 @@ Too many false positive logs, might be missing things we should catch.
 
 ---
 
-### TSC baseline tests
+### TSC baseline test fixtures
 
 > https://github.com/microsoft/TypeScript/tree/main/tests
 
-- But this is snapshot collection for TSC: parser/checker/bundler/etc
+- This is snapshot collection for TSC: parser/checker/bundler/etc
   - Type errors, config errors, errors only in old ES versions, etc...
   - Contains `.css`, `.map`, `.md`, even invalid `.ts` file
 
@@ -709,7 +719,7 @@ Need to filter out what `oxc_parser` doesn't care about.
 
 ---
 
-### TSC errors
+### TSC Diagnostics
 
 > error TS2322: Type 'number' is not assignable to type 'string'.
 > error TS18033: Type 'string' is not assignable to type 'number' as required for computed enum member values
@@ -739,7 +749,7 @@ Just wish AI would rewrite it in Rust soon.
 
 ---
 
-### Further reading
+### Further reading 🙂
 
 - [TypeScriptのテストファイルの読み方 | Memory ice cubes](https://leaysgur.github.io/posts/2025/04/30/110214/)
 - [TypeScriptの`Diagnostics`について | Memory ice cubes](https://leaysgur.github.io/posts/2025/06/13/131109/)
@@ -761,7 +771,7 @@ Just wish AI would rewrite it in Rust soon.
   - (When do these people sleep or rest? 🤔)
 - Also a form of social contribution
   - Can get paid or turn into work
-- Can write lots of blog posts
+- Can write lots of blog posts 💪
   - AI can write technical docs, but not personal writing
 
 ---
@@ -769,13 +779,16 @@ Just wish AI would rewrite it in Rust soon.
 ### There's always something to do
 
 - Just not visible yet
-- Not everyone likes TODO lists, so organizing issues helps
-- Handle duplicate issues, comment on Discussions, help with repros
-  - Try yourself and add docs, or just fix typos
+  - Not everyone likes TODO lists, so organizing issues may help
+- You can start from today:
+  - Handle duplicate issues, comment on Discussions, help with repros
+  - Add missing docs, or just fix typos
   - Make CI logs more readable
   - etc...
+- Just post your feedback!
+  - Especially positive, it helps me a lot! 🥰
 
-I recommend to understand the project culture before jumping in.
+Still, I recommend to understand the project culture before jumping in.
 Some are welcoming, others have high standards.
 
 ---
@@ -785,10 +798,10 @@ Some are welcoming, others have high standards.
 - Less to do, but not gone
   - Easy, quick tasks will disappear
   - Easy but tedious work will disappear
-- But still much AI can't do(yet!)
+- But still much AI can't do (yet)
   - Things requiring human final check
+- On the flip side, AI lets you explore new domains!
 
-On the flip side, AI lets you explore new domains!
 Just be careful for AI slop... 🤖
 
 ---
