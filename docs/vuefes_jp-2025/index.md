@@ -40,7 +40,7 @@ Personal reflection as an **OSS** contributor to the **OXC** project:
 - What kind of contributions have I made?
 - What was I thinking while contributing?
 
-I'll touch on technical aspects, but I'd also like to talk about other things as well.
+I'll touch on technical aspects, but also other things.
 
 Submitted approximately [200 PRs](https://github.com/pulls?page=1&q=is%3Apr+author%3Aleaysgur+org%3Aoxc-project+created%3A%3C2025-09-01+sort%3Aupdated-desc+is%3Aclosed) between 2024/01/01~2025/08/31.
 
@@ -109,8 +109,8 @@ In the fall of 2023, I realized that contributing to OSS might be the best way t
 - Occasionally submit PRs, participate in discussions on issues
 - I also publish and maintain my own OSS projects
 
-I've been following the trends of well-known OSS projects that I use at work for a long time.
-But I've never had the experience of being deeply involved in a specific OSS project.
+I've long followed well-known OSS projects I use at work.
+But I've never been deeply involved in a specific OSS project.
 
 ---
 
@@ -118,7 +118,7 @@ But I've never had the experience of being deeply involved in a specific OSS pro
 
 - I knew about OXC's momentum and was interested
   - But didn't know where to start
-  - And also not particularly skilled in Rust
+  - And wasn't particularly skilled in Rust
 - So I watched ALL Commits/Issues/PRs, just observing
 - Wrote code without submitting PRs, comparing with others' merged PRs
 
@@ -219,6 +219,8 @@ NO SPEC DEFINED!
 
 ### Who owns comments?
 
+Comment-to-AST mapping is a tricky topic, not defined even in ESTree.
+
 ```js
 /** `const`, `x` or arrow function? */
 const x = () => {};
@@ -228,8 +230,6 @@ function method(param /*: string */) /*: number */ {
   return 1;
 }
 ```
-
-Comment-to-AST mapping is a tricky topic not defined even in ESTree.
 
 They can be written anywhere, requires considering newlines and also spaces.
 
@@ -259,7 +259,7 @@ In this case, must handle everything dynamically at runtime...
 ### Managed it somehow
 
 - Landed as an implementation specialized for `eslint-plugin-jsdoc`
-  - Provide a few kinds of runtime methods for each usecase
+  - Provide several runtime methods per use case
 - But burned out after implementing 18 rules... 😶‍🌫️
   - [☂️ eslint-plugin-jsdoc · Issue #1170 · oxc-project/oxc](https://github.com/oxc-project/oxc/issues/1170)
 
@@ -327,7 +327,7 @@ Several brave souls tried, but the path remained unfinished.
 ### How to proceed when you don't know
 
 - [Visualize](https://github.com/oxc-project/oxc/pull/3824) tasks
-  - Even plans to research unknowns, list as tasks
+  - List even research plans as tasks
 - Share progress and concerns frequently
 - Ask immediately when stuck
 
@@ -448,7 +448,7 @@ Thought casually "hope more OSS becomes actual work"?
 Port Prettier like we did with ESLint -> `oxlint`.
 
 This time, started with ~40% already implemented.
-Should've just needed to improve coverage endlessly.
+Should've just needed to keep improving coverage.
 
 ---
 
@@ -460,7 +460,7 @@ Should've just needed to improve coverage endlessly.
   - [Prettier のコードを読む Part 10 | Memory ice cubes](https://leaysgur.github.io/posts/2024/10/08/132257/)
 - [Visualized progress and organized TODOs](https://github.com/oxc-project/oxc/issues/5068#issuecomment-2507272735)
 
-The more I learned about Prettier, the less I felt I could do it solo.
+The more I learned, the less I felt I could do it alone.
 Didn't need to do it all alone, wanted anyone to join.
 
 ---
@@ -520,7 +520,7 @@ Entirely due to my Rust skills lacking, so frustrating...
 
 - Felt Rust's hard parts deeply
 - Even with motivation, impossible is impossible
-  - Time isn't infinite, business constraints exist
+  - Time is finite, businesss constraints also exist
 - But feedback from research and insights has value
   - Capable people make good use of it
 - Both Prettier and Biome formatter are great
@@ -550,7 +550,7 @@ JS was done, but JSX and TS were WIP.
 
 ### Though it's de facto
 
-ESTree only specifies pure JS parts, JSX and TS are out of scope.
+ESTree only specifies pure JS; JSX and TS are out of scope.
 
 So, follow well-known parsers as prior implementations.
 
@@ -644,7 +644,7 @@ AST structures can be completely different!
 - 👈🏻 JS: `acorn`
 - 👉🏻 TS: `@typescript-eslint/typescript-estree`
 
-Even between TS's JS and JS's JS, there are actually many subtle differences.
+Even between TS's JS and JS's JS, many subtle differences exist.
 
 ![bg right:50% contain](./img/estree.webp)
 
@@ -672,7 +672,7 @@ As a result of compatibility:
 
 ### ESTree Tips
 
-- Not spec -> implementation, just a "result" of this area's twists and turns
+- Not spec-driven, just a "result" of historical evolution
   - Properties like `raw` are common but not in spec
     - [ESTreeの`Literal`ノードの`raw`プロパティ | Memory ice cubes](https://leaysgur.github.io/posts/2025/03/11/124250/)
 - No AST node representing `(`...`)`
