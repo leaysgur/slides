@@ -35,7 +35,7 @@ title: Contributing to OSS, Reflecting on OXC
 
 ### Today's theme
 
-Personal reflection as an **OSS** contributor to the **OXC** project:
+Personal reflection as an **open source** contributor to the **Oxc** project:
 
 - What kind of contributions have I made?
 - What was I thinking while contributing?
@@ -46,7 +46,7 @@ Submitted approximately [200 PRs](https://github.com/pulls?page=1&q=is%3Apr+auth
 
 ---
 
-### What is OXC?
+### What is Oxc?
 
 > The JavaScript Oxidation Compiler ⚓️
 > https://oxc.rs
@@ -65,7 +65,7 @@ It covers almost [everything](https://crates.io/users/Boshen?sort=recent-updates
 
 ---
 
-### What is OXC?
+### What is Oxc?
 
 More broadly, provided as various tools that leverage its performance:
 
@@ -84,7 +84,8 @@ It's also used internally by [Rolldown](https://github.com/rolldown/rolldown), w
 
 ### PROTIP 💡
 
-![](./img/ohexsee.webp)
+![](./img/p1.webp)
+![](./img/p2.webp)
 
 ---
 
@@ -110,13 +111,13 @@ In the fall of 2023, I realized that contributing to OSS might be the best way t
 - I also publish and maintain my own OSS projects
 
 I've long followed well-known OSS projects I use at work.
-But I've never been deeply involved in a specific OSS project.
+But I've never been deeply involved in a specific project.
 
 ---
 
 ### a.k.a. "半年ROMれ"
 
-- I knew about OXC's momentum and was interested
+- I knew about Oxc's momentum and was interested
   - But didn't know where to start
   - And wasn't particularly skilled in Rust
 - So I watched ALL Commits/Issues/PRs, just observing
@@ -130,15 +131,15 @@ But I've never been deeply involved in a specific OSS project.
 ### Don't want to bother maintainers
 
 - To follow the norms, start by understanding first
-  - Context and reasons for closed Issues/PRs, conventions
+  - Context and reasons for closed Issues/PRs
   - Which issues have higher priority
   - Who's active (their areas, timezones, etc.)
   - Where I could work without conflicting with others
   - etc...
 - Learn conventions for code and beyond
   - Labels like `Good first issue` and `Help wanted`
-  - Performance-focused (benchmarks run per PR)
-  - Some limitations (e.g., no TS type info available)
+  - Performance-focused (benchmarks run per PR!) project
+  - Current limitations, difficulties (e.g., no TS type info available)
 
 ㊗️ 2023/12: `oxlint` GA [announced](https://oxc.rs/blog/2023-12-12-announcing-oxlint.html)
 
@@ -166,14 +167,14 @@ Just added a template generation command for linter rule implementation.
 
 ---
 
-### OSS contribution isn't just about code
+### Rust is just one way to contribute
 
 - You can contribute to Rust projects without writing Rust
 - Actually, such opportunities are everywhere
   - Playground: https://github.com/oxc-project/playground
   - Docs: https://github.com/oxc-project/oxc-project.github.io
 
-In fact, just commenting on Issues, chatting on [Discord](https://discord.com/invite/9uXCAwqQZW), or sharing usage insights and research results - all are OSS contributions!
+Just commenting on issues, chatting on [Discord](https://discord.com/invite/9uXCAwqQZW), or sharing usage insights, reproduction and research results - all are OSS contributions!
 
 ---
 
@@ -249,7 +250,7 @@ They can be written anywhere, requires considering newlines and also spaces.
 }
 ```
 
-- Has an [option](https://github.com/gajus/eslint-plugin-jsdoc/blob/main/docs/settings.md#alias-preference) to alias tags with arbitrary names
+- Has an [option](https://github.com/gajus/eslint-plugin-jsdoc/blob/main/docs/settings.md#alias-preference) to alias tags with arbitrary names!
 - Means parser can't statically parse without knowing ESLint config
 
 In this case, must handle everything dynamically at runtime...
@@ -263,7 +264,7 @@ In this case, must handle everything dynamically at runtime...
 - But burned out after implementing 18 rules... 😶‍🌫️
   - [☂️ eslint-plugin-jsdoc · Issue #1170 · oxc-project/oxc](https://github.com/oxc-project/oxc/issues/1170)
 
-IMPORTANT: After that, my use of JSDoc TS drastically decreased. 🙊
+IMPORTANT: After that, my use of JSDoc TS drastically decreased. 🙂
 
 ---
 
@@ -275,7 +276,7 @@ IMPORTANT: After that, my use of JSDoc TS drastically decreased. 🙊
 - = Everyone has their own implementation
   - Original [JSDoc](https://jsdoc.app), [TypeDoc](https://typedoc.org), [JSDoc TS](https://www.typescriptlang.org/docs/handbook/jsdoc-supported-types.html), [eslint-plugin-jsdoc](https://github.com/gajus/eslint-plugin-jsdoc), etc...
 
-Comments are a constant headache in JS tooling...
+Comments are a constant headache in JS tooling. 👹
 
 ---
 
@@ -298,7 +299,7 @@ Comments are a constant headache in JS tooling...
 
 ### `/Hello,? [rR]egular(_|-)expression/v`
 
-In JS, invalid regexp "literals" cause syntax errors.
+In JS, invalid `RegExp` "literals" cause syntax errors.
 ![Lone "{" is invalid regexp with "v" flag](./img/regexp.webp)
 
 - Want to detect this as a parser
@@ -341,7 +342,7 @@ Communication matters in both work and OSS.
 
 - First implementation took ~1.5 months
   - Rewrote several times along the way
-- No results at first
+- No results at first 🍃
   - But kept going, understanding deepened daily
 - Also implemented proposals that were still Stage 3
 
@@ -419,6 +420,8 @@ Relief. ☺️
 
 Thought casually "hope more OSS becomes actual work"?
 
+![bg right:30% contain](./img/vz.webp)
+
 ---
 
 ### Achievements unlocked 🔓
@@ -445,7 +448,7 @@ Thought casually "hope more OSS becomes actual work"?
 > Rework `oxc_prettier` · Issue #5068 · oxc-project/oxc
 > https://github.com/oxc-project/oxc/issues/5068
 
-Port Prettier like we did with ESLint -> `oxlint`.
+Like we did with ESLint -> `oxlint`, Prettier -> `oxc_prettier`
 
 This time, started with ~40% already implemented.
 Should've just needed to keep improving coverage.
@@ -487,7 +490,7 @@ Instead, decided to fork only Biome's Formatter infrastructure.
 
 - [`biome_formatter`](https://github.com/biomejs/biome/tree/main/crates/biome_formatter)
   - On top of this, `biome_js_formatter` and `biome_xxx_formatter` are built
-- Needs modification to work with OXC's AST, not Biome's CST
+- Needs modification to work with Oxc's AST, not Biome's CST
   - Still, using working Rust code is huge
 
 ...was working on this for a while.
@@ -498,7 +501,7 @@ Instead, decided to fork only Biome's Formatter infrastructure.
 
 Eventually gave up and handed it off 😢
 
-- OXC's performance relies on strict memory handling and lifetime annotations
+- Oxc's performance relies on strict memory handling and lifetime annotations
 - Biome's code is polished, heavily uses traits and macros
 
 When combined, got completely lost.
@@ -511,7 +514,7 @@ Entirely due to my Rust skills lacking, so frustrating...
 
 - Implementation progressed rapidly, now 90%+ coverage
   - This is VoidZero... different league... 😂
-- Will be available as `oxfmt` soon
+- Will be available as `oxfmt` soon!
   - [RFC: Formatter · oxc-project/oxc · Discussion #13608](https://github.com/oxc-project/oxc/discussions/13608)
 
 ---
@@ -566,7 +569,7 @@ So, follow well-known parsers as prior implementations.
 const INPUT = `class X {}`;
 
 // 2. Output AST with prior implementation
-// 3. Output AST with OXC too
+// 3. Output AST with Oxc too
 const [theirsAst, oursAst] = [parseTheirs(INPUT), parseOurs(INPUT)];
 
 // 4. Compare both ASTs
@@ -579,6 +582,12 @@ if (diff) {
 ```
 
 Easy, right? 🫣
+
+---
+
+### Wrote JS here too
+
+[![](./img/estree_diff.avif)](https://github.com/leaysgur/oxc_estree_ts-ast-diff-viewer)
 
 ---
 
@@ -629,30 +638,10 @@ return { type: "Identifier", ... };
 module X.Y.Z {}
 ```
 
-- OXC AST: Nested `TSModuleDeclaration` x3
+- Oxc AST: Nested `TSModuleDeclaration` x3
 - TS-ESTree: Single `TSModuleDeclaration` and nested `TSQualifiedName` x3
 
 AST structures can be completely different!
-
----
-
-### Even for JS diffs...
-
-> JS Multi AST Viewer
-> https://leaysgur.github.io/js-multi-ast-viewer/
-
-- 👈🏻 JS: `acorn`
-- 👉🏻 TS: `@typescript-eslint/typescript-estree`
-
-Even between TS's JS and JS's JS, many subtle differences exist.
-
-![bg right:50% contain](./img/estree.webp)
-
----
-
-### Wrote JS here too
-
-[![](./img/estree_diff.avif)](https://github.com/leaysgur/oxc_estree_ts-ast-diff-viewer)
 
 ---
 
@@ -682,6 +671,20 @@ As a result of compatibility:
   - Some parsers have option to preserve it
 - `@sveltejs/acorn-typescript` also called TS-ESTree
   - But different AST structure from `@typescript-eslint/typescript-estree` 😦
+
+---
+
+### Even for JS diffs...
+
+- 👈🏻 JS: `acorn`
+- 👉🏻 TS: `@typescript-eslint/typescript-estree`
+
+Even between TS's JS and JS's JS, many subtle differences exist.
+
+> JS Multi AST Viewer
+> https://leaysgur.github.io/js-multi-ast-viewer/
+
+![bg right:50% contain](./img/estree.webp)
 
 ---
 
@@ -783,13 +786,13 @@ Just wish AI would rewrite it in Rust soon.
 - You can start from today:
   - Handle duplicate issues, comment on Discussions, help with repros
   - Add missing docs, or just fix typos
-  - Make CI logs more readable
+  - Make CI logs more readable, perf improvement
   - etc...
 - Just post your feedback!
-  - Especially positive, it helps me a lot! 🥰
+  - Especially positive, it helps us a lot! 🥰
 
 Still, I recommend to understand the project culture before jumping in.
-Some are welcoming, others have high standards.
+Some are welcoming, others have (high) standards.
 
 ---
 
@@ -814,7 +817,7 @@ Just be careful for AI slop... 🤖
 
 - Software Engineer at [VoidZero Inc.](https://voidzero.dev)
   - 🆕 2025/09/01~
-- [OXC](https://oxc.rs) ⚓️ Core team
+- [Oxc](https://oxc.rs) ⚓️ Core team
 
 Working from Shiga pref.
 
