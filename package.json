@@ -2,17 +2,14 @@
   "private": "true",
   "name": "slides",
   "description": "My presentations!",
-  "author": "leader22",
+  "author": "leaysgur",
   "license": "MIT",
-  "scripts": {
-    "fmt": "npx oxfmt@latest -c ./scripts/*.mjs"
-  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/leader22/slides.git"
+    "url": "git+https://github.com/leaysgur/slides.git"
   },
   "bugs": {
-    "url": "https://github.com/leader22/slides/issues"
+    "url": "https://github.com/leaysgur/slides/issues"
   },
-  "homepage": "https://github.com/leader22/slides#readme"
+  "homepage": "https://github.com/leaysgur/slides#readme"
 }
