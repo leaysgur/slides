@@ -42,7 +42,7 @@ Personal reflection as an **open source** contributor to the **Oxc** project:
 
 I'll touch on technical aspects, but also other things.
 
-Submitted approximately [200 PRs](https://github.com/pulls?page=1&q=is%3Apr+author%3Aleaysgur+org%3Aoxc-project+created%3A%3C2025-09-01+sort%3Aupdated-desc+is%3Aclosed) between 2024/01/01~2025/08/31.
+Between 2024/01/01~2025/08/31, submitted approximately [200 PRs](https://github.com/pulls?page=1&q=is%3Apr+author%3Aleaysgur+org%3Aoxc-project+created%3A%3C2025-09-01+sort%3Aupdated-desc+is%3Aclosed). 👀
 
 ---
 
@@ -51,7 +51,7 @@ Submitted approximately [200 PRs](https://github.com/pulls?page=1&q=is%3Apr+auth
 > The JavaScript Oxidation Compiler ⚓️
 > https://oxc.rs
 
-A set of tools for JS/TS written in **Rust**.
+A set of tools for JS/TS written in **Rust** 🦀.
 
 - https://crates.io/crates/oxc
 - https://crates.io/crates/oxc_parser
@@ -65,7 +65,7 @@ It covers almost [everything](https://crates.io/users/Boshen?sort=recent-updates
 
 ---
 
-### What is Oxc?
+### You may know...
 
 More broadly, provided as various tools that leverage its performance:
 
@@ -76,7 +76,7 @@ More broadly, provided as various tools that leverage its performance:
   - See https://github.com/oxc-project/bench-javascript-linter
   - 🆕 Now supports [`--type-aware`](https://oxc.rs/blog/2025-08-17-oxlint-type-aware.html) linting
   - 🆕🆕 Finally supports [`jsPlugins`](https://oxc.rs/blog/2025-10-09-oxlint-js-plugins.html)
-- And more to come...
+- And more!
 
 It's also used internally by [Rolldown](https://github.com/rolldown/rolldown), which is the core of the next version of [Vite](https://github.com/vitejs/rolldown-vite).
 
@@ -96,21 +96,21 @@ It's also used internally by [Rolldown](https://github.com/rolldown/rolldown), w
 ### Me and Rust 🦀
 
 - As a front-end engineer, I never use Rust at work
-  - I had expectations (~~or hopes~~) that I might use it with WASM
+  - Started learning with expectations (~~or hopes~~) that I might use it with WASM
 - Only used for [LeetCode](https://leetcode.com) in my free time and [Advent of Code](https://adventofcode.com) at the end of each year
-  - Repeating the cycle of learning <-> forgetting for 3 years. 🤯
+  - Repeating the cycle of learning <-> forgetting for 3 years!
 
-In the fall of 2023, I realized that contributing to OSS might be the best way to learn it!
+In the fall of 2023, finally I realized. 
+Is that contributing to OSS might be the best way to learn it? 🤔
 
 ---
 
 ### Me and OSS
 
-- I'm not a total newbie 😀
-- Occasionally submit PRs, participate in discussions on issues
-- I also publish and maintain my own OSS projects
+- Fortunately, I'm not a total newbie 😀
+- Occasionally submit PRs to major OSS, participate in discussions on issues
+- I also publish and maintain my own projects
 
-I've long followed well-known OSS projects I use at work.
 But I've never been deeply involved in a specific project.
 
 ---
@@ -120,7 +120,7 @@ But I've never been deeply involved in a specific project.
 - I knew about Oxc's momentum and was interested
   - But didn't know where to start
   - And wasn't particularly skilled in Rust
-- So I watched ALL Commits/Issues/PRs, just observing
+- So I watched ALL Commits/Issues/PRs, just observing for a while
 - Wrote code without submitting PRs, comparing with others' merged PRs
 
 > Lurk Moar | Know Your Meme
@@ -128,14 +128,14 @@ But I've never been deeply involved in a specific project.
 
 ---
 
-### Don't want to bother maintainers
+### Don't want to bother maintainers 😓
 
-- To follow the norms, start by understanding first
-  - Context and reasons for closed Issues/PRs
+To follow the norms, start by understanding first.
+
+- Check almost all issues
+  - Context and reasons for closed and also duplicated
   - Which issues have higher priority
-  - Who's active (their areas, timezones, etc.)
-  - Where I could work without conflicting with others
-  - etc...
+- Who's active (their areas, timezones, etc.)
 - Learn conventions for code and beyond
   - Labels like `Good first issue` and `Help wanted`
   - Performance-focused (benchmarks run per PR!) project
@@ -150,9 +150,9 @@ But I've never been deeply involved in a specific project.
 > feat(tasks): Add eslint-plugin-jsdoc rulegen by leaysgur · Pull Request #1965 · oxc-project/oxc
 > https://github.com/oxc-project/oxc/pull/1965
 
-Just added a template generation command for linter rule implementation.
+Just added a template generation command for linter rule implementation. 😅
 
-(I found that I'd given up on implementing `eslint-plugin-jsdoc` rules at this time. 🥹)
+(I found that I'd given up on implementing `eslint-plugin-jsdoc` rules at this time...)
 
 ---
 
@@ -182,7 +182,7 @@ Just commenting on issues, chatting on [Discord](https://discord.com/invite/9uXC
 
 ---
 
-### Pandora's Box
+### Pandora's box
 
 > feat(ast,parser): parse jsdoc · Issue #168 · oxc-project/oxc
 > https://github.com/oxc-project/oxc/issues/168
@@ -250,7 +250,7 @@ They can be written anywhere, requires considering newlines and also spaces.
 }
 ```
 
-- Has an [option](https://github.com/gajus/eslint-plugin-jsdoc/blob/main/docs/settings.md#alias-preference) to alias tags with arbitrary names!
+- [Option](https://github.com/gajus/eslint-plugin-jsdoc/blob/main/docs/settings.md#alias-preference) to alias tags with arbitrary names!
 - Means parser can't statically parse without knowing ESLint config
 
 In this case, must handle everything dynamically at runtime...
@@ -261,7 +261,7 @@ In this case, must handle everything dynamically at runtime...
 
 - Landed as an implementation specialized for `eslint-plugin-jsdoc`
   - Provide several runtime methods per use case
-- But burned out after implementing 18 rules... 😶‍🌫️
+- Burned out after implementing 18 rules... 😶‍🌫️
   - [☂️ eslint-plugin-jsdoc · Issue #1170 · oxc-project/oxc](https://github.com/oxc-project/oxc/issues/1170)
 
 IMPORTANT: After that, my use of JSDoc TS drastically decreased. 🙂
@@ -272,8 +272,8 @@ IMPORTANT: After that, my use of JSDoc TS drastically decreased. 🙂
 
 - For JSDoc, everything depends on use case
   - Who owns the comments
-  - What format is expected
-- = Everyone has their own implementation
+  - What syntax is expected
+- Everyone has their own implementation
   - Original [JSDoc](https://jsdoc.app), [TypeDoc](https://typedoc.org), [JSDoc TS](https://www.typescriptlang.org/docs/handbook/jsdoc-supported-types.html), [eslint-plugin-jsdoc](https://github.com/gajus/eslint-plugin-jsdoc), etc...
 
 Comments are a constant headache in JS tooling. 👹
@@ -299,7 +299,7 @@ Comments are a constant headache in JS tooling. 👹
 
 ### `/Hello,? [rR]egular(_|-)expression/v`
 
-In JS, invalid `RegExp` "literals" cause syntax errors.
+In JS, if invalid `RegExp` "literals" exists, it is invalid code.
 ![Lone "{" is invalid regexp with "v" flag](./img/regexp.webp)
 
 - Want to detect this as a parser
@@ -342,11 +342,11 @@ Communication matters in both work and OSS.
 
 - First implementation took ~1.5 months
   - Rewrote several times along the way
-- No results at first 🍃
-  - But kept going, understanding deepened daily
-- Also implemented proposals that were still Stage 3
+- Initially, I didn't make any progress at all 🍃
+  - But kept going step by step, understanding deepened daily
+- Handling bug fixes and edge cases, everything settled after ~3 months
 
-Handling bug fixes and edge cases, everything settled after ~3 months.
+Also implemented proposals that were still Stage 3.
 
 ---
 
@@ -357,7 +357,6 @@ Handling bug fixes and edge cases, everything settled after ~3 months.
 - Supporting not just `/a'b"c/` but also `new RegExp("a'b\"c")` in non-JS is hard
   - Must consider escapes when reporting positions in source
   - In JS, escapes are automatically resolved: `"\"".length === 1`
-  - Also can't allow `<CRLF>` 😤
 
 ---
 
@@ -369,7 +368,7 @@ Handling bug fixes and edge cases, everything settled after ~3 months.
   - Though new syntax additions can be tricky
 - There's a legacy called Annex B
   - Loose syntax kept for web backwards compatibility
-  - Had to rewrite because of this, code increased ~30%
+  - Had to rewrite because of this, code increased +30%
 
 ---
 
@@ -394,8 +393,8 @@ Handling bug fixes and edge cases, everything settled after ~3 months.
 - Even without experience, you can do more than you think
   - Takes time, but consistency is key
 - Communication skills needed everywhere
-  - Can learn in OSS and apply to work
-- In the AI era, even those less skilled at coding can contribute
+  - Can learn in OSS and apply to work or vice versa
+- In the AI era, even people with less coding skills can contribute
   - But don't forget about reviewers...
 
 ---
@@ -464,7 +463,7 @@ Should've just needed to keep improving coverage.
 - [Visualized progress and organized TODOs](https://github.com/oxc-project/oxc/issues/5068#issuecomment-2507272735)
 
 The more I learned, the less I felt I could do it alone.
-Didn't need to do it all alone, wanted anyone to join.
+Didn't need to do it all alone, wanted anyone to join. 🙌🏻
 
 ---
 
@@ -521,12 +520,13 @@ Entirely due to my Rust skills lacking, so frustrating...
 
 ### Learned my limits
 
-- Felt Rust's hard parts deeply
+- Felt like one of the hardest parts of Rust
 - Even with motivation, impossible is impossible
   - Time is finite, businesss constraints also exist
 - But feedback from research and insights has value
   - Capable people make good use of it
-- Both Prettier and Biome formatter are great
+
+Both Prettier and Biome are great.
 
 🎂 [Vjeux » Birth of Prettier](https://blog.vjeux.com/2025/javascript/birth-of-prettier.html)
 
@@ -536,18 +536,19 @@ Entirely due to my Rust skills lacking, so frustrating...
 
 ---
 
-### ESTree support for `oxc_parser`
+### ESTree support for `oxc-parser`
 
+- `oxc_parser` is a Rust crate and it has its own AST structure
+  - Somewhat similar to Babel AST, but different
 - [ESTree](https://github.com/estree/estree) is the de facto standard AST structure
   - Essential to support for existing ecosystem
-- `oxc_parser` as a Rust crate has its own AST structure
-  - Somewhat similar to Babel AST, but different
-- Task: somehow map and convert structures
 
-JS was done, but JSX and TS were WIP.
+👉🏻 Task: Somehow map and convert structures.
 
 > [Align JS-side AST with standard for JSX · Issue #9703 · oxc-project/oxc](https://github.com/oxc-project/oxc/issues/9703)
 > [Align JS-side AST with standard for TypeScript · Issue #9705 · oxc-project/oxc](https://github.com/oxc-project/oxc/issues/9705)
+
+JS was already done, but JSX and TS were WIP.
 
 ---
 
@@ -655,7 +656,7 @@ As a result of compatibility:
 
 - Prettier can now use oxc parser
   - [`@prettier/plugin-oxc`](https://github.com/prettier/prettier/tree/main/packages/plugin-oxc)
-- Was a step toward `oxlint` JS plugins
+- A necessary step for `oxlint` JS plugins
 
 ---
 
@@ -665,8 +666,8 @@ As a result of compatibility:
   - Properties like `raw` are common but not in spec
     - [ESTreeの`Literal`ノードの`raw`プロパティ | Memory ice cubes](https://leaysgur.github.io/posts/2025/03/11/124250/)
 - No AST node representing `(`...`)`
-  - Essential for `/** @type */(foo)`
-  - Rarely changes code meaning
+  - Essential for `/** @type */(foo)`, `(1 + 2) * 3`
+  - May change code behavior
     - `fn.name`: `(fn) = function () {}` vs `fn = function () {}`
   - Some parsers have option to preserve it
 - `@sveltejs/acorn-typescript` also called TS-ESTree
@@ -688,7 +689,7 @@ Even between TS's JS and JS's JS, many subtle differences exist.
 
 ---
 
-## Best TypeScript parser without types 🚨
+## Best TS parser without type check 🚨
 
 ---
 
@@ -697,14 +698,15 @@ Even between TS's JS and JS's JS, many subtle differences exist.
 > parser: Improve TS error story · Issue #11582 · oxc-project/oxc
 > https://github.com/oxc-project/oxc/issues/11582
 
-- Coverage to verify TS syntax support
-  - Can parse (no syntax errors)
-  - Can't parse (has syntax errors)
-- Currently, former is high (99%) but latter is low (40%)
-- Can't detect errors requiring type info, dragging it down
-  - Task is to exclude these
+- There is a coverage to verify TS syntax support
+  - 🅰️ Can parse (no syntax errors)
+  - 🅱️ Can't parse (has syntax errors)
+- Currently, 🅰️ is high (99%) but 🅱️ is low (40%)
+  - Errors requiring type info, dragging it down
 
 Too many false positive logs, might be missing things we should catch.
+
+👉🏻 Task: Identify errors for exclusion.
 
 ---
 
@@ -725,13 +727,13 @@ Need to filter out what `oxc_parser` doesn't care about.
 ### TSC Diagnostics
 
 > error TS2322: Type 'number' is not assignable to type 'string'.
-> error TS18033: Type 'string' is not assignable to type 'number' as required for computed enum member values
 
 - Error codes are separated, but can't judge mechanically
 - APIs are separate too, but...
   - `tsProgram.getSyntacticDiagnostics()`
   - `tsProgram.getSemanticDiagnostics()`
     - Some mixed in that seem like syntax errors
+- In conclusion, there's no other way but to check each item one by one 😬
 
 Want to let AI judge everything, but effort to review 🆚 do it myself...
 
@@ -745,10 +747,10 @@ Want to let AI judge everything, but effort to review 🆚 do it myself...
 
 ### Can't read TSC
 
-- Can't read even in TS
+- Can't read even in TypeScript
 - Can't read even in Go
 
-Just wish AI would rewrite it in Rust soon.
+Just wish AI (or someone with AI) would rewrite it in Rust soon. 🙏
 
 ---
 
@@ -765,16 +767,16 @@ Just wish AI would rewrite it in Rust soon.
 
 ---
 
-### Why OSS?
+### Why contribute to OSS?
 
 - Fun, can do things contrasting with routine work
   - Senior at work, junior in OSS
-- Meet various people
+- Meet various people in the world
   - Even unreachable people in the clouds
   - (When do these people sleep or rest? 🤔)
 - Also a form of social contribution
   - Can get paid or turn into work
-- Can write lots of blog posts 💪
+- Can write lots of blog posts ✌🏼
   - AI can write technical docs, but not personal writing
 
 ---
@@ -784,28 +786,34 @@ Just wish AI would rewrite it in Rust soon.
 - Just not visible yet
   - Not everyone likes TODO lists, so organizing issues may help
 - You can start from today:
-  - Handle duplicate issues, comment on Discussions, help with repros
-  - Add missing docs, or just fix typos
-  - Make CI logs more readable, perf improvement
+  - Handle duplicate issues, comment on discussions, help with repros
+  - Add missing docs, or just fix typos, make logs more readable, perf improvement
   - etc...
 - Just post your feedback!
   - Especially positive, it helps us a lot! 🥰
 
-Still, I recommend to understand the project culture before jumping in.
-Some are welcoming, others have (high) standards.
+Still, I recommend to understand the project culture (at least `CONTRIBUTING.md`) before jumping in. Some are welcoming, others have (occasionally high) standards.
 
 ---
 
-### With AI era
+### Now, with AI
 
 - Less to do, but not gone
   - Easy, quick tasks will disappear
   - Easy but tedious work will disappear
-- But still much AI can't do (yet)
-  - Things requiring human final check
+- AI is impressive, but it still has limitations (for now)
+  - It heavily depends on the person who controls
 - On the flip side, AI lets you explore new domains!
 
 Just be careful for AI slop... 🤖
+
+---
+
+### With love and respect ❤️
+
+- Don't forget that there are people behind it
+- Because it's free to use, we should express our gratitude
+- It's even better if you can contribute in some way
 
 ---
 
@@ -835,13 +843,13 @@ Working from Shiga pref.
 
 ---
 
-### [PR] Follow us!
+### [PR] Let's communicate!
 
 - X(Twitter): https://x.com/OxcProject
 - GitHub: https://github.com/oxc-project/oxc
 - Discord: https://discord.com/invite/9uXCAwqQZW
 
-私にはもちろん日本語で大丈夫です！
+私にはもちろん日本語で大丈夫です 👋🏻
 
 ![bg right:40% contain](./img/oxc.webp)
 
