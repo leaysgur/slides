@@ -100,7 +100,7 @@ It's also used internally by [Rolldown](https://github.com/rolldown/rolldown), w
 - Only used for [LeetCode](https://leetcode.com) in my free time and [Advent of Code](https://adventofcode.com) at the end of each year
   - Repeating the cycle of learning <-> forgetting for 3 years!
 
-In the fall of 2023, finally I realized. 
+In the fall of 2023, finally I realized.
 Is that contributing to OSS might be the best way to learn it? 🤔
 
 ---
@@ -167,7 +167,7 @@ Just added a template generation command for linter rule implementation. 😅
 
 ---
 
-### Rust is just one way to contribute
+### Coding is just one way to contribute
 
 - You can contribute to Rust projects without writing Rust
 - Actually, such opportunities are everywhere
@@ -198,29 +198,57 @@ Soon learned why nobody touched it... 😇
 
 ---
 
+### What is JSDoc?
+
+```js
+/**
+ * @param {string} somebody - Somebody's name.
+ */
+function sayHello(somebody) {
+  alert("Hello " + somebody);
+}
+```
+
+---
+
+### What is JSDoc?? 🤔
+
+```ts
+/**
+ * Code blocks are great for *examples*
+ *
+ * ```ts
+ * // run typedoc --help for a list of supported languages
+ * const instance = new MyClass();
+ * ```
+ */
+export class MyClass {}
+```
+
+---
+
 ### All about JSDoc
 
 ```js
-/** @type {string} myName */
-
 /************************************
  * @you    @also       @your    @tag
  *     @can     @create     @own
 
-   @omg */
+   @omg
+*************************************/
 ```
 
 - Multi-line comments starting with `*`
 - Can write `@tag` to freely assign meaning
 - No spec defined
 
-NO SPEC DEFINED!
+＼NO SPEC DEFINED!／
 
 ---
 
 ### Who owns comments?
 
-Comment-to-AST mapping is a tricky topic, not defined even in ESTree.
+They can be written anywhere, requires considering newlines and also spaces.
 
 ```js
 /** `const`, `x` or arrow function? */
@@ -232,7 +260,7 @@ function method(param /*: string */) /*: number */ {
 }
 ```
 
-They can be written anywhere, requires considering newlines and also spaces.
+Comment-to-AST mapping is a tricky topic, not standardized area.
 
 > Standardize Comment Types · Issue #201 · estree/estree
 > https://github.com/estree/estree/issues/201
@@ -257,14 +285,19 @@ In this case, must handle everything dynamically at runtime...
 
 ---
 
+## And time passed...
+
+---
+
 ### Managed it somehow
 
 - Landed as an implementation specialized for `eslint-plugin-jsdoc`
+  - [`get_function_nearest_jsdoc_node()`](https://github.com/oxc-project/oxc/blob/498814c659f6fd7f0fec4e25f3b5537bf54aeb94/crates/oxc_linter/src/utils/jsdoc.rs#L58)
   - Provide several runtime methods per use case
 - Burned out after implementing 18 rules... 😶‍🌫️
   - [☂️ eslint-plugin-jsdoc · Issue #1170 · oxc-project/oxc](https://github.com/oxc-project/oxc/issues/1170)
 
-IMPORTANT: After that, my use of JSDoc TS drastically decreased. 🙂
+IMPORTANT: After that, my use of JSDoc TS drastically decreased.
 
 ---
 
@@ -272,7 +305,7 @@ IMPORTANT: After that, my use of JSDoc TS drastically decreased. 🙂
 
 - For JSDoc, everything depends on use case
   - Who owns the comments
-  - What syntax is expected
+  - What syntax is available
 - Everyone has their own implementation
   - Original [JSDoc](https://jsdoc.app), [TypeDoc](https://typedoc.org), [JSDoc TS](https://www.typescriptlang.org/docs/handbook/jsdoc-supported-types.html), [eslint-plugin-jsdoc](https://github.com/gajus/eslint-plugin-jsdoc), etc...
 
@@ -299,29 +332,30 @@ Comments are a constant headache in JS tooling. 👹
 
 ### `/Hello,? [rR]egular(_|-)expression/v`
 
-In JS, if invalid `RegExp` "literals" exists, it is invalid code.
+If an invalid `RegExp` literal exists, it is invalid JS code!
+
 ![Lone "{" is invalid regexp with "v" flag](./img/regexp.webp)
 
-- Want to detect this as a parser
+- Parser want to detect this
   - [feat(linter): regex parser · Issue #1164 · oxc-project/oxc](https://github.com/oxc-project/oxc/issues/1164)
-- Also want to implement regexp-related ESLint rules with parsed results
+- Also want to implement related ESLint rules with parsed results
   - [no-invalid-regexp - ESLint - Pluggable JavaScript Linter](https://eslint.org/docs/latest/rules/no-invalid-regexp)
 
-Several brave souls tried, but the path remained unfinished.
+Several brave souls tried, but the path remained unfinished. 🫡
 
 ---
 
 ### A journey of a thousand miles
 
-- (~~Unlike JSDoc~~) RegExp has a [spec](https://tc39.es/ecma262/2025/multipage/text-processing.html#sec-regexp-regular-expression-objects)!
-- However, didn't know how to read BNF notation
+- (~~Unlike JSDoc~~) RegExp has a [spec](https://tc39.es/ecma262/2025/multipage/text-processing.html#sec-regexp-regular-expression-objects) ✨
+- However, didn't know how to read BNF
   - Did a bit of packet parsing when working on WebRTC
-- Started by studying existing implementations
+- Started by studying prior arts
   - `oxc_parser` itself
   - https://github.com/jviereck/regjsparser
   - https://github.com/eslint-community/regexpp
 
-![bg right:35% contain](./img/bnf.webp)
+![bg right:40% contain](./img/bnf.webp)
 
 ---
 
@@ -338,10 +372,15 @@ Communication matters in both work and OSS.
 
 ---
 
+## And time passed...
+
+---
+
 ### Did it! ✌🏼
 
 - First implementation took ~1.5 months
   - Rewrote several times along the way
+  - At that time, AI was not good
 - Initially, I didn't make any progress at all 🍃
   - But kept going step by step, understanding deepened daily
 - Handling bug fixes and edge cases, everything settled after ~3 months
@@ -355,8 +394,9 @@ Also implemented proposals that were still Stage 3.
 - [30 Minutes to Understand All of `RegExp` Syntax](https://leaysgur.github.io/slides/jsconf_jp-2024/)(en)
   - My talk slide at JSConf JP 2024
 - Supporting not just `/a'b"c/` but also `new RegExp("a'b\"c")` in non-JS is hard
-  - Must consider escapes when reporting positions in source
   - In JS, escapes are automatically resolved: `"\"".length === 1`
+  - Must consider escapes when reporting positions in source
+    - And also surrogate pairs
 
 ---
 
@@ -381,6 +421,7 @@ Also implemented proposals that were still Stage 3.
 - [ECMAScript `RegExp`パーサー実装の手引き Part 2 | Memory ice cubes](https://leaysgur.github.io/posts/2024/08/27/093543/)
 - [ECMAScript `RegExp`パーサー実装の手引き Part 3 | Memory ice cubes](https://leaysgur.github.io/posts/2024/08/27/095042/)
 - [Rustで正規表現パーサーを実装していたら、なぜか文字列リテラルパーサーを実装していた | Memory ice cubes](https://leaysgur.github.io/posts/2024/10/23/124919/)
+- [文字エンコーディングについてのざっくりまとめ | Memory ice cubes](https://leaysgur.github.io/posts/2024/07/19/112121/)
 
 ---
 
@@ -403,7 +444,7 @@ Also implemented proposals that were still Stage 3.
 
 > https://x.com/lukeed05/status/1829527267162345651
 
-Knowing OSS maintenance is hard, hoped my small contribution could help. 🙏
+OSS maintenance is hard, hoped my small contribution could help. 🙏
 
 ![bg right contain](./img/boshen2.webp)
 ![bg right contain](./img/boshen1.webp)
@@ -417,9 +458,9 @@ Knowing OSS maintenance is hard, hoped my small contribution could help. 🙏
 
 Relief. ☺️
 
-Thought casually "hope more OSS becomes actual work"?
+Thought casually "more OSS becomes actual work"?
 
-![bg right:30% contain](./img/vz.webp)
+![bg right:40% contain](./img/vz.webp)
 
 ---
 
@@ -447,14 +488,16 @@ Thought casually "hope more OSS becomes actual work"?
 > Rework `oxc_prettier` · Issue #5068 · oxc-project/oxc
 > https://github.com/oxc-project/oxc/issues/5068
 
-Like we did with ESLint -> `oxlint`, Prettier -> `oxc_prettier`
+Like already did with ESLint -> `oxlint`.
 
 This time, started with ~40% already implemented.
 Should've just needed to keep improving coverage.
 
+![bg right:35% contain](./img/prettier.webp)
+
 ---
 
-### Steady work again
+### Steady work again... 🏃🏻
 
 - Read and summarized Prettier code
   - [Prettier のコードを読む Part 1 | Memory ice cubes](https://leaysgur.github.io/posts/2024/09/02/103846/)
@@ -463,20 +506,24 @@ Should've just needed to keep improving coverage.
 - [Visualized progress and organized TODOs](https://github.com/oxc-project/oxc/issues/5068#issuecomment-2507272735)
 
 The more I learned, the less I felt I could do it alone.
+
 Didn't need to do it all alone, wanted anyone to join. 🙌🏻
+
+---
+
+## And time passed...
 
 ---
 
 ### However...
 
-Months spent, ~30 PRs done, but progress was meh 😵‍💫
+A few months spent, ~30 PRs done, but progress was... 😵‍💫
 
-- Not many people joined
-  - My availability was also fragmented
+- Not many people joined, and my availability was also fragmented
 - Tracing dynamic JS code is hard
   - BTW, `debugger` in DevTools is really great
 - Different AST structure, concerns everywhere
-  - Comments headache again
+  - Comments headache again and again
   - Especially complex, requiring per-location, per-node, per-use-case handling
 
 After consideration, decided to abandon direct Prettier port approach.
@@ -485,14 +532,20 @@ After consideration, decided to abandon direct Prettier port approach.
 
 ### Fork `biome_formatter`
 
-Instead, decided to fork only Biome's Formatter infrastructure.
+Instead, decided to fork  Biome's Formatter infrastructure.
 
-- [`biome_formatter`](https://github.com/biomejs/biome/tree/main/crates/biome_formatter)
+- [`biome_formatter`](https://github.com/biomejs/biome/tree/main/crates/biome_formatter) crate
   - On top of this, `biome_js_formatter` and `biome_xxx_formatter` are built
-- Needs modification to work with Oxc's AST, not Biome's CST
-  - Still, using working Rust code is huge
+- Still needs modification
+  - To work with Oxc AST, from Biome CST
 
-...was working on this for a while.
+It's good that working code can be reused.
+
+![bg right:40% contain](./img/biome.webp)
+
+---
+
+## And time passed...
 
 ---
 
@@ -502,29 +555,35 @@ Eventually gave up and handed it off 😢
 
 - Oxc's performance relies on strict memory handling and lifetime annotations
 - Biome's code is polished, heavily uses traits and macros
+  - IR also has a more sophisticated structure than Prettier
 
 When combined, got completely lost.
-
-Entirely due to my Rust skills lacking, so frustrating...
+Entirely due to my lack of Rust skills, truly frustrated.
 
 ---
 
-### And time passed...
+## And time passed...
+
+---
+
+### THIS IS VoidZero 🔥
 
 - Implementation progressed rapidly, now 90%+ coverage
-  - This is VoidZero... different league... 😂
+  - Different league... 😂
 - Will be available as `oxfmt` soon!
   - [RFC: Formatter · oxc-project/oxc · Discussion #13608](https://github.com/oxc-project/oxc/discussions/13608)
+
+![bg right:45% contain](./img/dq.webp)
 
 ---
 
 ### Learned my limits
 
-- Felt like one of the hardest parts of Rust
 - Even with motivation, impossible is impossible
   - Time is finite, businesss constraints also exist
-- But feedback from research and insights has value
+- But feedback from research and insights has value (I hope)
   - Capable people make good use of it
+- Felt like one of the hardest parts of Rust
 
 Both Prettier and Biome are great.
 
@@ -536,12 +595,39 @@ Both Prettier and Biome are great.
 
 ---
 
+### What is Abstract Syntax Tree?
+
+```js
+hello (
+  "VueFes"
+  );
+```
+
+It's a tree-like data structure that represents the syntactic structure of source code.
+
+![bg right contain](./img/ast.webp)
+
+---
+
+### What is ESTree?
+
+> estree/estree: The ESTree Spec
+> https://github.com/estree/estree
+
+The de facto standard AST structure for JavaScript.
+
+- Many parsers produce ESTree compatible AST
+- Some parsers use their own ASTs
+  - Babel, TypeScript Compiler, SWC, etc...
+
+Essential to support for existing ecosystem.
+
+---
+
 ### ESTree support for `oxc-parser`
 
-- `oxc_parser` is a Rust crate and it has its own AST structure
-  - Somewhat similar to Babel AST, but different
-- [ESTree](https://github.com/estree/estree) is the de facto standard AST structure
-  - Essential to support for existing ecosystem
+- `oxc_parser` is a Rust crate and also has its own AST structure
+  - Somewhat similar to Babel, but different
 
 👉🏻 Task: Somehow map and convert structures.
 
@@ -592,7 +678,7 @@ Easy, right? 🫣
 
 ---
 
-### Difficulty: Easy
+### Difficulty: Easy 😄
 
 - Just rename
   - `(String|Boolean|...)Literal` > `Literal`
@@ -607,7 +693,7 @@ Just add custom attribute macro `#[estree(...)]` to `struct`, then implementatio
 
 ---
 
-### Difficulty: Medium
+### Difficulty: Medium 🤨
 
 ```ts
 class X {
@@ -633,7 +719,7 @@ return { type: "Identifier", ... };
 
 ---
 
-### Difficulty: Hard
+### Difficulty: Hard 🤯
 
 ```ts
 module X.Y.Z {}
@@ -646,7 +732,11 @@ AST structures can be completely different!
 
 ---
 
-### Finally...
+## And time passed...
+
+---
+
+### We did it!
 
 - Reached 100% compatibility for JS, JSX, and TSX! 🎉
 - Strictly speaking, some differences still remain
@@ -670,8 +760,9 @@ As a result of compatibility:
   - May change code behavior
     - `fn.name`: `(fn) = function () {}` vs `fn = function () {}`
   - Some parsers have option to preserve it
-- `@sveltejs/acorn-typescript` also called TS-ESTree
-  - But different AST structure from `@typescript-eslint/typescript-estree` 😦
+- Both are called TS-ESTree with different AST structure...
+  - `@typescript-eslint/typescript-estree`
+  - `@sveltejs/acorn-typescript`
 
 ---
 
@@ -687,6 +778,8 @@ Even between TS's JS and JS's JS, many subtle differences exist.
 
 ![bg right:50% contain](./img/estree.webp)
 
+Where is your ESTree from?
+
 ---
 
 ## Best TS parser without type check 🚨
@@ -699,8 +792,8 @@ Even between TS's JS and JS's JS, many subtle differences exist.
 > https://github.com/oxc-project/oxc/issues/11582
 
 - There is a coverage to verify TS syntax support
-  - 🅰️ Can parse (no syntax errors)
-  - 🅱️ Can't parse (has syntax errors)
+  - 🅰️ Expect to parse (without syntax errors)
+  - 🅱️ Expect to fail (with syntax errors)
 - Currently, 🅰️ is high (99%) but 🅱️ is low (40%)
   - Errors requiring type info, dragging it down
 
@@ -733,7 +826,8 @@ Need to filter out what `oxc_parser` doesn't care about.
   - `tsProgram.getSyntacticDiagnostics()`
   - `tsProgram.getSemanticDiagnostics()`
     - Some mixed in that seem like syntax errors
-- In conclusion, there's no other way but to check each item one by one 😬
+
+In conclusion, there's no other way but to check each item one by one. 😬
 
 Want to let AI judge everything, but effort to review 🆚 do it myself...
 
@@ -747,7 +841,7 @@ Want to let AI judge everything, but effort to review 🆚 do it myself...
 
 ### Can't read TSC
 
-- Can't read even in TypeScript
+- Can't read in TypeScript
 - Can't read even in Go
 
 Just wish AI (or someone with AI) would rewrite it in Rust soon. 🙏
@@ -771,6 +865,7 @@ Just wish AI (or someone with AI) would rewrite it in Rust soon. 🙏
 
 - Fun, can do things contrasting with routine work
   - Senior at work, junior in OSS
+  - Every day brings new discoveries (both good and bad)
 - Meet various people in the world
   - Even unreachable people in the clouds
   - (When do these people sleep or rest? 🤔)
@@ -813,7 +908,7 @@ Just be careful for AI slop... 🤖
 
 - Don't forget that there are people behind it
 - Because it's free to use, we should express our gratitude
-- It's even better if you can contribute in some way
+- It's even better if you can contribute in some way!
 
 ---
 
@@ -826,8 +921,9 @@ Just be careful for AI slop... 🤖
 - Software Engineer at [VoidZero Inc.](https://voidzero.dev)
   - 🆕 2025/09/01~
 - [Oxc](https://oxc.rs) ⚓️ Core team
+  - Working on `oxfmt`
 
-Working from Shiga pref.
+Father, husband, living in Shiga pref.
 
 ![bg right:45%](../public/img/prof-2.jpg)
 
