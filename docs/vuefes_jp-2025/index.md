@@ -38,9 +38,11 @@ title: Contributing to OSS, Reflecting on OXC
 Personal reflection as an **open source** contributor to the **Oxc** project:
 
 - What kind of contributions have I made?
+  - Especially, what's it like to be involved with JS tooling
 - What was I thinking while contributing?
+  - General advice for OSS contributions
 
-I'll touch on technical aspects, but also other things.
+I'll touch on technical aspects, but also other topics. 
 
 Between 2024/01/01~2025/08/31, submitted approximately [200 PRs](https://github.com/pulls?page=1&q=is%3Apr+author%3Aleaysgur+org%3Aoxc-project+created%3A%3C2025-09-01+sort%3Aupdated-desc+is%3Aclosed). 👀
 
@@ -84,8 +86,7 @@ It's also used internally by [Rolldown](https://github.com/rolldown/rolldown), w
 
 ### PROTIP 💡
 
-![](./img/p1.webp)
-![](./img/p2.webp)
+![bg right:66% contain](./img/protip.webp)
 
 ---
 
@@ -95,7 +96,7 @@ It's also used internally by [Rolldown](https://github.com/rolldown/rolldown), w
 
 ### Me and Rust 🦀
 
-- As a front-end engineer, I never use Rust at work
+- As a front-end engineer, I **never** use Rust at work
   - Started learning with expectations (~~or hopes~~) that I might use it with WASM
 - Only used for [LeetCode](https://leetcode.com) in my free time and [Advent of Code](https://adventofcode.com) at the end of each year
   - Repeating the cycle of learning <-> forgetting for 3 years!
@@ -389,17 +390,6 @@ Also implemented proposals that were still Stage 3.
 
 ---
 
-### About parsing `RegExp`
-
-- [30 Minutes to Understand All of `RegExp` Syntax](https://leaysgur.github.io/slides/jsconf_jp-2024/)(en)
-  - My talk slide at JSConf JP 2024
-- Supporting not just `/a'b"c/` but also `new RegExp("a'b\"c")` in non-JS is hard
-  - In JS, escapes are automatically resolved: `"\"".length === 1`
-  - Must consider escapes when reporting positions in source
-    - And also surrogate pairs
-
----
-
 ### About parsing ECMAScript
 
 - Don't necessarily need to parse in spec order
@@ -409,6 +399,17 @@ Also implemented proposals that were still Stage 3.
 - There's a legacy called Annex B
   - Loose syntax kept for web backwards compatibility
   - Had to rewrite because of this, code increased +30%
+
+---
+
+### About parsing `RegExp`
+
+- [30 Minutes to Understand All of `RegExp` Syntax](https://leaysgur.github.io/slides/jsconf_jp-2024/)(en)
+  - My talk slide at JSConf JP 2024
+- Supporting not just `/a'b"c/` but also `new RegExp("a'b\"c")` was hard
+  - In JS, escapes are automatically resolved: `"\"".length === 1`
+  - Must consider escapes when reporting positions in source
+    - And also surrogate pairs...
 
 ---
 
@@ -432,7 +433,7 @@ Also implemented proposals that were still Stage 3.
 ### JUST DO IT.
 
 - Even without experience, you can do more than you think
-  - Takes time, but consistency is key
+  - Takes time, but consistency is key 🐢
 - Communication skills needed everywhere
   - Can learn in OSS and apply to work or vice versa
 - In the AI era, even people with less coding skills can contribute
@@ -521,6 +522,7 @@ A few months spent, ~30 PRs done, but progress was... 😵‍💫
 
 - Not many people joined, and my availability was also fragmented
 - Tracing dynamic JS code is hard
+  - How do we get this into completely static Rust world?
   - BTW, `debugger` in DevTools is really great
 - Different AST structure, concerns everywhere
   - Comments headache again and again
@@ -551,14 +553,15 @@ It's good that working code can be reused.
 
 ### However...
 
-Eventually gave up and handed it off 😢
+Eventually gave up and handed it off... 😢
 
 - Oxc's performance relies on strict memory handling and lifetime annotations
 - Biome's code is polished, heavily uses traits and macros
-  - IR also has a more sophisticated structure than Prettier
+  - IR is also different, more sophisticated structure than Prettier
 
-When combined, got completely lost.
-Entirely due to my lack of Rust skills, truly frustrated.
+When these are combined, I got completely lost.
+
+Entirely due to my lack of Rust skills, truly frustrated...
 
 ---
 
@@ -605,7 +608,7 @@ hello (
 
 It's a tree-like data structure that represents the syntactic structure of source code.
 
-![bg right contain](./img/ast.webp)
+![bg right:33% contain](./img/ast.webp)
 
 ---
 
@@ -626,8 +629,9 @@ Essential to support for existing ecosystem.
 
 ### ESTree support for `oxc-parser`
 
-- `oxc_parser` is a Rust crate and also has its own AST structure
+- `oxc_parser`(Rust) also has its own AST structure
   - Somewhat similar to Babel, but different
+- `oxc-parser`(JS) should produce ESTree AST though
 
 👉🏻 Task: Somehow map and convert structures.
 
@@ -645,7 +649,7 @@ ESTree only specifies pure JS; JSX and TS are out of scope.
 So, follow well-known parsers as prior implementations.
 
 - JSX: [`acorn`](https://github.com/acornjs/acorn) + [`acorn-jsx`](https://github.com/acornjs/acorn-jsx)
-- TSX: [`@typescript-eslint/typescript-estree`](https://github.com/typescript-eslint/typescript-eslint/tree/main/packages/typescript-estree)
+- TS, TSX: [`@typescript-eslint/typescript-estree`](https://github.com/typescript-eslint/typescript-eslint/tree/main/packages/typescript-estree)
 
 ---
 
@@ -689,7 +693,7 @@ Easy, right? 🫣
 - `None` to `[]` or `false`
 - etc...
 
-Just add custom attribute macro `#[estree(...)]` to `struct`, then implementation auto-generated at [build](https://github.com/oxc-project/oxc/blob/main/tasks/ast_tools/src/derives/estree.rs) time. Beautiful!
+Just add custom attribute macro `#[estree(...)]` to `struct` fields, then implementation auto-generated at [build](https://github.com/oxc-project/oxc/blob/main/tasks/ast_tools/src/derives/estree.rs) time. Beautiful!
 
 ---
 
@@ -710,7 +714,7 @@ Need to manually add logic to convert AST to desired structure.
 
 ```js
 // Simplified ver.
-if param.has_modifier() {
+if (param.has_modifier()) {
   return { type: "TSParameterProperty", ... };
 }
 
@@ -906,8 +910,8 @@ Just be careful for AI slop... 🤖
 
 ### With love and respect ❤️
 
+- It's free to use, we should express our gratitude
 - Don't forget that there are people behind it
-- Because it's free to use, we should express our gratitude
 - It's even better if you can contribute in some way!
 
 ---

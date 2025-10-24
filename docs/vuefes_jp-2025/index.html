@@ -19,10 +19,18 @@
 <h3 id="todays-theme">Today's theme</h3>
 <p>Personal reflection as an <strong>open source</strong> contributor to the <strong>Oxc</strong> project:</p>
 <ul>
-<li>What kind of contributions have I made?</li>
-<li>What was I thinking while contributing?</li>
+<li>What kind of contributions have I made?
+<ul>
+<li>Especially, what's it like to be involved with JS tooling</li>
 </ul>
-<p>I'll touch on technical aspects, but also other things.</p>
+</li>
+<li>What was I thinking while contributing?
+<ul>
+<li>General advice for OSS contributions</li>
+</ul>
+</li>
+</ul>
+<p>I'll touch on technical aspects, but also other topics.</p>
 <p>Between 2024/01/01~2025/08/31, submitted approximately <a href="https://github.com/pulls?page=1&amp;q=is%3Apr+author%3Aleaysgur+org%3Aoxc-project+created%3A%3C2025-09-01+sort%3Aupdated-desc+is%3Aclosed">200 PRs</a>. <img class="emoji" draggable="false" alt="👀" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f440.svg" data-marp-twemoji=""/></p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section lang="en-US" data-marpit-advanced-background="background" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:40%;"><div data-marpit-advanced-background-container="true" data-marpit-advanced-background-direction="horizontal"><figure style="background-image:url(&quot;./img/oxc.webp&quot;);background-size:contain;"></figure></div></section></foreignObject><foreignObject width="60%" height="720"><section id="4" lang="en-US" data-marpit-advanced-background="content" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:40%;">
@@ -62,18 +70,16 @@
 </ul>
 <p>It's also used internally by <a href="https://github.com/rolldown/rolldown">Rolldown</a>, which is the core of the next version of <a href="https://github.com/vitejs/rolldown-vite">Vite</a>.</p>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="6" lang="en-US">
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section lang="en-US" data-marpit-advanced-background="background" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:66%;"><div data-marpit-advanced-background-container="true" data-marpit-advanced-background-direction="horizontal"><figure style="background-image:url(&quot;./img/protip.webp&quot;);background-size:contain;"></figure></div></section></foreignObject><foreignObject width="34%" height="720"><section id="6" lang="en-US" data-marpit-advanced-background="content" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:66%;">
 <h3 id="protip-%F0%9F%92%A1">PROTIP <img class="emoji" draggable="false" alt="💡" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f4a1.svg" data-marp-twemoji=""/></h3>
-<p><img src="./img/p1.webp" alt="" /><br />
-<img src="./img/p2.webp" alt="" /></p>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="7" lang="en-US">
+</foreignObject><foreignObject width="1280" height="720" data-marpit-advanced-background="pseudo"><section lang="en-US" data-marpit-advanced-background="pseudo" data-marpit-advanced-background-split="right" style=""></section></foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="7" lang="en-US">
 <h2 id="before-and-after-my-first-pr-%F0%9F%8C%85">Before and after my first PR <img class="emoji" draggable="false" alt="🌅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f305.svg" data-marp-twemoji=""/></h2>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="8" lang="en-US">
 <h3 id="me-and-rust-%F0%9F%A6%80">Me and Rust <img class="emoji" draggable="false" alt="🦀" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f980.svg" data-marp-twemoji=""/></h3>
 <ul>
-<li>As a front-end engineer, I never use Rust at work
+<li>As a front-end engineer, I <strong>never</strong> use Rust at work
 <ul>
 <li>Started learning with expectations (<s>or hopes</s>) that I might use it with WASM</li>
 </ul>
@@ -391,26 +397,6 @@ Is that contributing to OSS might be the best way to learn it? <img class="emoji
 <p>Also implemented proposals that were still Stage 3.</p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="32" lang="en-US">
-<h3 id="about-parsing-regexp">About parsing <code>RegExp</code></h3>
-<ul>
-<li><a href="https://leaysgur.github.io/slides/jsconf_jp-2024/">30 Minutes to Understand All of <code>RegExp</code> Syntax</a>(en)
-<ul>
-<li>My talk slide at JSConf JP 2024</li>
-</ul>
-</li>
-<li>Supporting not just <code>/a'b&quot;c/</code> but also <code>new RegExp(&quot;a'b\&quot;c&quot;)</code> in non-JS is hard
-<ul>
-<li>In JS, escapes are automatically resolved: <code>&quot;\&quot;&quot;.length === 1</code></li>
-<li>Must consider escapes when reporting positions in source
-<ul>
-<li>And also surrogate pairs</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="33" lang="en-US">
 <h3 id="about-parsing-ecmascript">About parsing ECMAScript</h3>
 <ul>
 <li>Don't necessarily need to parse in spec order
@@ -424,6 +410,26 @@ Is that contributing to OSS might be the best way to learn it? <img class="emoji
 <ul>
 <li>Loose syntax kept for web backwards compatibility</li>
 <li>Had to rewrite because of this, code increased +30%</li>
+</ul>
+</li>
+</ul>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="33" lang="en-US">
+<h3 id="about-parsing-regexp">About parsing <code>RegExp</code></h3>
+<ul>
+<li><a href="https://leaysgur.github.io/slides/jsconf_jp-2024/">30 Minutes to Understand All of <code>RegExp</code> Syntax</a>(en)
+<ul>
+<li>My talk slide at JSConf JP 2024</li>
+</ul>
+</li>
+<li>Supporting not just <code>/a'b&quot;c/</code> but also <code>new RegExp(&quot;a'b\&quot;c&quot;)</code> was hard
+<ul>
+<li>In JS, escapes are automatically resolved: <code>&quot;\&quot;&quot;.length === 1</code></li>
+<li>Must consider escapes when reporting positions in source
+<ul>
+<li>And also surrogate pairs...</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -449,7 +455,7 @@ Is that contributing to OSS might be the best way to learn it? <img class="emoji
 <ul>
 <li>Even without experience, you can do more than you think
 <ul>
-<li>Takes time, but consistency is key</li>
+<li>Takes time, but consistency is key <img class="emoji" draggable="false" alt="🐢" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f422.svg" data-marp-twemoji=""/></li>
 </ul>
 </li>
 <li>Communication skills needed everywhere
@@ -541,6 +547,7 @@ Should've just needed to keep improving coverage.</p>
 <li>Not many people joined, and my availability was also fragmented</li>
 <li>Tracing dynamic JS code is hard
 <ul>
+<li>How do we get this into completely static Rust world?</li>
 <li>BTW, <code>debugger</code> in DevTools is really great</li>
 </ul>
 </li>
@@ -575,17 +582,17 @@ Should've just needed to keep improving coverage.</p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="48" lang="en-US">
 <h3 id="however-1">However...</h3>
-<p>Eventually gave up and handed it off <img class="emoji" draggable="false" alt="😢" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f622.svg" data-marp-twemoji=""/></p>
+<p>Eventually gave up and handed it off... <img class="emoji" draggable="false" alt="😢" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f622.svg" data-marp-twemoji=""/></p>
 <ul>
 <li>Oxc's performance relies on strict memory handling and lifetime annotations</li>
 <li>Biome's code is polished, heavily uses traits and macros
 <ul>
-<li>IR also has a more sophisticated structure than Prettier</li>
+<li>IR is also different, more sophisticated structure than Prettier</li>
 </ul>
 </li>
 </ul>
-<p>When combined, got completely lost.<br />
-Entirely due to my lack of Rust skills, truly frustrated.</p>
+<p>When these are combined, I got completely lost.</p>
+<p>Entirely due to my lack of Rust skills, truly frustrated...</p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="49" lang="en-US">
 <h2 id="and-time-passed-4">And time passed...</h2>
@@ -626,7 +633,7 @@ Entirely due to my lack of Rust skills, truly frustrated.</p>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="52" lang="en-US">
 <h2 id="estree-compatible-ast-%F0%9F%8C%B2">ESTree compatible AST <img class="emoji" draggable="false" alt="🌲" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f332.svg" data-marp-twemoji=""/></h2>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section lang="en-US" data-marpit-advanced-background="background" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:50%;"><div data-marpit-advanced-background-container="true" data-marpit-advanced-background-direction="horizontal"><figure style="background-image:url(&quot;./img/ast.webp&quot;);background-size:contain;"></figure></div></section></foreignObject><foreignObject width="50%" height="720"><section id="53" lang="en-US" data-marpit-advanced-background="content" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:50%;">
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section lang="en-US" data-marpit-advanced-background="background" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:33%;"><div data-marpit-advanced-background-container="true" data-marpit-advanced-background-direction="horizontal"><figure style="background-image:url(&quot;./img/ast.webp&quot;);background-size:contain;"></figure></div></section></foreignObject><foreignObject width="67%" height="720"><section id="53" lang="en-US" data-marpit-advanced-background="content" data-marpit-advanced-background-split="right" style="--marpit-advanced-background-split:33%;">
 <h3 id="what-is-abstract-syntax-tree">What is Abstract Syntax Tree?</h3>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-js"><span class="hljs-title function_">hello</span> (
   <span class="hljs-string">&quot;VueFes&quot;</span>
@@ -654,11 +661,12 @@ Entirely due to my lack of Rust skills, truly frustrated.</p>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="55" lang="en-US">
 <h3 id="estree-support-for-oxc-parser">ESTree support for <code>oxc-parser</code></h3>
 <ul>
-<li><code>oxc_parser</code> is a Rust crate and also has its own AST structure
+<li><code>oxc_parser</code>(Rust) also has its own AST structure
 <ul>
 <li>Somewhat similar to Babel, but different</li>
 </ul>
 </li>
+<li><code>oxc-parser</code>(JS) should produce ESTree AST though</li>
 </ul>
 <p><img class="emoji" draggable="false" alt="👉🏻" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f449-1f3fb.svg" data-marp-twemoji=""/> Task: Somehow map and convert structures.</p>
 <blockquote>
@@ -673,7 +681,7 @@ Entirely due to my lack of Rust skills, truly frustrated.</p>
 <p>So, follow well-known parsers as prior implementations.</p>
 <ul>
 <li>JSX: <a href="https://github.com/acornjs/acorn"><code>acorn</code></a> + <a href="https://github.com/acornjs/acorn-jsx"><code>acorn-jsx</code></a></li>
-<li>TSX: <a href="https://github.com/typescript-eslint/typescript-eslint/tree/main/packages/typescript-estree"><code>@typescript-eslint/typescript-estree</code></a></li>
+<li>TS, TSX: <a href="https://github.com/typescript-eslint/typescript-eslint/tree/main/packages/typescript-estree"><code>@typescript-eslint/typescript-estree</code></a></li>
 </ul>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="57" lang="en-US">
@@ -714,7 +722,7 @@ Entirely due to my lack of Rust skills, truly frustrated.</p>
 <li><code>None</code> to <code>[]</code> or <code>false</code></li>
 <li>etc...</li>
 </ul>
-<p>Just add custom attribute macro <code>#[estree(...)]</code> to <code>struct</code>, then implementation auto-generated at <a href="https://github.com/oxc-project/oxc/blob/main/tasks/ast_tools/src/derives/estree.rs">build</a> time. Beautiful!</p>
+<p>Just add custom attribute macro <code>#[estree(...)]</code> to <code>struct</code> fields, then implementation auto-generated at <a href="https://github.com/oxc-project/oxc/blob/main/tasks/ast_tools/src/derives/estree.rs">build</a> time. Beautiful!</p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="60" lang="en-US">
 <h3 id="difficulty-medium-%F0%9F%A4%A8">Difficulty: Medium <img class="emoji" draggable="false" alt="🤨" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f928.svg" data-marp-twemoji=""/></h3>
@@ -729,7 +737,7 @@ Entirely due to my lack of Rust skills, truly frustrated.</p>
 </code></pre>
 <p>Need to manually add logic to convert AST to desired structure.</p>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-js"><span class="hljs-comment">// Simplified ver.</span>
-<span class="hljs-keyword">if</span> param.<span class="hljs-title function_">has_modifier</span>(<span class="hljs-params"></span>) {
+<span class="hljs-keyword">if</span> (param.<span class="hljs-title function_">has_modifier</span>()) {
   <span class="hljs-keyword">return</span> { <span class="hljs-attr">type</span>: <span class="hljs-string">&quot;TSParameterProperty&quot;</span>, ... };
 }
 
@@ -970,8 +978,8 @@ Entirely due to my lack of Rust skills, truly frustrated.</p>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="77" lang="en-US">
 <h3 id="with-love-and-respect-%E2%9D%A4%EF%B8%8F">With love and respect <img class="emoji" draggable="false" alt="❤️" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2764.svg" data-marp-twemoji=""/></h3>
 <ul>
+<li>It's free to use, we should express our gratitude</li>
 <li>Don't forget that there are people behind it</li>
-<li>Because it's free to use, we should express our gratitude</li>
 <li>It's even better if you can contribute in some way!</li>
 </ul>
 </section>
