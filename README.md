@@ -2,6 +2,7 @@
 
 | タイトル                                                                                                        |  発表日  | イベント名                          |    枠 |
 | :-------------------------------------------------------------------------------------------------------------- | :------: | :---------------------------------- | ----: |
+| [Contributing to OSS, Reflecting on OXC](https://leaysgur.github.io/slides/vuefes_jp-2025/)                     | 20251025 | VueFes Japan 2025                   | 30min |
 | [30 Minutes to Understand All of `RegExp` Syntax](https://leaysgur.github.io/slides/jsconf_jp-2024/)            | 20241123 | JSConf JP 2024                      | 30min |
 | [Bindings from anywhere](https://leaysgur.github.io/slides/cloudflare_workers_tech_talks-2/)                    | 20231215 | Workers Tech Talks #2               | 15min |
 | [10 ways to reduce your JS](https://leaysgur.github.io/slides/uit_meetup-18/)                                   | 20221214 | UIT Meetup #18                      | 20min |
