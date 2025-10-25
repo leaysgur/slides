@@ -588,7 +588,8 @@ Entirely due to my lack of Rust skills, truly frustrated...
   - Capable people make good use of it
 - Felt like one of the hardest parts of Rust
 
-Both Prettier and Biome are great.
+Both Prettier and Biome, everyone are great.
+Me: Hang in there!
 
 🎂 [Vjeux » Birth of Prettier](https://blog.vjeux.com/2025/javascript/birth-of-prettier.html)
 
