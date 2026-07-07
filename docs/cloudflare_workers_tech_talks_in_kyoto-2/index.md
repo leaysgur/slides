@@ -48,7 +48,7 @@ class: invert
 
 ---
 
-### What is Oxc?
+### FYI: What is Oxc?
 
 > A collection of **high-performance** JavaScript tools written in Rust 🦀
 
@@ -97,11 +97,12 @@ In short, it's just an OSS project!
   - https://github.com/vercel/turborepo
   - https://github.com/openclaw/openclaw
   - https://github.com/getsentry/sentry-javascript
+  - https://github.com/huggingface/huggingface.js
   - etc...
 
 ---
 
-## What makes it special?
+## What makes it special? 🤩
 
 ---
 
@@ -227,12 +228,12 @@ Benchmark 1: prettier@3.9.4 + 3 plugins
 ```
 $ hyperfine --runs 20 --prepare 'sleep 3' 'oxfmt'
 
-Benchmark 1: oxfmt@0.57.0 (latest)
+Benchmark 1: oxfmt@0.57.0
   Time (mean ± σ):      1.057 s ±  0.025 s    [User: 5.992 s, System: 0.753 s]
   Range (min … max):    1.024 s …  1.118 s    20 runs
 ```
 
-- Latest version is even faster: **~1.0s** 🚀
+- Later version is even faster: **~1.0s** 🚀
 - Now **~20x** faster than Prettier
 
 ---
@@ -265,7 +266,7 @@ Benchmark 1: oxfmt@0.57.0 (latest)
   - https://napi.rs/
 - Then Node.js calls it
   - JS callbacks can be passed too
-    - e.g. Prettier, Tailwind class sorter
+    - e.g. Prettier `format()`, Tailwind class sorter
   - But slow, so we want to go all Rust 🏃🏻
 
 ---
@@ -279,11 +280,11 @@ Benchmark 1: oxfmt@0.57.0 (latest)
 
 ---
 
-## (Honest) migration guide
+## (Honest) migration guide 🫣
 
 ---
 
-### All Prettier supported languages are supported 👌
+### All Prettier supported languages are supported
 
 - JS/TS/TSX (incl. xxx-in-js)
 - JSON/JSONC/JSON5
@@ -296,7 +297,7 @@ Benchmark 1: oxfmt@0.57.0 (latest)
 
 ---
 
-### (Almost) All Prettier formatting options are supported 💅🏻
+### (Almost) All Prettier formatting options are supported
 
 - https://prettier.io/docs/options
 - Except for
@@ -307,13 +308,11 @@ See https://oxc.rs/docs/guide/usage/formatter/config-file-reference.html
 
 ---
 
-### Practical CLI features ⚙️
+### Practical CLI features
 
-- Nested config support
-  - = Directory scoped config
+- Nested config (directory scoped config) support
 - JS/TS config file support
-- Editor support
-  - `--lsp`, `--stdin-filepath`
+- Editor support like `--lsp`, `--stdin-filepath`
 - `--migrate prettier`
 - etc
 
@@ -327,7 +326,7 @@ See https://oxc.rs/docs/guide/usage/formatter/cli.html
 
 ---
 
-### Instead, built-in plugins 💁🏻
+### Instead, built-in plugins
 
 - `sortImports`: [eslint-plugin-perfectionist/sort-imports](https://github.com/azat-io/eslint-plugin-perfectionist) inspired
 - `sortPackageJson`: [prettier-plugin-packagejson](https://github.com/matzkoh/prettier-plugin-packagejson) inspired
@@ -339,8 +338,9 @@ See https://oxc.rs/docs/guide/usage/formatter/cli.html
 
 ### 100% Prettier compatible?
 
-- Strictly speaking, no
-- We do aim for it, but not a perfect byte match
+- Strictly speaking, No
+- We are mindful of compatibility for the sake of ease of migration
+  - However, byte-match is not guaranteed in all cases
   - Prettier also has bugs and inconsistencies
   - Sometimes not following them is better
 - Prettier shipped a new version last week
@@ -374,7 +374,7 @@ See https://oxc.rs/docs/guide/usage/formatter/cli.html
 
 ---
 
-### We also have Oxlint
+### AD: We also have Oxlint!
 
 - Fast ESLint alternative
 - With type-aware linting via `tsgolint`
@@ -384,7 +384,7 @@ See https://oxc.rs/docs/guide/usage/linter.html
 
 ---
 
-### By the way, what is Vite+?
+### AD: By the way, what is Vite+?
 
 - All-in-one dev tool: Vite, Vitest, Oxlint, Oxfmt, and more
 - Perfect companion for new projects!
@@ -394,4 +394,4 @@ See https://viteplus.dev/guide/
 
 ---
 
-## Thank you! 👋
+## Thank you~! 👋
